@@ -1,0 +1,8 @@
+@import "../../styles/base";
+
+.landing-page {
+    //@include mdc-icon-toggle-ink-color(white);
+
+    height: 100vh;
+    background-color: $mdc-theme-primary;
+}

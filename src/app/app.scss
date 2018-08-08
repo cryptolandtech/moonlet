@@ -1,0 +1,13 @@
+@import "./styles/base";
+
+@import "./styles/reset";
+
+html, body {
+	height: 100%;
+}
+
+.app-root {
+	min-height: 100%;
+}
+
+@import "./styles/material-components";
