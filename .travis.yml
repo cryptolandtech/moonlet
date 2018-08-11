@@ -1,13 +1,11 @@
-env:
-  global:
-    FIREBASE_TOKEN:
-      secure: F5oej9hJtcQBxXlJ4UctJJyQNLIgT0UGXEiAaXV0ze7BoysgB5zNXCTamSOxY0zeEA81D/qdJ26tD9j5mBnZoDClf2WAdqEREPybYwKGlXRElsr73HBkv3LHDkjO0JBf5vRNpT2ojq7ZVcHlnbrjqGWD2qYQza/BkyL/GJa7HlD9VplUnpvjkgcmBcVqDlnWwo5kLzs+S+wY2h2mhzuapZLbjhL27GXGg6Vgtzd832wj9V8mO3P05XnZy+qKg5WQUNiuB6jVUyiAGI+rGDVImsQa3B1liKhhEAhlff1YEyU7E6X1GwEowk5kjKbv8/IQqOzTW9sp+MLEM5DFO6FIhzbEqd/ho36c7vH32pRiRTkHDH4BN/lAhtkaRgHLMVi/AggCxvY0/z5fpyn/g2l7Y+uuYRSgr+eqDJk8WRVyBjOifEsnPT0SZxS3fkIlK93m/xdjlFmRWS/V0gwFt/OMGJ6vgK/WqnB/PDgOryKZeRUGmOHBwoO9/X8jmSEOMF7+YjogNEnznfYdCv47H7zxcDA3lup0MwmU9Ly/sVO5tkm7Uyt3aGhRQ0tRH2Nf6cYS7AMoa5pFVlkxB8wO7PC5S6LWoHoSIdcoZt2taGFUcL5J9bqsAm/U4sVf2jUyhCFTRk7tkw6+kx0hFtNwkbvdO7g7AiQlFMD4b37tbPIdCac=
-
 language: node_js
 node_js: 8
 script:
-  - echo "Deploy!!"
+- echo "Deploy!!"
 install:
-  - npm install
+- npm install
 after_success:
-  - npx firebase deploy --token $FIREBASE_TOKEN
+- npx firebase deploy --token $FIREBASE_TOKEN
+env:
+  global:
+    secure: R5QMBONdtuz83AtrhtsJ+yqWP8ymvjpUl50EcTT71IimtNHC2HpOaG1xDV29Z1IKucbVDJFA+a7WDSpgPCXfpox3wCfQg7ItAq3ZYzA59NuQdllxo48ldBWZHj/07aqpnZZdSiknBnM0+EPKcfbDIFHX0Hb0IHoHLudFc7gkg4JKwZSisvjfFH7r+JG2mp/q5S6aDz+pUmagTpwFFlWXIbqGD5j6Vqiqek8mGH5KapnF1xPhiUd77qZsiV2TKB4e72WKrhQPEThicTiyNry97GHPPzcLRvbhDX68Cf5Xn1CdSGHt8UJhynd6U6d/mctT0k7HWHiPMWzwIIbNVi9+l+59pmDiV3/y7lDdUHguak8GAOImH8ch0HrE4SWEpPbq+djb6CLy44Excx54Naad9HHMbhQXlG37ZLTXqFMnVvVVCUDgRj7kOGNAddsKF7Y+/4DbEkF6ElY2FJ9lvA12a9X70tZA3c8igPs5nzs1z23LCTWJylKLx6+MYTngs503iTQ+FLAoGiQTigptGhwLukQRhueFLbaudGfMrZPFs1GIAOi2rbEP1efZEmJ19j9MwRfUUg1Zztk9ijdAag4i7TUeT+GaxS9h7pizf+V5lPQLYLhF7UVuaqbtxsB/FsvtSUXtmBQIyYPIbfHaQsnFaA+0+tp2vYNBMgpJQOOlfk8=
