@@ -1,9 +1,9 @@
 language: node_js
 node_js:
   - 8
-
 deploy:
   provider: firebase
   token:
-    secure: "YOUR ENCRYPTED token"
-  project: "moonlet-cb426"
+    secure: U2MSXKQzf+JsGF01acQtc9t2svYovVt9QuXlwQ8MzIpOXCPuz5T0OcYyjiamxrxSPmgUt0BalIW4BOAW3LB/+/ZtikH7zzPxUN1PYZ/PjFmlYoHfo3R1SMcteMdxFIoyso38tdO5CT6CrenynnuKEIxhKPp6HTt06FAGs9WKX9j/Cc6hnBWQkcp5fMw66i/hpdK+T+XtJ/qIjGllCZZQohkP+d5B0hpw2Sx0Y45albm5DCe2EdNVdaXIQjr67E+vig1+g8NgAtsxwZUpI+OlsoPkr1QTjtFhoyZy+at2Q+FL9oyMIuDXDSh466zyWfYmNsSNf9eQPDnU0aVDhYSEVtNv+IUrkKjy4JaMfT18YtqQ+xBjEBjKJDlpQQX4oOHwqrP7jWUIzWyK2g1dCFTlPkQY2r6IJOYCkAQT0iUZRfSED3OQqFUG20pBUmYVAgpnhBND9zkZZcItXXFTLB1AWD1llUaxpQfivwqR5qZn0gUH9g51n5m9FaFYb2PRVlWVzI0+HVVqXfmGmXqsmaepUEjzQGuofGZ+kdzvJyyr7qYP0NTkFIxWHiF6a7g7FvY4WKXkKExMy0ql4x+KORTsCAHlBQ2SptL3yyDOBywdpymwReqN3cyYRN9hXR66g3e0MhF6ZSv0r6LuXGicGgp5DkdVULAFI/EGXpEC3pep4nw=
+  project: moonlet-cb426
+    
