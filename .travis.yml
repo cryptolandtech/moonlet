@@ -6,8 +6,8 @@ env:
 language: node_js
 node_js: 8
 script:
-  - echo "Deploy!!"
+  - echo "Deploy!!"
 install:
-  - npm install
+  - npm install
 after_success:
-  - npx firebase deploy --token $FIREBASE_TOKEN
+  - npx firebase deploy --token $FIREBASE_TOKEN
