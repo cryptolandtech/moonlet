@@ -4,7 +4,7 @@ export class CreateWalletPage extends Component {
     render() {
         return (
             <div>
-                CreateWalletPage
+                ---- CreateWalletPage ----
             </div>
         );
     }
