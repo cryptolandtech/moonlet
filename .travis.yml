@@ -1,9 +1,13 @@
+env:
+  global:
+    FIREBASE_TOKEN:
+      secure: F5oej9hJtcQBxXlJ4UctJJyQNLIgT0UGXEiAaXV0ze7BoysgB5zNXCTamSOxY0zeEA81D/qdJ26tD9j5mBnZoDClf2WAdqEREPybYwKGlXRElsr73HBkv3LHDkjO0JBf5vRNpT2ojq7ZVcHlnbrjqGWD2qYQza/BkyL/GJa7HlD9VplUnpvjkgcmBcVqDlnWwo5kLzs+S+wY2h2mhzuapZLbjhL27GXGg6Vgtzd832wj9V8mO3P05XnZy+qKg5WQUNiuB6jVUyiAGI+rGDVImsQa3B1liKhhEAhlff1YEyU7E6X1GwEowk5kjKbv8/IQqOzTW9sp+MLEM5DFO6FIhzbEqd/ho36c7vH32pRiRTkHDH4BN/lAhtkaRgHLMVi/AggCxvY0/z5fpyn/g2l7Y+uuYRSgr+eqDJk8WRVyBjOifEsnPT0SZxS3fkIlK93m/xdjlFmRWS/V0gwFt/OMGJ6vgK/WqnB/PDgOryKZeRUGmOHBwoO9/X8jmSEOMF7+YjogNEnznfYdCv47H7zxcDA3lup0MwmU9Ly/sVO5tkm7Uyt3aGhRQ0tRH2Nf6cYS7AMoa5pFVlkxB8wO7PC5S6LWoHoSIdcoZt2taGFUcL5J9bqsAm/U4sVf2jUyhCFTRk7tkw6+kx0hFtNwkbvdO7g7AiQlFMD4b37tbPIdCac=
+
 language: node_js
-node_js:
-  - 8
-deploy:
-  provider: firebase
-  token:
-    secure: U2MSXKQzf+JsGF01acQtc9t2svYovVt9QuXlwQ8MzIpOXCPuz5T0OcYyjiamxrxSPmgUt0BalIW4BOAW3LB/+/ZtikH7zzPxUN1PYZ/PjFmlYoHfo3R1SMcteMdxFIoyso38tdO5CT6CrenynnuKEIxhKPp6HTt06FAGs9WKX9j/Cc6hnBWQkcp5fMw66i/hpdK+T+XtJ/qIjGllCZZQohkP+d5B0hpw2Sx0Y45albm5DCe2EdNVdaXIQjr67E+vig1+g8NgAtsxwZUpI+OlsoPkr1QTjtFhoyZy+at2Q+FL9oyMIuDXDSh466zyWfYmNsSNf9eQPDnU0aVDhYSEVtNv+IUrkKjy4JaMfT18YtqQ+xBjEBjKJDlpQQX4oOHwqrP7jWUIzWyK2g1dCFTlPkQY2r6IJOYCkAQT0iUZRfSED3OQqFUG20pBUmYVAgpnhBND9zkZZcItXXFTLB1AWD1llUaxpQfivwqR5qZn0gUH9g51n5m9FaFYb2PRVlWVzI0+HVVqXfmGmXqsmaepUEjzQGuofGZ+kdzvJyyr7qYP0NTkFIxWHiF6a7g7FvY4WKXkKExMy0ql4x+KORTsCAHlBQ2SptL3yyDOBywdpymwReqN3cyYRN9hXR66g3e0MhF6ZSv0r6LuXGicGgp5DkdVULAFI/EGXpEC3pep4nw=
-  project: moonlet-cb426
-    
+node_js: 8
+script:
+ — echo "Deploy!!"
+install:
+ — npm install
+after_success:
+ — npx firebase deploy —-token $FIREBASE_TOKEN
