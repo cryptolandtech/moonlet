@@ -1,14 +1,15 @@
 {
   "private": true,
-  "name": "zilliqa-wallet",
-  "version": "0.0.0",
+  "name": "moonlet",
+  "version": "0.1.0",
   "license": "MIT",
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
     "build": "preact build --template ./src/template.html",
     "serve": "preact build --template ./src/template.html && preact serve",
     "dev": "preact watch --template ./src/template.html",
-    "lint": "eslint src"
+    "lint": "eslint src",
+    "test": "echo \"Tests are not running...\""
   },
   "eslintConfig": {
     "extends": "eslint-config-synacor"
