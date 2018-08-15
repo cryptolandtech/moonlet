@@ -1,26 +1,18 @@
 import { h, Component } from 'preact';
 import { route } from 'preact-router';
 
-import TopAppBar from "preact-material-components/TopAppBar";
 import Icon from "preact-material-components/Icon";
 import LayoutGrid from "preact-material-components/LayoutGrid";
 import Button from 'preact-material-components/Button';
+import {TopBar} from "../layouts/top-bar/top-bar";
 
 import "./landing.scss";
 
-//TODO: move top app bar in a layout component
 export class LandingPage extends Component {
     render() {
         return (
             <div className="landing-page">
-                <TopAppBar fixed>
-                    <TopAppBar.Row>
-                        <TopAppBar.Section align-start>
-                            <img class="top-appbar-icon" src="/assets/logo.svg"></img>
-                        </TopAppBar.Section>
-                    </TopAppBar.Row>
-                </TopAppBar>
-
+                <TopBar/>
                 <LayoutGrid className="mdc-top-app-bar--fixed-adjust">
                     <LayoutGrid.Inner>
                         <LayoutGrid.Cell cols={12} className="center">
