@@ -1,5 +1,7 @@
 # Moonlet Wallet Suite
 
+[![Build Status](https://travis-ci.org/cryptolandtech/moonlet.svg?branch=master)](https://travis-ci.org/cryptolandtech/moonlet)
+
 ## Project setup
 Install dependencies
 ``` bash
