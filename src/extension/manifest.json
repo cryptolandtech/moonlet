@@ -1,0 +1,15 @@
+{
+    "name": "Test",
+    "version": "1.0",
+    "description": "Build an Extension!",
+    "permissions": ["storage"],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+      },
+    "browser_action": {
+      "default_popup": "index.html"
+    },
+    "manifest_version": 2,
+    "content_security_policy": "default-src 'unsafe-inline'"
+  }

@@ -5,9 +5,13 @@
   "license": "MIT",
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
-    "build": "preact build --template ./src/template.html",
-    "serve": "preact build --template ./src/template.html && preact serve",
-    "dev": "preact watch --template ./src/template.html",
+
+    "build:web": "preact build --config ./config/web.config.js",
+    "build:ext": "preact build --config ./config/extension.config.js --no-prerender",
+    
+    "dev:web": "preact watch --config ./config/web.config.js",
+    "dev:ext": "preact watch --config ./config/extension.config.js",
+
     "lint": "eslint src",
     "test": "echo \"Tests are not running...\""
   },
@@ -28,9 +32,11 @@
     "sass-loader": "^7.1.0"
   },
   "dependencies": {
+    "history": "^4.7.2",
     "preact": "^8.2.1",
     "preact-compat": "^3.17.0",
     "preact-material-components": "1.5.0",
-    "preact-router": "^2.6.1"
+    "preact-router": "^2.6.1",
+    "write-file-webpack-plugin": "^4.3.2"
   }
 }

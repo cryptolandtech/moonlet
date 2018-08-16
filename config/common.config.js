@@ -10,4 +10,10 @@ const preactCliTypeScript = require('preact-cli-plugin-typescript')
  **/
 export default function (config, env, helpers) {
   preactCliTypeScript(config);
+
+  config.plugins.push(
+    new helpers.webpack.DefinePlugin({
+      'process.env.PUBLIC_PATH': JSON.stringify(config.output.publicPath)
+    })
+  );
 }
