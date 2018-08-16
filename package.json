@@ -6,7 +6,8 @@
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
 
-    "build:web": "preact build --config ./config/web.config.js",
+    "build": "npm run build:web -- --dest build/web",
+    "build:web": "preact build --config ./config/web.config.js --no-prerender",
     "build:ext": "preact build --config ./config/extension.config.js --no-prerender",
     
     "dev:web": "preact watch --config ./config/web.config.js",
