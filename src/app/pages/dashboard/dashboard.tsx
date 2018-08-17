@@ -1,19 +1,18 @@
 import {h, Component} from 'preact';
 
 import {TopBar} from "../layouts/top-bar/top-bar";
-
 import LayoutGrid from "preact-material-components/LayoutGrid";
 import Card, {CardMediaContent} from "preact-material-components/Card";
 import 'preact-material-components/Card/style.css';
-import Icon from "preact-material-components/Icon";
 import "./dashboard.scss";
+import Icon from "preact-material-components/Icon";
 
 export class DashboardPage extends Component {
     render() {
         return (
             <div className="dashboard-page">
                 <TopBar/>
-                <LayoutGrid className="mdc-top-app-bar--fixed-adjust">
+                <LayoutGrid className="mdc-top-app-bar--fixed-adjust layout-grid">
                     <LayoutGrid.Cell cols={12}>
                         <Card className="balance-card">
                             <CardMediaContent className="balance-card-text">
@@ -27,8 +26,14 @@ export class DashboardPage extends Component {
                             <CardMediaContent className="address-card-text">
                                 <p className="mdc-typography--body2">Wallet address</p>
                                 <p className="mdc-typography--headline5">0x5FC7409B4B41E06E73BA1AA7F3127D93C76BD557</p>
-                                <Icon className="icon">baseline-file_copy-24</Icon>
+                                <Icon className="icon">file_copy</Icon>
                             </CardMediaContent>
+                            <Card.ActionButton
+                                ripple
+                                className="copy-button"
+                            >
+                                Copy
+                            </Card.ActionButton>
                         </Card>
                     </LayoutGrid.Cell>
                     <LayoutGrid.Cell>
