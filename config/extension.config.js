@@ -23,7 +23,7 @@ export default function (config, env, helpers) {
     config.output.filename = "[name].js";
     config.entry["background"] = resolve(process.cwd(), 'src', 'extension', 'background');
 
-    // copy the right manifest.json 
+    // overwrite manifest.json 
     config.plugins.unshift(new CopyWebpackPlugin([
         {
             from: resolve(process.cwd(), 'src', 'extension', 'manifest.json'),
