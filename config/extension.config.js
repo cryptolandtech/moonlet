@@ -31,6 +31,16 @@ export default function (config, env, helpers) {
         }
     ]));
 
+    // change eval dev tools to make chrome happy
+    config.devtool = "inline-source-map";
+
+    // make hot reload work 
+    config.entry.bundle = [
+        'webpack-dev-server/client?http://localhost:8080',
+        'webpack/hot/dev-server',
+        config.entry.bundle[0]
+    ];
+
     // used for dev to load component in browser
     config.plugins.push(
         new WriteFilePlugin()

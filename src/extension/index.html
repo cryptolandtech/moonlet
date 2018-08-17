@@ -27,6 +27,6 @@
 			url: '/'
 		}) %>
 		<script defer src="<%= htmlWebpackPlugin.files.chunks['bundle'].entry %>"></script>
-		<script>window.fetch||document.write('<script src="<%= htmlWebpackPlugin.files.chunks["polyfills"].entry %>"><\/script>')</script>
+		<script src="<%= htmlWebpackPlugin.files.chunks["polyfills"].entry %>"></script>
 	</body>
 </html>

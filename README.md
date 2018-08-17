@@ -19,13 +19,12 @@ npm run build:web
 
 ## Extension
 ``` bash
-# serve with hot reload (broken for the moment)
+# serve with hot reload
 npm run dev:ext
 
 # build for production
 npm run build:ext
 ```
-**Note**: The hot reload function is not yet working, webpack generates a script that inject inline code and Chrome has a protection for this.
 
 ### Test extension in Chrome
 The extension build will be found in `build` folder.
