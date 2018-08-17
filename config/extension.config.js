@@ -19,14 +19,6 @@ export default function (config, env, helpers) {
     // customize config
     config.resolve.alias['preact-cli-entrypoint'] = resolve(process.cwd(), 'src', 'extension', 'index');
 
-    // set template
-    config.plugins.map((plugin) => {
-        if (plugin.options && plugin.options.template) {
-            plugin.options.template = `!!ejs-loader!${resolve(process.cwd(), 'src', 'extension', 'index.html')}`
-        }
-        return plugin;
-    })
-
     // add background script
     config.output.filename = "[name].js";
     config.entry["background"] = resolve(process.cwd(), 'src', 'extension', 'background');
@@ -39,7 +31,7 @@ export default function (config, env, helpers) {
         }
     ]));
 
-    
+    // used for dev to load component in browser
     config.plugins.push(
         new WriteFilePlugin()
     );

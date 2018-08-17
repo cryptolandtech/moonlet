@@ -14,13 +14,5 @@ export default function (config, env, helpers) {
 
     // customize config
     config.resolve.alias['preact-cli-entrypoint'] = resolve(process.cwd(), 'src', 'web', 'index');
-
-    // set template
-    config.plugins.map((plugin) => {
-        if (plugin.options && plugin.options.template) {
-            plugin.options.template = `!!ejs-loader!${resolve(process.cwd(), 'src', 'web', 'index.html')}`
-        }
-        return plugin;
-    })
 }
 
