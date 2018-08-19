@@ -6,26 +6,26 @@
 .dashboard-page {
   height: 100vh;
   background-color: $mdc-theme-on-primary;
-  color: #00000095;
+  color: gray;
   white-space: pre-wrap;
   word-wrap: break-word;
 
   .balance-card {
-    height: 116px;
+    height: 115px;
     width: 280px;
     margin: 20px 0;
   }
 
   .address-card {
-    height: 232px;
+    height: 220px;
     width: 280px;
     margin: 5px 0;
   }
 
   .icon {
     position: relative;
-    bottom: 70px;
-    left: 230px;
+    bottom: 35px;
+    left: 10px;
   }
 
   .balance-card-text {
@@ -37,7 +37,6 @@
     margin: 15px 0;
     padding: 15px;
     flex-direction: column;
-    padding-right: 50px;
   }
 
   .center {
@@ -54,11 +53,12 @@
     bottom: 10px;
   }
 
-  .layout-grid {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  .textarea {
+    color: gray;
+    width: 210px;
+    height: 90px;
+    border: none;
+    outline: none;
+    resize: none;
   }
-
 }
