@@ -1,0 +1,64 @@
+@import "preact-material-components/Card/mixins";
+@import "preact-material-components/Button/mixins";
+@import "../../styles/base";
+
+
+.dashboard-page {
+  height: 100vh;
+  background-color: $mdc-theme-on-primary;
+  color: gray;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+
+  .balance-card {
+    height: 115px;
+    width: 280px;
+    margin: 20px 0;
+  }
+
+  .address-card {
+    height: 220px;
+    width: 280px;
+    margin: 5px 0;
+  }
+
+  .icon {
+    position: relative;
+    bottom: 35px;
+    left: 10px;
+  }
+
+  .balance-card-text {
+    margin: 10px 0;
+    padding: 15px;
+  }
+
+  .address-card-text {
+    margin: 15px 0;
+    padding: 15px;
+    flex-direction: column;
+  }
+
+  .center {
+    padding-top: 10px;
+    text-align: center;
+    font-size: 17px;
+  }
+
+  .copy-button {
+    @include mdc-button-container-fill-color(white);
+    @include mdc-button-ink-color($mdc-theme-primary);
+    width: 77px;
+    left: 10px;
+    bottom: 10px;
+  }
+
+  .textarea {
+    color: gray;
+    width: 210px;
+    height: 90px;
+    border: none;
+    outline: none;
+    resize: none;
+  }
+}
