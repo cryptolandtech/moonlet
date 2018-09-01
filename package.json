@@ -4,15 +4,12 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
-
+    "start": "npm run dev:web",
     "build": "npm run build:web -- --dest build/web",
     "build:web": "preact build --config ./config/web.config.js --template src/web/index.html --no-prerender",
     "build:ext": "preact build --config ./config/extension.config.js --template src/extension/index.html --no-prerender",
-    
     "dev:web": "preact watch --config ./config/web.config.js --template src/web/index.html ",
     "dev:ext": "preact watch --config ./config/extension.config.js --template src/extension/index.html ",
-
     "lint": "eslint src",
     "test": "echo \"Tests are not running...\""
   },
@@ -30,14 +27,18 @@
     "node-sass": "^4.9.2",
     "preact-cli": "^2.0.0",
     "preact-cli-plugin-typescript": "^0.2.2",
-    "sass-loader": "^7.1.0"
+    "sass-loader": "^7.1.0",
+    "typescript": "^2.4"
   },
   "dependencies": {
     "history": "^4.7.2",
     "preact": "^8.2.1",
+    "preact-async-route": "^2.2.1",
     "preact-compat": "^3.17.0",
     "preact-material-components": "1.5.0",
+    "preact-redux": "2.0.2",
     "preact-router": "^2.6.1",
+    "redux": "^3.6.0",
     "write-file-webpack-plugin": "^4.3.2"
   }
 }

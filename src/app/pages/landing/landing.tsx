@@ -4,7 +4,7 @@ import { route } from 'preact-router';
 import Icon from "preact-material-components/Icon";
 import LayoutGrid from "preact-material-components/LayoutGrid";
 import Button from 'preact-material-components/Button';
-import {TopBar} from "../layouts/top-bar/top-bar";
+import TopBar from "../../components/top-bar/top-bar.container";
 
 import "./landing.scss";
 
@@ -17,7 +17,7 @@ export class LandingPage extends Component {
                     <LayoutGrid.Inner>
                         <LayoutGrid.Cell cols={12} className="center">
                             <h1 class="title mdc-typography--headline2">Moonlet</h1>
-                            <Icon className="icon">account_balance_wallet</Icon>
+                            <Icon className="icon">security</Icon>
                         </LayoutGrid.Cell>
                         <LayoutGrid.Cell cols={12} className="center">
                             <Button 

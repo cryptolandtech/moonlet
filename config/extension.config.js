@@ -37,7 +37,7 @@ export default function (config, env, helpers) {
     //make hot reload work 
     if (Array.isArray(config.entry.bundle)) {
         config.entry.bundle = config.entry.bundle.map((bundle) => {
-            if (bundle === "webpack-dev-server/clientasd") {
+            if (bundle === "webpack-dev-server/client") {
                 const liveReloadProtocol = env.https ? "https" : "http";
                 const liveReloadHost = env.host.replace(/^0\.0\.0\.0$/, "localhost");
 
