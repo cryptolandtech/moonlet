@@ -6,7 +6,6 @@ import { CHANGE_PAGE, CHANGE_SCREEN_SIZE } from './actions';
 
 const getLayout = (routeConfig: IRouteConfig, platform: Platform, screenSize: DeviceScreenSize): ILayout => {
     const config = getRouteConfig(routeConfig, platform, screenSize);
-    console.log(routeConfig, platform, screenSize, config);
     return {
         topBar: config.topBar,
         bottomNav: config.bottomNav,

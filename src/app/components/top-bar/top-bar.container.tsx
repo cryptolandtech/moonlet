@@ -3,7 +3,6 @@ import { TopBar } from "./top-bar.component";
 import { IState } from "../../data";
 
 const mapStateToProps = (state: IState) => {
-    console.log(state);
     return {
         config: state.pageConfig.layout.topBar,
         screenSize: state.pageConfig.device.screenSize

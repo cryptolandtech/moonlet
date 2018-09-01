@@ -35,11 +35,12 @@ export default class App extends Component<IProps, {}> {
 	}
 
 	handleRouteChange(route: RouterOnChangeArgs) {
+		//console.log(route);
 		this.props.onRouteChange(route.current.attributes.config);
 	}
 
 	render(props: IProps) {
-		console.log("app props", props);
+		//console.log("app props", props);
 		return (
 			<div class="app-root">
 				<Router history={props.history} onChange={this.handleRouteChange.bind(this)}>

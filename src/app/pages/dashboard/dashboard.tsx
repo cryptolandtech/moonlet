@@ -1,6 +1,6 @@
 import {h, Component} from 'preact';
 
-import {TopBar} from "../layouts/top-bar/top-bar";
+import TopBar from "../../components/top-bar/top-bar.container";
 import LayoutGrid from "preact-material-components/LayoutGrid";
 import Card, {CardMediaContent} from "preact-material-components/Card";
 import "preact-material-components/Card/style.css";

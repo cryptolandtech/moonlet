@@ -101,18 +101,19 @@ export class TopBar extends Component<IProps> {
     }
 
     render(props: IProps) {
-    
+        if (props.config) {
+            return (
+                <TopAppBar fixed className="top-bar">
+                    <TopAppBar.Row>
+                        {this.getLeftSection()}
+                        {this.getMiddleSection()}
+                        {this.getRightSection()}
+                    
+                    </TopAppBar.Row>
+                </TopAppBar>
+            );
+        }
         
-        
-        return (
-            <TopAppBar fixed className="top-bar">
-                <TopAppBar.Row>
-                    {this.getLeftSection()}
-                    {this.getMiddleSection()}
-                    {this.getRightSection()}
-                
-                </TopAppBar.Row>
-            </TopAppBar>
-        );
+        return null;
     }
 }

@@ -1,3 +1,4 @@
+import { mergeDeep } from './utils/merge-deep';
 import { Platform, DeviceScreenSize } from './types';
 import { IRoute } from './routes';
 import { Component } from 'preact';
@@ -39,7 +40,27 @@ export const ROUTES: IRoute[] = [
         name: "dashboard",
         path: "/dashboard",
         getComponent: () => Promise.resolve(require("./pages/dashboard/dashboard").DashboardPage),
-        config: {}
+        config: {
+            [Platform.ALL]: {
+                [DeviceScreenSize.SMALL]: {
+                    topBar: {
+                        left: {
+                            icon: "logo"
+                        }
+                    }
+                }
+            },
+            [Platform.EXTENSION]: {
+                [DeviceScreenSize.SMALL]: {
+                    topBar: {
+                        right: {
+                            type: "icon",
+                            icon: "launch"
+                        }
+                    }
+                }
+            }
+        }
     },
     {
         name: "createWallet",
@@ -72,7 +93,7 @@ export const getRouteConfig = (routeConfig: IRouteConfig, platform: Platform, sc
                 configs.push(routeConfig[path[0]][path[1]]);
             }
         }
-        result = Object.assign({}, ...configs);
+        result = mergeDeep({}, ...configs);
     }   
 
     return result;
