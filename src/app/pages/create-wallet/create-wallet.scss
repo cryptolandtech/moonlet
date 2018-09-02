@@ -10,55 +10,28 @@
   white-space: pre-wrap;
   word-wrap: break-word;
 
-  .balance-card {
-    height: 115px;
-    width: 280px;
-    margin: 20px 0;
-  }
+  .left-text {
+    padding-top: 2em;
+    padding-left: 2em;
+    padding-right: 2em;
+    padding-bottom: 2em;
 
-  .address-card {
-    height: 220px;
-    width: 280px;
-    margin: 5px 0;
-  }
-
-  .icon {
-    position: relative;
-    bottom: 35px;
-    left: 10px;
-  }
-
-  .balance-card-text {
-    margin: 10px 0;
-    padding: 15px;
-  }
-
-  .address-card-text {
-    margin: 15px 0;
-    padding: 15px;
-    flex-direction: column;
-  }
-
-  .center {
-    padding-top: 10px;
-    text-align: center;
+    text-align: left;
     font-size: 17px;
   }
 
-  .copy-button {
-    @include mdc-button-container-fill-color(white);
-    @include mdc-button-ink-color($mdc-theme-primary);
-    width: 77px;
-    left: 10px;
-    bottom: 10px;
+  .margin-top{
+    margin-top: 2em;
   }
 
-  .textarea {
-    color: gray;
-    width: 210px;
-    height: 90px;
-    border: none;
-    outline: none;
-    resize: none;
+  .backup-button {
+    @include mdc-button-container-fill-color(#dddddd);
+    @include mdc-button-ink-color(grey);
+    width: 30em;
+  }
+
+
+  .center {
+    text-align: center;
   }
 }
