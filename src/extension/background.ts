@@ -1,1 +1,1 @@
-console.log("BG");
+console.log('BG');

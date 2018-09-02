@@ -1,3 +1,3 @@
-export const getScreenSizeMatchMedia = (mediaQuery = "(max-width: 500px)") => {
-    return window.matchMedia(mediaQuery);
-}
+export const getScreenSizeMatchMedia = (mediaQuery = '(max-width: 500px)') => {
+  return window.matchMedia(mediaQuery);
+};

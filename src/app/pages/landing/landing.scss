@@ -1,32 +1,32 @@
-@import "../../styles/base";
+@import '../../styles/base';
 
 //TODO: move colors in scss vars
 .landing-page {
-    //@include mdc-icon-toggle-ink-color(white);
-    height: 100vh;
-    background-color: $mdc-theme-primary;
+  //@include mdc-icon-toggle-ink-color(white);
+  height: 100vh;
+  background-color: $mdc-theme-primary;
 
-    .title {
-        color: #e0e0e0;
-    }
+  .title {
+    color: #e0e0e0;
+  }
 
-    .icon {
-        color: #e0e0e0;
-        font-size: 128px;
-        margin: 40px 0;
-    }
+  .icon {
+    color: #e0e0e0;
+    font-size: 128px;
+    margin: 40px 0;
+  }
 
-    .center {
-        text-align: center;
-    }
+  .center {
+    text-align: center;
+  }
 
-    .restore-wallet {
-        @include mdc-button-container-fill-color(white);
-        @include mdc-button-ink-color($mdc-theme-primary);
-        width: 260px;
-    }
+  .restore-wallet {
+    @include mdc-button-container-fill-color(white);
+    @include mdc-button-ink-color($mdc-theme-primary);
+    width: 260px;
+  }
 
-    .create-wallet {
-        width: 260px;
-    }
+  .create-wallet {
+    width: 260px;
+  }
 }
