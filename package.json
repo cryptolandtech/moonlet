@@ -17,11 +17,14 @@
   "eslintConfig": {
     "extends": "eslint-config-synacor"
   },
-  "eslintIgnore": ["build/*"],
+  "eslintIgnore": [
+    "build/*"
+  ],
   "devDependencies": {
     "eslint": "^4.5.0",
     "eslint-config-synacor": "^1.1.0",
     "firebase-tools": "^4.0.3",
+    "husky": "^1.0.0-rc.13",
     "if-env": "^1.0.0",
     "node-sass": "^4.9.2",
     "preact-cli": "^2.0.0",
@@ -42,5 +45,10 @@
     "preact-redux": "2.0.2",
     "preact-router": "^2.6.1",
     "redux": "^3.6.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run prettier; npm run lint"
+    }
   }
 }
