@@ -17,9 +17,7 @@
   "eslintConfig": {
     "extends": "eslint-config-synacor"
   },
-  "eslintIgnore": [
-    "build/*"
-  ],
+  "eslintIgnore": ["build/*"],
   "devDependencies": {
     "eslint": "^4.5.0",
     "eslint-config-synacor": "^1.1.0",
@@ -49,14 +47,11 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run prettier; npm run lint; git add"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
-    "*": [
-        "npm run prettier",
-        "npm run lint",
-        "git add"
-    ]
+    "*.{ts,tsx,scss,json}": ["npm run prettier", "git add"],
+    "*.{ts,tsx}": ["npm run lint", "git add"]
   }
 }
