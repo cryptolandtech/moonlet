@@ -1,0 +1,22 @@
+@import '../../styles/base';
+
+.top-bar {
+  .top-appbar-icon {
+    width: 24px;
+    height: 24px;
+    margin-left: 16px;
+  }
+
+  .no-grow {
+    flex-grow: 0;
+  }
+
+  .title {
+    width: 100%;
+    text-align: left;
+  }
+
+  .center {
+    text-align: center;
+  }
+}

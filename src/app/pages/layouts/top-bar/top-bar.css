@@ -1,5 +1,5 @@
 /*
-Error: File to import not found or unreadable: preact-material-components/Icon/mixins.
+Error: File to import not found or unreadable: preact-material-components/Button/mixins.
         on line 1 of ../../../styles/_mixins.scss
         from line 2 of ../../../styles/_base.scss
         from line 1 of top-bar.scss
@@ -83,4 +83,4 @@ C:/Ruby23-x64/bin/scss:22:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: File to import not found or unreadable: preact-material-components/Icon/mixins.\A         on line 1 of ../../../styles/_mixins.scss\A         from line 2 of ../../../styles/_base.scss\A         from line 1 of top-bar.scss\A \A 1: @import \"../../../styles/base\";\A 2: \A 3: \A 4: .top-appbar-icon {\A 5:   width: 24px;\A 6:   height: 24px;"; }
+  content: "Error: File to import not found or unreadable: preact-material-components/Button/mixins.\A         on line 1 of ../../../styles/_mixins.scss\A         from line 2 of ../../../styles/_base.scss\A         from line 1 of top-bar.scss\A \A 1: @import \"../../../styles/base\";\A 2: \A 3: \A 4: .top-appbar-icon {\A 5:   width: 24px;\A 6:   height: 24px;"; }

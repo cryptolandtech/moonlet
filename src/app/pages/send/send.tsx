@@ -1,11 +1,7 @@
-import { h, Component } from 'preact';
+import { Component, h } from 'preact';
 
 export class SendPage extends Component {
-    render() {
-        return (
-            <div>
-                SendPage
-            </div>
-        );
-    }
+  public render() {
+    return <div>SendPage</div>;
+  }
 }

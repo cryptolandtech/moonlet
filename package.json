@@ -4,37 +4,54 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "start": "if-env NODE_ENV=production && npm run -s serve || npm run -s dev",
+    "start": "npm run dev:web",
     "build": "npm run build:web -- --dest build/web",
     "build:web": "preact build --config ./config/web.config.js --template src/web/index.html --no-prerender",
     "build:ext": "preact build --config ./config/extension.config.js --template src/extension/index.html --no-prerender",
     "dev:web": "preact watch --config ./config/web.config.js --template src/web/index.html ",
     "dev:ext": "preact watch --config ./config/extension.config.js --template src/extension/index.html ",
-    "lint": "eslint src",
+    "lint": "tslint --fix 'src/**/*.{ts,tsx}'",
+    "prettier": "prettier --write \"**/*.{ts,tsx,scss,json}\" --ignore-path .gitignore",
     "test": "echo \"Tests are not running...\""
   },
   "eslintConfig": {
     "extends": "eslint-config-synacor"
   },
-  "eslintIgnore": [
-    "build/*"
-  ],
+  "eslintIgnore": ["build/*"],
   "devDependencies": {
     "eslint": "^4.5.0",
     "eslint-config-synacor": "^1.1.0",
     "firebase-tools": "^4.0.3",
+    "husky": "^1.0.0-rc.13",
     "if-env": "^1.0.0",
+    "lint-staged": "^7.2.2",
     "node-sass": "^4.9.2",
     "preact-cli": "^2.0.0",
     "preact-cli-plugin-typescript": "^0.2.2",
-    "sass-loader": "^7.1.0"
+    "prettier": "1.14.2",
+    "sass-loader": "^7.1.0",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "typescript": "^2.4",
+    "write-file-webpack-plugin": "^4.3.2"
   },
   "dependencies": {
     "history": "^4.7.2",
     "preact": "^8.2.1",
+    "preact-async-route": "^2.2.1",
     "preact-compat": "^3.17.0",
     "preact-material-components": "1.5.0",
+    "preact-redux": "2.0.2",
     "preact-router": "^2.6.1",
-    "write-file-webpack-plugin": "^4.3.2"
+    "redux": "^3.6.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx,scss,json}": ["npm run prettier", "git add"],
+    "*.{ts,tsx}": ["npm run lint", "git add"]
   }
 }
