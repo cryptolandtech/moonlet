@@ -10,7 +10,8 @@
     "build:ext": "preact build --config ./config/extension.config.js --template src/extension/index.html --no-prerender",
     "dev:web": "preact watch --config ./config/web.config.js --template src/web/index.html ",
     "dev:ext": "preact watch --config ./config/extension.config.js --template src/extension/index.html ",
-    "lint": "eslint src",
+    "lint": "tslint 'src/**/*.{ts,tsx}'",
+    "prettier": "prettier --write \"**/*.{ts,tsx,scss,json}\" --ignore-path .gitignore",
     "test": "echo \"Tests are not running...\""
   },
   "eslintConfig": {
@@ -28,7 +29,10 @@
     "preact-cli": "^2.0.0",
     "preact-cli-plugin-typescript": "^0.2.2",
     "sass-loader": "^7.1.0",
-    "typescript": "^2.4"
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "typescript": "^2.4",
+    "write-file-webpack-plugin": "^4.3.2"
   },
   "dependencies": {
     "history": "^4.7.2",
@@ -38,7 +42,6 @@
     "preact-material-components": "1.5.0",
     "preact-redux": "2.0.2",
     "preact-router": "^2.6.1",
-    "redux": "^3.6.0",
-    "write-file-webpack-plugin": "^4.3.2"
+    "redux": "^3.6.0"
   }
 }
