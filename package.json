@@ -10,7 +10,7 @@
     "build:ext": "preact build --config ./config/extension.config.js --template src/extension/index.html --no-prerender",
     "dev:web": "preact watch --config ./config/web.config.js --template src/web/index.html ",
     "dev:ext": "preact watch --config ./config/extension.config.js --template src/extension/index.html ",
-    "lint": "tslint 'src/**/*.{ts,tsx}'",
+    "lint": "tslint --fix 'src/**/*.{ts,tsx}'",
     "prettier": "prettier --write \"**/*.{ts,tsx,scss,json}\" --ignore-path .gitignore",
     "test": "echo \"Tests are not running...\""
   },
@@ -53,9 +53,9 @@
     }
   },
   "lint-staged": {
-    "*.{ts,tsx,scss,json}": [
+    "*": [
         "npm run prettier",
-        "npm run lint --fix",
+        "npm run lint",
         "git add"
     ]
   }
