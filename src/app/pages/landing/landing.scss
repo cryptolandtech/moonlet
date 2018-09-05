@@ -3,7 +3,7 @@
 //TODO: move colors in scss vars
 .landing-page {
   //@include mdc-icon-toggle-ink-color(white);
-  height: 100vh;
+  height: 100%;
   background-color: $mdc-theme-primary;
 
   .title {

@@ -11,7 +11,8 @@ const store = getStore({
     device: {
       screenSize: getScreenSizeMatchMedia().matches ? DeviceScreenSize.SMALL : DeviceScreenSize.BIG,
       platform: Platform.EXTENSION
-    }
+    },
+    layout: {}
   }
 });
 

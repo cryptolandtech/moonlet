@@ -12,8 +12,7 @@ export class LandingPage extends Component {
   public render() {
     return (
       <div className="landing-page">
-        <TopBar />
-        <LayoutGrid className="mdc-top-app-bar--fixed-adjust">
+        <LayoutGrid>
           <LayoutGrid.Inner>
             <LayoutGrid.Cell cols={12} className="center">
               <h1 class="title mdc-typography--headline2">Moonlet</h1>
@@ -31,12 +30,7 @@ export class LandingPage extends Component {
               </Button>
             </LayoutGrid.Cell>
             <LayoutGrid.Cell cols={12} className="center">
-              <Button
-                ripple
-                raised
-                className="restore-wallet"
-                onClick={() => route('import-wallet')}
-              >
+              <Button ripple raised className="restore-wallet" onClick={() => route('/dashboard')}>
                 Restore existing wallet
               </Button>
             </LayoutGrid.Cell>

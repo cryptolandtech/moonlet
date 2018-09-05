@@ -21,8 +21,7 @@ export class DashboardPage extends Component<any, any> {
   public render() {
     return (
       <div className="dashboard-page">
-        <TopBar />
-        <LayoutGrid className="mdc-top-app-bar--fixed-adjust">
+        <LayoutGrid>
           <LayoutGrid.Cell cols={12}>
             <Card className="balance-card">
               <CardMediaContent className="balance-card-text">

@@ -46,6 +46,9 @@ export const ROUTES: IRoute[] = [
               icon: 'logo'
             }
           }
+        },
+        [DeviceScreenSize.BIG]: {
+          drawerMenu: true
         }
       },
       [Platform.EXTENSION]: {
