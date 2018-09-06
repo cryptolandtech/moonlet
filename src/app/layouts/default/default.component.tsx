@@ -23,7 +23,7 @@ export class DefaultLayout extends Component<IProps> {
           screenSize={props.device.screenSize}
           dispatch={props.dispatch}
         />
-        {props.layout.drawerMenu && <DrawerMenu className="drawer-menu" />}
+        {props.layout.drawerMenu && <DrawerMenu platform={props.device.platform} />}
         <div
           className={
             'page-container ' + (props.layout.topBar ? 'mdc-top-app-bar--fixed-adjust' : '')
