@@ -30,6 +30,15 @@ export class TopBar extends Component<IProps> {
       );
     }
 
+    if (config.icon === 'cancel') {
+      // maybe concatenate the path with the name to keep the code cleaner?
+      icon = (
+        <a href="#" onClick={onClick}>
+          <img class="top-appbar-icon" src="/assets/cancel.svg" />
+        </a>
+      );
+    }
+
     return icon;
   }
 
@@ -79,7 +88,7 @@ export class TopBar extends Component<IProps> {
           sectionContent = this.getIcon(right);
           break;
         case 'text':
-          sectionContent = <div>{right.text}</div>;
+          sectionContent = <div class="right-text">{right.text}</div>;
       }
 
       return <TopAppBar.Section align-end>{sectionContent}</TopAppBar.Section>;

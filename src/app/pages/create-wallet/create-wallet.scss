@@ -1,7 +1,6 @@
-@import "preact-material-components/Card/mixins";
-@import "preact-material-components/Button/mixins";
-@import "../../styles/base";
-
+@import 'preact-material-components/Card/mixins';
+@import 'preact-material-components/Button/mixins';
+@import '../../styles/base';
 
 .create-wallet-page {
   height: 100vh;
@@ -12,25 +11,31 @@
 
   .left-text {
     padding-top: 2em;
-    padding-left: 2em;
-    padding-right: 2em;
+
     padding-bottom: 2em;
 
     text-align: left;
     font-size: 17px;
   }
 
-  .margin-top{
+  .margin-top {
     margin-top: 2em;
+  }
+
+  .padding-left-right {
+    padding-left: 2em;
+    padding-right: 2em;
   }
 
   .backup-button {
     @include mdc-button-container-fill-color(#dddddd);
     @include mdc-button-ink-color(grey);
-    width: 30em;
+    width: 28em;
   }
 
-
+  .hidden {
+    background-color: $mdc-theme-primary;
+  }
   .center {
     text-align: center;
   }

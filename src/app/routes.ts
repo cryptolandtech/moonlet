@@ -65,7 +65,25 @@ export const ROUTES: IRoute[] = [
     path: '/create-wallet',
     getComponent: () =>
       Promise.resolve(require('./pages/create-wallet/create-wallet').CreateWalletPage),
-    config: {}
+    config: {
+      [Platform.ALL]: {
+        [DeviceScreenSize.ALL]: {
+          topBar: {
+            left: {
+              icon: 'cancel'
+            },
+            middle: {
+              type: 'text',
+              text: 'Create New Wallet'
+            },
+            right: {
+              type: 'text',
+              text: '1/3'
+            }
+          }
+        }
+      }
+    }
   },
   {
     name: 'importWallet',

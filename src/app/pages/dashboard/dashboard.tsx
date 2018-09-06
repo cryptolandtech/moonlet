@@ -39,7 +39,7 @@ export class DashboardPage extends Component<any, any> {
                 <p className="mdc-typography--body2">Wallet address</p>
                 <textarea
                   readOnly={true}
-                   spellcheck={false}
+                  spellcheck={false}
                   className="mdc-typography--headline5 textarea"
                   ref={el => (this.textareaElement = el)}
                 >

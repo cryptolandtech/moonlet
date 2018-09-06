@@ -14,9 +14,17 @@
   .title {
     width: 100%;
     text-align: left;
+    color: grey;
   }
 
   .center {
     text-align: center;
+  }
+
+  .right-text {
+    text-align: left;
+    color: grey;
+    padding-right: 2em;
+    font-size: 20px;
   }
 }

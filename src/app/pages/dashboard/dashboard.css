@@ -1,16 +1,16 @@
 /*
 Error: File to import not found or unreadable: preact-material-components/Card/mixins.
-        on line 1 of create-wallet.scss
+        on line 1 of dashboard.scss
 
 1: @import 'preact-material-components/Card/mixins';
 2: @import 'preact-material-components/Button/mixins';
 3: @import '../../styles/base';
 4: 
-5: .create-wallet-page {
+5: .dashboard-page {
 6:   height: 100vh;
 
 Backtrace:
-create-wallet.scss:1
+dashboard.scss:1
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/import_node.rb:67:in `rescue in import'
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/import_node.rb:45:in `import'
 C:/Ruby23-x64/lib/ruby/gems/2.3.0/gems/sass-3.4.23/lib/sass/tree/import_node.rb:28:in `imported_file'
@@ -53,4 +53,4 @@ C:/Ruby23-x64/bin/scss:22:in `<main>'
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: File to import not found or unreadable: preact-material-components/Card/mixins.\A         on line 1 of create-wallet.scss\A \A 1: @import 'preact-material-components/Card/mixins';\A 2: @import 'preact-material-components/Button/mixins';\A 3: @import '../../styles/base';\A 4: \A 5: .create-wallet-page {\A 6:   height: 100vh;"; }
+  content: "Error: File to import not found or unreadable: preact-material-components/Card/mixins.\A         on line 1 of dashboard.scss\A \A 1: @import 'preact-material-components/Card/mixins';\A 2: @import 'preact-material-components/Button/mixins';\A 3: @import '../../styles/base';\A 4: \A 5: .dashboard-page {\A 6:   height: 100vh;"; }
