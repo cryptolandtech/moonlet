@@ -3,7 +3,8 @@ import { DefaultLayout } from './default.component';
 
 const mapStateToProps = state => {
   return {
-    layout: state.pageConfig.layout
+    layout: state.pageConfig.layout,
+    device: state.pageConfig.device
   };
 };
 

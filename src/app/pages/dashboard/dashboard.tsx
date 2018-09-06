@@ -3,7 +3,6 @@ import { Component, h } from 'preact';
 import Card, { CardMediaContent } from 'preact-material-components/Card';
 import Icon from 'preact-material-components/Icon';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
-import TopBar from '../../components/top-bar/top-bar.container';
 import './dashboard.scss';
 
 export class DashboardPage extends Component<any, any> {

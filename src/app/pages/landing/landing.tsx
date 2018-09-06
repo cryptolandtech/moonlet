@@ -4,7 +4,6 @@ import { route } from 'preact-router';
 import Button from 'preact-material-components/Button';
 import Icon from 'preact-material-components/Icon';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
-import TopBar from '../../components/top-bar/top-bar.container';
 
 import './landing.scss';
 
