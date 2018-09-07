@@ -74,7 +74,8 @@ export const ROUTES: IRoute[] = [
         [DeviceScreenSize.ALL]: {
           topBar: {
             left: {
-              icon: 'cancel'
+              icon: 'close',
+              action: { type: 'GO_BACK' }
             },
             middle: {
               type: 'text',

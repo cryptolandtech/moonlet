@@ -30,15 +30,6 @@ export class TopBar extends Component<IProps> {
       );
     }
 
-    if (config.icon === 'cancel') {
-      // maybe concatenate the path with the name to keep the code cleaner?
-      icon = (
-        <a href="#" onClick={onClick}>
-          <i class="material-icons md-dark">close</i>
-        </a>
-      );
-    }
-
     return icon;
   }
 
