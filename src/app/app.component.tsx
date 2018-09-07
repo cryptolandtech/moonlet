@@ -1,4 +1,4 @@
-import { Component, h } from 'preact';
+import { Component, h, RenderableProps } from 'preact';
 import AsyncRoute from 'preact-async-route';
 import { CustomHistory, Router, RouterOnChangeArgs } from 'preact-router';
 
@@ -6,6 +6,7 @@ import './app.scss';
 import { IRouteConfig, ROUTES } from './routes';
 import { DeviceScreenSize } from './types';
 import { getScreenSizeMatchMedia } from './utils/screen-size-match-media';
+import DefaultLayout from './layouts/default/default.container';
 
 interface IProps {
   history: CustomHistory;
@@ -19,7 +20,7 @@ export default class App extends Component<IProps, {}> {
   public state;
   private phoneMediaQuery;
 
-  constructor(props: IProps) {
+  constructor(props: RenderableProps<IProps>) {
     super(props);
 
     this.phoneMediaQuery = getScreenSizeMatchMedia();
@@ -39,15 +40,17 @@ export default class App extends Component<IProps, {}> {
     this.props.onRouteChange(route.current.attributes.config);
   }
 
-  public render(props: IProps) {
+  public render(props: RenderableProps<IProps>) {
     // console.log("app props", props);
     return (
       <div class="app-root">
-        <Router history={props.history} onChange={this.handleRouteChange.bind(this)}>
-          {ROUTES.map(route => (
-            <AsyncRoute {...route} />
-          ))}
-        </Router>
+        <DefaultLayout>
+          <Router history={props.history} onChange={this.handleRouteChange.bind(this)}>
+            {ROUTES.map(route => (
+              <AsyncRoute {...route} />
+            ))}
+          </Router>
+        </DefaultLayout>
       </div>
     );
   }

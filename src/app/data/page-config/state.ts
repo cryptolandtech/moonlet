@@ -29,12 +29,13 @@ export interface ILayout {
   drawerMenu?: boolean;
 }
 
-export interface IPageConfig {
-  device: {
-    platform: Platform;
-    screenSize: DeviceScreenSize;
-  };
+export interface IDevice {
+  platform: Platform;
+  screenSize: DeviceScreenSize;
+}
 
+export interface IPageConfig {
+  device: IDevice;
   routeConfig?: IRouteConfig;
   layout?: ILayout;
 }

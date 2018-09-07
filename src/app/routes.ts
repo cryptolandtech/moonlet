@@ -45,7 +45,11 @@ export const ROUTES: IRoute[] = [
             left: {
               icon: 'logo'
             }
-          }
+          },
+          bottomNav: true
+        },
+        [DeviceScreenSize.BIG]: {
+          drawerMenu: true
         }
       },
       [Platform.EXTENSION]: {
@@ -91,6 +95,67 @@ export const ROUTES: IRoute[] = [
     getComponent: () =>
       Promise.resolve(require('./pages/import-wallet/import-wallet').ImportWalletPage),
     config: {}
+  },
+  {
+    name: 'send',
+    path: '/send',
+    getComponent: () => Promise.resolve(require('./pages/send/send').SendPage),
+    config: {
+      [Platform.ALL]: {
+        [DeviceScreenSize.SMALL]: {
+          topBar: {
+            left: {
+              icon: 'logo'
+            }
+          },
+          bottomNav: true
+        },
+        [DeviceScreenSize.BIG]: {
+          drawerMenu: true
+        }
+      }
+    }
+  },
+  {
+    name: 'receive',
+    path: '/receive',
+    getComponent: () => Promise.resolve(require('./pages/receive/receive.component').ReceivePage),
+    config: {
+      [Platform.ALL]: {
+        [DeviceScreenSize.SMALL]: {
+          topBar: {
+            left: {
+              icon: 'logo'
+            }
+          },
+          bottomNav: true
+        },
+        [DeviceScreenSize.BIG]: {
+          drawerMenu: true
+        }
+      }
+    }
+  },
+  {
+    name: 'settings',
+    path: '/settings',
+    getComponent: () =>
+      Promise.resolve(require('./pages/settings/settings.component').SettingsPage),
+    config: {
+      [Platform.ALL]: {
+        [DeviceScreenSize.SMALL]: {
+          topBar: {
+            left: {
+              icon: 'logo'
+            }
+          },
+          bottomNav: true
+        },
+        [DeviceScreenSize.BIG]: {
+          drawerMenu: true
+        }
+      }
+    }
   }
 ];
 

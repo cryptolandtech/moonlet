@@ -1,4 +1,4 @@
-import { Component, h } from 'preact';
+import { Component, h, RenderableProps } from 'preact';
 import TopAppBar from 'preact-material-components/TopAppBar';
 
 import { IAction } from '../../data/action';
@@ -95,7 +95,7 @@ export class TopBar extends Component<IProps> {
     }
   }
 
-  public render(props: IProps) {
+  public render(props: RenderableProps<IProps>) {
     if (props.config) {
       return (
         <TopAppBar fixed className="top-bar">
