@@ -4,7 +4,6 @@ import Button from 'preact-material-components/Button';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
 import 'preact-material-components/Card/style.css';
 import './create-wallet.scss';
-import TopBar from '../../components/top-bar/top-bar.container';
 
 export class CreateWalletPage extends Component {
   public render(props, state) {
