@@ -10,7 +10,6 @@ export class CreateWalletPage extends Component {
   public render(props, state) {
     return (
       <div className="create-wallet-page">
-        <TopBar />
         <div class="padding-left-right">
           <LayoutGrid className="mdc-top-app-bar--fixed-adjust" />
           <LayoutGrid.Cell cols={12} className="center">

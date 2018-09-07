@@ -34,7 +34,7 @@ export class TopBar extends Component<IProps> {
       // maybe concatenate the path with the name to keep the code cleaner?
       icon = (
         <a href="#" onClick={onClick}>
-          <img class="top-appbar-icon" src="/assets/cancel.svg" />
+          <i class="material-icons md-dark">close</i>
         </a>
       );
     }
