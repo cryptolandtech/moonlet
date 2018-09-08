@@ -9,7 +9,9 @@ export class NetworkSelector extends Component {
       <div class="network-selector">
         <Chips>
           <Chips.Chip>
-            <div class="circle" />
+            <Chips.Text>
+              <div class="circle" />
+            </Chips.Text>
             <Chips.Text>Main Zilliqa Network</Chips.Text>
             <Chips.Icon>keyboard_arrow_down</Chips.Icon>
           </Chips.Chip>
