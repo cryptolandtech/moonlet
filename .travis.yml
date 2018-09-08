@@ -7,6 +7,7 @@ script:
   - echo "Deploy!!"
 install:
   - npm install
+  - npm run lint
 after_success:
   - npx firebase deploy --token $FIREBASE_TOKEN
 env:
