@@ -19,6 +19,7 @@
   },
   "eslintIgnore": ["build/*"],
   "devDependencies": {
+    "@types/chrome": "0.0.73",
     "eslint": "^4.5.0",
     "eslint-config-synacor": "^1.1.0",
     "firebase-tools": "^4.0.3",
@@ -33,6 +34,7 @@
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "typescript": "^2.4",
+    "web-ext-types": "^2.1.0",
     "write-file-webpack-plugin": "^4.3.2"
   },
   "dependencies": {
@@ -40,10 +42,11 @@
     "preact": "^8.2.1",
     "preact-async-route": "^2.2.1",
     "preact-compat": "^3.17.0",
-    "preact-material-components": "1.5.0",
+    "preact-material-components": "^1.5.1",
     "preact-redux": "2.0.2",
     "preact-router": "^2.6.1",
-    "redux": "^3.6.0"
+    "redux": "^3.6.0",
+    "redux-thunk": "2.2.0"
   },
   "husky": {
     "hooks": {

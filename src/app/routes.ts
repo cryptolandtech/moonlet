@@ -44,6 +44,9 @@ export const ROUTES: IRoute[] = [
           topBar: {
             left: {
               icon: 'logo'
+            },
+            middle: {
+              type: 'networkSelection'
             }
           },
           bottomNav: true
@@ -57,7 +60,10 @@ export const ROUTES: IRoute[] = [
           topBar: {
             right: {
               type: 'icon',
-              icon: 'launch'
+              icon: 'launch',
+              action: () => {
+                chrome.tabs.create({ url: document.location.href });
+              }
             }
           }
         }

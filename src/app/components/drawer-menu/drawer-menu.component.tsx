@@ -5,6 +5,7 @@ import List from 'preact-material-components/List';
 import './drawer-menu.scss';
 import { Link } from 'preact-router/match';
 import { Platform } from '../../types';
+import { NetworkSelector } from '../network-selector/network-selector.component';
 
 interface IProps {
   platform: Platform;
@@ -23,6 +24,8 @@ export class DrawerMenu extends Component<IProps> {
             <div class="subtitle">Web wallet</div>
           </div>
         </div>
+
+        <NetworkSelector />
 
         <List className="list">
           <Link

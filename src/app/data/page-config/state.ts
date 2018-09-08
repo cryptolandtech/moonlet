@@ -9,7 +9,7 @@ export interface IDefaultTopBarConfig {
      * material icon name or "logo" to display the logo as icon
      */
     icon: string;
-    action?: IAction;
+    action?: IAction | { () };
   };
   middle?: {
     type: 'text' | 'networkSelection';
@@ -18,7 +18,7 @@ export interface IDefaultTopBarConfig {
   right?: {
     type: 'text' | 'icon';
     icon?: string;
-    action?: IAction;
+    action?: IAction | { () };
     text?: string;
   };
 }

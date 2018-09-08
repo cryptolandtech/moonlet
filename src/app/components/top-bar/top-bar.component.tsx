@@ -5,6 +5,7 @@ import { IAction } from '../../data/action';
 import { IDefaultTopBarConfig } from '../../data/page-config/state';
 import { DeviceScreenSize } from '../../types';
 import './top-bar.scss';
+import { NetworkSelector } from '../network-selector/network-selector.component';
 
 interface IProps {
   config: IDefaultTopBarConfig;
@@ -60,7 +61,7 @@ export class TopBar extends Component<IProps> {
           );
           break;
         case 'networkSelection':
-          sectionContent = <div>TBD</div>;
+          sectionContent = <NetworkSelector />;
           break;
       }
       return <TopAppBar.Section>{sectionContent}</TopAppBar.Section>;
@@ -82,14 +83,24 @@ export class TopBar extends Component<IProps> {
           sectionContent = <div>{right.text}</div>;
       }
 
-      return <TopAppBar.Section align-end>{sectionContent}</TopAppBar.Section>;
+      return (
+        <TopAppBar.Section align-end className="no-grow">
+          {sectionContent}
+        </TopAppBar.Section>
+      );
     }
   }
 
   public render(props: RenderableProps<IProps>) {
     if (props.config) {
       return (
-        <TopAppBar fixed className="top-bar">
+        <TopAppBar
+          fixed
+          className="top-bar"
+          onNav={() => {
+            /**/
+          }}
+        >
           <TopAppBar.Row>
             {this.getLeftSection()}
             {this.getMiddleSection()}
