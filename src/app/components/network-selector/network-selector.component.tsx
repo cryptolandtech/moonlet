@@ -11,15 +11,17 @@ export class NetworkSelector extends Component {
     return (
       <div class="network-selector">
         <Chips>
-          <Chips.Chip>
-            {this.removeType(
-              <Chips.Text>
-                <div class="circle" />
-              </Chips.Text>
-            )}
-            <Chips.Text>Main Zilliqa Network</Chips.Text>
-            <Chips.Icon>keyboard_arrow_down</Chips.Icon>
-          </Chips.Chip>
+          {this.removeType(
+            <Chips.Chip>
+              {this.removeType(
+                <Chips.Text>
+                  <div class="circle" />
+                </Chips.Text>
+              )}
+              {this.removeType(<Chips.Text>Main Zilliqa Network</Chips.Text>)}
+              {this.removeType(<Chips.Icon>keyboard_arrow_down</Chips.Icon>)}
+            </Chips.Chip>
+          )}
         </Chips>
       </div>
     );
