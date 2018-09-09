@@ -71,7 +71,7 @@ export class DrawerMenu extends Component<IProps> {
           )}
 
           <Link
-            href="/dashboardd"
+            href="/"
             activeClassName="mdc-list-item--activated"
             className="mdc-list-item"
             role="option"
