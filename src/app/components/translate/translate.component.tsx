@@ -6,11 +6,16 @@ interface IProps {
     params?: ITranslationParams;
     count?: number;
     tag?: string;
+    className?: string;
 }
 
 export class Translate extends Component<IProps> {
     public render(props: RenderableProps<IProps>) {
         const Tag = props.tag || 'span';
-        return <Tag>{translate(props.text, props.params, props.count)}</Tag>;
+        return (
+            <Tag className={props.className}>
+                {translate(props.text, props.params, props.count)}
+            </Tag>
+        );
     }
 }

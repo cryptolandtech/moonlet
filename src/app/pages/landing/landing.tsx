@@ -6,6 +6,7 @@ import Icon from 'preact-material-components/Icon';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
 
 import './landing.scss';
+import { Translate } from '../../components/translate/translate.component';
 
 export class LandingPage extends Component {
     public render() {
@@ -14,7 +15,11 @@ export class LandingPage extends Component {
                 <LayoutGrid>
                     <LayoutGrid.Inner>
                         <LayoutGrid.Cell cols={12} className="center">
-                            <h1 class="title mdc-typography--headline2">Moonlet</h1>
+                            <Translate
+                                text="LandingPage.title"
+                                tag="h1"
+                                className="title mdc-typography--headline2"
+                            />
                             <Icon className="icon">security</Icon>
                         </LayoutGrid.Cell>
                         <LayoutGrid.Cell cols={12} className="center">
@@ -25,7 +30,7 @@ export class LandingPage extends Component {
                                 className="create-wallet"
                                 onClick={() => route('/create-wallet')}
                             >
-                                Create new wallet
+                                <Translate text="LandingPage.createNewWallet" />
                             </Button>
                         </LayoutGrid.Cell>
                         <LayoutGrid.Cell cols={12} className="center">
@@ -35,7 +40,7 @@ export class LandingPage extends Component {
                                 className="restore-wallet"
                                 onClick={() => route('/dashboard')}
                             >
-                                Restore existing wallet
+                                <Translate text="LandingPage.restoreExistingWallet" />
                             </Button>
                         </LayoutGrid.Cell>
                     </LayoutGrid.Inner>

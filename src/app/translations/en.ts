@@ -2,16 +2,23 @@ import { ITranslations } from './types';
 
 export const translation: ITranslations = {
     texts: {
-        App: {},
-        ExampleComponent: {
-            key: {
-                subKey: {
-                    text: 'other aloha {{p}}',
-                    forms: {
-                        one: 'one aloha'
-                    }
-                }
+        App: {
+            labels: {
+                dashboard: 'Dashboard',
+                send: 'Send',
+                receive: 'Receive',
+                settings: 'Settings',
+                signOut: 'Sign out'
             }
+        },
+        DrawerMenu: {
+            title: 'Moonlet',
+            subtitle: 'Web wallet'
+        },
+        LandingPage: {
+            title: 'Moonlet',
+            createNewWallet: 'Create new wallet',
+            restoreExistingWallet: 'Restore existing wallet'
         }
     },
     plural: (n: number, ord: boolean) => {

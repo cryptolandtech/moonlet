@@ -6,6 +6,7 @@ import './drawer-menu.scss';
 import { Link } from 'preact-router/match';
 import { Platform } from '../../types';
 import { NetworkSelector } from '../network-selector/network-selector.component';
+import { Translate } from '../translate/translate.component';
 
 interface IProps {
     platform: Platform;
@@ -20,8 +21,8 @@ export class DrawerMenu extends Component<IProps> {
                         <img src="/assets/logo.svg" />
                     </div>
                     <div class="header-text">
-                        <div class="title">Moonlet</div>
-                        <div class="subtitle">Web wallet</div>
+                        <Translate text="DrawerMenu.title" className="title" tag="div" />
+                        <Translate text="DrawerMenu.subtitle" className="subtitle" tag="div" />
                     </div>
                 </div>
 
@@ -35,7 +36,7 @@ export class DrawerMenu extends Component<IProps> {
                         role="option"
                     >
                         <List.ItemGraphic>dashboard</List.ItemGraphic>
-                        Dashboard
+                        <Translate text="App.labels.dashboard" />
                     </Link>
 
                     <Link
@@ -45,7 +46,7 @@ export class DrawerMenu extends Component<IProps> {
                         role="option"
                     >
                         <List.ItemGraphic>arrow_upward</List.ItemGraphic>
-                        Send
+                        <Translate text="App.labels.send" />
                     </Link>
 
                     <Link
@@ -55,7 +56,7 @@ export class DrawerMenu extends Component<IProps> {
                         role="option"
                     >
                         <List.ItemGraphic>input</List.ItemGraphic>
-                        Receive
+                        <Translate text="App.labels.receive" />
                     </Link>
 
                     {props.platform === Platform.EXTENSION && (
@@ -66,7 +67,7 @@ export class DrawerMenu extends Component<IProps> {
                             role="option"
                         >
                             <List.ItemGraphic>settings</List.ItemGraphic>
-                            Settings
+                            <Translate text="App.labels.settings" />
                         </Link>
                     )}
 
@@ -77,7 +78,7 @@ export class DrawerMenu extends Component<IProps> {
                         role="option"
                     >
                         <List.ItemGraphic>power_settings_new</List.ItemGraphic>
-                        Sign out
+                        <Translate text="App.labels.signOut" />
                     </Link>
                 </List>
             </div>
