@@ -7,17 +7,19 @@ import { DeviceScreenSize, Platform } from '../app/types';
 import { getScreenSizeMatchMedia } from '../app/utils/screen-size-match-media';
 
 const store = getStore({
-  pageConfig: {
-    device: {
-      screenSize: getScreenSizeMatchMedia().matches ? DeviceScreenSize.SMALL : DeviceScreenSize.BIG,
-      platform: Platform.EXTENSION
-    },
-    layout: {}
-  }
+    pageConfig: {
+        device: {
+            screenSize: getScreenSizeMatchMedia().matches
+                ? DeviceScreenSize.SMALL
+                : DeviceScreenSize.BIG,
+            platform: Platform.EXTENSION
+        },
+        layout: {}
+    }
 });
 
 export default props => (
-  <Provider store={store}>
-    <App {...props} history={createHashHistory()} />
-  </Provider>
+    <Provider store={store}>
+        <App {...props} history={createHashHistory()} />
+    </Provider>
 );

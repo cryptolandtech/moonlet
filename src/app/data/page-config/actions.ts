@@ -10,17 +10,17 @@ export const CHANGE_PAGE = 'CHANGE_PAGE';
 // Action creators
 
 export const createChangeScreenSize = (screenSize: DeviceScreenSize): IAction => ({
-  type: CHANGE_SCREEN_SIZE,
-  data: {
-    screenSize
-  }
+    type: CHANGE_SCREEN_SIZE,
+    data: {
+        screenSize
+    }
 });
 
 export const createChangePage = (routeConfig: IRouteConfig): IAction => {
-  return {
-    type: CHANGE_PAGE,
-    data: {
-      routeConfig
-    }
-  };
+    return {
+        type: CHANGE_PAGE,
+        data: {
+            routeConfig
+        }
+    };
 };

@@ -1,17 +1,17 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["es5", "es2017", "dom"],
-    "module": "esnext",
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "sourceMap": true,
-    "jsx": "react",
-    "jsxFactory": "h",
-    "allowJs": true,
-    "keyofStringsOnly": true,
-    "noImplicitAny": false,
-    "typeRoots": ["node_modules/@types", "node_modules/web-ext-types"]
-  }
+    "compileOnSave": false,
+    "compilerOptions": {
+        "target": "es5",
+        "lib": ["es5", "es2017", "dom"],
+        "module": "esnext",
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "sourceMap": true,
+        "jsx": "react",
+        "jsxFactory": "h",
+        "allowJs": true,
+        "keyofStringsOnly": true,
+        "noImplicitAny": false,
+        "typeRoots": ["node_modules/@types", "node_modules/web-ext-types"]
+    }
 }

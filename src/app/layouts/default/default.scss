@@ -1,17 +1,17 @@
 .default-layout {
-  height: 100vh;
-  display: flex;
+    height: 100vh;
+    display: flex;
 
-  .drawer-menu {
-    min-width: 200px;
-    max-width: 240px;
-    width: 25%;
-    flex-grow: 0;
-    flex-shrink: 0;
-  }
+    .drawer-menu {
+        min-width: 200px;
+        max-width: 240px;
+        width: 25%;
+        flex-grow: 0;
+        flex-shrink: 0;
+    }
 
-  .page-container {
-    flex: 1;
-    overflow: scroll;
-  }
+    .page-container {
+        flex: 1;
+        overflow: scroll;
+    }
 }

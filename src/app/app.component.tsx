@@ -10,63 +10,66 @@ import DefaultLayout from './layouts/default/default.container';
 import { loadTranslations, Language } from './utils/translate';
 
 interface IProps {
-  history: CustomHistory;
-  language: Language;
+    history: CustomHistory;
+    language: Language;
 
-  onScreenSizeChange: { (screenSize: DeviceScreenSize) };
-  onRouteChange: { (routeConfig: IRouteConfig) };
+    onScreenSizeChange: { (screenSize: DeviceScreenSize) };
+    onRouteChange: { (routeConfig: IRouteConfig) };
 }
 
 interface IState {
-  translationsLoaded: boolean;
+    translationsLoaded: boolean;
 }
 
 export default class App extends Component<IProps, IState> {
-  public state;
-  private phoneMediaQuery;
+    public state;
+    private phoneMediaQuery;
 
-  constructor(props: RenderableProps<IProps>) {
-    super(props);
+    constructor(props: RenderableProps<IProps>) {
+        super(props);
 
-    this.state = {
-      translationsLoaded: false
-    };
+        this.state = {
+            translationsLoaded: false
+        };
 
-    loadTranslations(props.language).then(() => {
-      this.setState({ translationsLoaded: true });
-    });
+        loadTranslations(props.language).then(() => {
+            this.setState({ translationsLoaded: true });
+        });
 
-    this.phoneMediaQuery = getScreenSizeMatchMedia();
-    this.phoneMediaQuery.addListener(this.onPhoneMediaQueryChange.bind(this));
-  }
-
-  public onPhoneMediaQueryChange(media) {
-    if (media.matches) {
-      this.props.onScreenSizeChange(DeviceScreenSize.SMALL);
-    } else {
-      this.props.onScreenSizeChange(DeviceScreenSize.BIG);
+        this.phoneMediaQuery = getScreenSizeMatchMedia();
+        this.phoneMediaQuery.addListener(this.onPhoneMediaQueryChange.bind(this));
     }
-  }
 
-  public handleRouteChange(route: RouterOnChangeArgs) {
-    // console.log(route);
-    this.props.onRouteChange(route.current.attributes.config);
-  }
+    public onPhoneMediaQueryChange(media) {
+        if (media.matches) {
+            this.props.onScreenSizeChange(DeviceScreenSize.SMALL);
+        } else {
+            this.props.onScreenSizeChange(DeviceScreenSize.BIG);
+        }
+    }
 
-  public render(props: RenderableProps<IProps>) {
-    // console.log("app props", props);
-    return (
-      <div class="app-root">
-        {this.state.translationsLoaded && (
-          <DefaultLayout>
-            <Router history={props.history} onChange={this.handleRouteChange.bind(this)}>
-              {ROUTES.map(route => (
-                <AsyncRoute {...route} />
-              ))}
-            </Router>
-          </DefaultLayout>
-        )}
-      </div>
-    );
-  }
+    public handleRouteChange(route: RouterOnChangeArgs) {
+        // console.log(route);
+        this.props.onRouteChange(route.current.attributes.config);
+    }
+
+    public render(props: RenderableProps<IProps>) {
+        // console.log("app props", props);
+        return (
+            <div class="app-root">
+                {this.state.translationsLoaded && (
+                    <DefaultLayout>
+                        <Router
+                            history={props.history}
+                            onChange={this.handleRouteChange.bind(this)}
+                        >
+                            {ROUTES.map(route => (
+                                <AsyncRoute {...route} />
+                            ))}
+                        </Router>
+                    </DefaultLayout>
+                )}
+            </div>
+        );
+    }
 }

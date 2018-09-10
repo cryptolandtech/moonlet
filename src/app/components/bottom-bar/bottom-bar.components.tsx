@@ -4,20 +4,20 @@ import { BottomNavigation } from '../material-components/bottom-navigation/botto
 import { Platform } from '../../types';
 
 interface IProps {
-  platform: Platform;
+    platform: Platform;
 }
 
 export class BottomBar extends Component<IProps> {
-  public render(props: RenderableProps<IProps>) {
-    return (
-      <BottomNavigation>
-        <BottomNavigation.Action icon="dashboard" label="Dashboard" href="/dashboard" />
-        <BottomNavigation.Action icon="arrow_upward" label="Send" href="/send" />
-        <BottomNavigation.Action icon="input" label="Receive" href="/receive" />
-        {props.platform === Platform.EXTENSION && (
-          <BottomNavigation.Action icon="settings" label="Settings" href="/settings" />
-        )}
-      </BottomNavigation>
-    );
-  }
+    public render(props: RenderableProps<IProps>) {
+        return (
+            <BottomNavigation>
+                <BottomNavigation.Action icon="dashboard" label="Dashboard" href="/dashboard" />
+                <BottomNavigation.Action icon="arrow_upward" label="Send" href="/send" />
+                <BottomNavigation.Action icon="input" label="Receive" href="/receive" />
+                {props.platform === Platform.EXTENSION && (
+                    <BottomNavigation.Action icon="settings" label="Settings" href="/settings" />
+                )}
+            </BottomNavigation>
+        );
+    }
 }

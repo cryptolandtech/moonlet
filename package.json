@@ -1,61 +1,61 @@
 {
-  "private": true,
-  "name": "moonlet",
-  "version": "0.1.0",
-  "license": "MIT",
-  "scripts": {
-    "start": "npm run dev:web",
-    "build": "npm run build:web -- --dest build/web",
-    "deploy": "npm run build && npx firebase deploy --token $FIREBASE_TOKEN",
-    "build:web": "preact build --config ./config/web.config.js --template src/web/index.html --no-prerender",
-    "build:ext": "preact build --config ./config/extension.config.js --template src/extension/index.html --no-prerender",
-    "dev:web": "preact watch --config ./config/web.config.js --template src/web/index.html ",
-    "dev:ext": "preact watch --config ./config/extension.config.js --template src/extension/index.html ",
-    "lint": "tslint --fix 'src/**/*.{ts,tsx}'",
-    "prettier": "prettier --write \"**/*.{ts,tsx,scss,json}\" --ignore-path .gitignore",
-    "test": "echo \"Tests are not running...\""
-  },
-  "eslintConfig": {
-    "extends": "eslint-config-synacor"
-  },
-  "eslintIgnore": ["build/*"],
-  "devDependencies": {
-    "@types/chrome": "0.0.73",
-    "eslint": "^4.5.0",
-    "eslint-config-synacor": "^1.1.0",
-    "firebase-tools": "^4.0.3",
-    "husky": "^1.0.0-rc.13",
-    "if-env": "^1.0.0",
-    "lint-staged": "^7.2.2",
-    "node-sass": "^4.9.2",
-    "preact-cli": "^2.0.0",
-    "preact-cli-plugin-typescript": "^0.2.2",
-    "prettier": "1.14.2",
-    "sass-loader": "^7.1.0",
-    "tslint": "^5.11.0",
-    "tslint-config-prettier": "^1.15.0",
-    "typescript": "^2.4",
-    "web-ext-types": "^2.1.0",
-    "write-file-webpack-plugin": "^4.3.2"
-  },
-  "dependencies": {
-    "history": "^4.7.2",
-    "preact": "^8.2.1",
-    "preact-async-route": "^2.2.1",
-    "preact-compat": "^3.17.0",
-    "preact-material-components": "^1.5.1",
-    "preact-redux": "2.0.2",
-    "preact-router": "^2.6.1",
-    "redux": "^3.6.0",
-    "redux-thunk": "2.2.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
+    "private": true,
+    "name": "moonlet",
+    "version": "0.1.0",
+    "license": "MIT",
+    "scripts": {
+        "start": "npm run dev:web",
+        "build": "npm run build:web -- --dest build/web",
+        "deploy": "npm run build && npx firebase deploy --token $FIREBASE_TOKEN",
+        "build:web": "preact build --config ./config/web.config.js --template src/web/index.html --no-prerender",
+        "build:ext": "preact build --config ./config/extension.config.js --template src/extension/index.html --no-prerender",
+        "dev:web": "preact watch --config ./config/web.config.js --template src/web/index.html ",
+        "dev:ext": "preact watch --config ./config/extension.config.js --template src/extension/index.html ",
+        "lint": "tslint --fix 'src/**/*.{ts,tsx}'",
+        "prettier": "prettier --write \"**/*.{ts,tsx,scss,json}\" --ignore-path .gitignore",
+        "test": "echo \"Tests are not running...\""
+    },
+    "eslintConfig": {
+        "extends": "eslint-config-synacor"
+    },
+    "eslintIgnore": ["build/*"],
+    "devDependencies": {
+        "@types/chrome": "0.0.73",
+        "eslint": "^4.5.0",
+        "eslint-config-synacor": "^1.1.0",
+        "firebase-tools": "^4.0.3",
+        "husky": "^1.0.0-rc.13",
+        "if-env": "^1.0.0",
+        "lint-staged": "^7.2.2",
+        "node-sass": "^4.9.2",
+        "preact-cli": "^2.0.0",
+        "preact-cli-plugin-typescript": "^0.2.2",
+        "prettier": "1.14.2",
+        "sass-loader": "^7.1.0",
+        "tslint": "^5.11.0",
+        "tslint-config-prettier": "^1.15.0",
+        "typescript": "^2.4",
+        "web-ext-types": "^2.1.0",
+        "write-file-webpack-plugin": "^4.3.2"
+    },
+    "dependencies": {
+        "history": "^4.7.2",
+        "preact": "^8.2.1",
+        "preact-async-route": "^2.2.1",
+        "preact-compat": "^3.17.0",
+        "preact-material-components": "^1.5.1",
+        "preact-redux": "2.0.2",
+        "preact-router": "^2.6.1",
+        "redux": "^3.6.0",
+        "redux-thunk": "2.2.0"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{ts,tsx,scss,json}": ["npm run prettier", "git add"],
+        "*.{ts,tsx}": ["npm run lint", "git add"]
     }
-  },
-  "lint-staged": {
-    "*.{ts,tsx,scss,json}": ["npm run prettier", "git add"],
-    "*.{ts,tsx}": ["npm run lint", "git add"]
-  }
 }
