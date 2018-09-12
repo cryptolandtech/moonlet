@@ -2,6 +2,14 @@
 @import 'preact-material-components/Button/mixins';
 @import '../../styles/base';
 
+$mdc-layout-grid-breakpoints: (
+    desktop: 512px,
+    tablet: 280px,
+    phone: 0px
+);
+
+@import '~preact-material-components/LayoutGrid/mdc-layout-grid.scss';
+
 .create-wallet-page {
     height: 100vh;
     background-color: $mdc-theme-on-primary;
@@ -54,6 +62,7 @@
     #hidden-words-text {
         text-align: center;
     }
+
     #eye {
         height: 64px;
         padding-top: 100px;
