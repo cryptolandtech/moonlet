@@ -3,40 +3,81 @@
 @import '../../styles/base';
 
 .create-wallet-page {
-  height: 100vh;
-  background-color: $mdc-theme-on-primary;
-  color: gray;
-  white-space: pre-wrap;
-  word-wrap: break-word;
+    height: 100vh;
+    background-color: $mdc-theme-on-primary;
+    color: gray;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 
-  .left-text {
-    padding-top: 2em;
+    .left-text {
+        padding-top: 2em;
 
-    padding-bottom: 2em;
+        padding-bottom: 2em;
 
-    text-align: left;
-    font-size: 17px;
-  }
+        text-align: left;
+        font-size: 17px;
+    }
 
-  .margin-top {
-    margin-top: 2em;
-  }
+    .margin-top {
+        margin-top: 2em;
+    }
 
-  .padding-left-right {
-    padding-left: 2em;
-    padding-right: 2em;
-  }
+    .padding-left-right {
+        padding-left: 2em;
+        padding-right: 2em;
+    }
 
-  .backup-button {
-    @include mdc-button-container-fill-color(#dddddd);
-    @include mdc-button-ink-color(grey);
-    width: 28em;
-  }
+    .backup-button {
+        @include mdc-button-container-fill-color(#dddddd);
+        @include mdc-button-ink-color(grey);
+        width: 28em;
+    }
 
-  .hidden {
-    background-color: $mdc-theme-primary;
-  }
-  .center {
-    text-align: center;
-  }
+    .copy-to-clipboard {
+        color: black;
+        margin-top: 2em;
+    }
+
+    #words {
+        height: 0px;
+        width: 0px;
+        overflow: hidden;
+        position: absolute;
+        left: -10px;
+    }
+
+    #hidden-words {
+        background-color: $mdc-theme-primary;
+        height: 300px;
+    }
+
+    #hidden-words-text {
+        text-align: center;
+    }
+    #eye {
+        height: 64px;
+        padding-top: 100px;
+    }
+
+    .secret-word {
+        background-color: #dddddd;
+        color: black;
+        font-size: 17px;
+        padding: 10px;
+        margin: 10px;
+        width: 7em;
+        height: 2em;
+        text-align: center;
+    }
+    .words-grid {
+        width: 500px;
+        height: 300px;
+    }
+
+    .hidden {
+        background-color: $mdc-theme-primary;
+    }
+    .center {
+        text-align: center;
+    }
 }

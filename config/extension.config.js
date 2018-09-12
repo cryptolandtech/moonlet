@@ -48,6 +48,9 @@ export default function (config, env, helpers) {
             return bundle;
         });
     }
+    
+    // disable hot reload for extension -> do a full page reload
+    config.devServer.hot = false;
 
     // used for dev to load component in browser
     config.plugins.push(

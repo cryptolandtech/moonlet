@@ -1,34 +1,37 @@
 @import '../../styles/base';
 
 .material-icons.md-dark {
-  color: grey;
+    color: grey;
 }
 
 .top-bar {
-  .top-appbar-icon {
-    width: 24px;
-    height: 24px;
-    margin-left: 16px;
-  }
+    .top-appbar-icon {
+        width: 24px;
+        height: 24px;
+        margin-left: 16px;
+    }
 
-  .no-grow {
-    flex-grow: 0;
-  }
+    .no-grow {
+        flex-grow: 0;
+    }
+    .title {
+        width: 100%;
+        text-align: left;
+        color: grey;
+    }
 
-  .title {
-    width: 100%;
-    text-align: left;
-    color: grey;
-  }
+    .center {
+        text-align: center;
+    }
 
-  .center {
-    text-align: center;
-  }
+    .grey {
+        color: grey;
+    }
 
-  .right-text {
-    text-align: left;
-    color: grey;
-    padding-right: 2em;
-    font-size: 20px;
-  }
+    .right-text {
+        text-align: left;
+
+        padding-right: 2em;
+        font-size: 20px;
+    }
 }

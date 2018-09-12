@@ -7,8 +7,9 @@ script:
   - echo "Deploy!!"
 install:
   - npm install
+  - npm run lint
 after_success:
-  - npx firebase deploy --token $FIREBASE_TOKEN
+  - npm run deploy
 env:
   global:
     - secure: NboopVz3CX7c9r4TRiHcHlZCPNlbVKEDnD819rlDsvDzA5nrEn6d7C3JG3O7oABgPWRL5UsdkximHizWvmv7ky5Ua1ocgPUTvhEsT0mdAy9dXtEDmpzg1fAw38CyWuRlLJQ/ZIhhWPnphIPUaBUlvRHaUOoUIMbB87fDrankOE6cxXdkM8hgZcMLbasxf9JNRoKT3tOe9uMZM78PKqE9JK7l+z4PhEf8i158pzlcaSbagQjdumzaX124mXDe4koV690z732KhPxSl8FtAzGfYgso+BB4feHDA2P03WpV+YFijTfAhPTKh9EqU5081bHRbwQzfjdu0QaHupN6JC+dvgX1138zAGy9JiL/SxaNcvHjGrJf6UmO3CUp+RqEUbroKMt3hhK3Ito7Pxb4UCTLYeUe7qzAm3yY51BYyMG+vayR7x16kCS3BRe5sGsD0c7UNjKcaCxY7JWFX3Ce3ggwgY/UK1QvfzEKm8OqGu9/+PnXH/923OSxueDI0UROfxbzn6aMCVQXqYcpUNEq1QKOpCW9a5+6UHSOeLDaEtVCVB70EsJE6NqMoHLlDRF93kxgb1IEM6m3ift5hapcr/Su1mCofpJkP2VVFpxJxnogN5U1BuG+9Hx9ug09Laz6bsm7B2htoAelWB+oNH+Mt9HoA4Wg4op28BCe+Awm8noKxZM=
