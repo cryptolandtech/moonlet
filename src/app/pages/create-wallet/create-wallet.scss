@@ -1,21 +1,10 @@
-@import 'preact-material-components/Card/mixins';
-@import 'preact-material-components/Button/mixins';
 @import '../../styles/base';
-
-$mdc-layout-grid-breakpoints: (
-    desktop: 512px,
-    tablet: 280px,
-    phone: 0px
-);
-
-@import '~preact-material-components/LayoutGrid/mdc-layout-grid.scss';
 
 .create-wallet-page {
     height: 100vh;
     background-color: $mdc-theme-on-primary;
     color: gray;
     white-space: pre-wrap;
-    word-wrap: break-word;
 
     .left-text {
         padding-top: 2em;
@@ -23,11 +12,15 @@ $mdc-layout-grid-breakpoints: (
         padding-bottom: 2em;
 
         text-align: left;
-        font-size: 17px;
+        font-size: 0.9em;
     }
 
     .margin-top {
         margin-top: 2em;
+    }
+
+    .title {
+        font-size: 1.45em;
     }
 
     .padding-left-right {
@@ -38,7 +31,7 @@ $mdc-layout-grid-breakpoints: (
     .backup-button {
         @include mdc-button-container-fill-color(#dddddd);
         @include mdc-button-ink-color(grey);
-        width: 28em;
+        width: 18em;
     }
 
     .copy-to-clipboard {
@@ -56,31 +49,38 @@ $mdc-layout-grid-breakpoints: (
 
     #hidden-words {
         background-color: $mdc-theme-primary;
-        height: 300px;
+        height: 15em;
     }
 
     #hidden-words-text {
         text-align: center;
+        font-size: 0.8em;
     }
 
     #eye {
-        height: 64px;
-        padding-top: 100px;
+        padding-top: 5em;
+        color: grey;
     }
 
     .secret-word {
         background-color: #dddddd;
         color: black;
-        font-size: 17px;
-        padding: 10px;
-        margin: 10px;
-        width: 7em;
+        font-size: 0.7em;
+        padding: 0.3em;
+        margin: 0.3em;
+        width: 6em;
         height: 2em;
         text-align: center;
     }
+
+    .inner {
+        //display:flex;
+        @include mdc-layout-grid-fixed-column-width(phone, 5px, 5px, 10px);
+    }
+
     .words-grid {
-        width: 500px;
-        height: 300px;
+        width: 30em;
+        height: 15em;
     }
 
     .hidden {
