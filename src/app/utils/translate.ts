@@ -1,5 +1,4 @@
 import { ITranslations, ITranslation } from '../translations/types';
-import { translation } from '../translations/en';
 
 /**
  * Plural specs:
