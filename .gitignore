@@ -5,3 +5,4 @@ node_modules
 /*.log
 .idea
 preact.config.js
+coverage

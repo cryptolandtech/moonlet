@@ -20,6 +20,14 @@ module.exports = {
     },
     "setupFiles": [
         "<rootDir>/src/tests/global-setup.ts"
-    ]
+    ],
+    "collectCoverage": true,
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+        "src/app/**/*.{ts,tsx}",
+        "!src/tests/**",
+        "!**/node_modules/**",
+        "!**/vendor/**"
+      ]
 
   }
