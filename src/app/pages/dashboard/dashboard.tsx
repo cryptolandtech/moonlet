@@ -1,9 +1,12 @@
 import { Component, h } from 'preact';
 
-import Card, { CardMediaContent } from 'preact-material-components/Card';
+import Card from 'preact-material-components/Card';
 import Icon from 'preact-material-components/Icon';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
 import './dashboard.scss';
+import List from 'preact-material-components/List';
+import Elevation from 'preact-material-components/Elevation';
+import { Translate } from '../../components/translate/translate.component';
 
 export class DashboardPage extends Component<any, any> {
     private textareaElement: HTMLTextAreaElement;
@@ -21,46 +24,74 @@ export class DashboardPage extends Component<any, any> {
         return (
             <div className="dashboard-page">
                 <LayoutGrid>
-                    <LayoutGrid.Cell cols={12}>
-                        <Card className="balance-card">
-                            <CardMediaContent className="balance-card-text">
-                                <p className="mdc-typography--body2">Total Balance</p>
+                    <LayoutGrid.Inner>
+                        <LayoutGrid.Cell cols={4} tabletCols={8}>
+                            <Card className="card balance-card">
+                                <Translate
+                                    text="DashboardPage.totalBalance"
+                                    tag="p"
+                                    className="mdc-typography--body2"
+                                />
                                 <p className="mdc-typography--headline5">
                                     {this.state.coin} {this.state.balance}
                                 </p>
-                            </CardMediaContent>
-                        </Card>
-                    </LayoutGrid.Cell>
-                    <LayoutGrid.Cell cols={12}>
-                        <Card className="address-card">
-                            <CardMediaContent className="address-card-text">
-                                <p className="mdc-typography--body2">Wallet address</p>
+                            </Card>
+                        </LayoutGrid.Cell>
+                        <LayoutGrid.Cell cols={8}>
+                            <Card className="card address-card">
+                                <Translate
+                                    text="DashboardPage.walletAddress"
+                                    tag="p"
+                                    className="mdc-typography--body2"
+                                />
                                 <textarea
                                     readOnly={true}
                                     // spellcheck={false}
-                                    className="mdc-typography--headline5 textarea"
+                                    className="mdc-typography--headline5 address-textarea"
                                     ref={el => (this.textareaElement = el)}
+                                    style="width: auto"
+                                    rows={2}
                                 >
                                     {this.state.address}
                                 </textarea>
-                                <Icon className="icon" onClick={() => this.copyToClipboard()}>
-                                    file_copy
-                                </Icon>
-                            </CardMediaContent>
-                            <Card.ActionButton
-                                ripple
-                                className="copy-button"
-                                onClick={() => this.copyToClipboard()}
-                            >
-                                Copy
-                            </Card.ActionButton>
-                        </Card>
-                    </LayoutGrid.Cell>
-                    <LayoutGrid.Cell>
-                        <p className="center mdc-typography--caption">
-                            No transaction history is available at this moment.
-                        </p>
-                    </LayoutGrid.Cell>
+
+                                <Card.Actions>
+                                    <Card.ActionButton
+                                        ripple
+                                        className="copy-button"
+                                        onClick={() => this.copyToClipboard()}
+                                    >
+                                        <Icon>file_copy</Icon>
+                                        <Translate text="DashboardPage.copy" />
+                                    </Card.ActionButton>
+                                </Card.Actions>
+                            </Card>
+                        </LayoutGrid.Cell>
+
+                        <LayoutGrid.Cell cols={12}>
+                            <Elevation z={2}>
+                                <List className="transactions-list" two-line={true}>
+                                    {[1, 2, 3].map(() => (
+                                        <div>
+                                            <List.Item>
+                                                <List.ItemGraphic>file_copy</List.ItemGraphic>
+                                                <List.TextContainer>
+                                                    <List.PrimaryText>
+                                                        ZIL 1,000.00000000
+                                                    </List.PrimaryText>
+                                                    <List.SecondaryText>
+                                                        05/07/2018 4:23:38 PM
+                                                    </List.SecondaryText>
+                                                </List.TextContainer>
+                                                <List.ItemMeta>keyboard_arrow_right</List.ItemMeta>
+                                            </List.Item>
+                                            <List.Divider />
+                                        </div>
+                                    ))}
+                                </List>
+                            </Elevation>
+                        </LayoutGrid.Cell>
+                    </LayoutGrid.Inner>
                 </LayoutGrid>
             </div>
         );

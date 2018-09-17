@@ -1,3 +1,4 @@
+import { DashboardPage } from './../pages/dashboard/dashboard';
 import { ITranslations } from './types';
 
 export const translation: ITranslations = {
@@ -19,6 +20,11 @@ export const translation: ITranslations = {
             title: 'Moonlet',
             createNewWallet: 'Create new wallet',
             restoreExistingWallet: 'Restore existing wallet'
+        },
+        DashboardPage: {
+            totalBalance: 'Total Balance',
+            walletAddress: 'Wallet address',
+            copy: 'Copy'
         }
     },
     plural: (n: number, ord: boolean) => {

@@ -5,3 +5,4 @@ node_modules
 /*.log
 preact.config.js
 coverage
+.vscode
