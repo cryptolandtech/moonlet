@@ -20,15 +20,17 @@ export const translation: ITranslations = {
             createNewWallet: 'Create new wallet',
             restoreExistingWallet: 'Restore existing wallet'
         },
-        CreateNewWalletPage: {
+        CreateWalletPage: {
             title: 'Create New Wallet',
-            subtitle: 'Backup Secret Phrase',
-            warning:
-                'WARNING: Never disclose your secret phrase. Anyone with this phrase can take your funds forever.',
-            tips:
-                "Backup Tips: It's important to backup this secret phrase securely where nobody else can access it, such as on a piece of paper or in a password manager. Don't email or screenshot the secret phrase. ",
-            confirmBackup: 'CONFIRM BACKUP',
-            copyToClipboard: 'COPY TO CLIPBOARD'
+            step1: {
+                subtitle: 'Backup Secret Phrase',
+                warning:
+                    'WARNING: Never disclose your secret phrase. Anyone with this phrase can take your funds forever.',
+                tips:
+                    "Backup Tips: It's important to backup this secret phrase securely where nobody else can access it, such as on a piece of paper or in a password manager. Don't email or screenshot the secret phrase. ",
+                confirmBackup: 'Confirm Backup',
+                copyToClipboard: 'Copy to clipboard'
+            }
         }
     },
     plural: (n: number, ord: boolean) => {

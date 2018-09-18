@@ -1,3 +1,4 @@
+import { goBack } from './data/page-config/actions';
 import { Component } from 'preact';
 import { ILayout } from './data/page-config/state';
 import { IRoute } from './routes';
@@ -81,7 +82,7 @@ export const ROUTES: IRoute[] = [
                     topBar: {
                         left: {
                             icon: 'close',
-                            action: { type: 'GO_BACK' }
+                            action: goBack
                         },
                         middle: {
                             type: 'text',

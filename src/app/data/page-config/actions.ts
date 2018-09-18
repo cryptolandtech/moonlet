@@ -24,3 +24,8 @@ export const createChangePage = (routeConfig: IRouteConfig): IAction => {
         }
     };
 };
+
+export const goBack = (): IAction => {
+    history.back();
+    return undefined;
+};

@@ -8,6 +8,7 @@ import './create-wallet.scss';
 import Card from 'preact-material-components/Card';
 
 import { Translate } from '../../components/translate/translate.component';
+import { CreateWalletStep1 } from './components/step1/step1.component';
 
 interface IState {
     words: string[];
@@ -37,13 +38,12 @@ export class CreateWalletPage extends Component<{}, IState> {
     }
 
     public render(props, state) {
-        let wordsList;
+        return <CreateWalletStep1 words={this.state.words} />;
+
+        let wordsList = this.getHiddenWords();
         if (state.revealed) {
             wordsList = this.getRevealedWords(wordsList, state);
-        } else {
-            wordsList = this.getHiddenWords(wordsList);
         }
-
         return this.getPage(wordsList, state);
     }
 
@@ -93,8 +93,8 @@ export class CreateWalletPage extends Component<{}, IState> {
         );
     }
 
-    private getHiddenWords(wordsList) {
-        wordsList = (
+    private getHiddenWords() {
+        return (
             <div
                 id="hidden-words"
                 onClick={() => {
@@ -106,7 +106,6 @@ export class CreateWalletPage extends Component<{}, IState> {
                 <p id="hidden-words-text">Click Here to Reveal Secret Phrase</p>
             </div>
         );
-        return wordsList;
     }
 
     private getRevealedWords(wordsList, state) {

@@ -17,7 +17,7 @@ interface IProps {
 export class DefaultLayout extends Component<IProps> {
     public render(props: RenderableProps<IProps>) {
         return (
-            <div class="default-layout">
+            <div class="default-layout mdc-typography">
                 <TopBar
                     config={props.layout.topBar}
                     screenSize={props.device.screenSize}
