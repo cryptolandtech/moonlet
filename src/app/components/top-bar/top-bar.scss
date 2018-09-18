@@ -10,13 +10,24 @@
     .no-grow {
         flex-grow: 0;
     }
-
     .title {
         width: 100%;
         text-align: left;
+        color: grey;
     }
 
     .center {
         text-align: center;
+    }
+
+    .grey {
+        color: grey;
+    }
+
+    .right-text {
+        text-align: left;
+
+        padding-right: 2em;
+        font-size: 1em;
     }
 }

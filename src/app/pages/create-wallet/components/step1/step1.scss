@@ -1,0 +1,17 @@
+@import '../../../../styles/base';
+
+.create-wallet-step1 {
+    .word-list-overlay {
+        width: 100%;
+        text-align: center;
+
+        .mdc-button {
+            margin: 100px 0;
+        }
+    }
+
+    .confirm-backup.mdc-button:disabled {
+        background-color: #e4e4e4 !important;
+        color: #8e8e8e !important;
+    }
+}

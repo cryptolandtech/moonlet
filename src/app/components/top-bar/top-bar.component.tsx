@@ -18,7 +18,7 @@ export class TopBar extends Component<IProps> {
     public getIcon(config) {
         const onClick = () => (config.action ? this.props.dispatch(config.action) : {});
         let icon = (
-            <TopAppBar.Icon navigation={!!config.action} onClick={onClick}>
+            <TopAppBar.Icon className="grey" navigation={!!config.action} onClick={onClick}>
                 {config.icon}
             </TopAppBar.Icon>
         );
@@ -72,7 +72,6 @@ export class TopBar extends Component<IProps> {
 
         return null;
     }
-
     public getRightSection() {
         const right = this.props.config.right;
 
@@ -83,7 +82,7 @@ export class TopBar extends Component<IProps> {
                     sectionContent = this.getIcon(right);
                     break;
                 case 'text':
-                    sectionContent = <div>{right.text}</div>;
+                    sectionContent = <div className="right-text grey">{right.text}</div>;
             }
 
             return (

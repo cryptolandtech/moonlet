@@ -3,6 +3,8 @@ package-lock.json
 node_modules
 /build
 /*.log
+.idea
 preact.config.js
 coverage
 .vscode
+
