@@ -5,6 +5,7 @@ import Chips from 'preact-material-components/Chips';
 import { Translate } from '../../../../components/translate/translate.component';
 
 import './step2.scss';
+import { removeType } from '../../../../utils/remove-type';
 
 interface IProps {
     words: string[];
@@ -37,12 +38,14 @@ export class CreateWalletStep2 extends Component<IProps, IState> {
                         <Translate text="CreateWalletPage.step2.secretPhrase" />
                     </legend>
                     <Chips>
-                        {this.state.selectedWords.map(word => (
-                            <Chips.Chip onClick={() => this.removeWord(word)}>
-                                <Chips.Text>{word}</Chips.Text>
-                                <Chips.Icon>close</Chips.Icon>
-                            </Chips.Chip>
-                        ))}
+                        {this.state.selectedWords.map(word =>
+                            removeType(
+                                <Chips.Chip onClick={() => this.removeWord(word)}>
+                                    {removeType(<Chips.Text>{word}</Chips.Text>)}
+                                    {removeType(<Chips.Icon>close</Chips.Icon>)}
+                                </Chips.Chip>
+                            )
+                        )}
                     </Chips>
                 </fieldset>
                 <Translate
@@ -52,11 +55,13 @@ export class CreateWalletStep2 extends Component<IProps, IState> {
                 />
 
                 <Chips className="shuffled-words">
-                    {this.state.shuffledWords.map(word => (
-                        <Chips.Chip onClick={() => this.addWord(word)}>
-                            <Chips.Text>{word}</Chips.Text>
-                        </Chips.Chip>
-                    ))}
+                    {this.state.shuffledWords.map(word =>
+                        removeType(
+                            <Chips.Chip onClick={() => this.addWord(word)}>
+                                {removeType(<Chips.Text>{word}</Chips.Text>)}
+                            </Chips.Chip>
+                        )
+                    )}
                 </Chips>
 
                 <Button className="back" onClick={this.onBackClick.bind(this)}>

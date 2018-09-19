@@ -3,6 +3,7 @@ import { Translate } from '../../../../components/translate/translate.component'
 import Button from 'preact-material-components/Button';
 import Chips from 'preact-material-components/Chips';
 import Dialog from 'preact-material-components/Dialog';
+import { removeType } from '../../../../utils/remove-type';
 
 import './step1.scss';
 import { LayoutGrid } from 'preact-material-components/LayoutGrid';
@@ -33,18 +34,22 @@ export class CreateWalletStep1 extends Component<IProps, IState> {
         let list;
         if (this.state.wordsVisible) {
             list = (
-                <Chips>
-                    {this.props.words.map(word => (
-                        <Chips.Chip>
-                            <Chips.Text>{word}</Chips.Text>
-                        </Chips.Chip>
-                    ))}
+                <div>
+                    <Chips>
+                        {this.props.words.map(word =>
+                            removeType(
+                                <Chips.Chip>
+                                    {removeType(<Chips.Text>{word}</Chips.Text>)}
+                                </Chips.Chip>
+                            )
+                        )}
+                    </Chips>
                     <div class="copy-button-wrapper">
                         <Button ripple onClick={this.copyToClipboard.bind(this)}>
                             <Translate text="CreateWalletPage.step1.copyToClipboard" />
                         </Button>
                     </div>
-                </Chips>
+                </div>
             );
         } else {
             list = (

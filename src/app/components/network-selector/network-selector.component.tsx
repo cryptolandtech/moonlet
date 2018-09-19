@@ -1,25 +1,23 @@
 import { h, Component, render } from 'preact';
 import Chips from 'preact-material-components/Chips';
+import { removeType } from '../../utils/remove-type';
 
 import './network-selector.scss';
 
 export class NetworkSelector extends Component {
-    public removeType(content): any {
-        return content;
-    }
     public render() {
         return (
             <div class="network-selector">
                 <Chips>
-                    {this.removeType(
+                    {removeType(
                         <Chips.Chip>
-                            {this.removeType(
+                            {removeType(
                                 <Chips.Text>
                                     <div class="circle" />
                                 </Chips.Text>
                             )}
-                            {this.removeType(<Chips.Text>Main Zilliqa Network</Chips.Text>)}
-                            {this.removeType(<Chips.Icon>keyboard_arrow_down</Chips.Icon>)}
+                            {removeType(<Chips.Text>Main Zilliqa Network</Chips.Text>)}
+                            {removeType(<Chips.Icon>keyboard_arrow_down</Chips.Icon>)}
                         </Chips.Chip>
                     )}
                 </Chips>
