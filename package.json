@@ -10,7 +10,7 @@
         "build:web": "preact build --config ./config/web.config.js --template src/web/index.html --no-prerender",
         "build:ext": "preact build --config ./config/extension.config.js --template src/extension/index.html --no-prerender",
         "dev:web": "preact watch --config ./config/web.config.js --template src/web/index.html ",
-        "dev:ext": "preact watch --config ./config/extension.config.js --template src/extension/index.html ",
+        "dev:ext": "preact watch --config ./config/extension.config.js --template src/extension/index.html --port 8181",
         "lint": "tslint --fix 'src/**/*.{ts,tsx}'",
         "prettier": "prettier --write \"**/*.{ts,tsx,scss,json}\" --ignore-path .gitignore",
         "test": "jest"

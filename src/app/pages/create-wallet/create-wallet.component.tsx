@@ -6,15 +6,21 @@ import { CreateWalletStep1 } from './components/step1/step1.component';
 import { CreateWalletStep2 } from './components/step2/step2.component';
 import { route } from 'preact-router';
 import { CreatePassword } from '../../components/create-password/create-password.component';
+import { Platform } from '../../types';
+import { setWallet } from '../../mock/wallet';
+
+interface IProps {
+    platform: Platform;
+}
 
 interface IState {
     words: string[];
     step: number;
 }
 
-export class CreateWalletPage extends Component<{}, IState> {
-    constructor() {
-        super();
+export class CreateWalletPage extends Component<IProps, IState> {
+    constructor(props: IProps) {
+        super(props);
         this.state = {
             words: [
                 'Word 1',
@@ -58,12 +64,22 @@ export class CreateWalletPage extends Component<{}, IState> {
                 content = (
                     <CreatePassword
                         onBack={() => this.setState({ step: 2 })}
-                        onComplete={password => route('/dashboard')}
+                        onComplete={this.onWalletCreated.bind(this)}
                     />
                 );
                 break;
         }
 
         return <div class="create-wallet-page">{content}</div>;
+    }
+
+    public onWalletCreated(password: string) {
+        if (this.props.platform === Platform.EXTENSION) {
+            setWallet({
+                password
+            });
+        }
+
+        route('/dashboard');
     }
 }

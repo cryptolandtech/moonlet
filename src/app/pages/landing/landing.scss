@@ -20,6 +20,12 @@
         text-align: center;
     }
 
+    .password-input-wrapper {
+        .mdc-text-field {
+            background: white;
+        }
+    }
+
     .restore-wallet {
         @include mdc-button-container-fill-color(white);
         @include mdc-button-ink-color($mdc-theme-primary);

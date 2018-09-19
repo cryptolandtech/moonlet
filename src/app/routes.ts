@@ -75,7 +75,7 @@ export const ROUTES: IRoute[] = [
         name: 'createWallet',
         path: '/create-wallet',
         getComponent: () =>
-            Promise.resolve(require('./pages/create-wallet/create-wallet').CreateWalletPage),
+            Promise.resolve(require('./pages/create-wallet/create-wallet.container').default),
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.ALL]: {

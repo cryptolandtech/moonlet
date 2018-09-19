@@ -21,7 +21,9 @@ export const translation: ITranslations = {
         LandingPage: {
             title: 'Moonlet',
             createNewWallet: 'Create new wallet',
-            restoreExistingWallet: 'Restore existing wallet'
+            restoreExistingWallet: 'Restore existing wallet',
+            signIn: 'Sign in',
+            enterPassword: 'Enter password'
         },
         DashboardPage: {
             totalBalance: 'Total Balance',
