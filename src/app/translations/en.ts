@@ -9,7 +9,10 @@ export const translation: ITranslations = {
                 send: 'Send',
                 receive: 'Receive',
                 settings: 'Settings',
-                signOut: 'Sign out'
+                signOut: 'Sign out',
+                yes: 'Yes',
+                no: 'No',
+                back: 'Back'
             }
         },
         DrawerMenu: {
@@ -35,7 +38,35 @@ export const translation: ITranslations = {
                 tips:
                     "Backup Tips: It's important to backup this secret phrase securely where nobody else can access it, such as on a piece of paper or in a password manager. Don't email or screenshot the secret phrase. ",
                 confirmBackup: 'Confirm Backup',
-                copyToClipboard: 'Copy to clipboard'
+                copyToClipboard: 'Copy to clipboard',
+                revealSecretPhrase: 'Reveal Secret Phrase',
+                confirmationDialog: {
+                    title: 'Re-confirm Backup',
+                    body:
+                        'Did you understand that if you loose your secret phrase, you will not be able to restore your wallet and access your founds ?'
+                }
+            },
+            step2: {
+                subtitle: 'Validate Secret Phrase',
+                secretPhrase: 'Secret phrase',
+                secretPhraseLegend:
+                    "Let's make sure you have copied your secret phrase correctly. Click the words below in the correct order.",
+                validateSecret: 'Validate secret phrase'
+            },
+            step3: {
+                subtitle: 'Create Password',
+                body:
+                    'Setup a password to store your data securely. It will be required next time you want to access your wallet.',
+                createPassword: 'Create password',
+                enterPassword: 'Enter Password',
+                confirmPassword: 'Confirm Password',
+                validations: {
+                    match: 'Passwords should match',
+                    tenChars: '10 or more characters long',
+                    numbers: 'At least one number',
+                    lowercase: 'At least one lowercase character',
+                    uppercase: 'At least one UPPERCASE character'
+                }
             }
         }
     },

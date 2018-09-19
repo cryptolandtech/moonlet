@@ -1,0 +1,32 @@
+@import '../../../../styles/base';
+
+.create-wallet-step2 {
+    color: rgba(0, 0, 0, 0.6);
+    padding: 16px;
+
+    .selected-words {
+        border: 2px solid $mdc-theme-primary;
+        border-radius: 5px;
+        min-height: 50px;
+        margin: 16px 0 5px 0;
+
+        legend {
+            margin: 0 8px;
+            padding: 0 8px;
+            font-size: 12px;
+            color: $mdc-theme-primary;
+        }
+    }
+
+    .error {
+        color: red;
+    }
+
+    .shuffled-words {
+        margin: 16px 0 32px 0;
+    }
+
+    .back.mdc-button {
+        margin-right: 8px;
+    }
+}
