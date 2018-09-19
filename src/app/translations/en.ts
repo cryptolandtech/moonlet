@@ -1,4 +1,3 @@
-import { DashboardPage } from './../pages/dashboard/dashboard';
 import { ITranslations } from './types';
 
 export const translation: ITranslations = {
@@ -52,21 +51,31 @@ export const translation: ITranslations = {
                 secretPhraseLegend:
                     "Let's make sure you have copied your secret phrase correctly. Click the words below in the correct order.",
                 validateSecret: 'Validate secret phrase'
-            },
-            step3: {
-                subtitle: 'Create Password',
-                body:
-                    'Setup a password to store your data securely. It will be required next time you want to access your wallet.',
-                createPassword: 'Create password',
-                enterPassword: 'Enter Password',
-                confirmPassword: 'Confirm Password',
-                validations: {
-                    match: 'Passwords should match',
-                    tenChars: '10 or more characters long',
-                    numbers: 'At least one number',
-                    lowercase: 'At least one lowercase character',
-                    uppercase: 'At least one UPPERCASE character'
-                }
+            }
+        },
+        CreatePassword: {
+            subtitle: 'Create Password',
+            body:
+                'Setup a password to store your data securely. It will be required next time you want to access your wallet.',
+            createPassword: 'Create password',
+            enterPassword: 'Enter Password',
+            confirmPassword: 'Confirm Password',
+            validations: {
+                match: 'Passwords should match',
+                tenChars: '10 or more characters long',
+                numbers: 'At least one number',
+                lowercase: 'At least one lowercase character',
+                uppercase: 'At least one UPPERCASE character'
+            }
+        },
+        ImportWalletPage: {
+            title: 'Restore Existing Wallet',
+            step1: {
+                warning:
+                    'WARNING: Never disclose your secret phrase. Anyone with this phrase can get access to your funds.',
+                secretPhrase: 'Secret phrase',
+                inputHelp: 'Enter your secret phrase and write the words in the correct order.',
+                restoreWallet: 'Restore wallet'
             }
         }
     },

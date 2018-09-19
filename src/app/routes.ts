@@ -102,7 +102,22 @@ export const ROUTES: IRoute[] = [
         path: '/import-wallet',
         getComponent: () =>
             Promise.resolve(require('./pages/import-wallet/import-wallet').ImportWalletPage),
-        config: {}
+        config: {
+            [Platform.ALL]: {
+                [DeviceScreenSize.ALL]: {
+                    topBar: {
+                        left: {
+                            icon: 'close',
+                            action: goBack
+                        },
+                        middle: {
+                            type: 'text',
+                            text: 'Restore Existing Wallet'
+                        }
+                    }
+                }
+            }
+        }
     },
     {
         name: 'send',

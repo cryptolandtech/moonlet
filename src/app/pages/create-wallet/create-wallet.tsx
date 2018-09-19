@@ -4,8 +4,8 @@ import './create-wallet.scss';
 
 import { CreateWalletStep1 } from './components/step1/step1.component';
 import { CreateWalletStep2 } from './components/step2/step2.component';
-import { CreateWalletStep3 } from './components/step3/step3.component';
 import { route } from 'preact-router';
+import { CreatePassword } from '../../components/create-password/create-password.component';
 
 interface IState {
     words: string[];
@@ -56,7 +56,7 @@ export class CreateWalletPage extends Component<{}, IState> {
                 break;
             case 3:
                 content = (
-                    <CreateWalletStep3
+                    <CreatePassword
                         onBack={() => this.setState({ step: 2 })}
                         onComplete={password => route('/dashboard')}
                     />

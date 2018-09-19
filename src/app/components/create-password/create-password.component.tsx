@@ -4,9 +4,9 @@ import Button from 'preact-material-components/Button';
 import TextField from 'preact-material-components/TextField';
 import Icon from 'preact-material-components/Icon';
 
-import './step3.scss';
-import { Translate } from '../../../../components/translate/translate.component';
-import { translate } from '../../../../utils/translate';
+import './create-password.scss';
+import { Translate } from '../translate/translate.component';
+import { translate } from '../../utils/translate';
 
 interface IProps {
     onComplete?: (password?: string) => any;
@@ -26,7 +26,7 @@ interface IState {
     };
 }
 
-export class CreateWalletStep3 extends Component<IProps, IState> {
+export class CreatePassword extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
@@ -47,16 +47,16 @@ export class CreateWalletStep3 extends Component<IProps, IState> {
     public render() {
         return (
             <LayoutGrid className="create-wallet-step3">
-                <Translate text="CreateWalletPage.step3.subtitle" className="subtitle" headline5 />
+                <Translate text="CreatePassword.subtitle" className="subtitle" headline5 />
 
-                <Translate text="CreateWalletPage.step3.body" body2 />
+                <Translate text="CreatePassword.body" body2 />
 
                 <LayoutGrid.Inner>
                     <LayoutGrid.Cell>
                         <TextField
                             type="password"
                             onInput={e => this.onInputChange('password', (e.target as any).value)}
-                            label={translate('CreateWalletPage.step3.createPassword')}
+                            label={translate('CreatePassword.createPassword')}
                             outlined
                         />
                     </LayoutGrid.Cell>
@@ -68,7 +68,7 @@ export class CreateWalletStep3 extends Component<IProps, IState> {
                             onInput={e =>
                                 this.onInputChange('passwordConfirmation', (e.target as any).value)
                             }
-                            label={translate('CreateWalletPage.step3.confirmPassword')}
+                            label={translate('CreatePassword.confirmPassword')}
                             outlined
                         />
                     </LayoutGrid.Cell>
@@ -82,7 +82,7 @@ export class CreateWalletStep3 extends Component<IProps, IState> {
                                     ? 'check_circle_outline'
                                     : 'highlight_off'}
                             </Icon>
-                            <Translate text={'CreateWalletPage.step3.validations.' + rule} />
+                            <Translate text={'CreatePassword.validations.' + rule} />
                         </p>
                     ))}
                 </div>
@@ -98,7 +98,7 @@ export class CreateWalletStep3 extends Component<IProps, IState> {
                     secondary
                     disabled={!this.state.isValid}
                 >
-                    <Translate text="CreateWalletPage.step3.createPassword" />
+                    <Translate text="CreatePassword.createPassword" />
                 </Button>
             </LayoutGrid>
         );

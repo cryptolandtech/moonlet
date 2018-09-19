@@ -38,7 +38,7 @@ export class LandingPage extends Component {
                                 ripple
                                 raised
                                 className="restore-wallet"
-                                onClick={() => route('/dashboard')}
+                                onClick={() => route('/import-wallet')}
                             >
                                 <Translate text="LandingPage.restoreExistingWallet" />
                             </Button>
