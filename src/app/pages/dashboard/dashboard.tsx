@@ -7,6 +7,7 @@ import './dashboard.scss';
 import List from 'preact-material-components/List';
 import Elevation from 'preact-material-components/Elevation';
 import { Translate } from '../../components/translate/translate.component';
+import { route } from 'preact-router';
 
 export class DashboardPage extends Component<any, any> {
     private textareaElement: HTMLTextAreaElement;
@@ -73,7 +74,7 @@ export class DashboardPage extends Component<any, any> {
                                 <List className="transactions-list" two-line={true}>
                                     {[1, 2, 3].map(() => (
                                         <div>
-                                            <List.Item>
+                                            <List.LinkItem href="/transaction/1234567890">
                                                 <List.ItemGraphic>file_copy</List.ItemGraphic>
                                                 <List.TextContainer>
                                                     <List.PrimaryText>
@@ -84,7 +85,7 @@ export class DashboardPage extends Component<any, any> {
                                                     </List.SecondaryText>
                                                 </List.TextContainer>
                                                 <List.ItemMeta>keyboard_arrow_right</List.ItemMeta>
-                                            </List.Item>
+                                            </List.LinkItem>
                                             <List.Divider />
                                         </div>
                                     ))}

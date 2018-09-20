@@ -79,6 +79,15 @@ export const translation: ITranslations = {
                 inputHelp: 'Enter your secret phrase and write the words in the correct order.',
                 restoreWallet: 'Restore wallet'
             }
+        },
+        TransactionDetailsPage: {
+            dateTime: 'Date and time',
+            amount: 'Amount',
+            fees: 'Fees',
+            status: 'Transaction status',
+            from: 'From',
+            recipient: 'Recipient',
+            id: 'Transaction ID'
         }
     },
     plural: (n: number, ord: boolean) => {

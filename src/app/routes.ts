@@ -180,6 +180,30 @@ export const ROUTES: IRoute[] = [
                 }
             }
         }
+    },
+    {
+        name: 'transactionDetails',
+        path: '/transaction/:transactionId',
+        getComponent: () =>
+            Promise.resolve(
+                require('./pages/transaction-details/transaction-details').TransactionDetailsPage
+            ),
+        config: {
+            [Platform.ALL]: {
+                [DeviceScreenSize.ALL]: {
+                    topBar: {
+                        left: {
+                            icon: 'close',
+                            action: goBack
+                        },
+                        middle: {
+                            type: 'text',
+                            text: 'Transaction details'
+                        }
+                    }
+                }
+            }
+        }
     }
 ];
 
