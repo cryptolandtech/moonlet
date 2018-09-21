@@ -1,0 +1,17 @@
+.receive-page {
+    color: gray;
+
+    .card {
+        padding: 16px;
+    }
+
+    .qr-image {
+        width: 100%;
+        height: auto;
+    }
+
+    .address {
+        word-wrap: break-word;
+        margin-top: 16px;
+    }
+}

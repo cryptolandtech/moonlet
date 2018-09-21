@@ -88,6 +88,9 @@ export const translation: ITranslations = {
             from: 'From',
             recipient: 'Recipient',
             id: 'Transaction ID'
+        },
+        ReceivePage: {
+            copyToClipboard: 'Copy to clipboard'
         }
     },
     plural: (n: number, ord: boolean) => {
