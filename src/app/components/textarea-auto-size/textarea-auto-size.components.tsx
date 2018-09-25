@@ -9,6 +9,7 @@ interface IProps {
     label?: string;
     value?: string;
     className?: string;
+    placeholder?: string;
     inputRef?: (el) => any;
 }
 
