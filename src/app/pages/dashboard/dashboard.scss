@@ -16,7 +16,8 @@
     }
 
     .address-textarea {
-        color: gray;
+        color: gray !important;
+        font-size: 1.5rem !important;
         font-family: monospace;
         border: none;
         outline: none;

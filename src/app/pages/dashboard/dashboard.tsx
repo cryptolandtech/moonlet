@@ -8,6 +8,7 @@ import List from 'preact-material-components/List';
 import Elevation from 'preact-material-components/Elevation';
 import { Translate } from '../../components/translate/translate.component';
 import { route } from 'preact-router';
+import { TextareaAutoSize } from '../../components/textarea-auto-size/textarea-auto-size.components';
 
 export class DashboardPage extends Component<any, any> {
     private textareaElement: HTMLTextAreaElement;
@@ -45,7 +46,13 @@ export class DashboardPage extends Component<any, any> {
                                     tag="p"
                                     className="mdc-typography--body2"
                                 />
-                                <textarea
+                                <TextareaAutoSize
+                                    value={this.state.address}
+                                    noBorder
+                                    inputRef={el => (this.textareaElement = el)}
+                                    className="address-textarea"
+                                />
+                                {/* <textarea
                                     readOnly={true}
                                     // spellcheck={false}
                                     className="mdc-typography--headline5 address-textarea"
@@ -54,7 +61,7 @@ export class DashboardPage extends Component<any, any> {
                                     rows={2}
                                 >
                                     {this.state.address}
-                                </textarea>
+                                </textarea> */}
 
                                 <Card.Actions>
                                     <Card.ActionButton
