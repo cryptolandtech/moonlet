@@ -3,6 +3,7 @@
 .textarea-auto-resize {
     box-sizing: border-box;
     width: 100%;
+    margin: 0;
 
     &.outlined {
         border: 2px solid $mdc-theme-primary;
@@ -11,6 +12,9 @@
 
     &.no-border {
         border: 0;
+        .mdc-text-field__input {
+            padding: 0;
+        }
     }
 
     legend {
