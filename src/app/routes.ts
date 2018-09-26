@@ -176,6 +176,13 @@ export const ROUTES: IRoute[] = [
                     topBar: {
                         left: {
                             icon: 'logo'
+                        },
+                        middle: {
+                            type: 'networkSelection'
+                        },
+                        right: {
+                            type: 'icon',
+                            icon: 'launch'
                         }
                     },
                     bottomNav: true
