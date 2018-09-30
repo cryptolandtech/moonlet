@@ -91,6 +91,13 @@ export const translation: ITranslations = {
         },
         ReceivePage: {
             copyToClipboard: 'Copy to clipboard'
+        },
+        SettingsPage: {
+            aboutMoonlet: 'About Moonlet',
+            revealSecretPhrase: 'Reveal Secret Phrase',
+            revealPrivateKey: 'Reveal Private Key',
+            restoreWallet: 'Restore Existing Wallet',
+            passwordRequired: 'Your password is required for the next step'
         }
     },
     plural: (n: number, ord: boolean) => {
