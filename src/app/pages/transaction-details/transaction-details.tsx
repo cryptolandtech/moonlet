@@ -1,6 +1,7 @@
 import { h, Component } from 'preact';
 import List from 'preact-material-components/List';
 import { translate } from '../../utils/translate';
+import { ListItem } from '../../components/list-item/list-item.component';
 
 interface ITransactionListItem {
     icon: string;
@@ -11,29 +12,6 @@ interface ITransactionListItem {
 }
 
 export class TransactionDetailsPage extends Component {
-    public getListItem(details: ITransactionListItem) {
-        const ItemComponent = details.href ? List.LinkItem : List.Item;
-        let itemProps = {};
-
-        if (details.href) {
-            itemProps = {
-                href: details.href,
-                target: details.target || '_self'
-            };
-        }
-
-        return (
-            <ItemComponent {...itemProps}>
-                <List.ItemGraphic>{details.icon}</List.ItemGraphic>
-                <List.TextContainer>
-                    <List.PrimaryText>{details.primaryText}</List.PrimaryText>
-                    <List.SecondaryText>{details.secondaryText}</List.SecondaryText>
-                </List.TextContainer>
-                {details.href && <List.ItemMeta>keyboard_arrow_right</List.ItemMeta>}
-            </ItemComponent>
-        );
-    }
-
     public getTransactionDetails(): ITransactionListItem[] {
         const details: ITransactionListItem[] = [];
 
@@ -96,7 +74,15 @@ export class TransactionDetailsPage extends Component {
         return (
             <List className="transaction-details-page" two-line={true}>
                 {this.getTransactionDetails().map(item => {
-                    return [this.getListItem(item), <List.Divider />];
+                    return [
+                        <ListItem
+                            icon={item.icon}
+                            primaryText={item.primaryText}
+                            secondaryText={item.secondaryText}
+                            href={item.href}
+                            target={item.target}
+                        />
+                    ];
                 })}
             </List>
         );
