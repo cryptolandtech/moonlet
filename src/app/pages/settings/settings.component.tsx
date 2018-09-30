@@ -2,6 +2,9 @@ import { h, Component } from 'preact';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
 import List from 'preact-material-components/List';
 import { ListItem } from '../../components/list-item/list-item.component';
+import Button from 'preact-material-components/Button';
+import { route } from 'preact-router';
+import { Translate } from '../../components/translate/translate.component';
 
 interface IProps {
     icon?: string;
@@ -48,24 +51,37 @@ export class SettingsPage extends Component {
 
     public render() {
         return (
-            <LayoutGrid>
-                <LayoutGrid.Inner>
-                    <LayoutGrid.Cell cols={12}>
-                        <List className="settings-page" two-line={true}>
-                            {this.getSetingsListItems().map(item => {
-                                return [
-                                    <ListItem
-                                        primaryText={item.primaryText}
-                                        secondaryText={item.secondaryText}
-                                        href={item.href}
-                                        target={item.target}
-                                    />
-                                ];
-                            })}
-                        </List>
-                    </LayoutGrid.Cell>
-                </LayoutGrid.Inner>
-            </LayoutGrid>
+            <div className="settings-page">
+                <LayoutGrid>
+                    <LayoutGrid.Inner>
+                        <LayoutGrid.Cell cols={12}>
+                            <List two-line={true}>
+                                {this.getSetingsListItems().map(item => {
+                                    return [
+                                        <ListItem
+                                            primaryText={item.primaryText}
+                                            secondaryText={item.secondaryText}
+                                            href={item.href}
+                                            target={item.target}
+                                        />
+                                    ];
+                                })}
+                            </List>
+                        </LayoutGrid.Cell>
+                        <LayoutGrid.Cell>
+                            <Button
+                                ripple
+                                outlined
+                                onClick={() => {
+                                    route('/');
+                                }}
+                            >
+                                <Translate text="App.labels.signOut" />
+                            </Button>
+                        </LayoutGrid.Cell>
+                    </LayoutGrid.Inner>
+                </LayoutGrid>
+            </div>
         );
     }
 }
