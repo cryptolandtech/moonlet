@@ -5,6 +5,7 @@ import { ListItem } from '../../components/list-item/list-item.component';
 import Button from 'preact-material-components/Button';
 import { route } from 'preact-router';
 import { Translate } from '../../components/translate/translate.component';
+import { translate } from '../../utils/translate';
 
 interface IProps {
     icon?: string;
@@ -19,29 +20,29 @@ export class SettingsPage extends Component {
         const details: IProps[] = [];
 
         details.push({
-            primaryText: 'About Moonlet',
+            primaryText: translate('SettingsPage.aboutMoonlet'),
             secondaryText: '',
             href: '',
             target: '_blank'
         });
 
         details.push({
-            primaryText: 'Reveal Secret Phrase',
-            secondaryText: 'Your password is required for the next step',
+            primaryText: translate('SettingsPage.revealSecretPhrase'),
+            secondaryText: translate('SettingsPage.passwordRequired'),
             href: '',
             target: '_blank'
         });
 
         details.push({
-            primaryText: 'Reveal Private Key',
-            secondaryText: 'Your password is required for the next step',
+            primaryText: translate('SettingsPage.revealPrivateKey'),
+            secondaryText: translate('SettingsPage.passwordRequired'),
             href: '',
             target: '_blank'
         });
 
         details.push({
-            primaryText: 'Restore Existing Wallet',
-            secondaryText: 'Your password is required for the next step',
+            primaryText: translate('SettingsPage.restoreWallet'),
+            secondaryText: translate('SettingsPage.passwordRequired'),
             href: '',
             target: '_blank'
         });
