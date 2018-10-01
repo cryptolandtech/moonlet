@@ -1,4 +1,4 @@
-const preactCliTypeScript = require('preact-cli-plugin-typescript')
+import preactCliTypeScript from "preact-cli-plugin-typescript";
 
 /**
  * Function that mutates original webpack config.
@@ -16,4 +16,7 @@ export default function (config, env, helpers) {
       'process.env.PUBLIC_PATH': JSON.stringify(config.output.publicPath)
     })
   );
+
+  config.node.process = 'mock';
+  config.node.Buffer = true;
 }

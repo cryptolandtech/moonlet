@@ -12,6 +12,7 @@
         "allowJs": true,
         "keyofStringsOnly": true,
         "noImplicitAny": false,
+        "allowSyntheticDefaultImports": true,
         "typeRoots": ["node_modules/@types", "node_modules/web-ext-types"]
     }
 }
