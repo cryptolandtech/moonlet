@@ -54,7 +54,8 @@
         "qrcode.react": "^0.8.0",
         "react-textarea-autosize": "^7.0.4",
         "redux": "^3.6.0",
-        "redux-thunk": "2.2.0"
+        "redux-thunk": "2.2.0",
+        "wws-core.js": "git+https://github.com/cryptolandtech/wws-core.git"
     },
     "husky": {
         "hooks": {
