@@ -38,7 +38,8 @@ export const ROUTES: IRoute[] = [
     {
         name: 'dashboard',
         path: '/dashboard',
-        getComponent: () => Promise.resolve(require('./pages/dashboard/dashboard').DashboardPage),
+        getComponent: () =>
+            Promise.resolve(require('./pages/dashboard/dashboard.container').default),
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.SMALL]: {

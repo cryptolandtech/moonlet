@@ -1,6 +1,8 @@
 @import '../../styles/base';
 
 .top-bar {
+    z-index: 10;
+
     .top-appbar-icon {
         width: 24px;
         height: 24px;

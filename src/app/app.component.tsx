@@ -18,19 +18,15 @@ interface IProps {
 }
 
 interface IState {
+    screenSize: DeviceScreenSize;
     translationsLoaded: boolean;
 }
 
 export default class App extends Component<IProps, IState> {
-    public state;
     private phoneMediaQuery;
 
     constructor(props: RenderableProps<IProps>) {
         super(props);
-
-        this.state = {
-            translationsLoaded: false
-        };
 
         loadTranslations(props.language).then(() => {
             this.setState({ translationsLoaded: true });
@@ -38,12 +34,19 @@ export default class App extends Component<IProps, IState> {
 
         this.phoneMediaQuery = getScreenSizeMatchMedia();
         this.phoneMediaQuery.addListener(this.onPhoneMediaQueryChange.bind(this));
+
+        this.state = {
+            translationsLoaded: false,
+            screenSize: this.phoneMediaQuery.matches ? DeviceScreenSize.SMALL : DeviceScreenSize.BIG
+        };
     }
 
     public onPhoneMediaQueryChange(media) {
         if (media.matches) {
+            this.setState({ screenSize: DeviceScreenSize.SMALL });
             this.props.onScreenSizeChange(DeviceScreenSize.SMALL);
         } else {
+            this.setState({ screenSize: DeviceScreenSize.BIG });
             this.props.onScreenSizeChange(DeviceScreenSize.BIG);
         }
     }
@@ -54,9 +57,10 @@ export default class App extends Component<IProps, IState> {
     }
 
     public render(props: RenderableProps<IProps>) {
-        // console.log("app props", props);
+        const className = `app-root screen-${this.state.screenSize.toLocaleLowerCase()}`;
+
         return (
-            <div class="app-root">
+            <div className={className}>
                 {this.state.translationsLoaded && (
                     <DefaultLayout>
                         <Router

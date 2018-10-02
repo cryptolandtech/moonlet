@@ -1,4 +1,3 @@
-import { IRoute } from '../../routes';
 import { DeviceScreenSize, Platform } from '../../types';
 import { IRouteConfig } from './../../routes';
 import { IAction } from './../action';

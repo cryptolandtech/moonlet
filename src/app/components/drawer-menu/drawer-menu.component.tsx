@@ -5,7 +5,7 @@ import List from 'preact-material-components/List';
 import './drawer-menu.scss';
 import { Link } from 'preact-router/match';
 import { Platform } from '../../types';
-import { NetworkSelector } from '../network-selector/network-selector.component';
+import NetworkSelector from '../network-selector/network-selector.container';
 import { Translate } from '../translate/translate.component';
 
 interface IProps {

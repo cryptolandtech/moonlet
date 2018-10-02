@@ -5,7 +5,7 @@ import { IAction } from '../../data/action';
 import { IDefaultTopBarConfig } from '../../data/page-config/state';
 import { DeviceScreenSize } from '../../types';
 import './top-bar.scss';
-import { NetworkSelector } from '../network-selector/network-selector.component';
+import NetworkSelector from '../network-selector/network-selector.container';
 
 interface IProps {
     config: IDefaultTopBarConfig;

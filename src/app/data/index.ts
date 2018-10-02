@@ -2,13 +2,16 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import { IPageConfig } from './page-config/state';
 import { reducers } from './reducers';
 import reduxThunk from 'redux-thunk';
+import { IWalletState } from './wallet/state';
 
 export interface IState {
     pageConfig: IPageConfig;
+    wallet: IWalletState;
 }
 
 const defaultState: IState = {
-    pageConfig: undefined
+    pageConfig: undefined,
+    wallet: undefined
 };
 
 const composeEnhancers =

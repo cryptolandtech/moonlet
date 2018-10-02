@@ -55,7 +55,7 @@
         "react-textarea-autosize": "^7.0.4",
         "redux": "^3.6.0",
         "redux-thunk": "2.2.0",
-        "wws-core.js": "git+https://github.com/cryptolandtech/wws-core.git"
+        "moonlet-core": "git+https://github.com/cryptolandtech/moonlet-core.git"
     },
     "husky": {
         "hooks": {

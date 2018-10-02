@@ -8,6 +8,8 @@ import { route } from 'preact-router';
 import { CreatePassword } from '../../components/create-password/create-password.component';
 import { Platform } from '../../types';
 import { setWallet } from '../../mock/wallet';
+import { createWallet } from '../../utils/wallet';
+import { Blockchain } from 'moonlet-core/src/core/blockchain';
 
 interface IProps {
     platform: Platform;
@@ -21,21 +23,12 @@ interface IState {
 export class CreateWalletPage extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
+        const wallet = createWallet();
+        wallet.createAccount(Blockchain.ZILLIQA);
+        wallet.createAccount(Blockchain.ETHEREUM);
+
         this.state = {
-            words: [
-                'Word 1',
-                'Word 2',
-                'Word 3',
-                'Word 4',
-                'Word 5',
-                'Word 6',
-                'Word 7',
-                'Word 8',
-                'Word 9',
-                'Word 10',
-                'Word 11',
-                'Word 12'
-            ],
+            words: wallet.mnemonics.split(' '),
             step: 1
         };
     }

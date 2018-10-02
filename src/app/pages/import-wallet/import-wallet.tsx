@@ -4,6 +4,8 @@ import './import-wallet.scss';
 import { CreatePassword } from '../../components/create-password/create-password.component';
 import { route } from 'preact-router';
 import { ImportWalletStep1 } from './step1/step1.component';
+import { createWallet } from '../../utils/wallet';
+import { Blockchain } from 'moonlet-core/src/core/blockchain';
 
 interface IState {
     words: string[];
@@ -33,12 +35,20 @@ export class ImportWalletPage extends Component<{}, IState> {
                 content = (
                     <CreatePassword
                         onBack={() => this.setState({ step: 1 })}
-                        onComplete={password => route('/dashboard')}
+                        onComplete={this.onWalletCreated.bind(this)}
                     />
                 );
                 break;
         }
 
         return <div class="import-wallet-page">{content}</div>;
+    }
+
+    public onWalletCreated(password: string) {
+        const wallet = createWallet(this.state.words.join(' '));
+        wallet.createAccount(Blockchain.ZILLIQA);
+        wallet.createAccount(Blockchain.ETHEREUM);
+
+        route('/dashboard');
     }
 }
