@@ -1,6 +1,6 @@
 import { Component, h, RenderableProps } from 'preact';
 import AsyncRoute from 'preact-async-route';
-import { CustomHistory, Router, RouterOnChangeArgs } from 'preact-router';
+import { CustomHistory, Router, RouterOnChangeArgs, route } from 'preact-router';
 
 import './app.scss';
 import { IRouteConfig, ROUTES } from './routes';
@@ -8,6 +8,7 @@ import { DeviceScreenSize } from './types';
 import { getScreenSizeMatchMedia } from './utils/screen-size-match-media';
 import DefaultLayout from './layouts/default/default.container';
 import { loadTranslations, Language } from './utils/translate';
+import { getWallet } from './utils/wallet';
 
 interface IProps {
     history: CustomHistory;
@@ -51,9 +52,12 @@ export default class App extends Component<IProps, IState> {
         }
     }
 
-    public handleRouteChange(route: RouterOnChangeArgs) {
-        // console.log(route);
-        this.props.onRouteChange(route.current.attributes.config);
+    public handleRouteChange(e: RouterOnChangeArgs) {
+        if (!e.current.attributes.withoutWalletInstance && !getWallet()) {
+            return route('/');
+        }
+
+        this.props.onRouteChange(e.current.attributes.config);
     }
 
     public render(props: RenderableProps<IProps>) {
@@ -67,8 +71,8 @@ export default class App extends Component<IProps, IState> {
                             history={props.history}
                             onChange={this.handleRouteChange.bind(this)}
                         >
-                            {ROUTES.map(route => (
-                                <AsyncRoute {...route} />
+                            {ROUTES.map(routeConfig => (
+                                <AsyncRoute {...routeConfig} />
                             ))}
                         </Router>
                     </DefaultLayout>

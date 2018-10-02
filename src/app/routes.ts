@@ -11,6 +11,7 @@ export interface IRoute {
     name: string;
     path: string;
     getComponent: () => Promise<Component>;
+    withoutWalletInstance?: boolean;
     config: {
         [platform: string]: {
             [screenSize: string]: IRouteConfig;
@@ -23,6 +24,7 @@ export const ROUTES: IRoute[] = [
         name: 'landingPage',
         path: '/',
         getComponent: () => Promise.resolve(require('./pages/landing/landing').LandingPage),
+        withoutWalletInstance: true,
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.ALL]: {
@@ -77,6 +79,7 @@ export const ROUTES: IRoute[] = [
         path: '/create-wallet',
         getComponent: () =>
             Promise.resolve(require('./pages/create-wallet/create-wallet.container').default),
+        withoutWalletInstance: true,
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.ALL]: {
@@ -103,6 +106,7 @@ export const ROUTES: IRoute[] = [
         path: '/import-wallet',
         getComponent: () =>
             Promise.resolve(require('./pages/import-wallet/import-wallet').ImportWalletPage),
+        withoutWalletInstance: true,
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.ALL]: {
