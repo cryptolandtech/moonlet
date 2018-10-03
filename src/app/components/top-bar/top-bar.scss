@@ -9,6 +9,10 @@
         margin-left: 16px;
     }
 
+    .left-section {
+        flex-grow: 0;
+    }
+
     .middle-section {
         z-index: 10;
     }

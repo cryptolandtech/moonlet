@@ -39,7 +39,7 @@ export class TopBar extends Component<IProps> {
 
         if (left) {
             return (
-                <TopAppBar.Section align-start className="no-grow">
+                <TopAppBar.Section align-start className="left-section">
                     {this.getIcon(left)}
                 </TopAppBar.Section>
             );

@@ -57,6 +57,10 @@ export default class App extends Component<IProps, IState> {
             return route('/');
         }
 
+        if (e.url === '/' && getWallet()) {
+            return route('/dashboard');
+        }
+
         this.props.onRouteChange(e.current.attributes.config);
     }
 
