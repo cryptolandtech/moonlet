@@ -7,11 +7,26 @@ interface IProps {
     secondaryText: string;
     href?: string;
     target?: string;
+
+    onClick?: (e?) => any;
 }
 
 export class ListItem extends Component<IProps, {}> {
     constructor(props: IProps) {
         super(props);
+    }
+
+    public getItemText(primary, secondary) {
+        if (primary && secondary) {
+            return (
+                <List.TextContainer>
+                    <List.PrimaryText>{primary}</List.PrimaryText>
+                    <List.SecondaryText>{secondary}</List.SecondaryText>
+                </List.TextContainer>
+            );
+        } else {
+            return primary;
+        }
     }
 
     public getListItem() {
@@ -20,6 +35,7 @@ export class ListItem extends Component<IProps, {}> {
 
         if (this.props.href) {
             itemProps = {
+                onClick: this.props.onClick,
                 href: this.props.href,
                 target: this.props.target || '_self'
             };
@@ -28,10 +44,7 @@ export class ListItem extends Component<IProps, {}> {
         return (
             <ItemComponent {...itemProps}>
                 {this.props.icon && <List.ItemGraphic>{this.props.icon}</List.ItemGraphic>}
-                <List.TextContainer>
-                    <List.PrimaryText>{this.props.primaryText}</List.PrimaryText>
-                    <List.SecondaryText>{this.props.secondaryText}</List.SecondaryText>
-                </List.TextContainer>
+                {this.getItemText(this.props.primaryText, this.props.secondaryText)}
                 {this.props.href && <List.ItemMeta>keyboard_arrow_right</List.ItemMeta>}
             </ItemComponent>
         );

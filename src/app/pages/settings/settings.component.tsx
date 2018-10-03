@@ -6,6 +6,7 @@ import Button from 'preact-material-components/Button';
 import { route } from 'preact-router';
 import { Translate } from '../../components/translate/translate.component';
 import { translate } from '../../utils/translate';
+import { clearWallet } from '../../utils/wallet';
 
 interface IProps {
     icon?: string;
@@ -16,7 +17,7 @@ interface IProps {
 }
 
 export class SettingsPage extends Component {
-    public getSetingsListItems(): IProps[] {
+    public getSettingsListItems(): IProps[] {
         const details: IProps[] = [];
 
         details.push({
@@ -40,48 +41,35 @@ export class SettingsPage extends Component {
             target: '_blank'
         });
 
-        details.push({
-            primaryText: translate('SettingsPage.restoreWallet'),
-            secondaryText: translate('SettingsPage.passwordRequired'),
-            href: '',
-            target: '_blank'
-        });
-
         return details;
     }
 
     public render() {
         return (
             <div className="settings-page">
-                <LayoutGrid>
-                    <LayoutGrid.Inner>
-                        <LayoutGrid.Cell cols={12}>
-                            <List two-line={true}>
-                                {this.getSetingsListItems().map(item => {
-                                    return [
-                                        <ListItem
-                                            primaryText={item.primaryText}
-                                            secondaryText={item.secondaryText}
-                                            href={item.href}
-                                            target={item.target}
-                                        />
-                                    ];
-                                })}
-                            </List>
-                        </LayoutGrid.Cell>
-                        <LayoutGrid.Cell>
-                            <Button
-                                ripple
-                                outlined
-                                onClick={() => {
-                                    route('/');
-                                }}
-                            >
-                                <Translate text="App.labels.signOut" />
-                            </Button>
-                        </LayoutGrid.Cell>
-                    </LayoutGrid.Inner>
-                </LayoutGrid>
+                <List two-line={true}>
+                    {this.getSettingsListItems().map(item => {
+                        return [
+                            <ListItem
+                                primaryText={item.primaryText}
+                                secondaryText={item.secondaryText}
+                                href={item.href}
+                                target={item.target}
+                            />
+                        ];
+                    })}
+                </List>
+
+                <Button
+                    ripple
+                    outlined
+                    onClick={() => {
+                        clearWallet();
+                        route('/');
+                    }}
+                >
+                    <Translate text="App.labels.signOut" />
+                </Button>
             </div>
         );
     }

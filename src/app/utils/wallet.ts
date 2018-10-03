@@ -22,3 +22,7 @@ export const createWallet = (
 export const getWallet = (): Wallet => {
     return wallet;
 };
+
+export const clearWallet = () => {
+    wallet = undefined;
+};
