@@ -46,8 +46,6 @@ export class ImportWalletPage extends Component<{}, IState> {
 
     public onWalletCreated(password: string) {
         const wallet = createWallet(this.state.words.join(' '));
-        wallet.createAccount(Blockchain.ZILLIQA);
-        wallet.createAccount(Blockchain.ETHEREUM);
 
         route('/dashboard');
     }

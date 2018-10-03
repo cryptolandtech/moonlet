@@ -24,8 +24,6 @@ export class CreateWalletPage extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         const wallet = createWallet();
-        wallet.createAccount(Blockchain.ZILLIQA);
-        wallet.createAccount(Blockchain.ETHEREUM);
 
         this.state = {
             words: wallet.mnemonics.split(' '),

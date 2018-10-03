@@ -67,7 +67,9 @@ export class TopBar extends Component<IProps> {
                     sectionContent = <NetworkSelector />;
                     break;
             }
-            return <TopAppBar.Section>{sectionContent}</TopAppBar.Section>;
+            return (
+                <TopAppBar.Section className="middle-section">{sectionContent}</TopAppBar.Section>
+            );
         }
 
         return null;
@@ -86,7 +88,7 @@ export class TopBar extends Component<IProps> {
             }
 
             return (
-                <TopAppBar.Section align-end className="no-grow">
+                <TopAppBar.Section align-end className="right-section">
                     {sectionContent}
                 </TopAppBar.Section>
             );
