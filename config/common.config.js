@@ -1,4 +1,4 @@
-import preactCliTypeScript from "preact-cli-plugin-typescript";
+import preactCliTypeScript from 'preact-cli-plugin-typescript';
 
 /**
  * Function that mutates original webpack config.
@@ -8,15 +8,15 @@ import preactCliTypeScript from "preact-cli-plugin-typescript";
  * @param {object} env options passed to CLI.
  * @param {WebpackConfigHelpers} helpers object with useful helpers when working with config.
  **/
-export default function (config, env, helpers) {
-  preactCliTypeScript(config);
+export default function(config, env, helpers) {
+    preactCliTypeScript(config);
 
-  config.plugins.push(
-    new helpers.webpack.DefinePlugin({
-      'process.env.PUBLIC_PATH': JSON.stringify(config.output.publicPath)
-    })
-  );
+    config.plugins.push(
+        new helpers.webpack.DefinePlugin({
+            'process.env.PUBLIC_PATH': JSON.stringify(config.output.publicPath)
+        })
+    );
 
-  config.node.process = 'mock';
-  config.node.Buffer = true;
+    config.node.process = 'mock';
+    config.node.Buffer = true;
 }
