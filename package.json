@@ -46,7 +46,9 @@
         "zip-folder": "^1.0.0"
     },
     "dependencies": {
+        "bignumber.js": "^7.2.1",
         "history": "^4.7.2",
+        "moonlet-core": "git+https://github.com/cryptolandtech/moonlet-core.git",
         "preact": "^8.2.1",
         "preact-async-route": "^2.2.1",
         "preact-compat": "^3.17.0",
@@ -57,8 +59,7 @@
         "qrcode.react": "^0.8.0",
         "react-textarea-autosize": "^7.0.4",
         "redux": "^3.6.0",
-        "redux-thunk": "2.2.0",
-        "moonlet-core": "git+https://github.com/cryptolandtech/moonlet-core.git#27ec7227749cc63ed85c41a6d9c121d04fd1002d"
+        "redux-thunk": "2.2.0"
     },
     "husky": {
         "hooks": {

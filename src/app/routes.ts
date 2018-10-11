@@ -127,7 +127,7 @@ export const ROUTES: IRoute[] = [
     {
         name: 'send',
         path: '/send',
-        getComponent: () => Promise.resolve(require('./pages/send/send').SendPage),
+        getComponent: () => Promise.resolve(require('./pages/send/send.container').default),
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.SMALL]: {

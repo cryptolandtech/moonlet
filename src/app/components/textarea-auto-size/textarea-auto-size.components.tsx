@@ -10,7 +10,12 @@ interface IProps {
     value?: string;
     className?: string;
     placeholder?: string;
+    disabled?: boolean;
+    helperText?: string;
+    helperTextValidationMsg?: boolean;
+
     inputRef?: (el) => any;
+    onChange?: (e: any) => any;
 }
 
 interface IState {
@@ -36,18 +41,25 @@ export class TextareaAutoSize extends Component<IProps, IState> {
             className = 'no-border';
         }
 
+        let helperTextClassName =
+            'mdc-text-field-helper-text mdc-text-field-helper-text--persistent';
+        if (this.props.helperTextValidationMsg) {
+            helperTextClassName += ' mdc-text-field-helper-text--validation-msg';
+        }
+
         return (
-            <fieldset
-                className={
-                    className + ' textarea-auto-resize mdc-text-field mdc-text-field--textarea'
-                }
-            >
-                {this.props.label && <legend>{this.props.label}</legend>}
-                <Textarea
-                    {...this.props}
-                    className={this.props.className + ' mdc-text-field__input'}
-                />
-            </fieldset>
+            <div class="textarea-auto-resize">
+                <fieldset className={className + ' mdc-text-field mdc-text-field--textarea'}>
+                    {this.props.label && <legend>{this.props.label}</legend>}
+                    <Textarea
+                        {...this.props}
+                        className={this.props.className + ' mdc-text-field__input'}
+                    />
+                </fieldset>
+                {this.props.helperText && (
+                    <div className={helperTextClassName}>{this.props.helperText}</div>
+                )}
+            </div>
         );
     }
 }

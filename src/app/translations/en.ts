@@ -11,7 +11,15 @@ export const translation: ITranslations = {
                 signOut: 'Sign out',
                 yes: 'Yes',
                 no: 'No',
-                back: 'Back'
+                back: 'Back',
+                recipient: 'Recipient',
+                amount: 'Amount',
+                confirm: 'Confirm',
+                transactionFee: 'Transaction Fee',
+                fee: 'Fee',
+                cancel: 'Cancel',
+                alert: 'Alert',
+                ok: 'OK'
             }
         },
         DrawerMenu: {
@@ -29,6 +37,34 @@ export const translation: ITranslations = {
             totalBalance: 'Total Balance',
             walletAddress: 'Wallet address',
             copy: 'Copy'
+        },
+        SendPage: {
+            errors: {
+                recipient: 'Recipient should be a valid address.',
+                amount: 'Amount should be a positive number'
+            },
+            confirmationDialog: {
+                title: 'Re-Confirm & Send',
+                message:
+                    'You are going to send {{amount}} to the following recipient address {{address}}'
+            },
+            errorDialog: {
+                generic:
+                    'Sorry, there was an error posting your transaction to blockchain. Try again or come back later.'
+            },
+
+            TransactionFee: {
+                cheap: 'Cheap',
+                standard: 'Standard',
+                fast: 'Fast',
+                advanced: 'Advanced',
+                simple: 'Simple',
+
+                GasFee: {
+                    gasPrice: 'Gas Price ({{unit}})',
+                    gasLimit: 'Gas Limit'
+                }
+            }
         },
         CreateWalletPage: {
             title: 'Create New Wallet',

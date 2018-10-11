@@ -9,7 +9,7 @@ import Elevation from 'preact-material-components/Elevation';
 import { Translate } from '../../components/translate/translate.component';
 import { TextareaAutoSize } from '../../components/textarea-auto-size/textarea-auto-size.components';
 import { GenericAccount } from 'moonlet-core/src/core/account';
-import { BLOCKCHAIN_INFO } from '../../utils/blockchain-info';
+import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 
 interface IProps {

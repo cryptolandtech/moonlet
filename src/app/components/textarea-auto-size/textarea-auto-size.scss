@@ -1,35 +1,41 @@
 @import '../../styles/base';
 
 .textarea-auto-resize {
-    box-sizing: border-box;
-    width: 100%;
-    margin: 0;
+    fieldset {
+        box-sizing: border-box;
+        width: 100%;
+        margin: 0;
 
-    &.outlined {
-        border: 2px solid $mdc-theme-primary;
-        border-radius: 5px;
-    }
+        &.outlined {
+            border: 2px solid $mdc-theme-primary;
+            border-radius: 5px;
+        }
 
-    &.no-border {
-        border: 0;
+        &.no-border {
+            border: 0;
+            .mdc-text-field__input {
+                padding: 0;
+            }
+        }
+
+        legend {
+            margin: 0 8px;
+            padding: 0 8px;
+            font-size: 12px;
+            line-height: 14px;
+            color: $mdc-theme-primary;
+        }
+
         .mdc-text-field__input {
-            padding: 0;
+            border: 0;
+            padding: 5px;
+            margin: 0 !important;
+            box-sizing: border-box;
+            resize: none;
         }
     }
 
-    legend {
-        margin: 0 8px;
-        padding: 0 8px;
-        font-size: 12px;
-        line-height: 14px;
-        color: $mdc-theme-primary;
-    }
-
-    .mdc-text-field__input {
-        border: 0;
-        padding: 5px;
-        margin: 0 !important;
-        box-sizing: border-box;
-        resize: none;
+    .mdc-text-field-helper-text--validation-msg {
+        color: red !important;
     }
 }

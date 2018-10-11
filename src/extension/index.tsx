@@ -25,6 +25,14 @@ const store = getStore({
     }
 });
 
+// set testnets
+import networksEth from 'moonlet-core/src/blockchain/ethereum/networks';
+networksEth[0] = networksEth[2];
+import networksZil from 'moonlet-core/src/blockchain/zilliqa/networks';
+networksZil[0] = networksZil[1];
+networksZil[0].url = 'https://scillagas-api.aws.zilliqa.com';
+// createWallet();
+
 export default props => (
     <Provider store={store}>
         <App {...props} history={createHashHistory()} />
