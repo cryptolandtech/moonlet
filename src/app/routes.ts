@@ -218,6 +218,28 @@ export const ROUTES: IRoute[] = [
                 }
             }
         }
+    },
+    {
+        name: 'reveal',
+        path: '/reveal',
+        getComponent: () => Promise.resolve(require('./pages/reveal/reveal.component').RevealPage),
+        withoutWalletInstance: true,
+        config: {
+            [Platform.ALL]: {
+                [DeviceScreenSize.ALL]: {
+                    topBar: {
+                        left: {
+                            icon: 'close',
+                            action: goBack
+                        },
+                        middle: {
+                            type: 'text',
+                            text: 'Reveal Secret Phrase'
+                        }
+                    }
+                }
+            }
+        }
     }
 ];
 

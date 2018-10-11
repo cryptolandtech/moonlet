@@ -18,6 +18,7 @@ interface IListItem {
     secondaryText: string;
     href?: string;
     target?: string;
+    onClick?: (e?) => any;
 }
 
 export class SettingsPage extends Component<IProps> {
@@ -34,7 +35,8 @@ export class SettingsPage extends Component<IProps> {
         details.push({
             primaryText: translate('SettingsPage.revealSecretPhrase'),
             secondaryText: translate('SettingsPage.passwordRequired'),
-            href: '',
+            href: '/',
+            onClick: () => route('/reveal'),
             target: '_blank'
         });
 
@@ -42,6 +44,7 @@ export class SettingsPage extends Component<IProps> {
             primaryText: translate('SettingsPage.revealPrivateKey'),
             secondaryText: translate('SettingsPage.passwordRequired'),
             href: '',
+            onClick: () => route('/reveal'),
             target: '_blank'
         });
 
@@ -59,6 +62,7 @@ export class SettingsPage extends Component<IProps> {
                                 secondaryText={item.secondaryText}
                                 href={item.href}
                                 target={item.target}
+                                onClick={item.onClick}
                             />
                         ];
                     })}

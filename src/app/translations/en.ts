@@ -138,6 +138,11 @@ export const translation: ITranslations = {
             revealPrivateKey: 'Reveal Private Key',
             restoreWallet: 'Restore Existing Wallet',
             passwordRequired: 'Your password is required for the next step'
+        },
+        RevealPage: {
+            warning:
+                'WARNING: Never disclose your secret phrase. Anyone with this phrase can take your funds forever.',
+            revealSecretPhrase: 'Reveal Secret Phrase'
         }
     },
     plural: (n: number, ord: boolean) => {
