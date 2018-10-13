@@ -2,6 +2,8 @@ import { h, Component } from 'preact';
 import List from 'preact-material-components/List';
 import { translate } from '../../utils/translate';
 import { ListItem } from '../../components/list-item/list-item.component';
+import { getWallet } from '../../utils/wallet';
+import { GenericTransaction } from 'moonlet-core/src/core/transaction';
 
 interface ITransactionListItem {
     icon: string;
@@ -11,8 +13,14 @@ interface ITransactionListItem {
     target?: string;
 }
 
-export class TransactionDetailsPage extends Component {
+interface IProps {
+    transaction: GenericTransaction;
+}
+
+export class TransactionDetailsPage extends Component<IProps> {
     public getTransactionDetails(): ITransactionListItem[] {
+        const tx = this.props.transaction;
+
         const details: ITransactionListItem[] = [];
 
         // date and time
@@ -25,46 +33,46 @@ export class TransactionDetailsPage extends Component {
         // amount
         details.push({
             icon: 'attach_money',
-            primaryText: 'ZIL 28,962.86900001',
+            primaryText: (tx as any).value || (tx as any).amount,
             secondaryText: translate('TransactionDetailsPage.amount')
         });
 
         // fees
-        details.push({
-            icon: 'attach_money',
-            primaryText: 'ZIL 0.00001000',
-            secondaryText: translate('TransactionDetailsPage.fees')
-        });
+        // details.push({
+        //     icon: 'attach_money',
+        //     primaryText: 'ZIL 0.00001000',
+        //     secondaryText: translate('TransactionDetailsPage.fees')
+        // });
 
         // transaction status
         details.push({
             icon: 'access_time',
-            primaryText: 'Not confirmed (43 confirmations)',
+            primaryText: tx.status,
             secondaryText: translate('TransactionDetailsPage.status')
         });
 
         // from address
         details.push({
             icon: 'person_outline',
-            primaryText: '0x8255C3359EA79A93A2B52F11C850B50B4D0B1D53',
+            primaryText: tx.from,
             secondaryText: translate('TransactionDetailsPage.from')
         });
 
         // to address
         details.push({
             icon: 'person',
-            primaryText: '0x3DCBB1A854359D0479B230B2DF6D5374DC47EF07',
+            primaryText: tx.to,
             secondaryText: translate('TransactionDetailsPage.recipient')
         });
 
         // transaction id
         details.push({
             icon: 'crop',
-            primaryText: '5DF6E0E2761359D30A8275058E299FCC0381534545F55CF43E41983F5D4C9456',
-            secondaryText: translate('TransactionDetailsPage.id'),
-            href:
-                'https://explorer-scilla.zilliqa.com/transactions/5DF6E0E2761359D30A8275058E299FCC0381534545F55CF43E41983F5D4C9456',
-            target: '_blank'
+            primaryText: tx.txn,
+            secondaryText: translate('TransactionDetailsPage.id')
+            // href:
+            //     'https://explorer-scilla.zilliqa.com/transactions/5DF6E0E2761359D30A8275058E299FCC0381534545F55CF43E41983F5D4C9456',
+            // target: '_blank'
         });
 
         return details;

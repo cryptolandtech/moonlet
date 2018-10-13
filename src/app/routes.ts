@@ -198,7 +198,7 @@ export const ROUTES: IRoute[] = [
         path: '/transaction/:transactionId',
         getComponent: () =>
             Promise.resolve(
-                require('./pages/transaction-details/transaction-details').TransactionDetailsPage
+                require('./pages/transaction-details/transaction-details.container').default
             ),
         config: {
             [Platform.ALL]: {

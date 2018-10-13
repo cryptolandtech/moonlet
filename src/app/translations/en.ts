@@ -36,7 +36,9 @@ export const translation: ITranslations = {
         DashboardPage: {
             totalBalance: 'Total Balance',
             walletAddress: 'Wallet address',
-            copy: 'Copy'
+            copy: 'Copy',
+            noTransactions:
+                'Your transaction history will appear here once you send or receive tokens.'
         },
         SendPage: {
             errors: {

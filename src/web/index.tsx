@@ -30,6 +30,7 @@ networksEth[0] = networksEth[2];
 import networksZil from 'moonlet-core/src/blockchain/zilliqa/networks';
 networksZil[0] = networksZil[1];
 networksZil[0].url = 'https://scillagas-api.aws.zilliqa.com';
+// networksZil[0].url = 'http://localhost:4200';
 
 // createWallet("kid patch sample either echo supreme hungry ketchup hero away ice alcohol");
 
