@@ -15,7 +15,7 @@
         "lint": "tslint --fix 'src/**/*.{ts,tsx}'",
         "prettier": "prettier --write \"**/*.{js,ts,tsx,scss,json}\" --ignore-path .gitignore",
         "test": "jest",
-        "e2e": "./tests/e2e/scripts/start.sh & mocha --timeout 60000 ./tests/e2e/runner.js tests/e2e/tests/*.js && ./tests/e2e/scripts/stop.sh"
+        "e2e": "mocha --timeout 60000 ./tests/e2e/runner.js tests/e2e/tests/*.js"
     },
     "eslintConfig": {
         "extends": "eslint-config-synacor"
