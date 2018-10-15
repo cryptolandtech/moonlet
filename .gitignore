@@ -7,4 +7,5 @@ node_modules
 preact.config.js
 coverage
 .vscode
-
+e2eoutput
+tests/e2e/scripts/process.pid

@@ -14,7 +14,8 @@
         "dev:ext": "preact watch --config ./config/extension.config.js --template src/extension/index.html --port 8181",
         "lint": "tslint --fix 'src/**/*.{ts,tsx}'",
         "prettier": "prettier --write \"**/*.{js,ts,tsx,scss,json}\" --ignore-path .gitignore",
-        "test": "jest"
+        "test": "jest",
+        "e2e": "./tests/e2e/scripts/start.sh & mocha --timeout 60000 ./tests/e2e/runner.js tests/e2e/tests/*.js && ./tests/e2e/scripts/stop.sh"
     },
     "eslintConfig": {
         "extends": "eslint-config-synacor"
@@ -23,20 +24,26 @@
     "devDependencies": {
         "@types/chrome": "0.0.73",
         "@types/jest": "^23.3.2",
+        "chai": "^4.2.0",
         "chrome-webstore-upload": "^0.2.2",
         "eslint": "^4.5.0",
         "eslint-config-synacor": "^1.1.0",
+        "express": "^4.16.4",
         "firebase-tools": "^4.0.3",
         "husky": "^1.0.0-rc.13",
         "identity-obj-proxy": "^3.0.0",
         "if-env": "^1.0.0",
         "jest": "^23.6.0",
         "lint-staged": "^7.2.2",
+        "mocha": "^5.2.0",
         "node-sass": "^4.9.2",
+        "path": "^0.12.7",
         "preact-cli": "^2.0.0",
         "preact-cli-plugin-typescript": "^0.2.2",
         "prettier": "1.14.2",
+        "puppeteer": "^1.9.0",
         "sass-loader": "^7.1.0",
+        "slug": "^0.9.1",
         "ts-jest": "^23.1.4",
         "tslint": "^5.11.0",
         "tslint-config-prettier": "^1.15.0",
