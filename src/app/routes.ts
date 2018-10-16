@@ -66,7 +66,9 @@ export const ROUTES: IRoute[] = [
                             type: 'icon',
                             icon: 'launch',
                             action: () => {
-                                chrome.tabs.create({ url: document.location.href });
+                                chrome.tabs.create({
+                                    url: document.location.href.replace('popup=1', '')
+                                });
                             }
                         }
                     }
