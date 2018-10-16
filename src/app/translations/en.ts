@@ -115,6 +115,7 @@ export const translation: ITranslations = {
                     'WARNING: Never disclose your secret phrase. Anyone with this phrase can get access to your funds.',
                 secretPhrase: 'Secret phrase',
                 inputHelp: 'Enter your secret phrase and write the words in the correct order.',
+                inputError: 'Invalid mnemonic.',
                 restoreWallet: 'Restore wallet'
             }
         },

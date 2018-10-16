@@ -8,6 +8,10 @@ export const decodeWallet = (json: string) => {
     return wallet;
 };
 
+export const setWallet = (w: Wallet) => {
+    wallet = w;
+};
+
 export const createWallet = (
     mnemonics?: string,
     language?: string,

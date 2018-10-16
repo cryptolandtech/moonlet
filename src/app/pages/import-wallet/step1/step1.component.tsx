@@ -5,6 +5,7 @@ import LayoutGrid from 'preact-material-components/LayoutGrid';
 import { Translate } from '../../../components/translate/translate.component';
 import { TextField } from 'preact-material-components/TextField';
 import Button from 'preact-material-components/Button';
+import { createWallet } from '../../../utils/wallet';
 
 interface IProps {
     onComplete?: (words: string[]) => any;
@@ -12,6 +13,7 @@ interface IProps {
 
 interface IState {
     words: string[];
+    error: boolean;
 }
 
 export class ImportWalletStep1 extends Component<IProps, IState> {
@@ -19,11 +21,17 @@ export class ImportWalletStep1 extends Component<IProps, IState> {
         super(props);
 
         this.state = {
-            words: []
+            words: [],
+            error: false
         };
     }
 
     public render() {
+        let textFieldHelp = 'ImportWalletPage.step1.inputHelp';
+        if (this.state.error) {
+            textFieldHelp = 'ImportWalletPage.step1.inputError';
+        }
+
         return (
             <LayoutGrid className="import-wallet-step1">
                 <Translate text="ImportWalletPage.step1.warning" body2 />
@@ -35,7 +43,11 @@ export class ImportWalletStep1 extends Component<IProps, IState> {
 
                     <TextField textarea fullwidth onInput={this.onWordsInputChange.bind(this)} />
                 </fieldset>
-                <Translate text="ImportWalletPage.step1.inputHelp" caption />
+                <Translate
+                    text={textFieldHelp}
+                    className={this.state.error ? 'error' : ''}
+                    caption
+                />
 
                 <div class="cta-wrapper">
                     <Button ripple raised secondary onClick={this.onRestoreWalletClick.bind(this)}>
@@ -52,8 +64,18 @@ export class ImportWalletStep1 extends Component<IProps, IState> {
         });
     }
 
+    public validate() {
+        try {
+            createWallet(this.state.words.join(' '));
+            return true;
+        } catch {
+            this.setState({ error: true });
+            return false;
+        }
+    }
+
     public onRestoreWalletClick() {
-        if (typeof this.props.onComplete === 'function') {
+        if (typeof this.props.onComplete === 'function' && this.validate()) {
             this.props.onComplete(this.state.words);
         }
     }
