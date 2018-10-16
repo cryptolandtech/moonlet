@@ -7,9 +7,9 @@ import { CreateWalletStep2 } from './components/step2/step2.component';
 import { route } from 'preact-router';
 import { CreatePassword } from '../../components/create-password/create-password.component';
 import { Platform } from '../../types';
-import { setWallet } from '../../mock/wallet';
-import { createWallet } from '../../utils/wallet';
-import { Blockchain } from 'moonlet-core/src/core/blockchain';
+import { setWallet as saveWallet } from '../../mock/wallet';
+import { setWallet } from '../../utils/wallet';
+import Wallet from 'moonlet-core/src/core/wallet';
 
 interface IProps {
     platform: Platform;
@@ -21,17 +21,18 @@ interface IState {
 }
 
 export class CreateWalletPage extends Component<IProps, IState> {
+    public wallet: Wallet;
     constructor(props: IProps) {
         super(props);
-        const wallet = createWallet();
+        this.wallet = new Wallet();
 
         this.state = {
-            words: wallet.mnemonics.split(' '),
+            words: this.wallet.mnemonics.split(' '),
             step: 1
         };
     }
 
-    public render(props, state) {
+    public render() {
         let content;
         switch (this.state.step) {
             case 1:
@@ -66,11 +67,12 @@ export class CreateWalletPage extends Component<IProps, IState> {
 
     public onWalletCreated(password: string) {
         if (this.props.platform === Platform.EXTENSION) {
-            setWallet({
+            saveWallet({
                 password
             });
         }
 
+        setWallet(this.wallet);
         route('/dashboard');
     }
 }
