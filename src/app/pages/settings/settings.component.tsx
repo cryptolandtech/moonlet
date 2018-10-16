@@ -35,17 +35,13 @@ export class SettingsPage extends Component<IProps> {
         details.push({
             primaryText: translate('SettingsPage.revealSecretPhrase'),
             secondaryText: translate('SettingsPage.passwordRequired'),
-            href: '/',
-            onClick: () => route('/reveal'),
-            target: '_blank'
+            href: '/revealSecretPhrase'
         });
 
         details.push({
             primaryText: translate('SettingsPage.revealPrivateKey'),
             secondaryText: translate('SettingsPage.passwordRequired'),
-            href: '',
-            onClick: () => route('/reveal'),
-            target: '_blank'
+            href: '/revealPrivateKey'
         });
 
         return details;
