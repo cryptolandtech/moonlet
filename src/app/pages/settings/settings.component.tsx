@@ -9,6 +9,10 @@ import { translate } from '../../utils/translate';
 import { clearWallet } from '../../utils/wallet';
 
 interface IProps {
+    signOut: () => any;
+}
+
+interface IListItem {
     icon?: string;
     primaryText: string;
     secondaryText: string;
@@ -16,9 +20,9 @@ interface IProps {
     target?: string;
 }
 
-export class SettingsPage extends Component {
-    public getSettingsListItems(): IProps[] {
-        const details: IProps[] = [];
+export class SettingsPage extends Component<IProps> {
+    public getSettingsListItems(): IListItem[] {
+        const details: IListItem[] = [];
 
         details.push({
             primaryText: translate('SettingsPage.aboutMoonlet'),
@@ -64,8 +68,7 @@ export class SettingsPage extends Component {
                     ripple
                     outlined
                     onClick={() => {
-                        clearWallet();
-                        route('/');
+                        this.props.signOut();
                     }}
                 >
                     <Translate text="App.labels.signOut" />

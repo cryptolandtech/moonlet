@@ -4,15 +4,16 @@ import './create-wallet.scss';
 
 import { CreateWalletStep1 } from './components/step1/step1.component';
 import { CreateWalletStep2 } from './components/step2/step2.component';
-import { route } from 'preact-router';
 import { CreatePassword } from '../../components/create-password/create-password.component';
 import { Platform } from '../../types';
-import { setWallet as saveWallet } from '../../mock/wallet';
-import { setWallet } from '../../utils/wallet';
+import { setWallet, savePassword } from '../../utils/wallet';
 import Wallet from 'moonlet-core/src/core/wallet';
+import { Blockchain } from 'moonlet-core/src/core/blockchain';
 
 interface IProps {
     platform: Platform;
+
+    loadWallet: (loadingInProgress: boolean, loaded: boolean, locked: boolean) => any;
 }
 
 interface IState {
@@ -25,6 +26,8 @@ export class CreateWalletPage extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         this.wallet = new Wallet();
+        this.wallet.createAccount(Blockchain.ETHEREUM);
+        this.wallet.createAccount(Blockchain.ZILLIQA);
 
         this.state = {
             words: this.wallet.mnemonics.split(' '),
@@ -66,13 +69,8 @@ export class CreateWalletPage extends Component<IProps, IState> {
     }
 
     public onWalletCreated(password: string) {
-        if (this.props.platform === Platform.EXTENSION) {
-            saveWallet({
-                password
-            });
-        }
-
         setWallet(this.wallet);
-        route('/dashboard');
+        savePassword(password);
+        this.props.loadWallet(false, true, false);
     }
 }

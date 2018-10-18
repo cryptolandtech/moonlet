@@ -1,4 +1,4 @@
-import { IGasFeeOptions } from './types';
+import { IGasFeeOptions, IGasFeeDefaults } from './types';
 import { BigNumber } from 'bignumber.js';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 
@@ -8,7 +8,7 @@ export enum BlockchainFeeType {
 
 interface IGasFeeConfig {
     gasPriceUnit: string;
-    default: IGasFeeOptions;
+    default: IGasFeeDefaults;
 }
 
 export interface IBlockchainInfo {
@@ -48,7 +48,13 @@ export const BLOCKCHAIN_INFO: {
                 gasPriceUnit: 'GWEI',
                 default: {
                     gasPrice: 3,
-                    gasLimit: 21000
+                    gasLimit: 21000,
+                    gasPricePresets: {
+                        safeLow: 2,
+                        standard: 20,
+                        fast: 40,
+                        fastest: 120
+                    }
                 }
             }
         }
@@ -64,7 +70,13 @@ export const BLOCKCHAIN_INFO: {
                 gasPriceUnit: 'ZIL',
                 default: {
                     gasPrice: 1,
-                    gasLimit: 1
+                    gasLimit: 10,
+                    gasPricePresets: {
+                        safeLow: 1,
+                        standard: 1,
+                        fast: undefined,
+                        fastest: 10
+                    }
                 }
             }
         }

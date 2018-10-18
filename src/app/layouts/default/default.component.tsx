@@ -2,7 +2,7 @@ import { h, Component, RenderableProps } from 'preact';
 
 import './default.scss';
 import { TopBar } from '../../components/top-bar/top-bar.component';
-import { DrawerMenu } from '../../components/drawer-menu/drawer-menu.component';
+import DrawerMenu from '../../components/drawer-menu/drawer-menu.container';
 import { ILayout, IDevice } from '../../data/page-config/state';
 import { BottomBar } from '../../components/bottom-bar/bottom-bar.components';
 import { IAction } from '../../data/action';

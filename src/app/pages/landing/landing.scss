@@ -21,9 +21,20 @@
     }
 
     .password-input-wrapper {
-        .mdc-text-field {
-            background: white;
+        width: 285px;
+        padding: 15px;
+        margin: 0 auto;
+
+        .error {
+            height: 20px;
+            line-height: 20px;
+            color: red;
         }
+    }
+
+    .sign-in {
+        margin: 0 auto;
+        width: 260px;
     }
 
     .restore-wallet {

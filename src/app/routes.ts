@@ -1,3 +1,4 @@
+import { browser } from 'webextension-polyfill-ts';
 import { goBack } from './data/page-config/actions';
 import { Component } from 'preact';
 import { ILayout } from './data/page-config/state';
@@ -23,7 +24,7 @@ export const ROUTES: IRoute[] = [
     {
         name: 'landingPage',
         path: '/',
-        getComponent: () => Promise.resolve(require('./pages/landing/landing').LandingPage),
+        getComponent: () => Promise.resolve(require('./pages/landing/landing.container').default),
         withoutWalletInstance: true,
         config: {
             [Platform.ALL]: {
@@ -66,7 +67,7 @@ export const ROUTES: IRoute[] = [
                             type: 'icon',
                             icon: 'launch',
                             action: () => {
-                                chrome.tabs.create({
+                                browser.tabs.create({
                                     url: document.location.href.replace('popup=1', '')
                                 });
                             }
@@ -107,7 +108,7 @@ export const ROUTES: IRoute[] = [
         name: 'importWallet',
         path: '/import-wallet',
         getComponent: () =>
-            Promise.resolve(require('./pages/import-wallet/import-wallet').ImportWalletPage),
+            Promise.resolve(require('./pages/import-wallet/import-wallet.container').default),
         withoutWalletInstance: true,
         config: {
             [Platform.ALL]: {
@@ -170,8 +171,7 @@ export const ROUTES: IRoute[] = [
     {
         name: 'settings',
         path: '/settings',
-        getComponent: () =>
-            Promise.resolve(require('./pages/settings/settings.component').SettingsPage),
+        getComponent: () => Promise.resolve(require('./pages/settings/settings.container').default),
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.SMALL]: {

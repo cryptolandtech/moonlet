@@ -1,10 +1,10 @@
 import { connect } from 'preact-redux';
 import { createWalletLoaded } from '../../data/wallet/actions';
-import { CreateWalletPage } from './create-wallet.component';
+import { ImportWalletPage } from './import-wallet.component';
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
     return {
-        platform: state.pageConfig.device.platform
+        ...ownProps
     };
 };
 
@@ -15,4 +15,4 @@ const mapDispatchToProps = {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(CreateWalletPage);
+)(ImportWalletPage);

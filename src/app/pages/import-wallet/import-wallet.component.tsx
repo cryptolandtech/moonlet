@@ -4,15 +4,19 @@ import './import-wallet.scss';
 import { CreatePassword } from '../../components/create-password/create-password.component';
 import { route } from 'preact-router';
 import { ImportWalletStep1 } from './step1/step1.component';
-import { createWallet } from '../../utils/wallet';
+import { createWallet, savePassword } from '../../utils/wallet';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
+
+interface IProps {
+    loadWallet: (loadingInProgress: boolean, loaded: boolean, locked: boolean) => any;
+}
 
 interface IState {
     words: string[];
     step: number;
 }
 
-export class ImportWalletPage extends Component<{}, IState> {
+export class ImportWalletPage extends Component<IProps, IState> {
     constructor(props) {
         super(props);
 
@@ -46,7 +50,8 @@ export class ImportWalletPage extends Component<{}, IState> {
 
     public onWalletCreated(password: string) {
         const wallet = createWallet(this.state.words.join(' '));
-
-        route('/dashboard');
+        savePassword(password);
+        this.props.loadWallet(false, true, false);
+        // route('/dashboard');
     }
 }

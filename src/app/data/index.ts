@@ -1,4 +1,4 @@
-import { compose, createStore, applyMiddleware } from 'redux';
+import { compose, createStore, applyMiddleware, Store } from 'redux';
 import { IPageConfig } from './page-config/state';
 import { reducers } from './reducers';
 import reduxThunk from 'redux-thunk';
@@ -35,6 +35,6 @@ const enhancer = composeEnhancers(
     // other store enhancers if any
 );
 
-export const getStore = (initialState: IState = defaultState) => {
-    return createStore(reducers, initialState, enhancer);
+export const getStore = (initialState: IState = defaultState): Store<IState> => {
+    return createStore<IState>(reducers, initialState, enhancer);
 };

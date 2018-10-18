@@ -11,6 +11,19 @@ import preactCliTypeScript from 'preact-cli-plugin-typescript';
 export default function(config, env, helpers) {
     preactCliTypeScript(config);
 
+    // this is needed by webextension-polyfill-ts module
+    for (let loader of config.module.loaders) {
+        if (loader.loader === 'babel-loader') {
+            loader.options.plugins.push([
+                'babel-plugin-transform-builtin-extend',
+                {
+                    globals: ['WeakMap']
+                }
+            ]);
+            break;
+        }
+    }
+
     config.plugins.push(
         new helpers.webpack.DefinePlugin({
             'process.env.PUBLIC_PATH': JSON.stringify(config.output.publicPath)

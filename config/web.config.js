@@ -12,6 +12,12 @@ export default function(config, env, helpers) {
     // apply common config
     common(config, env, helpers);
 
+    config.plugins.push(
+        new helpers.webpack.DefinePlugin({
+            'process.env.PLATFORM': JSON.stringify('WEB') // same as in Platform enum
+        })
+    );
+
     // customize config
     config.resolve.alias['preact-cli-entrypoint'] = resolve(process.cwd(), 'src', 'web', 'index');
 }

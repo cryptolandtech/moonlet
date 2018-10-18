@@ -10,6 +10,8 @@ import { Translate } from '../translate/translate.component';
 
 interface IProps {
     platform: Platform;
+
+    signOut: () => any;
 }
 
 export class DrawerMenu extends Component<IProps> {
@@ -72,10 +74,11 @@ export class DrawerMenu extends Component<IProps> {
                     )}
 
                     <Link
-                        href="/"
+                        href="#"
                         activeClassName="mdc-list-item--activated"
                         className="mdc-list-item"
                         role="option"
+                        onClick={() => this.props.signOut()}
                     >
                         <List.ItemGraphic>power_settings_new</List.ItemGraphic>
                         <Translate text="App.labels.signOut" />

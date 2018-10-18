@@ -18,6 +18,10 @@ const store = getStore({
         layout: {}
     },
     wallet: {
+        invalidPassword: false,
+        loadingInProgress: false,
+        loaded: false,
+        locked: false,
         selectedBlockchain: Blockchain.ETHEREUM,
         selectedNetwork: 0,
         selectedAccount: 0

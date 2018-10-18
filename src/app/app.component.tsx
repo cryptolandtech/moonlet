@@ -14,6 +14,10 @@ interface IProps {
     history: CustomHistory;
     language: Language;
 
+    walletLoaded: boolean;
+    walletLoadingInProgress: boolean;
+    walletLocked: boolean;
+
     onScreenSizeChange: { (screenSize: DeviceScreenSize) };
     onRouteChange: { (routeConfig: IRouteConfig) };
 }
@@ -25,6 +29,7 @@ interface IState {
 
 export default class App extends Component<IProps, IState> {
     private phoneMediaQuery;
+    private route: RouterOnChangeArgs;
 
     constructor(props: RenderableProps<IProps>) {
         super(props);
@@ -42,6 +47,23 @@ export default class App extends Component<IProps, IState> {
         };
     }
 
+    public componentDidUpdate() {
+        this.doRedirects();
+    }
+
+    public doRedirects() {
+        const walletOk =
+            !this.props.walletLoadingInProgress &&
+            this.props.walletLoaded &&
+            !this.props.walletLocked;
+
+        if (['/', '/import-wallet', '/create-wallet'].indexOf(this.route.url) >= 0 && walletOk) {
+            route('/dashboard');
+        } else if (!this.route.current.attributes.withoutWalletInstance && !walletOk) {
+            route('/');
+        }
+    }
+
     public onPhoneMediaQueryChange(media) {
         if (media.matches) {
             this.setState({ screenSize: DeviceScreenSize.SMALL });
@@ -53,13 +75,14 @@ export default class App extends Component<IProps, IState> {
     }
 
     public handleRouteChange(e: RouterOnChangeArgs) {
-        if (!e.current.attributes.withoutWalletInstance && !getWallet()) {
-            return route('/');
-        }
+        this.route = e;
+        // if (!e.current.attributes.withoutWalletInstance && !getWallet()) {
+        //     return route('/');
+        // }
 
-        if (e.url === '/' && getWallet()) {
-            return route('/dashboard');
-        }
+        // if (e.url === '/' && getWallet()) {
+        //     return route('/dashboard');
+        // }
 
         this.props.onRouteChange(e.current.attributes.config);
     }

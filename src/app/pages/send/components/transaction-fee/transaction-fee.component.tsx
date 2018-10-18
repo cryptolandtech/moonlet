@@ -45,6 +45,7 @@ export class TransactionFee extends Component<IProps, IState> {
     }
 
     public render() {
+        const info = this.props.blockchainInfo;
         return (
             <LayoutGrid>
                 <Translate text="App.labels.transactionFee" headline6 />
@@ -53,8 +54,8 @@ export class TransactionFee extends Component<IProps, IState> {
                         <LayoutGridCell cols={8}>
                             <Slider
                                 discrete
-                                min={1}
-                                max={150}
+                                min={info.fee.config.default.gasPricePresets.safeLow}
+                                max={info.fee.config.default.gasPricePresets.fastest}
                                 value={this.state.feeSliderValue}
                                 ref={el => (this.feeSliderRef = el)}
                                 onChange={() =>
@@ -64,21 +65,45 @@ export class TransactionFee extends Component<IProps, IState> {
                             />
 
                             <div class="gas-prices">
-                                <div>
-                                    <Button onClick={() => this.setFeeSliderValue(2)}>
-                                        <Translate text="SendPage.TransactionFee.cheap" />
-                                    </Button>
-                                </div>
-                                <div className="center-text">
-                                    <Button onClick={() => this.setFeeSliderValue(20)}>
-                                        <Translate text="SendPage.TransactionFee.standard" />
-                                    </Button>
-                                </div>
-                                <div className="right-text">
-                                    <Button onClick={() => this.setFeeSliderValue(150)}>
-                                        <Translate text="SendPage.TransactionFee.fast" />
-                                    </Button>
-                                </div>
+                                {info.fee.config.default.gasPricePresets.safeLow && (
+                                    <div>
+                                        <Button
+                                            onClick={() =>
+                                                this.setFeeSliderValue(
+                                                    info.fee.config.default.gasPricePresets.safeLow
+                                                )
+                                            }
+                                        >
+                                            <Translate text="SendPage.TransactionFee.cheap" />
+                                        </Button>
+                                    </div>
+                                )}
+                                {info.fee.config.default.gasPricePresets.standard && (
+                                    <div className="center-text">
+                                        <Button
+                                            onClick={() =>
+                                                this.setFeeSliderValue(
+                                                    info.fee.config.default.gasPricePresets.standard
+                                                )
+                                            }
+                                        >
+                                            <Translate text="SendPage.TransactionFee.standard" />
+                                        </Button>
+                                    </div>
+                                )}
+                                {info.fee.config.default.gasPricePresets.fast && (
+                                    <div className="right-text">
+                                        <Button
+                                            onClick={() =>
+                                                this.setFeeSliderValue(
+                                                    info.fee.config.default.gasPricePresets.fast
+                                                )
+                                            }
+                                        >
+                                            <Translate text="SendPage.TransactionFee.fast" />
+                                        </Button>
+                                    </div>
+                                )}
                             </div>
                         </LayoutGridCell>
                         <LayoutGridCell cols={4} tabletCols={8}>

@@ -32,6 +32,10 @@ export class NetworkSelectorBlockChainDialog extends Component<IProps, IState> {
     }
 
     public render() {
+        if (!this.props.wallet) {
+            return null;
+        }
+
         return (
             <Dialog
                 ref={scrollingDlg => {

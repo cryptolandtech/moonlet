@@ -31,7 +31,8 @@ export const translation: ITranslations = {
             createNewWallet: 'Create new wallet',
             restoreExistingWallet: 'Restore existing wallet',
             signIn: 'Sign in',
-            enterPassword: 'Enter password'
+            enterPassword: 'Enter password',
+            invalidPassword: 'Invalid password'
         },
         DashboardPage: {
             totalBalance: 'Total Balance',

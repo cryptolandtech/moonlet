@@ -16,6 +16,12 @@ export default function(config, env, helpers) {
     config.output.publicPath = './';
     common(config, env, helpers);
 
+    config.plugins.push(
+        new helpers.webpack.DefinePlugin({
+            'process.env.PLATFORM': JSON.stringify('EXTENSION') // same as in Platform enum
+        })
+    );
+
     // customize config
     config.resolve.alias['preact-cli-entrypoint'] = resolve(
         process.cwd(),
