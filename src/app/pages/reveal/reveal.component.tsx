@@ -10,7 +10,7 @@ import { removeType } from '../../utils/remove-type';
 interface IProps {
     account: GenericAccount;
     words: string[];
-    topBarMiddleText: string;
+    routeName: string;
 }
 
 interface IState {
@@ -29,9 +29,8 @@ export class RevealPage extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
         let layoutProps;
-
-        switch (this.props.topBarMiddleText) {
-            case 'Reveal Secret Phrase':
+        switch (this.props.routeName) {
+            case 'revealSecretPhrase':
                 this.isPrivateKeyLayout = false;
                 layoutProps = {
                     warningText: 'RevealPage.phraseWarning',
@@ -39,7 +38,7 @@ export class RevealPage extends Component<IProps, IState> {
                     revealButtonText: 'RevealPage.revealSecretPhrase'
                 };
                 break;
-            case 'Reveal Private Key':
+            case 'revealPrivateKey':
                 this.isPrivateKeyLayout = true;
                 layoutProps = {
                     warningText: 'RevealPage.privateKeyWarning',
