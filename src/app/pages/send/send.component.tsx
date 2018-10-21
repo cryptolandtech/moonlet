@@ -7,13 +7,12 @@ import './send.scss';
 import { GenericAccount } from 'moonlet-core/src/core/account';
 import TransactionFee from './components/transaction-fee/transaction-fee.container';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import { IBlockchainInfo, BlockchainFeeType } from '../../utils/blockchain/blockchain-info';
+import { IBlockchainInfo } from '../../utils/blockchain/blockchain-info';
 import { getDefaultFeeOptions, formatCurrency } from '../../utils/blockchain/utils';
 import { FeeOptions, IGasFeeOptions } from '../../utils/blockchain/types';
 import { translate } from '../../utils/translate';
 import { Translate } from '../../components/translate/translate.component';
 import Dialog from 'preact-material-components/Dialog';
-import { TextField } from 'preact-material-components/TextField';
 import { route } from 'preact-router';
 
 interface IProps {
@@ -75,6 +74,7 @@ export class SendPage extends Component<IProps, IState> {
                                 outlined
                                 label={translate('App.labels.recipient')}
                                 onChange={e => this.setState({ recipient: e.target.value })}
+                                value={this.state.recipient}
                                 {...this.getValidationProps('recipient')}
                             />
                         </LayoutGridCell>
@@ -83,6 +83,7 @@ export class SendPage extends Component<IProps, IState> {
                                 outlined
                                 label={translate('App.labels.amount')}
                                 onChange={e => this.setState({ amount: e.target.value })}
+                                value={this.state.amount ? String(this.state.amount) : ''}
                                 {...this.getValidationProps('amount')}
                             />
                         </LayoutGridCell>
