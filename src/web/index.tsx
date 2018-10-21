@@ -22,7 +22,7 @@ const store = getStore({
         loadingInProgress: false,
         loaded: false,
         locked: false,
-        selectedBlockchain: Blockchain.ETHEREUM,
+        selectedBlockchain: Blockchain.ZILLIQA,
         selectedNetwork: 0,
         selectedAccount: 0
     }
