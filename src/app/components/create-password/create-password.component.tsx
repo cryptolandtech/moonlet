@@ -55,6 +55,7 @@ export class CreatePassword extends Component<IProps, IState> {
                     <LayoutGrid.Cell>
                         <TextField
                             type="password"
+                            value={this.state.password}
                             onInput={e => this.onInputChange('password', (e.target as any).value)}
                             label={translate('CreatePassword.createPassword')}
                             outlined
