@@ -6,6 +6,7 @@ import './network-selector.scss';
 import NetworkSelectorBlockChainDialog from './blockchain-dialog/blockchain-dialog.container';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { Network } from 'moonlet-core/src/core/network';
+import { route } from 'preact-router';
 
 interface IProps {
     blockchain: Blockchain;
@@ -33,7 +34,10 @@ export class NetworkSelector extends Component<IProps> {
                 </Chips>
                 <NetworkSelectorBlockChainDialog
                     ref={el => (this.dialog = el && el.getWrappedInstance())}
-                    onSelect={blockchain => this.props.onBlockchainChange(blockchain)}
+                    onSelect={blockchain => {
+                        this.props.onBlockchainChange(blockchain);
+                        route('/dashboard');
+                    }}
                 />
             </div>
         );
