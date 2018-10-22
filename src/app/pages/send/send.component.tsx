@@ -33,7 +33,6 @@ interface IState {
 }
 
 export class SendPage extends Component<IProps, IState> {
-    public sliderRef;
     public confirmationDialog;
     public errorDialog;
 
@@ -97,7 +96,7 @@ export class SendPage extends Component<IProps, IState> {
                     onChange={this.onFeeOptionsChange.bind(this)}
                 />
 
-                <LayoutGrid class="right-text">
+                <LayoutGrid class="right-text no-padding-top-bottom">
                     <Button ripple raised secondary onClick={this.onConfirmClick.bind(this)}>
                         <Translate text="App.labels.confirm" />
                     </Button>
@@ -220,10 +219,8 @@ export class SendPage extends Component<IProps, IState> {
             );
             this.props.account.signTransaction(tx);
             const response = await this.props.account.send(tx);
-            // console.log(response);
             route('/dashboard');
         } catch (e) {
-            // console.log(e);
             this.showErrorDialog(e.toString());
         }
     }
