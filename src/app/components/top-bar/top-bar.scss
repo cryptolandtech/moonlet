@@ -23,12 +23,16 @@
     }
     .title {
         width: 100%;
-        text-align: left;
         color: grey;
+        padding-left: 0px;
     }
 
     .center {
         text-align: center;
+    }
+
+    .middle-padding {
+        padding-right: 56px;
     }
 
     .grey {
