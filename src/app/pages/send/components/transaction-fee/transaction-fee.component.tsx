@@ -47,7 +47,7 @@ export class TransactionFee extends Component<IProps, IState> {
     public render() {
         const info = this.props.blockchainInfo;
         return (
-            <LayoutGrid>
+            <LayoutGrid class="no-padding-top-bottom">
                 <Translate text="App.labels.transactionFee" headline6 />
                 {this.state.simpleView && (
                     <LayoutGrid.Inner>

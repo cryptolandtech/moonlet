@@ -48,16 +48,6 @@ export class TopBar extends Component<IProps> {
         return null;
     }
 
-    public getMiddleTextStyle() {
-        let centerClass = '';
-        centerClass += this.props.screenSize === DeviceScreenSize.SMALL ? 'center' : '';
-        centerClass +=
-            this.props.screenSize === DeviceScreenSize.SMALL && !this.props.config.right
-                ? ' middle-padding'
-                : '';
-        return centerClass;
-    }
-
     public getMiddleSection() {
         const middle = this.props.config.middle;
 
@@ -65,7 +55,10 @@ export class TopBar extends Component<IProps> {
             let sectionContent;
             switch (middle.type) {
                 case 'text':
-                    const centerClass = this.getMiddleTextStyle();
+                    const centerClass =
+                        this.props.screenSize === DeviceScreenSize.SMALL && this.props.config.right
+                            ? 'center'
+                            : '';
                     sectionContent = (
                         <TopAppBar.Title className={`title ${centerClass}`}>
                             {middle.text}
