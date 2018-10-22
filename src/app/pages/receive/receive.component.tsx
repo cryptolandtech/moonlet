@@ -2,30 +2,45 @@ import { h, Component } from 'preact';
 import QRCode from 'qrcode.react';
 import Card from 'preact-material-components/Card';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
-import Typography from 'preact-material-components/Typography';
 import Button from 'preact-material-components/Button';
 
 import './receive.scss';
 import { Translate } from '../../components/translate/translate.component';
+import { GenericAccount } from 'moonlet-core/src/core/account';
+import { TextareaAutoSize } from '../../components/textarea-auto-size/textarea-auto-size.components';
 
-export class ReceivePage extends Component {
+interface IProps {
+    account: GenericAccount;
+}
+
+export class ReceivePage extends Component<IProps, any> {
+    private textareaElement: HTMLTextAreaElement;
+
     public render() {
         return (
             <LayoutGrid className="receive-page">
                 <Card className="card">
                     <QRCode
                         className="qr-image"
-                        value="0x5FC7409B4B41E06E73BA1AA7F3127D93C76BD557"
+                        value={this.props.account.address}
                         renderAs="svg"
                     />
-                    <Typography headline5 className="address">
-                        0x5FC7409B4B41E06E73BA1AA7F3127D93C76BD557
-                    </Typography>
-                    <Button>
+                    <TextareaAutoSize
+                        value={this.props.account.address}
+                        noBorder
+                        className="address"
+                        inputRef={el => (this.textareaElement = el)}
+                    />
+                    <Button onClick={() => this.copyToClipboard()}>
                         <Translate text="ReceivePage.copyToClipboard" />
                     </Button>
                 </Card>
             </LayoutGrid>
         );
+    }
+
+    private copyToClipboard() {
+        this.textareaElement.select();
+        document.execCommand('copy');
     }
 }

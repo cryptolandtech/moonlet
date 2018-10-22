@@ -10,10 +10,13 @@
         height: auto;
         max-width: 300px;
         margin: 0 auto;
+        margin-bottom: 16px;
     }
 
     .address {
         word-wrap: break-word;
-        margin-top: 16px;
+        font-size: 1.5rem !important;
+        color: gray !important;
+        text-align: center !important;
     }
 }
