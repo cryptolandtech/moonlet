@@ -137,6 +137,9 @@ export const ROUTES: IRoute[] = [
                     topBar: {
                         left: {
                             icon: 'logo'
+                        },
+                        middle: {
+                            type: 'networkSelection'
                         }
                     },
                     bottomNav: true
@@ -150,14 +153,16 @@ export const ROUTES: IRoute[] = [
     {
         name: 'receive',
         path: '/receive',
-        getComponent: () =>
-            Promise.resolve(require('./pages/receive/receive.component').ReceivePage),
+        getComponent: () => Promise.resolve(require('./pages/receive/recieve.container').default),
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.SMALL]: {
                     topBar: {
                         left: {
                             icon: 'logo'
+                        },
+                        middle: {
+                            type: 'networkSelection'
                         }
                     },
                     bottomNav: true
