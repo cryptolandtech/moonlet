@@ -99,3 +99,7 @@ $mdc-bottom-navigation-action-color: $mdc-theme-on-primary;
         }
     }
 }
+
+.mdc-bottom-navigation--fixed-adjust {
+    padding-bottom: $mdc-bottom-navigation-height;
+}

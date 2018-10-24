@@ -27,7 +27,8 @@ export class DefaultLayout extends Component<IProps> {
                 <div
                     className={
                         'page-container ' +
-                        (props.layout.topBar ? 'mdc-top-app-bar--fixed-adjust' : '')
+                        (props.layout.topBar ? 'mdc-top-app-bar--fixed-adjust ' : '') +
+                        (props.layout.bottomNav ? 'mdc-bottom-navigation--fixed-adjust ' : '')
                     }
                 >
                     {props.children}
