@@ -24,7 +24,8 @@ export const ROUTES: IRoute[] = [
     {
         name: 'landingPage',
         path: '/',
-        getComponent: () => Promise.resolve(require('./pages/landing/landing.container').default),
+        getComponent: () =>
+            import('./pages/landing/landing.container').then(module => module.default),
         withoutWalletInstance: true,
         config: {
             [Platform.ALL]: {
@@ -42,7 +43,7 @@ export const ROUTES: IRoute[] = [
         name: 'dashboard',
         path: '/dashboard',
         getComponent: () =>
-            Promise.resolve(require('./pages/dashboard/dashboard.container').default),
+            import('./pages/dashboard/dashboard.container').then(module => module.default),
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.SMALL]: {
@@ -81,7 +82,7 @@ export const ROUTES: IRoute[] = [
         name: 'createWallet',
         path: '/create-wallet',
         getComponent: () =>
-            Promise.resolve(require('./pages/create-wallet/create-wallet.container').default),
+            import('./pages/create-wallet/create-wallet.container').then(module => module.default),
         withoutWalletInstance: true,
         config: {
             [Platform.ALL]: {
@@ -108,7 +109,7 @@ export const ROUTES: IRoute[] = [
         name: 'importWallet',
         path: '/import-wallet',
         getComponent: () =>
-            Promise.resolve(require('./pages/import-wallet/import-wallet.container').default),
+            import('./pages/import-wallet/import-wallet.container').then(module => module.default),
         withoutWalletInstance: true,
         config: {
             [Platform.ALL]: {
@@ -130,7 +131,7 @@ export const ROUTES: IRoute[] = [
     {
         name: 'send',
         path: '/send',
-        getComponent: () => Promise.resolve(require('./pages/send/send.container').default),
+        getComponent: () => import('./pages/send/send.container').then(module => module.default),
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.SMALL]: {
@@ -153,7 +154,8 @@ export const ROUTES: IRoute[] = [
     {
         name: 'receive',
         path: '/receive',
-        getComponent: () => Promise.resolve(require('./pages/receive/recieve.container').default),
+        getComponent: () =>
+            import('./pages/receive/recieve.container').then(module => module.default),
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.SMALL]: {
@@ -176,7 +178,8 @@ export const ROUTES: IRoute[] = [
     {
         name: 'settings',
         path: '/settings',
-        getComponent: () => Promise.resolve(require('./pages/settings/settings.container').default),
+        getComponent: () =>
+            import('./pages/settings/settings.container').then(module => module.default),
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.SMALL]: {
@@ -204,8 +207,8 @@ export const ROUTES: IRoute[] = [
         name: 'transactionDetails',
         path: '/transaction/:transactionId',
         getComponent: () =>
-            Promise.resolve(
-                require('./pages/transaction-details/transaction-details.container').default
+            import('./pages/transaction-details/transaction-details.container').then(
+                module => module.default
             ),
         config: {
             [Platform.ALL]: {
@@ -227,7 +230,8 @@ export const ROUTES: IRoute[] = [
     {
         name: 'revealSecretPhrase',
         path: '/revealSecretPhrase',
-        getComponent: () => Promise.resolve(require('./pages/reveal/reveal.container').default),
+        getComponent: () =>
+            import('./pages/reveal/reveal.container').then(module => module.default),
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.ALL]: {
@@ -248,7 +252,8 @@ export const ROUTES: IRoute[] = [
     {
         name: 'revealPrivateKey',
         path: '/revealPrivateKey',
-        getComponent: () => Promise.resolve(require('./pages/reveal/reveal.container').default),
+        getComponent: () =>
+            import('./pages/reveal/reveal.container').then(module => module.default),
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.ALL]: {

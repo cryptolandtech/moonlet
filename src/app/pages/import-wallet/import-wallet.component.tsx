@@ -55,8 +55,8 @@ export class ImportWalletPage extends Component<IProps, IState> {
         return <div class="import-wallet-page">{content}</div>;
     }
 
-    public onWalletCreated(password: string) {
-        const wallet = createWallet(this.state.words.join(' '));
+    public async onWalletCreated(password: string) {
+        await createWallet(this.state.words.join(' '));
         savePassword(password);
         this.props.loadWallet(false, true, false);
         // route('/dashboard');

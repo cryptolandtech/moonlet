@@ -5,7 +5,7 @@ import LayoutGrid from 'preact-material-components/LayoutGrid';
 import { Translate } from '../../../components/translate/translate.component';
 import { TextField } from 'preact-material-components/TextField';
 import Button from 'preact-material-components/Button';
-import { createWallet } from '../../../utils/wallet';
+import Wallet from 'moonlet-core/src/core/wallet';
 
 interface IProps {
     onComplete?: (words: string[]) => any;
@@ -66,7 +66,7 @@ export class ImportWalletStep1 extends Component<IProps, IState> {
 
     public validate() {
         try {
-            createWallet(this.state.words.join(' '));
+            const wallet = new Wallet(this.state.words.join(' '));
             return true;
         } catch {
             this.setState({ error: true });

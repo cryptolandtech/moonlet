@@ -10,20 +10,42 @@ let wallet: Wallet;
 
 export const WALLET_STORAGE_KEY = 'serializedWallet';
 
-export const decodeWallet = (json: string) => {
-    wallet = Wallet.fromJson(json);
-    return wallet;
-};
-
 export const setWallet = (w: Wallet) => {
     wallet = w;
 };
 
-export const restoreWallet = (encryptedWallet: string, password: string): Wallet => {
+export const loadBlockchain = async (name: string) => {
+    const blockchain = await import(/* webpackChunkName: "blockchain/[request]" */ `moonlet-core/src/blockchain/${name}/class.index`);
+    wallet.loadBlockchain(blockchain.default);
+    return blockchain.default;
+};
+
+export const createWallet = (
+    mnemonics?: string,
+    language?: string,
+    mnemonicPassword?: string
+): Promise<Wallet> => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const w = new Wallet(mnemonics, language, mnemonicPassword);
+            setWallet(w);
+            await Promise.all([loadBlockchain('ethereum'), loadBlockchain('zilliqa')]);
+
+            w.createAccount(Blockchain.ETHEREUM);
+            w.createAccount(Blockchain.ZILLIQA);
+
+            resolve(w);
+        } catch (e) {
+            reject(e);
+        }
+    });
+};
+
+export const restoreWallet = (encryptedWallet: string, password: string): Promise<Wallet> => {
     const json = aes.decrypt(encryptedWallet, password).toString(encUtf8);
     const w = Wallet.fromJson(json);
     setWallet(w);
-    return w;
+    return Promise.resolve(w);
 };
 
 export const storeWallet = (password: string) => {
@@ -37,18 +59,6 @@ export const storeWallet = (password: string) => {
     }
 };
 
-export const createWallet = (
-    mnemonics?: string,
-    language?: string,
-    mnemonicPassword?: string
-): Wallet => {
-    const w = new Wallet(mnemonics, language, mnemonicPassword);
-    w.createAccount(Blockchain.ETHEREUM);
-    w.createAccount(Blockchain.ZILLIQA);
-    setWallet(w);
-    return w;
-};
-
 export const getWallet = (): Wallet => {
     return wallet;
 };
@@ -58,6 +68,7 @@ export const clearWallet = async () => {
     wallet = undefined;
 };
 
+// TODO: function bellow should be moved in a separate file
 export const savePassword = (password: string) => {
     // TODO hash the pass
     if (isExtension()) {
