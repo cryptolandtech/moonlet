@@ -1,5 +1,6 @@
 import common from './common.config';
 import { resolve } from 'path';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 /**
  * Function that mutates original webpack config.
  * Supports asynchronous changes when promise is returned.
@@ -20,4 +21,14 @@ export default function(config, env, helpers) {
 
     // customize config
     config.resolve.alias['preact-cli-entrypoint'] = resolve(process.cwd(), 'src', 'web', 'index');
+
+    // overwrite manifest.json
+    config.plugins.unshift(
+        new CopyWebpackPlugin([
+            {
+                from: resolve(process.cwd(), 'src', 'web', 'manifest.json'),
+                to: 'manifest.json'
+            }
+        ])
+    );
 }

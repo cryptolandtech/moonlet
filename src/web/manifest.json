@@ -1,14 +1,19 @@
 {
-    "name": "zilliqa-wallet",
-    "short_name": "zilliqa-wallet",
+    "name": "Moonlet Wallet",
+    "short_name": "Moonlet",
     "start_url": "/",
     "display": "standalone",
     "orientation": "portrait",
-    "background_color": "#fff",
-    "theme_color": "#673ab8",
+    "background_color": "#15112f",
+    "theme_color": "#15112f",
     "icons": [
         {
-            "src": "/assets/icon.png",
+            "src": "/assets/icon-192px.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/assets/icon-512px.png",
             "type": "image/png",
             "sizes": "512x512"
         }
