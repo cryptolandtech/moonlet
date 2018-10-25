@@ -78,6 +78,8 @@ $mdc-bottom-navigation-action-color: $mdc-theme-on-primary;
 }
 
 .mdc-bottom-navigation--fixed {
+    position: fixed;
+
     .mdc-bottom-navigation__actions {
         display: flex;
         justify-content: center;
