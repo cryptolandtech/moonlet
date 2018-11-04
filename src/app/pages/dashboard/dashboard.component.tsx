@@ -12,6 +12,7 @@ import { GenericAccount } from 'moonlet-core/src/core/account';
 import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { Typography } from 'preact-material-components/Typography';
+import { BigNumber } from 'bignumber.js';
 
 interface IProps {
     account: GenericAccount;
@@ -120,11 +121,15 @@ export class DashboardPage extends Component<IProps, any> {
                                                     <List.TextContainer>
                                                         <List.PrimaryText>
                                                             {this.getCoin()}{' '}
-                                                            {(tx as any).value ||
-                                                                (tx as any).amount}
+                                                            {this.props.account.utils.balanceToStd(
+                                                                new BigNumber(
+                                                                    (tx as any).value ||
+                                                                        (tx as any).amount
+                                                                )
+                                                            )}
                                                         </List.PrimaryText>
                                                         <List.SecondaryText>
-                                                            05/07/2018 4:23:38 PM
+                                                            {tx.data.toString()}
                                                         </List.SecondaryText>
                                                     </List.TextContainer>
                                                     <List.ItemMeta>

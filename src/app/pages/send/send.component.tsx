@@ -8,12 +8,13 @@ import { GenericAccount } from 'moonlet-core/src/core/account';
 import TransactionFee from './components/transaction-fee/transaction-fee.container';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { IBlockchainInfo } from '../../utils/blockchain/blockchain-info';
-import { getDefaultFeeOptions, formatCurrency } from '../../utils/blockchain/utils';
+import { convertUnit, getDefaultFeeOptions, formatCurrency } from '../../utils/blockchain/utils';
 import { FeeOptions, IGasFeeOptions } from '../../utils/blockchain/types';
 import { translate } from '../../utils/translate';
 import { Translate } from '../../components/translate/translate.component';
 import Dialog from 'preact-material-components/Dialog';
 import { route } from 'preact-router';
+import { BigNumber } from 'bignumber.js';
 
 interface IProps {
     blockchain: Blockchain;
@@ -209,16 +210,17 @@ export class SendPage extends Component<IProps, IState> {
     public async onConfirm() {
         try {
             const nonce = await this.props.account.getNonce();
-
+            const amount = new BigNumber(this.state.amount);
             const tx = this.props.account.buildTransferTransaction(
                 this.state.recipient,
-                this.state.amount,
+                convertUnit(this.props.blockchain, amount, 'ETH', 'WEI').toNumber(),
                 nonce,
                 (this.state.feeOptions as IGasFeeOptions).gasPrice,
                 1
             );
             this.props.account.signTransaction(tx);
             const response = await this.props.account.send(tx);
+            tx.data = new Buffer(new Date().toLocaleString());
             route('/dashboard');
         } catch (e) {
             this.showErrorDialog(e.toString());

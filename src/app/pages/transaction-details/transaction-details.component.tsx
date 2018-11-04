@@ -4,6 +4,10 @@ import { translate } from '../../utils/translate';
 import { ListItem } from '../../components/list-item/list-item.component';
 import { getWallet } from '../../utils/wallet';
 import { GenericTransaction } from 'moonlet-core/src/core/transaction';
+import { GenericAccount } from 'moonlet-core/src/core/account';
+import { BigNumber } from 'bignumber.js';
+import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
+import { Blockchain } from 'moonlet-core/src/core/blockchain';
 
 interface ITransactionListItem {
     icon: string;
@@ -15,6 +19,8 @@ interface ITransactionListItem {
 
 interface IProps {
     transaction: GenericTransaction;
+    account: GenericAccount;
+    blockchain: Blockchain;
 }
 
 export class TransactionDetailsPage extends Component<IProps> {
@@ -26,14 +32,19 @@ export class TransactionDetailsPage extends Component<IProps> {
         // date and time
         details.push({
             icon: 'history',
-            primaryText: '05/07/2018 4:23:38 PM',
+            primaryText: tx.data.toString(),
             secondaryText: translate('TransactionDetailsPage.dateTime')
         });
 
         // amount
         details.push({
             icon: 'attach_money',
-            primaryText: (tx as any).value || (tx as any).amount,
+            primaryText:
+                this.getCoin() +
+                ' ' +
+                this.props.account.utils
+                    .balanceToStd(new BigNumber((tx as any).value || (tx as any).amount))
+                    .toString(),
             secondaryText: translate('TransactionDetailsPage.amount')
         });
 
@@ -47,7 +58,7 @@ export class TransactionDetailsPage extends Component<IProps> {
         // transaction status
         details.push({
             icon: 'access_time',
-            primaryText: tx.status,
+            primaryText: tx.status.replace('FINAL', 'CONFIRMED'),
             secondaryText: translate('TransactionDetailsPage.status')
         });
 
@@ -76,6 +87,10 @@ export class TransactionDetailsPage extends Component<IProps> {
         });
 
         return details;
+    }
+
+    public getCoin() {
+        return BLOCKCHAIN_INFO[this.props.blockchain].coin;
     }
 
     public render() {
