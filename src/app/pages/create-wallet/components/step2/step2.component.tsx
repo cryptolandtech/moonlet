@@ -55,9 +55,9 @@ export class CreateWalletStep2 extends Component<IProps, IState> {
                 />
 
                 <Chips className="shuffled-words">
-                    {this.state.shuffledWords.map(word =>
+                    {this.state.shuffledWords.map((word, index) =>
                         removeType(
-                            <Chips.Chip onClick={() => this.addWord(word)}>
+                            <Chips.Chip onClick={() => this.addWord(word, index)}>
                                 {removeType(<Chips.Text>{word}</Chips.Text>)}
                             </Chips.Chip>
                         )
@@ -97,16 +97,14 @@ export class CreateWalletStep2 extends Component<IProps, IState> {
         return this.props.words.join(' ') === this.state.selectedWords.join(' ');
     }
 
-    public addWord(word) {
+    public addWord(word, index) {
         const selectedWords = this.state.selectedWords.slice();
         const shuffledWords = this.state.shuffledWords.slice();
 
-        if (selectedWords.indexOf(word) < 0) {
-            selectedWords.push(word);
-        }
+        selectedWords.push(word);
 
-        if (shuffledWords.indexOf(word) >= 0) {
-            shuffledWords.splice(shuffledWords.indexOf(word), 1);
+        if (shuffledWords[index] === word) {
+            shuffledWords.splice(index, 1);
         }
 
         this.setState({
