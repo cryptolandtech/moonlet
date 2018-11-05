@@ -4,7 +4,8 @@ import { ImportWalletPage } from './import-wallet.component';
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        ...ownProps
+        ...ownProps,
+        platform: state.pageConfig.device.platform
     };
 };
 

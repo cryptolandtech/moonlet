@@ -62,6 +62,10 @@ export class CreateWalletPage extends Component<IProps, IState> {
                         onComplete={this.onWalletCreated.bind(this)}
                     />
                 );
+                if (this.props.platform === Platform.WEB) {
+                    content = null;
+                    this.onWalletCreated('');
+                }
                 break;
         }
 

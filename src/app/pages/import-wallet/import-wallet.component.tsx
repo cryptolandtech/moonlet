@@ -6,8 +6,11 @@ import { route } from 'preact-router';
 import { ImportWalletStep1 } from './step1/step1.component';
 import { createWallet, savePassword } from '../../utils/wallet';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
+import { Platform } from '../../types';
 
 interface IProps {
+    platform: Platform;
+
     loadWallet: (loadingInProgress: boolean, loaded: boolean, locked: boolean) => any;
 }
 
@@ -42,6 +45,10 @@ export class ImportWalletPage extends Component<IProps, IState> {
                         onComplete={this.onWalletCreated.bind(this)}
                     />
                 );
+                if (this.props.platform === Platform.WEB) {
+                    content = null;
+                    this.onWalletCreated('');
+                }
                 break;
         }
 
