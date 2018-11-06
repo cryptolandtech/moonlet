@@ -16,7 +16,10 @@ export const setWallet = (w: Wallet) => {
 
 export const loadBlockchain = async (name: string) => {
     const blockchain = await import(/* webpackChunkName: "blockchain/[request]" */ `moonlet-core/src/blockchain/${name}/class.index`);
-    wallet.loadBlockchain(blockchain.default);
+    if (wallet) {
+        wallet.loadBlockchain(blockchain.default);
+    }
+
     return blockchain.default;
 };
 
@@ -41,9 +44,10 @@ export const createWallet = (
     });
 };
 
-export const restoreWallet = (encryptedWallet: string, password: string): Promise<Wallet> => {
+export const restoreWallet = async (encryptedWallet: string, password: string): Promise<Wallet> => {
+    const blockchains = await Promise.all([loadBlockchain('ethereum'), loadBlockchain('zilliqa')]);
     const json = aes.decrypt(encryptedWallet, password).toString(encUtf8);
-    const w = Wallet.fromJson(json);
+    const w = Wallet.fromJson(json, blockchains);
     setWallet(w);
     return Promise.resolve(w);
 };

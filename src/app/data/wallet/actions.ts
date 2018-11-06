@@ -46,10 +46,10 @@ export const createLoadWallet = (pass?: string) => {
         if (storage[WALLET_STORAGE_KEY]) {
             if (password) {
                 try {
-                    restoreWallet(storage[WALLET_STORAGE_KEY].json, password);
+                    await restoreWallet(storage[WALLET_STORAGE_KEY].json, password);
                     dispatch(createWalletLoaded(false, true, false));
                     savePassword(password);
-                } catch {
+                } catch (e) {
                     dispatch(createInvalidPassword());
                 }
             } else {

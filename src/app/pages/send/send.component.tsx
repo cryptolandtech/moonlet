@@ -225,7 +225,7 @@ export class SendPage extends Component<IProps, IState> {
             );
             this.props.account.signTransaction(tx);
             const response = await this.props.account.send(tx);
-            tx.data = new Buffer(new Date().toLocaleString());
+            (tx as any).data = new Date().toLocaleString();
             route('/dashboard');
         } catch (e) {
             this.showErrorDialog(e.toString());

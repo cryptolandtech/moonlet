@@ -79,7 +79,7 @@ export class TransactionDetailsPage extends Component<IProps> {
         // transaction id
         details.push({
             icon: 'crop',
-            primaryText: tx.txn,
+            primaryText: typeof tx.txn === 'string' ? tx.txn : (tx.txn as any).TranID,
             secondaryText: translate('TransactionDetailsPage.id')
             // href:
             //     'https://explorer-scilla.zilliqa.com/transactions/5DF6E0E2761359D30A8275058E299FCC0381534545F55CF43E41983F5D4C9456',

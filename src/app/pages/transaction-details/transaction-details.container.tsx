@@ -15,7 +15,10 @@ const mapStateToProps = (state, ownProps) => {
     wallet.accounts.forEach((blockchainAccounts: GenericAccount[], blockchain: Blockchain) => {
         blockchainAccounts.forEach((account: GenericAccount) => {
             account.getTransactions().forEach((tx: GenericTransaction) => {
-                if (tx.txn === transactionId) {
+                if (
+                    tx.txn === transactionId ||
+                    ((tx.txn as any).TranID && (tx.txn as any).TranID === transactionId)
+                ) {
                     transaction = tx;
                     txAccount = account;
                     txBlockchain = blockchain;

@@ -116,7 +116,13 @@ export class DashboardPage extends Component<IProps, any> {
                                     <List className="transactions-list" two-line={true}>
                                         {this.props.account.getTransactions().map(tx => (
                                             <div>
-                                                <List.LinkItem href={`/transaction/${tx.txn}`}>
+                                                <List.LinkItem
+                                                    href={`/transaction/${
+                                                        typeof tx.txn === 'string'
+                                                            ? tx.txn
+                                                            : (tx.txn as any).TranID
+                                                    }`}
+                                                >
                                                     <List.ItemGraphic>file_copy</List.ItemGraphic>
                                                     <List.TextContainer>
                                                         <List.PrimaryText>
