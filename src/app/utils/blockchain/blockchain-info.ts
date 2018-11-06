@@ -13,6 +13,7 @@ interface IGasFeeConfig {
 
 export interface IBlockchainInfo {
     coin: string;
+    defaultUnit: string;
     units: {
         [unit: string]: BigNumber;
     };
@@ -37,6 +38,7 @@ export const BLOCKCHAIN_INFO: {
 } = {
     [Blockchain.ETHEREUM]: {
         coin: 'ETH',
+        defaultUnit: 'WEI',
         units: {
             WEI: new BigNumber(1),
             GWEI: new BigNumber(Math.pow(10, 9)),
@@ -61,6 +63,7 @@ export const BLOCKCHAIN_INFO: {
     },
     [Blockchain.ZILLIQA]: {
         coin: 'ZIL',
+        defaultUnit: 'ZIL',
         units: {
             ZIL: new BigNumber(1)
         },

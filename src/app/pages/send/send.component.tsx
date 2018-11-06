@@ -213,7 +213,12 @@ export class SendPage extends Component<IProps, IState> {
             const amount = new BigNumber(this.state.amount);
             const tx = this.props.account.buildTransferTransaction(
                 this.state.recipient,
-                convertUnit(this.props.blockchain, amount, 'ETH', 'WEI').toNumber(),
+                convertUnit(
+                    this.props.blockchain,
+                    amount,
+                    this.props.blockchainInfo.coin,
+                    this.props.blockchainInfo.defaultUnit
+                ).toNumber(),
                 nonce,
                 (this.state.feeOptions as IGasFeeOptions).gasPrice,
                 1
