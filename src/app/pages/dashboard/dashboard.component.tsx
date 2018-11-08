@@ -136,7 +136,7 @@ export class DashboardPage extends Component<IProps, any> {
                                                             )}
                                                         </List.PrimaryText>
                                                         <List.SecondaryText>
-                                                            {JSON.stringify(tx.data.toString())}
+                                                            {tx.data.toString()}
                                                         </List.SecondaryText>
                                                     </List.TextContainer>
                                                     <List.ItemMeta>
