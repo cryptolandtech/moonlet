@@ -50,6 +50,7 @@ export class DashboardPage extends Component<IProps, any> {
                 });
             })
             .catch(err => {
+                // console.log(err);
                 this.setState({
                     balance: 'error'
                 });
