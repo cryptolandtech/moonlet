@@ -30,7 +30,11 @@ export class ListItem extends Component<IProps, {}> {
     }
 
     public getListItem() {
-        const ItemComponent = this.props.href ? List.LinkItem : List.Item;
+        let ItemComponent = List.Item;
+        if (this.props.href) {
+            ItemComponent = List.LinkItem as any;
+        }
+
         let itemProps = {};
 
         if (this.props.href) {
