@@ -61,7 +61,7 @@ function upload(zipName) {
 function publish() {
     // publish the uploaded zip
     webStore
-        .publish('trustedTesters')
+        .publish('default')
         .then(res => {
             console.log('Successfully published the newer version');
         })
