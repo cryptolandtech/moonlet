@@ -58,7 +58,7 @@ export class TransactionDetailsPage extends Component<IProps> {
         // transaction status
         details.push({
             icon: 'access_time',
-            primaryText: tx.status.replace('FINAL', 'CONFIRMED'),
+            primaryText: tx.status.replace('FINAL', 'SUBMITTED'),
             secondaryText: translate('TransactionDetailsPage.status')
         });
 

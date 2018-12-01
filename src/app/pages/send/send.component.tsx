@@ -112,6 +112,7 @@ export class SendPage extends Component<IProps, IState> {
                     </Dialog.Header>
                     <Dialog.Body>
                         <Translate
+                            className="confirmation-message"
                             text="SendPage.confirmationDialog.message"
                             params={{
                                 amount: formatCurrency(
@@ -140,10 +141,7 @@ export class SendPage extends Component<IProps, IState> {
                         <Translate text="SendPage.errorDialog.generic" />
                         {this.state.errorDialogExtraMessage && (
                             <p>
-                                <br />
-                                <br />
-                                DEBUG:
-                                <br />
+                                Details:
                                 <br />
                                 {this.state.errorDialogExtraMessage}
                             </p>
@@ -220,8 +218,8 @@ export class SendPage extends Component<IProps, IState> {
                     this.props.blockchainInfo.defaultUnit
                 ).toNumber(),
                 nonce,
-                (this.state.feeOptions as IGasFeeOptions).gasPrice,
-                1
+                (this.state.feeOptions as IGasFeeOptions).gasLimit,
+                (this.state.feeOptions as IGasFeeOptions).gasPrice
             );
             this.props.account.signTransaction(tx);
             const response = await this.props.account.send(tx);

@@ -76,7 +76,7 @@ export const BLOCKCHAIN_INFO: {
                 ui: 'advanced',
                 default: {
                     gasPrice: 100,
-                    gasLimit: 1,
+                    gasLimit: 10,
                     gasPricePresets: {
                         safeLow: 1,
                         standard: 1,
