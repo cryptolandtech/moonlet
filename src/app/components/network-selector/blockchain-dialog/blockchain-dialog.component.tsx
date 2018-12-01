@@ -77,9 +77,9 @@ export class NetworkSelectorBlockChainDialog extends Component<IProps, IState> {
                         )}
                     </List>
                 </Dialog.Body>
-                <Dialog.Footer>
+                {/* <Dialog.Footer>
                     <Dialog.FooterButton>Add</Dialog.FooterButton>
-                </Dialog.Footer>
+                </Dialog.Footer> */}
             </Dialog>
         );
     }

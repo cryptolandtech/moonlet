@@ -9,6 +9,7 @@ export enum BlockchainFeeType {
 interface IGasFeeConfig {
     gasPriceUnit: string;
     default: IGasFeeDefaults;
+    ui: 'simple' | 'advanced';
 }
 
 export interface IBlockchainInfo {
@@ -48,6 +49,7 @@ export const BLOCKCHAIN_INFO: {
             type: BlockchainFeeType.GAS,
             config: {
                 gasPriceUnit: 'GWEI',
+                ui: 'simple',
                 default: {
                     gasPrice: 3,
                     gasLimit: 21000,
@@ -71,9 +73,10 @@ export const BLOCKCHAIN_INFO: {
             type: BlockchainFeeType.GAS,
             config: {
                 gasPriceUnit: 'ZIL',
+                ui: 'advanced',
                 default: {
-                    gasPrice: 1,
-                    gasLimit: 10,
+                    gasPrice: 100,
+                    gasLimit: 1,
                     gasPricePresets: {
                         safeLow: 1,
                         standard: 1,

@@ -97,7 +97,7 @@ export class SendPage extends Component<IProps, IState> {
                     onChange={this.onFeeOptionsChange.bind(this)}
                 />
 
-                <LayoutGrid class="right-text no-padding-top-bottom">
+                <LayoutGrid class="right-text">
                     <Button ripple raised secondary onClick={this.onConfirmClick.bind(this)}>
                         <Translate text="App.labels.confirm" />
                     </Button>

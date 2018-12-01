@@ -26,6 +26,7 @@ interface IProps {
 }
 
 interface IState {
+    showToggleButton: boolean;
     simpleView: boolean;
     feeSliderValue: number;
     feeOptions: FeeOptions;
@@ -38,7 +39,8 @@ export class TransactionFee extends Component<IProps, IState> {
         super(props);
 
         this.state = {
-            simpleView: true,
+            showToggleButton: this.props.blockchainInfo.fee.config.ui === 'simple',
+            simpleView: this.props.blockchainInfo.fee.config.ui === 'simple',
             feeSliderValue: (props.feeOptions as IGasFeeOptions).gasPrice, // TODO: find a more generic solution,
             feeOptions: props.feeOptions
         };
@@ -123,12 +125,14 @@ export class TransactionFee extends Component<IProps, IState> {
 
                 {!this.state.simpleView && this.getAdvancedViewComponent()}
 
-                <Button onClick={() => this.setState({ simpleView: !this.state.simpleView })}>
-                    <Button.Icon>{this.state.simpleView ? 'add' : 'remove'}</Button.Icon>
-                    {this.state.simpleView
-                        ? translate('SendPage.TransactionFee.advanced')
-                        : translate('SendPage.TransactionFee.simple')}
-                </Button>
+                {this.state.showToggleButton && (
+                    <Button onClick={() => this.setState({ simpleView: !this.state.simpleView })}>
+                        <Button.Icon>{this.state.simpleView ? 'add' : 'remove'}</Button.Icon>
+                        {this.state.simpleView
+                            ? translate('SendPage.TransactionFee.advanced')
+                            : translate('SendPage.TransactionFee.simple')}
+                    </Button>
+                )}
             </LayoutGrid>
         );
     }
