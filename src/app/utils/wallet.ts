@@ -34,7 +34,7 @@ export const createWallet = (
             setWallet(w);
             await Promise.all([loadBlockchain('ethereum'), loadBlockchain('zilliqa')]);
 
-            w.createAccount(Blockchain.ETHEREUM);
+            // w.createAccount(Blockchain.ETHEREUM);
             w.createAccount(Blockchain.ZILLIQA);
 
             resolve(w);
