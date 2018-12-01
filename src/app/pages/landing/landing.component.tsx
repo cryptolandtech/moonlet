@@ -56,6 +56,10 @@ export class LandingPage extends Component<IProps, IState> {
                                             onInput={e =>
                                                 this.setState({ password: (e.target as any).value })
                                             }
+                                            onKeyPress={e =>
+                                                e.code === 'Enter' &&
+                                                this.props.loadWallet(this.state.password)
+                                            }
                                             label={translate('LandingPage.enterPassword')}
                                         />
 
@@ -73,9 +77,9 @@ export class LandingPage extends Component<IProps, IState> {
                                             secondary
                                             raised
                                             className="sign-in"
-                                            onClick={async () => {
-                                                this.props.loadWallet(this.state.password);
-                                            }}
+                                            onClick={() =>
+                                                this.props.loadWallet(this.state.password)
+                                            }
                                         >
                                             <Translate text="LandingPage.signIn" />
                                         </Button>
