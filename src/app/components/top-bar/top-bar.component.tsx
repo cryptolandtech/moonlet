@@ -25,7 +25,7 @@ export class TopBar extends Component<IProps> {
 
         if (config.icon === 'logo') {
             icon = (
-                <a href="#" onClick={onClick}>
+                <a onClick={onClick}>
                     <img class="top-appbar-icon" src="/assets/logo.svg" />
                 </a>
             );

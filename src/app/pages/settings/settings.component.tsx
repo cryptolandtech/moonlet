@@ -1,12 +1,11 @@
 import { h, Component } from 'preact';
-import LayoutGrid from 'preact-material-components/LayoutGrid';
 import List from 'preact-material-components/List';
 import { ListItem } from '../../components/list-item/list-item.component';
 import Button from 'preact-material-components/Button';
-import { route } from 'preact-router';
 import { Translate } from '../../components/translate/translate.component';
 import { translate } from '../../utils/translate';
-import { clearWallet } from '../../utils/wallet';
+
+import './settings.component.scss';
 
 interface IProps {
     signOut: () => any;
@@ -64,15 +63,17 @@ export class SettingsPage extends Component<IProps> {
                     })}
                 </List>
 
-                <Button
-                    ripple
-                    outlined
-                    onClick={() => {
-                        this.props.signOut();
-                    }}
-                >
-                    <Translate text="App.labels.signOut" />
-                </Button>
+                <div className="sign-out">
+                    <Button
+                        ripple
+                        outlined
+                        onClick={() => {
+                            this.props.signOut();
+                        }}
+                    >
+                        <Translate text="App.labels.signOut" />
+                    </Button>
+                </div>
             </div>
         );
     }

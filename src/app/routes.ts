@@ -189,10 +189,6 @@ export const ROUTES: IRoute[] = [
                         },
                         middle: {
                             type: 'networkSelection'
-                        },
-                        right: {
-                            type: 'icon',
-                            icon: 'launch'
                         }
                     },
                     bottomNav: true
