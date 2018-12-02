@@ -19,7 +19,11 @@ export class NetworkSelector extends Component<IProps> {
     public render() {
         return (
             <div class="network-selector">
-                <Chips onClick={() => this.dialog.open()}>
+                <Chips
+                    onClick={() => {
+                        /*() => this.dialog.open()*/
+                    }}
+                >
                     {removeType(
                         <Chips.Chip>
                             {removeType(
