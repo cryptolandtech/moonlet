@@ -5,5 +5,6 @@ import { IState } from './';
 
 export const reducers = combineReducers<IState>({
     pageConfig,
-    wallet
+    wallet,
+    extension: state => state || {}
 });

@@ -8,6 +8,8 @@ import { translate } from '../../utils/translate';
 import './settings.component.scss';
 
 interface IProps {
+    version: string;
+
     signOut: () => any;
 }
 
@@ -26,7 +28,7 @@ export class SettingsPage extends Component<IProps> {
 
         details.push({
             primaryText: translate('SettingsPage.aboutMoonlet'),
-            secondaryText: '',
+            secondaryText: 'ver ' + this.props.version,
             href: '',
             target: '_blank'
         });

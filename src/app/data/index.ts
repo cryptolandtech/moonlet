@@ -7,11 +7,15 @@ import { IWalletState } from './wallet/state';
 export interface IState {
     pageConfig: IPageConfig;
     wallet: IWalletState;
+    extension?: {
+        version: string;
+    };
 }
 
 const defaultState: IState = {
     pageConfig: undefined,
-    wallet: undefined
+    wallet: undefined,
+    extension: undefined
 };
 
 const composeEnhancers =

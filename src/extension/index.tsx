@@ -9,6 +9,8 @@ import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { getPassword, storeWallet, removePassword } from '../app/utils/wallet';
 import { createLoadWallet } from '../app/data/wallet/actions';
 
+import { VERSION } from './version';
+
 const store = getStore({
     pageConfig: {
         device: {
@@ -27,6 +29,9 @@ const store = getStore({
         selectedBlockchain: Blockchain.ZILLIQA,
         selectedNetwork: 0,
         selectedAccount: 0
+    },
+    extension: {
+        version: VERSION
     }
 });
 
