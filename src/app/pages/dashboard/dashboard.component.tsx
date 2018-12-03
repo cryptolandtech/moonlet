@@ -66,13 +66,22 @@ export class DashboardPage extends Component<IProps, any> {
             <div className="dashboard-page">
                 <LayoutGrid>
                     <LayoutGrid.Inner>
+                        <LayoutGrid.Cell cols={12}>
+                            <Card className="card balance-card">
+                                <p className="mdc-typography--body2">
+                                    Your opinion is very important to us.{' '}
+                                    <a
+                                        href="https://goo.gl/forms/48aS7rKKOOkbFIhm1"
+                                        target="_blank"
+                                    >
+                                        Leave feedback
+                                    </a>
+                                </p>
+                            </Card>
+                        </LayoutGrid.Cell>
                         <LayoutGrid.Cell cols={4} tabletCols={8}>
                             <Card className="card balance-card">
-                                <Translate
-                                    text="DashboardPage.totalBalance"
-                                    tag="p"
-                                    className="mdc-typography--body2"
-                                />
+                                <Translate text="DashboardPage.totalBalance" tag="p" body2 />
                                 <p className="mdc-typography--headline5">
                                     {this.getCoin()} {this.state.balance}
                                 </p>
