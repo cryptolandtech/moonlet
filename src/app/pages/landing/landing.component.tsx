@@ -8,6 +8,7 @@ import LayoutGrid from 'preact-material-components/LayoutGrid';
 import './landing.scss';
 import { Translate } from '../../components/translate/translate.component';
 import { TextField } from 'preact-material-components/TextField';
+import { Typography } from 'preact-material-components/Typography';
 import { translate } from '../../utils/translate';
 import Card from 'preact-material-components/Card';
 
@@ -41,8 +42,11 @@ export class LandingPage extends Component<IProps, IState> {
                             <Translate
                                 text="LandingPage.title"
                                 tag="h1"
-                                className="title mdc-typography--headline2"
+                                className="title mdc-typography--headline4"
                             />
+                            <h6 class="title mdc-typography mdc-typography--headline6">
+                                beta version
+                            </h6>
                             <Icon className="icon">security</Icon>
                         </LayoutGrid.Cell>
                         {!this.props.wallet.loadingInProgress &&

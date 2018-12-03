@@ -73,7 +73,7 @@
         }
     },
     "lint-staged": {
-        "*.{ts,tsx,scss,json}": ["npm run prettier", "git add"],
+        "*.{ts,tsx,scss,json,js}": ["npm run prettier", "git add"],
         "*.{ts,tsx}": ["npm run lint", "git add"]
     }
 }
