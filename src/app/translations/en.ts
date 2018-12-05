@@ -55,7 +55,7 @@ export const translation: ITranslations = {
                 generic:
                     'Sorry, there was an error posting your transaction to blockchain. Try again or come back later.'
             },
-
+            addAllBalance: 'add all balance',
             TransactionFee: {
                 cheap: 'Cheap',
                 standard: 'Standard',

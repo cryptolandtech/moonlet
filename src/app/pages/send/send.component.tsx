@@ -24,8 +24,10 @@ interface IProps {
 
 interface IState {
     recipient: string;
-    amount: number;
+    amount: BigNumber;
     feeOptions: FeeOptions;
+    balance: string;
+    isAddAllButtonVisible: boolean;
     fieldErrors: {
         amount: string;
         recipient: string;
@@ -43,13 +45,14 @@ export class SendPage extends Component<IProps, IState> {
             recipient: '',
             amount: undefined,
             feeOptions: getDefaultFeeOptions(props.blockchain),
-
+            balance: '...',
+            isAddAllButtonVisible: true,
             fieldErrors: {
                 amount: '',
                 recipient: ''
             }
         };
-
+        this.updateBalance();
         // let tx = props.account.buildTransferTransaction("", 0.1, 1, 21000, 2)
         // // props.account.estimateTransferTransaction("0xea84F4178e30e196f77A7675B5E29fc7833FceFE", 0.1, 1).then(data => {
         // //     console.log(data);
@@ -78,6 +81,23 @@ export class SendPage extends Component<IProps, IState> {
                                 {...this.getValidationProps('recipient')}
                             />
                         </LayoutGridCell>
+                        {this.state.isAddAllButtonVisible && (
+                            <LayoutGridCell cols={12}>
+                                <Button
+                                    ripple
+                                    onClick={() =>
+                                        this.setState({ amount: new BigNumber(this.state.balance) })
+                                    }
+                                >
+                                    <Translate
+                                        body1
+                                        text="SendPage.addAllBalance"
+                                        className="secondary-color"
+                                    />
+                                    <p class="secondary-color"> {': ' + this.state.balance}</p>
+                                </Button>
+                            </LayoutGridCell>
+                        )}
                         <LayoutGridCell cols={12}>
                             <TextareaAutoSize
                                 outlined
@@ -183,7 +203,7 @@ export class SendPage extends Component<IProps, IState> {
             valid = false;
         }
 
-        if (!this.state.amount || !(this.state.amount > 0)) {
+        if (!this.state.amount || !this.state.amount.isGreaterThan(0)) {
             fieldErrors.amount = translate('SendPage.errors.amount');
             valid = false;
         }
@@ -208,7 +228,7 @@ export class SendPage extends Component<IProps, IState> {
     public async onConfirm() {
         try {
             const nonce = await this.props.account.getNonce();
-            const amount = new BigNumber(this.state.amount);
+            const amount = this.state.amount;
             const tx = this.props.account.buildTransferTransaction(
                 this.state.recipient,
                 convertUnit(
@@ -228,5 +248,20 @@ export class SendPage extends Component<IProps, IState> {
         } catch (e) {
             this.showErrorDialog(e.toString());
         }
+    }
+
+    private updateBalance() {
+        this.props.account
+            .getBalance()
+            .then(balance => {
+                this.setState({
+                    balance: this.props.account.utils.balanceToStd(balance)
+                });
+            })
+            .catch(() => {
+                this.setState({
+                    isAddAllButtonVisible: false
+                });
+            });
     }
 }
