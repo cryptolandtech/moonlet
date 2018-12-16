@@ -51,7 +51,7 @@ export const BLOCKCHAIN_INFO: {
                 gasPriceUnit: 'GWEI',
                 ui: 'simple',
                 default: {
-                    gasPrice: 3,
+                    gasPrice: 20,
                     gasLimit: 21000,
                     gasPricePresets: {
                         safeLow: 2,

@@ -34,7 +34,7 @@ export const createWallet = (
             setWallet(w);
             await Promise.all([loadBlockchain('ethereum'), loadBlockchain('zilliqa')]);
 
-            // w.createAccount(Blockchain.ETHEREUM);
+            w.createAccount(Blockchain.ETHEREUM);
             w.createAccount(Blockchain.ZILLIQA);
 
             resolve(w);
@@ -55,12 +55,13 @@ export const restoreWallet = async (encryptedWallet: string, password: string): 
 export const storeWallet = (password: string) => {
     if (isExtension() && wallet) {
         const encryptedWallet = aes.encrypt(wallet.toJSON(), password).toString();
-        browser.storage.local.set({
+        return browser.storage.local.set({
             [WALLET_STORAGE_KEY]: {
                 json: encryptedWallet
             }
         });
     }
+    return Promise.resolve();
 };
 
 export const getWallet = (): Wallet => {

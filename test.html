@@ -1,0 +1,27 @@
+<button onclick="pay(0.01)">Pay with moonlet</button>
+<br/>
+<br/>
+txn: <input type="text" id="txn" size="100" readonly/> <button onclick="checkOnEtherscan()">Check on etherscan</button>
+
+<script>
+    const WALLET_ADDRESS = "0x5a64467a17771C8164f63fEcC164EAC63DC0AD24"; // MERCHANT wallet
+    const txn = document.getElementById("txn");
+
+    function pay(amount) {
+        if (window.moonlet) {
+            txn.value = "";
+            window.moonlet.send(WALLET_ADDRESS, amount).then((result) => {
+                txn.value = result.data.transactionId;
+            }, (error) => {
+                alert("User did not confirm or error ocurred.\n" + JSON.stringify(error, null, 2));
+            });
+        } else {
+            alert("Install moonlet extension!!!");
+        }
+    }
+
+    function checkOnEtherscan() {
+        window.open("https://rinkeby.etherscan.io/tx/" + txn.value);
+    }
+</script>
+

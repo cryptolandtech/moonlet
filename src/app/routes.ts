@@ -152,6 +152,13 @@ export const ROUTES: IRoute[] = [
         }
     },
     {
+        name: 'confirmation',
+        path: '/confirmation',
+        getComponent: () =>
+            import('./pages/confirmation/confirmation.container').then(module => module.default),
+        config: {}
+    },
+    {
         name: 'receive',
         path: '/receive',
         getComponent: () =>

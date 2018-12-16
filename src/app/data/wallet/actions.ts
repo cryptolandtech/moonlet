@@ -1,4 +1,4 @@
-import { savePassword } from './../../utils/wallet';
+import { savePassword, storeWallet } from './../../utils/wallet';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { Network } from 'moonlet-core/src/core/network';
 import { getPassword, WALLET_STORAGE_KEY, restoreWallet, clearWallet } from '../../utils/wallet';
@@ -58,6 +58,8 @@ export const createLoadWallet = (pass?: string) => {
         } else {
             dispatch(createWalletLoaded(false, false, false));
         }
+
+        await storeWallet(password);
     };
 };
 

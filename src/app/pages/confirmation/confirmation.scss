@@ -1,0 +1,28 @@
+@import '../../styles/base';
+
+.confirmation-page {
+    .gas-prices {
+        display: flex;
+        margin-top: -10px;
+        div {
+            flex: 1;
+        }
+    }
+    .no-padding-top-bottom {
+        padding-top: 0px;
+        padding-bottom: 0px;
+    }
+
+    .confirmation-message {
+        word-break: break-word;
+    }
+
+    .button {
+        width: 100%;
+
+        &.reject {
+            @include mdc-button-container-fill-color(white);
+            @include mdc-button-ink-color($mdc-theme-primary);
+        }
+    }
+}

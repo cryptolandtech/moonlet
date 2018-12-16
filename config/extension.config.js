@@ -32,7 +32,14 @@ export default function(config, env, helpers) {
 
     // add background script
     config.output.filename = '[name].js';
-    config.entry['background'] = resolve(process.cwd(), 'src', 'extension', 'background');
+    config.entry['bundle.background'] = resolve(process.cwd(), 'src', 'extension', 'background');
+    config.entry['bundle.content-script'] = resolve(
+        process.cwd(),
+        'src',
+        'extension',
+        'content-script'
+    );
+    config.entry['bundle.moonlet-web'] = resolve(process.cwd(), 'src', 'extension', 'moonlet-web');
 
     // overwrite manifest.json
     config.plugins.unshift(

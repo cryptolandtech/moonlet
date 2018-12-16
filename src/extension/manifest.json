@@ -4,7 +4,7 @@
     "description": "Moonlet Wallet Extension",
     "permissions": ["storage"],
     "background": {
-        "scripts": ["background.js"],
+        "scripts": ["bundle.background.js"],
         "persistent": false
     },
     "icons": {
@@ -15,5 +15,13 @@
     "browser_action": {
         "default_popup": "index.html?popup=1"
     },
+    "content_scripts": [
+        {
+            "matches": ["https://*/*", "http://*/*", "file://*/*"],
+            "run_at": "document_end",
+            "js": ["bundle.content-script.js"]
+        }
+    ],
+    "web_accessible_resources": ["/bundle.moonlet-web.js"],
     "manifest_version": 2
 }

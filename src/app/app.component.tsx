@@ -30,6 +30,7 @@ interface IState {
 export default class App extends Component<IProps, IState> {
     private phoneMediaQuery;
     private route: RouterOnChangeArgs;
+    private confirmationScreen: boolean = false;
 
     constructor(props: RenderableProps<IProps>) {
         super(props);
@@ -57,8 +58,18 @@ export default class App extends Component<IProps, IState> {
             this.props.walletLoaded &&
             !this.props.walletLocked;
 
-        if (['/', '/import-wallet', '/create-wallet'].indexOf(this.route.url) >= 0 && walletOk) {
+        this.confirmationScreen =
+            this.confirmationScreen || this.route.url.indexOf('/confirmation') === 0;
+        // console.log(this.route.url, this.confirmationScreen);
+
+        if (
+            !this.confirmationScreen &&
+            ['/', '/import-wallet', '/create-wallet'].indexOf(this.route.url) >= 0 &&
+            walletOk
+        ) {
             route('/dashboard');
+        } else if (this.confirmationScreen && walletOk) {
+            route('/confirmation');
         } else if (!this.route.current.attributes.withoutWalletInstance && !walletOk) {
             route('/');
         }
