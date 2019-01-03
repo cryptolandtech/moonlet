@@ -65,17 +65,19 @@ export const BLOCKCHAIN_INFO: {
     },
     [Blockchain.ZILLIQA]: {
         coin: 'ZIL',
-        defaultUnit: 'ZIL',
+        defaultUnit: 'QA',
         units: {
-            ZIL: new BigNumber(1)
+            QA: new BigNumber(1),
+            LI: new BigNumber(Math.pow(10, 6)),
+            ZIL: new BigNumber(Math.pow(10, 12))
         },
         fee: {
             type: BlockchainFeeType.GAS,
             config: {
-                gasPriceUnit: 'ZIL',
+                gasPriceUnit: 'QA',
                 ui: 'advanced',
                 default: {
-                    gasPrice: 100,
+                    gasPrice: 1000000000,
                     gasLimit: 10,
                     gasPricePresets: {
                         safeLow: 1,
