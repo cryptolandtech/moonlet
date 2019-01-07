@@ -8,15 +8,20 @@ import List from 'preact-material-components/List';
 import Elevation from 'preact-material-components/Elevation';
 import { Translate } from '../../components/translate/translate.component';
 import { TextareaAutoSize } from '../../components/textarea-auto-size/textarea-auto-size.components';
-import { GenericAccount } from 'moonlet-core/src/core/account';
-import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
+import { BLOCKCHAIN_INFO, IBlockchainInfo } from '../../utils/blockchain/blockchain-info';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { Typography } from 'preact-material-components/Typography';
 import { BigNumber } from 'bignumber.js';
+import { IAccountBalance } from '../../data/wallet/state';
+import { convertUnit } from '../../utils/blockchain/utils';
 
 interface IProps {
-    account: GenericAccount;
+    account: any;
     blockchain: Blockchain;
+    blockchainInfo: IBlockchainInfo;
+    balance: IAccountBalance;
+
+    updateBalance: (blockchain: Blockchain, address: string) => any;
 }
 
 export class DashboardPage extends Component<IProps, any> {
@@ -24,10 +29,6 @@ export class DashboardPage extends Component<IProps, any> {
 
     constructor(props: IProps) {
         super(props);
-        this.state = {
-            balance: '...'
-        };
-
         this.updateBalance();
     }
 
@@ -36,25 +37,12 @@ export class DashboardPage extends Component<IProps, any> {
             this.props.blockchain !== prevProps.blockchain ||
             this.props.account.address !== prevProps.account.address
         ) {
-            this.setState({ balance: '...' });
             this.updateBalance();
         }
     }
 
     public updateBalance() {
-        this.props.account
-            .getBalance()
-            .then(balance => {
-                this.setState({
-                    balance: this.props.account.utils.balanceToStd(balance)
-                });
-            })
-            .catch(err => {
-                // console.log(err);
-                this.setState({
-                    balance: 'error'
-                });
-            });
+        this.props.updateBalance(this.props.blockchain, this.props.account.address);
     }
 
     public getCoin() {
@@ -83,7 +71,7 @@ export class DashboardPage extends Component<IProps, any> {
                             <Card className="card balance-card">
                                 <Translate text="DashboardPage.totalBalance" tag="p" body2 />
                                 <p className="mdc-typography--headline5">
-                                    {this.getCoin()} {this.state.balance}
+                                    {this.getCoin()} {this.props.balance.amount.toString()}
                                 </p>
                             </Card>
                         </LayoutGrid.Cell>
@@ -113,52 +101,60 @@ export class DashboardPage extends Component<IProps, any> {
                             </Card>
                         </LayoutGrid.Cell>
 
-                        <LayoutGrid.Cell cols={12}>
-                            {this.props.account.getTransactions().length === 0 && (
-                                <Translate
-                                    text="DashboardPage.noTransactions"
-                                    subtitle1
-                                    className="center-text"
-                                />
-                            )}
-                            {this.props.account.getTransactions().length > 0 && (
-                                <Elevation z={2}>
-                                    <List className="transactions-list" two-line={true}>
-                                        {this.props.account.getTransactions().map(tx => (
-                                            <div>
-                                                <List.LinkItem
-                                                    href={`/transaction/${
-                                                        typeof tx.txn === 'string'
-                                                            ? tx.txn
-                                                            : (tx.txn as any).TranID
-                                                    }`}
-                                                >
-                                                    <List.ItemGraphic>file_copy</List.ItemGraphic>
-                                                    <List.TextContainer>
-                                                        <List.PrimaryText>
-                                                            {this.getCoin()}{' '}
-                                                            {this.props.account.utils.balanceToStd(
-                                                                new BigNumber(
-                                                                    (tx as any).value ||
-                                                                        (tx as any).amount
-                                                                )
-                                                            )}
-                                                        </List.PrimaryText>
-                                                        <List.SecondaryText>
-                                                            {tx.data.toString()}
-                                                        </List.SecondaryText>
-                                                    </List.TextContainer>
-                                                    <List.ItemMeta>
-                                                        keyboard_arrow_right
-                                                    </List.ItemMeta>
-                                                </List.LinkItem>
-                                                <List.Divider />
-                                            </div>
-                                        ))}
-                                    </List>
-                                </Elevation>
-                            )}
-                        </LayoutGrid.Cell>
+                        {
+                            <LayoutGrid.Cell cols={12}>
+                                {this.props.account.transactions.length === 0 && (
+                                    <Translate
+                                        text="DashboardPage.noTransactions"
+                                        subtitle1
+                                        className="center-text"
+                                    />
+                                )}
+                                {this.props.account.transactions.length > 0 && (
+                                    <Elevation z={2}>
+                                        <List className="transactions-list" two-line={true}>
+                                            {this.props.account.transactions.map(tx => (
+                                                <div>
+                                                    <List.LinkItem
+                                                        href={`/transaction/${
+                                                            typeof tx.txn === 'string'
+                                                                ? tx.txn
+                                                                : (tx.txn as any).TranID
+                                                        }`}
+                                                    >
+                                                        <List.ItemGraphic>
+                                                            file_copy
+                                                        </List.ItemGraphic>
+                                                        <List.TextContainer>
+                                                            <List.PrimaryText>
+                                                                {this.getCoin()}{' '}
+                                                                {convertUnit(
+                                                                    this.props.blockchain,
+                                                                    new BigNumber(
+                                                                        (tx as any).value ||
+                                                                            (tx as any).amount
+                                                                    ),
+                                                                    this.props.blockchainInfo
+                                                                        .defaultUnit,
+                                                                    this.props.blockchainInfo.coin
+                                                                ).toString()}
+                                                            </List.PrimaryText>
+                                                            <List.SecondaryText>
+                                                                {(tx.data || '').toString()}
+                                                            </List.SecondaryText>
+                                                        </List.TextContainer>
+                                                        <List.ItemMeta>
+                                                            keyboard_arrow_right
+                                                        </List.ItemMeta>
+                                                    </List.LinkItem>
+                                                    <List.Divider />
+                                                </div>
+                                            ))}
+                                        </List>
+                                    </Elevation>
+                                )}
+                            </LayoutGrid.Cell>
+                        }
                     </LayoutGrid.Inner>
                 </LayoutGrid>
             </div>

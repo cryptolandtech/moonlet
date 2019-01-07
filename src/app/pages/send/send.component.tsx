@@ -9,17 +9,27 @@ import TransactionFee from './components/transaction-fee/transaction-fee.contain
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { IBlockchainInfo } from '../../utils/blockchain/blockchain-info';
 import { convertUnit, getDefaultFeeOptions, formatCurrency } from '../../utils/blockchain/utils';
-import { FeeOptions, IGasFeeOptions } from '../../utils/blockchain/types';
+import { FeeOptions } from '../../utils/blockchain/types';
 import { translate } from '../../utils/translate';
 import { Translate } from '../../components/translate/translate.component';
 import Dialog from 'preact-material-components/Dialog';
-import { route } from 'preact-router';
 import { BigNumber } from 'bignumber.js';
+import { IWalletTransfer } from '../../data/wallet/state';
+import { route } from 'preact-router';
 
 interface IProps {
     blockchain: Blockchain;
     blockchainInfo: IBlockchainInfo;
     account: GenericAccount;
+    transferInfo: IWalletTransfer;
+
+    transfer: (
+        blockchain: Blockchain,
+        fromAddress: string,
+        toAddress: string,
+        amount: BigNumber,
+        feeOptions: FeeOptions
+    ) => any;
 }
 
 interface IState {
@@ -49,19 +59,19 @@ export class SendPage extends Component<IProps, IState> {
                 recipient: ''
             }
         };
+    }
 
-        // let tx = props.account.buildTransferTransaction("", 0.1, 1, 21000, 2)
-        // // props.account.estimateTransferTransaction("0xea84F4178e30e196f77A7675B5E29fc7833FceFE", 0.1, 1).then(data => {
-        // //     console.log(data);
-        // // });
-
-        // props.account.node.rpcCall("eth_estimateGas", [{
-        //     from: "0x200d152B0E607D830B9265a1897b2060630DB142",
-        //     // to: "0xea84F4178e30e196f77A7675B5E29fc7833FceFE",
-        //     //data: "0x"
-        // }]).then(data => {
-        //     console.log(data);
-        // });
+    public componentDidUpdate(prevProps: IProps) {
+        if (
+            prevProps.transferInfo.inProgress !== undefined &&
+            prevProps.transferInfo.inProgress !== this.props.transferInfo.inProgress
+        ) {
+            if (this.props.transferInfo.success) {
+                route('/dashboard');
+            } else {
+                this.showErrorDialog(this.props.transferInfo.error);
+            }
+        }
     }
 
     public render() {
@@ -206,27 +216,18 @@ export class SendPage extends Component<IProps, IState> {
     }
 
     public async onConfirm() {
-        try {
-            const nonce = await this.props.account.getNonce();
-            const amount = new BigNumber(this.state.amount);
-            const tx = this.props.account.buildTransferTransaction(
-                this.state.recipient,
-                convertUnit(
-                    this.props.blockchain,
-                    amount,
-                    this.props.blockchainInfo.coin,
-                    this.props.blockchainInfo.defaultUnit
-                ).toNumber(),
-                nonce,
-                (this.state.feeOptions as IGasFeeOptions).gasLimit,
-                (this.state.feeOptions as IGasFeeOptions).gasPrice
-            );
-            this.props.account.signTransaction(tx);
-            const response = await this.props.account.send(tx);
-            (tx as any).data = new Date().toLocaleString();
-            route('/dashboard');
-        } catch (e) {
-            this.showErrorDialog(e.toString());
-        }
+        const amount = new BigNumber(this.state.amount);
+        this.props.transfer(
+            this.props.blockchain,
+            this.props.account.address,
+            this.state.recipient,
+            convertUnit(
+                this.props.blockchain,
+                amount,
+                this.props.blockchainInfo.coin,
+                this.props.blockchainInfo.defaultUnit
+            ),
+            this.state.feeOptions
+        );
     }
 }

@@ -8,16 +8,17 @@ import LayoutGrid from 'preact-material-components/LayoutGrid';
 import './landing.scss';
 import { Translate } from '../../components/translate/translate.component';
 import { TextField } from 'preact-material-components/TextField';
-import { Typography } from 'preact-material-components/Typography';
 import { translate } from '../../utils/translate';
 import Card from 'preact-material-components/Card';
 
 import { IWalletState } from '../../data/wallet/state';
+import { IWalletProvider } from '../../iwallet-provider';
+import { appContext } from '../../app-context';
 
 interface IProps {
     wallet: IWalletState;
 
-    loadWallet: (password?: string) => any;
+    loadWallet: (walletProvider: IWalletProvider, password?: string) => any;
 }
 
 interface IState {
@@ -62,7 +63,10 @@ export class LandingPage extends Component<IProps, IState> {
                                             }
                                             onKeyPress={e =>
                                                 e.code === 'Enter' &&
-                                                this.props.loadWallet(this.state.password)
+                                                this.props.loadWallet(
+                                                    appContext('walletProvider'),
+                                                    this.state.password
+                                                )
                                             }
                                             label={translate('LandingPage.enterPassword')}
                                         />
@@ -82,7 +86,10 @@ export class LandingPage extends Component<IProps, IState> {
                                             raised
                                             className="sign-in"
                                             onClick={() =>
-                                                this.props.loadWallet(this.state.password)
+                                                this.props.loadWallet(
+                                                    appContext('walletProvider'),
+                                                    this.state.password
+                                                )
                                             }
                                         >
                                             <Translate text="LandingPage.signIn" />

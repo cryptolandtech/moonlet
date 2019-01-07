@@ -1,5 +1,12 @@
 import { isExtension } from './../../utils/platform-utils';
-import { CHANGE_NETWORK, WALLET_LOADED, WALLET_INVALID_PASSWORD, WALLET_SIGN_OUT } from './actions';
+import {
+    CHANGE_NETWORK,
+    WALLET_LOADED,
+    WALLET_INVALID_PASSWORD,
+    WALLET_SIGN_OUT,
+    WALLET_UPDATE_BALANCE,
+    WALLET_TRANSFER
+} from './actions';
 import { IAction } from '../action';
 import { IWalletState } from './state';
 
@@ -22,7 +29,8 @@ export default (state: IWalletState, action: IAction): IWalletState => {
                 invalidPassword: false,
                 loadingInProgress: action.data.loadingInProgress,
                 loaded: action.data.loaded,
-                locked: action.data.locked
+                locked: action.data.locked,
+                data: action.data.wallet
             };
             break;
         case WALLET_INVALID_PASSWORD:
@@ -38,6 +46,34 @@ export default (state: IWalletState, action: IAction): IWalletState => {
                 loadingInProgress: false,
                 loaded: isExtension(),
                 locked: isExtension()
+            };
+            break;
+        case WALLET_UPDATE_BALANCE:
+            const balances = state.balances || {};
+            const accountsBalances = balances[action.data.blockchain] || {};
+            const accountBalance = accountsBalances[action.data.address] || { amount: '' };
+
+            state = {
+                ...state,
+                balances: {
+                    ...balances,
+                    [action.data.blockchain]: {
+                        [action.data.address]: {
+                            loading: action.data.loading,
+                            amount: action.data.amount || accountBalance.amount
+                        }
+                    }
+                }
+            };
+            break;
+        case WALLET_TRANSFER:
+            state = {
+                ...state,
+                transfer: {
+                    inProgress: action.data.inProgress,
+                    success: action.data.success,
+                    error: action.data.error
+                }
             };
             break;
     }

@@ -1,20 +1,22 @@
 import { connect } from 'preact-redux';
 import { TransactionDetailsPage } from './transaction-details.component';
-import { getWallet } from '../../utils/wallet';
 import { GenericAccount } from 'moonlet-core/src/core/account';
 import { GenericTransaction } from 'moonlet-core/src/core/transaction';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
+import { IState } from '../../data';
+import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
 
-const mapStateToProps = (state, ownProps) => {
-    const wallet = getWallet();
+const mapStateToProps = (state: IState, ownProps) => {
+    const wallet = state.wallet.data;
     const transactionId = ownProps.transactionId;
     let transaction;
     let txAccount;
     let txBlockchain;
 
-    wallet.accounts.forEach((blockchainAccounts: GenericAccount[], blockchain: Blockchain) => {
+    Object.keys(wallet.accounts).forEach((blockchain: Blockchain) => {
+        const blockchainAccounts: GenericAccount[] = wallet.accounts[blockchain];
         blockchainAccounts.forEach((account: GenericAccount) => {
-            account.getTransactions().forEach((tx: GenericTransaction) => {
+            (account as any).transactions.forEach((tx: GenericTransaction) => {
                 if (
                     tx.txn === transactionId ||
                     ((tx.txn as any).TranID && (tx.txn as any).TranID === transactionId)
@@ -31,7 +33,8 @@ const mapStateToProps = (state, ownProps) => {
         ...ownProps,
         transaction,
         account: txAccount,
-        blockchain: txBlockchain
+        blockchain: txBlockchain,
+        blockchainInfo: BLOCKCHAIN_INFO[state.wallet.selectedBlockchain]
     };
 };
 

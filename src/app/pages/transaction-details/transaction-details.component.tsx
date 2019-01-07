@@ -2,12 +2,12 @@ import { h, Component } from 'preact';
 import List from 'preact-material-components/List';
 import { translate } from '../../utils/translate';
 import { ListItem } from '../../components/list-item/list-item.component';
-import { getWallet } from '../../utils/wallet';
 import { GenericTransaction } from 'moonlet-core/src/core/transaction';
 import { GenericAccount } from 'moonlet-core/src/core/account';
 import { BigNumber } from 'bignumber.js';
-import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
+import { BLOCKCHAIN_INFO, IBlockchainInfo } from '../../utils/blockchain/blockchain-info';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
+import { convertUnit } from '../../utils/blockchain/utils';
 
 interface ITransactionListItem {
     icon: string;
@@ -21,6 +21,7 @@ interface IProps {
     transaction: GenericTransaction;
     account: GenericAccount;
     blockchain: Blockchain;
+    blockchainInfo: IBlockchainInfo;
 }
 
 export class TransactionDetailsPage extends Component<IProps> {
@@ -42,9 +43,12 @@ export class TransactionDetailsPage extends Component<IProps> {
             primaryText:
                 this.getCoin() +
                 ' ' +
-                this.props.account.utils
-                    .balanceToStd(new BigNumber((tx as any).value || (tx as any).amount))
-                    .toString(),
+                convertUnit(
+                    this.props.blockchain,
+                    new BigNumber((tx as any).value || (tx as any).amount),
+                    this.props.blockchainInfo.defaultUnit,
+                    this.props.blockchainInfo.coin
+                ).toString(),
             secondaryText: translate('TransactionDetailsPage.amount')
         });
 

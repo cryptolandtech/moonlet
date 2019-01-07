@@ -2,10 +2,11 @@ import { h, Component } from 'preact';
 import LayoutGrid, { LayoutGridCell } from 'preact-material-components/LayoutGrid';
 import { TextareaAutoSize } from '../../../../../../components/textarea-auto-size/textarea-auto-size.components';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import { calculateFee } from '../../../../../../utils/blockchain/utils';
+import { calculateFee, convertUnit } from '../../../../../../utils/blockchain/utils';
 import { FeeOptions, IGasFeeOptions } from '../../../../../../utils/blockchain/types';
 import { IBlockchainInfo } from '../../../../../../utils/blockchain/blockchain-info';
 import { translate } from '../../../../../../utils/translate';
+import BigNumber from 'bignumber.js';
 
 interface IProps {
     feeOptions: IGasFeeOptions;
@@ -17,29 +18,55 @@ interface IProps {
 
 interface IState {
     feeOptions: IGasFeeOptions;
+    gasPriceInputValue: string;
 }
 
 export class GasFee extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
+        const gasPriceUnit = this.props.blockchainInfo.fee.config.gasPriceUnit;
+        const gasPriceInputUnit = this.props.blockchainInfo.fee.config.gasPriceInputUnit;
+
         this.state = {
-            feeOptions: props.feeOptions
+            feeOptions: props.feeOptions,
+            gasPriceInputValue: convertUnit(
+                props.blockchain,
+                new BigNumber(props.feeOptions.gasPrice),
+                gasPriceUnit,
+                gasPriceInputUnit
+            ).toString()
         };
     }
 
     public render() {
+        const gasPriceInputUnit = this.props.blockchainInfo.fee.config.gasPriceInputUnit;
         const gasPriceUnit = this.props.blockchainInfo.fee.config.gasPriceUnit;
+
         return (
             <LayoutGrid.Inner>
                 <LayoutGridCell cols={4}>
                     <TextareaAutoSize
                         outlined
                         label={translate('SendPage.TransactionFee.GasFee.gasPrice', {
-                            unit: gasPriceUnit
+                            unit: gasPriceInputUnit
                         })}
-                        value={this.state.feeOptions.gasPrice.toString()}
-                        onChange={e => this.onInputChange('gasPrice', e)}
+                        value={this.state.gasPriceInputValue}
+                        onChange={e => {
+                            this.setState({
+                                gasPriceInputValue: e.target.value
+                            });
+                            this.onInputChange('gasPrice', {
+                                target: {
+                                    value: convertUnit(
+                                        this.props.blockchain,
+                                        new BigNumber(e.target.value),
+                                        gasPriceInputUnit,
+                                        gasPriceUnit
+                                    ).toString()
+                                }
+                            });
+                        }}
                     />
                 </LayoutGridCell>
                 <LayoutGridCell cols={4}>

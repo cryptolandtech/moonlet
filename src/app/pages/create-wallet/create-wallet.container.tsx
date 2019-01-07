@@ -1,5 +1,5 @@
 import { connect } from 'preact-redux';
-import { createWalletLoaded } from '../../data/wallet/actions';
+import { createWallet } from '../../data/wallet/actions';
 import { CreateWalletPage } from './create-wallet.component';
 
 const mapStateToProps = state => {
@@ -9,7 +9,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-    loadWallet: createWalletLoaded
+    createWallet
 };
 
 export default connect(

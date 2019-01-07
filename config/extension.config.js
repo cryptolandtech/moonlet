@@ -32,7 +32,13 @@ export default function(config, env, helpers) {
 
     // add background script
     config.output.filename = '[name].js';
-    config.entry['background'] = resolve(process.cwd(), 'src', 'extension', 'background');
+    config.entry['bundle.background'] = resolve(
+        process.cwd(),
+        'src',
+        'extension',
+        'background',
+        'index'
+    );
 
     // overwrite manifest.json
     config.plugins.unshift(

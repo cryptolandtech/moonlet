@@ -7,11 +7,12 @@ import { Link } from 'preact-router/match';
 import { Platform } from '../../types';
 import NetworkSelector from '../network-selector/network-selector.container';
 import { Translate } from '../translate/translate.component';
-
+import { IWalletProvider } from '../../iwallet-provider';
+import { appContext } from '../../app-context';
 interface IProps {
     platform: Platform;
 
-    signOut: () => any;
+    signOut: (walletProvider: IWalletProvider) => any;
 }
 
 export class DrawerMenu extends Component<IProps> {
@@ -78,7 +79,7 @@ export class DrawerMenu extends Component<IProps> {
                         activeClassName="mdc-list-item--activated"
                         className="mdc-list-item"
                         role="option"
-                        onClick={() => this.props.signOut()}
+                        onClick={() => this.props.signOut(appContext('walletProvider'))}
                     >
                         <List.ItemGraphic>power_settings_new</List.ItemGraphic>
                         <Translate text="App.labels.signOut" />

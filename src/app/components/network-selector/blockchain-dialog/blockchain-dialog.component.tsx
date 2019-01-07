@@ -67,7 +67,7 @@ export class NetworkSelectorBlockChainDialog extends Component<IProps, IState> {
                 </TopAppBar>
                 <Dialog.Body scrollable={true}>
                     <List>
-                        {Array.from(this.props.wallet.getAccountsMap().keys()).map(
+                        {Object.keys(this.props.wallet.accounts || {}).map(
                             (blockchain, index, allBlockchains) => [
                                 <List.Item onClick={() => this.select(blockchain)}>
                                     {blockchain}

@@ -6,11 +6,13 @@ import { Translate } from '../../components/translate/translate.component';
 import { translate } from '../../utils/translate';
 
 import './settings.component.scss';
+import { IWalletProvider } from '../../iwallet-provider';
+import { appContext } from '../../app-context';
 
 interface IProps {
     version: string;
 
-    signOut: () => any;
+    signOut: (walletProvider: IWalletProvider) => any;
 }
 
 interface IListItem {
@@ -70,7 +72,7 @@ export class SettingsPage extends Component<IProps> {
                         ripple
                         outlined
                         onClick={() => {
-                            this.props.signOut();
+                            this.props.signOut(appContext('walletProvider'));
                         }}
                     >
                         <Translate text="App.labels.signOut" />

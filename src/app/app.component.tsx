@@ -8,10 +8,12 @@ import { DeviceScreenSize } from './types';
 import { getScreenSizeMatchMedia } from './utils/screen-size-match-media';
 import DefaultLayout from './layouts/default/default.container';
 import { loadTranslations, Language } from './utils/translate';
-import { getWallet } from './utils/wallet';
+import { IWalletProvider } from './iwallet-provider';
+import { appContext } from './app-context';
 
 interface IProps {
     history: CustomHistory;
+    walletProvider: IWalletProvider;
     language: Language;
 
     walletLoaded: boolean;
@@ -37,6 +39,8 @@ export default class App extends Component<IProps, IState> {
         loadTranslations(props.language).then(() => {
             this.setState({ translationsLoaded: true });
         });
+
+        appContext('walletProvider', props.walletProvider);
 
         this.phoneMediaQuery = getScreenSizeMatchMedia();
         this.phoneMediaQuery.addListener(this.onPhoneMediaQueryChange.bind(this));

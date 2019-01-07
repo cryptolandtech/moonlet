@@ -6,14 +6,15 @@ import { CreateWalletStep1 } from './components/step1/step1.component';
 import { CreateWalletStep2 } from './components/step2/step2.component';
 import { CreatePassword } from '../../components/create-password/create-password.component';
 import { Platform } from '../../types';
-import { setWallet, savePassword, loadBlockchain } from '../../utils/wallet';
 import Wallet from 'moonlet-core/src/core/wallet';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
+import { IWalletProvider } from '../../iwallet-provider';
+import { appContext } from '../../app-context';
 
 interface IProps {
     platform: Platform;
 
-    loadWallet: (loadingInProgress: boolean, loaded: boolean, locked: boolean) => any;
+    createWallet: (walletProvider: IWalletProvider, mnemonics: string, password: string) => any;
 }
 
 interface IState {
@@ -70,14 +71,7 @@ export class CreateWalletPage extends Component<IProps, IState> {
         return <div class="create-wallet-page">{content}</div>;
     }
 
-    public async onWalletCreated(password: string) {
-        setWallet(this.wallet);
-        await Promise.all([loadBlockchain('ethereum'), loadBlockchain('zilliqa')]);
-
-        this.wallet.createAccount(Blockchain.ETHEREUM);
-        this.wallet.createAccount(Blockchain.ZILLIQA);
-
-        savePassword(password);
-        this.props.loadWallet(false, true, false);
+    public onWalletCreated(password: string) {
+        this.props.createWallet(appContext('walletProvider'), this.wallet.mnemonics, password);
     }
 }

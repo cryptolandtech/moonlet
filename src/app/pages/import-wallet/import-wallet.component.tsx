@@ -4,14 +4,15 @@ import './import-wallet.scss';
 import { CreatePassword } from '../../components/create-password/create-password.component';
 import { route } from 'preact-router';
 import { ImportWalletStep1 } from './step1/step1.component';
-import { createWallet, savePassword } from '../../utils/wallet';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { Platform } from '../../types';
+import { IWalletProvider } from '../../iwallet-provider';
+import { appContext } from '../../app-context';
 
 interface IProps {
     platform: Platform;
 
-    loadWallet: (loadingInProgress: boolean, loaded: boolean, locked: boolean) => any;
+    createWallet: (walletProvider: IWalletProvider, mnemonics: string, password: string) => any;
 }
 
 interface IState {
@@ -56,9 +57,6 @@ export class ImportWalletPage extends Component<IProps, IState> {
     }
 
     public async onWalletCreated(password: string) {
-        await createWallet(this.state.words.join(' '));
-        savePassword(password);
-        this.props.loadWallet(false, true, false);
-        // route('/dashboard');
+        this.props.createWallet(appContext('walletProvider'), this.state.words.join(' '), password);
     }
 }

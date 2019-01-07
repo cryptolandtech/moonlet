@@ -1,15 +1,31 @@
 import { connect } from 'preact-redux';
 import { IState } from '../../data';
 import { DashboardPage } from './dashboard.component';
-import { getWallet } from '../../utils/wallet';
+import { getWalletProvider } from '../../app-context';
+import { createGetBalance } from '../../data/wallet/actions';
+import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
 
 const mapStateToProps = (state: IState) => {
+    const blockchain = state.wallet.selectedBlockchain;
+    const account = state.wallet.data.accounts[blockchain][state.wallet.selectedAccount];
+    const balances = state.wallet.balances || {};
+    const accountsBalances = balances[blockchain] || {};
+    const balance = accountsBalances[account.address] || { loading: true, amount: '' };
+
     return {
-        blockchain: state.wallet.selectedBlockchain,
-        account: getWallet().getAccounts(state.wallet.selectedBlockchain)[
-            state.wallet.selectedAccount
-        ]
+        blockchain,
+        blockchainInfo: BLOCKCHAIN_INFO[state.wallet.selectedBlockchain],
+        account,
+        balance
     };
 };
 
-export default connect(mapStateToProps)(DashboardPage);
+const mapDispatchToProps = {
+    updateBalance: (blockchain, address) =>
+        createGetBalance(getWalletProvider(), blockchain, address)
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(DashboardPage);
