@@ -1,3 +1,4 @@
+import { BigNumber } from 'bignumber.js';
 import { IGasFeeOptions } from './../../app/utils/blockchain/types';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { browser } from 'webextension-polyfill-ts';
@@ -25,7 +26,7 @@ export class WalletManager {
     private wallet: Wallet;
     private password: string;
 
-    public async create(mnemonics: string, password: string) {
+    public async create(sender, mnemonics: string, password: string) {
         this.wallet = new Wallet(mnemonics);
         this.wallet.loadBlockchain(await this.loadBlockchain('zilliqa'));
         this.wallet.loadBlockchain(await this.loadBlockchain('ethereum'));
@@ -46,7 +47,7 @@ export class WalletManager {
         return Response.resolve(JSON.parse(this.wallet.toJSON())); // TODO: return a serialized version of wallet
     }
 
-    public async changePassword(oldPassword, newPassword) {
+    public async changePassword(sender, oldPassword, newPassword) {
         let json = aes.decrypt(await this.getFromStorage(), oldPassword);
         if (json) {
             json = json.toString(encUtf8);
@@ -65,7 +66,7 @@ export class WalletManager {
         return Response.resolve();
     }
 
-    public async unlock(password: string) {
+    public async unlock(sender, password: string) {
         const check = await this.checkWallet();
         if (check.error && check.code !== WalletErrorCodes.WALLET_LOCKED) {
             return check;
@@ -107,12 +108,12 @@ export class WalletManager {
         return Response.resolve();
     }
 
-    public async createAccount(blockchain: Blockchain) {
+    public async createAccount(sender, blockchain: Blockchain) {
         const account = this.wallet.getBlockchain(blockchain).createAccount();
         return Response.resolve(account);
     }
 
-    public async getBalance(blockchain: Blockchain, address: string) {
+    public async getBalance(sender, blockchain: Blockchain, address: string) {
         const b = this.wallet.getBlockchain(blockchain);
         const account = b.getAccounts().find(acc => acc.address === address);
 
@@ -130,13 +131,13 @@ export class WalletManager {
         );
     }
 
-    public async getNonce(blockchain: Blockchain, address: string) {
+    public async getNonce(sender, blockchain: Blockchain, address: string) {
         const b = this.wallet.getBlockchain(blockchain);
         const account = b.getAccounts().find(acc => acc.address === address);
 
         if (account) {
             try {
-                const nonce = await account.getNonce();
+                const nonce = await NonceManager.getCurrent(account);
                 return Response.resolve(nonce);
             } catch (e) {
                 return Response.reject(WalletErrorCodes.GENERIC_ERROR, e.message, e);
@@ -149,10 +150,11 @@ export class WalletManager {
     }
 
     public async transfer(
+        sender,
         blockchain: Blockchain,
         fromAddress: string,
         toAddress: string,
-        amount: number,
+        amount: string,
         feeOptions
     ) {
         const b = this.wallet.getBlockchain(blockchain);
@@ -160,10 +162,10 @@ export class WalletManager {
 
         if (account) {
             try {
-                const nonce = await NonceManager.next(account);
+                const nonce = await NonceManager.getNext(account);
                 const tx = account.buildTransferTransaction(
                     toAddress,
-                    amount,
+                    new BigNumber(amount).toNumber(),
                     nonce,
                     (feeOptions as IGasFeeOptions).gasLimit,
                     (feeOptions as IGasFeeOptions).gasPrice
@@ -171,6 +173,7 @@ export class WalletManager {
                 account.signTransaction(tx);
                 const response = await account.send(tx);
                 (tx as any).data = new Date().toLocaleString();
+                await this.saveToStorage();
                 return Response.resolve(response);
             } catch (e) {
                 if (e.code) {

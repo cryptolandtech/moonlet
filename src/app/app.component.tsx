@@ -32,6 +32,7 @@ interface IState {
 export default class App extends Component<IProps, IState> {
     private phoneMediaQuery;
     private route: RouterOnChangeArgs;
+    private redirectAfterWalletLoaded: string;
 
     constructor(props: RenderableProps<IProps>) {
         super(props);
@@ -61,9 +62,20 @@ export default class App extends Component<IProps, IState> {
             this.props.walletLoaded &&
             !this.props.walletLocked;
 
-        if (['/', '/import-wallet', '/create-wallet'].indexOf(this.route.url) >= 0 && walletOk) {
+        if (walletOk && this.redirectAfterWalletLoaded) {
+            route(this.redirectAfterWalletLoaded);
+            this.redirectAfterWalletLoaded = undefined;
+        } else if (
+            walletOk &&
+            ['/', '/import-wallet', '/create-wallet'].indexOf(this.route.url) >= 0
+        ) {
             route('/dashboard');
-        } else if (!this.route.current.attributes.withoutWalletInstance && !walletOk) {
+        } else if (
+            !this.props.walletLoadingInProgress &&
+            !this.route.current.attributes.withoutWalletInstance &&
+            !walletOk
+        ) {
+            this.redirectAfterWalletLoaded = this.route.url || '/dashboard';
             route('/');
         }
     }
@@ -80,14 +92,7 @@ export default class App extends Component<IProps, IState> {
 
     public handleRouteChange(e: RouterOnChangeArgs) {
         this.route = e;
-        // if (!e.current.attributes.withoutWalletInstance && !getWallet()) {
-        //     return route('/');
-        // }
-
-        // if (e.url === '/' && getWallet()) {
-        //     return route('/dashboard');
-        // }
-
+        // this.doRedirects();
         this.props.onRouteChange(e.current.attributes.config);
     }
 

@@ -1,0 +1,22 @@
+@import '../../styles/base';
+
+.request-account-access-page {
+    .select {
+        width: 100%;
+    }
+
+    .mdc-floating-label {
+        background: white;
+        z-index: 1;
+        padding: 0 5px;
+    }
+
+    .button {
+        width: 100%;
+
+        &.cancel {
+            @include mdc-button-container-fill-color(white);
+            @include mdc-button-ink-color($mdc-theme-primary);
+        }
+    }
+}

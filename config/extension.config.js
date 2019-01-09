@@ -39,6 +39,21 @@ export default function(config, env, helpers) {
         'background',
         'index'
     );
+    config.entry['bundle.content-script'] = resolve(
+        process.cwd(),
+        'src',
+        'extension',
+        'content-script',
+        'index'
+    );
+    config.entry['bundle.web-inject'] = resolve(
+        process.cwd(),
+        'src',
+        'extension',
+        'content-script',
+        'inject',
+        'inject'
+    );
 
     // overwrite manifest.json
     config.plugins.unshift(

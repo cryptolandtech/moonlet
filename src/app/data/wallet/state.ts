@@ -12,6 +12,7 @@ export interface IWalletTransfer {
     inProgress: boolean;
     success: boolean;
     error: string;
+    txn: string;
 }
 
 export interface IWalletState {

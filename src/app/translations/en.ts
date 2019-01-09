@@ -4,6 +4,7 @@ export const translation: ITranslations = {
     texts: {
         App: {
             labels: {
+                authorize: 'Authorize',
                 dashboard: 'Dashboard',
                 send: 'Send',
                 receive: 'Receive',
@@ -18,8 +19,11 @@ export const translation: ITranslations = {
                 transactionFee: 'Transaction Fee',
                 fee: 'Fee',
                 cancel: 'Cancel',
+                reject: 'Reject',
                 alert: 'Alert',
-                ok: 'OK'
+                ok: 'OK',
+                from: 'From',
+                total: 'Total'
             }
         },
         DrawerMenu: {

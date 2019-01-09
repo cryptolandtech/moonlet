@@ -105,7 +105,7 @@ export class WebWalletProvider implements IWalletProvider {
 
         if (account) {
             try {
-                const nonce = await NonceManager.next(account);
+                const nonce = await NonceManager.getNext(account);
                 const tx = account.buildTransferTransaction(
                     toAddress,
                     amount.toNumber(),

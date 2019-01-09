@@ -144,13 +144,20 @@ export const createTransfer = (
                     error: undefined
                 }
             });
-            await walletProvider.transfer(blockchain, fromAddress, toAddress, amount, feeOptions);
+            const response = await walletProvider.transfer(
+                blockchain,
+                fromAddress,
+                toAddress,
+                amount,
+                feeOptions
+            );
             createLoadWallet(walletProvider)(dispatch);
             dispatch({
                 type: WALLET_TRANSFER,
                 data: {
                     inProgress: false,
-                    success: true
+                    success: true,
+                    txn: typeof response.txn === 'string' ? response.txn : response.txn.TranID
                 }
             });
         } catch (e) {

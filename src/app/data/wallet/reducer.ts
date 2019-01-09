@@ -72,7 +72,8 @@ export default (state: IWalletState, action: IAction): IWalletState => {
                 transfer: {
                     inProgress: action.data.inProgress,
                     success: action.data.success,
-                    error: action.data.error
+                    error: action.data.error,
+                    txn: action.data.txn
                 }
             };
             break;

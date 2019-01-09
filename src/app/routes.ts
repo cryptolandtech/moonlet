@@ -246,6 +246,24 @@ export const ROUTES: IRoute[] = [
         }
     },
     {
+        name: 'transaction-confirmation',
+        path: '/transaction-confirmation',
+        getComponent: () =>
+            import('./pages/transaction-confirmation/transaction-confirmation.container').then(
+                module => module.default
+            ),
+        config: {}
+    },
+    {
+        name: 'request-account-access',
+        path: '/request-account-access',
+        getComponent: () =>
+            import('./pages/request-account-access/request-account-access.container').then(
+                module => module.default
+            ),
+        config: {}
+    },
+    {
         name: 'revealPrivateKey',
         path: '/revealPrivateKey',
         getComponent: () =>

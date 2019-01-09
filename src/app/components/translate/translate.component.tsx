@@ -7,6 +7,7 @@ interface IProps {
     count?: number;
     tag?: string;
     className?: string;
+    style?: string;
 
     body1?: boolean;
     body2?: boolean;
