@@ -1,6 +1,6 @@
 {
     "name": "Moonlet Wallet",
-    "version": "0.2",
+    "version": "0.3",
     "description": "Moonlet Wallet Extension",
     "permissions": ["storage"],
     "background": {
