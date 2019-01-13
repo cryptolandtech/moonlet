@@ -22,9 +22,17 @@ interface ICommunications {
     [id: string]: ICommunication;
 }
 
+/**
+ * Handles messages from external sources sent via content script
+ */
 export class RemoteInterface {
+    // instance of wallet manager controller
     private walletManager: WalletManager;
+
+    // map of domains-accounts user has allowed access
     private accessList: IAccessList = {};
+
+    // requests sent from webpages
     private communications: ICommunications = {};
 
     constructor(walletManager: WalletManager) {

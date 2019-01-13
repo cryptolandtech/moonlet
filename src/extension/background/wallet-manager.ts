@@ -12,15 +12,9 @@ import { WalletErrorCodes } from '../../app/iwallet-provider';
 
 const WALLET_STORAGE_KEY = 'serializedWallet';
 
-// set testnets
-import networksEth from 'moonlet-core/src/blockchain/ethereum/networks';
-networksEth[0] = networksEth[2];
+// fix chain id
 import networksZil from 'moonlet-core/src/blockchain/zilliqa/networks';
-networksZil[0] = networksZil[1];
-networksZil[0].network_id = 0;
-networksZil[0].url = 'https://api.zilliqa.com';
-// networksZil[0].url = 'http://localhost:4200';
-// createWallet("kid patch sample either echo supreme hungry ketchup hero away ice alcohol");
+networksZil[0].chainId = 62;
 
 export class WalletManager {
     private wallet: Wallet;
@@ -172,7 +166,6 @@ export class WalletManager {
                 );
                 account.signTransaction(tx);
                 const response = await account.send(tx);
-                (tx as any).data = new Date().toLocaleString();
                 await this.saveToStorage();
                 return Response.resolve(response);
             } catch (e) {

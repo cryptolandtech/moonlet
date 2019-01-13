@@ -33,7 +33,7 @@ export class TransactionDetailsPage extends Component<IProps> {
         // date and time
         details.push({
             icon: 'history',
-            primaryText: tx.data.toString(),
+            primaryText: new Date(tx.times[0].unixtime * 1000).toLocaleString(),
             secondaryText: translate('TransactionDetailsPage.dateTime')
         });
 

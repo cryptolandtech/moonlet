@@ -140,7 +140,9 @@ export class DashboardPage extends Component<IProps, any> {
                                                                 ).toString()}
                                                             </List.PrimaryText>
                                                             <List.SecondaryText>
-                                                                {(tx.data || '').toString()}
+                                                                {new Date(
+                                                                    tx.times[0].unixtime * 1000
+                                                                ).toLocaleString()}
                                                             </List.SecondaryText>
                                                         </List.TextContainer>
                                                         <List.ItemMeta>

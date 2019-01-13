@@ -3,18 +3,12 @@ import { IWalletProvider, WalletErrorCodes } from '../app/iwallet-provider';
 import Wallet from 'moonlet-core/src/core/wallet';
 import { NonceManager } from '../app/utils/nonce-manager';
 import { Response } from '../app/utils/response';
-
-// set testnets
-import networksEth from 'moonlet-core/src/blockchain/ethereum/networks';
-networksEth[0] = networksEth[2];
-import networksZil from 'moonlet-core/src/blockchain/zilliqa/networks';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { IGasFeeOptions } from '../app/utils/blockchain/types';
-networksZil[0] = networksZil[1];
-networksZil[0].network_id = 0;
-networksZil[0].url = 'https://api.zilliqa.com';
-// networksZil[0].url = 'http://localhost:4200';
-// createWallet("kid patch sample either echo supreme hungry ketchup hero away ice alcohol");
+
+// fix chain id
+import networksZil from 'moonlet-core/src/blockchain/zilliqa/networks';
+networksZil[0].chainId = 62;
 
 export class WebWalletProvider implements IWalletProvider {
     private wallet: Wallet;
@@ -115,7 +109,6 @@ export class WebWalletProvider implements IWalletProvider {
                 );
                 account.signTransaction(tx);
                 const response = await account.send(tx);
-                (tx as any).data = new Date().toLocaleString();
                 return Promise.resolve(response);
             } catch (e) {
                 if (e.code) {
