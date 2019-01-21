@@ -41,7 +41,12 @@ export class ImportWalletStep1 extends Component<IProps, IState> {
                         <Translate text="ImportWalletPage.step1.secretPhrase" />
                     </legend>
 
-                    <TextField textarea fullwidth onInput={this.onWordsInputChange.bind(this)} />
+                    <TextField
+                        textarea
+                        fullwidth
+                        value={this.state.words.join(' ')}
+                        onInput={this.onWordsInputChange.bind(this)}
+                    />
                 </fieldset>
                 <Translate
                     text={textFieldHelp}
