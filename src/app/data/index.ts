@@ -35,7 +35,7 @@ const loggerMiddleware = store => next => action => {
 };
 
 const enhancer = composeEnhancers(
-    applyMiddleware(loggerMiddleware, reduxThunk)
+    applyMiddleware(/*loggerMiddleware, */ reduxThunk)
     // other store enhancers if any
 );
 
