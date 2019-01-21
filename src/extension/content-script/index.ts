@@ -9,7 +9,7 @@ const injectScript = (file, nodeTagName) => {
     node.appendChild(script);
 };
 
-injectScript(chrome.extension.getURL('/bundle.web-inject.js'), 'body');
+injectScript(browser.extension.getURL('/bundle.web-inject.js'), 'body');
 
 const allowedActions = ['getAccount', 'getBalance', 'getNonce', 'transfer'];
 window.addEventListener('message', async event => {
@@ -18,7 +18,7 @@ window.addEventListener('message', async event => {
         return;
     }
 
-    if (event.data && event.data.type === 'REQUEST' && event.data.id) {
+    if (event.isTrusted && event.data && event.data.type === 'REQUEST' && event.data.id) {
         if (allowedActions.indexOf(event.data.action) >= 0) {
             const response = await browser.runtime.sendMessage({
                 scope: 'remoteInterface',

@@ -9,7 +9,7 @@ window.addEventListener('message', event => {
         return;
     }
 
-    if (event.data && event.data.type === 'RESPONSE' && event.data.id) {
+    if (event.isTrusted && event.data && event.data.type === 'RESPONSE' && event.data.id) {
         const request = requests.get(event.data.id);
         if (request) {
             request.resolve(event.data.response);
