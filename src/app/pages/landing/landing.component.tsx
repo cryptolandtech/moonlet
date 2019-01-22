@@ -97,20 +97,19 @@ export class LandingPage extends Component<IProps, IState> {
                                     </Card>
                                 </LayoutGrid.Cell>
                             )}
-                        {!this.props.wallet.loadingInProgress &&
-                            !this.props.wallet.loaded && (
-                                <LayoutGrid.Cell cols={12} className="center">
-                                    <Button
-                                        ripple
-                                        secondary
-                                        raised
-                                        className="create-wallet"
-                                        onClick={() => route('/create-wallet')}
-                                    >
-                                        <Translate text="LandingPage.createNewWallet" />
-                                    </Button>
-                                </LayoutGrid.Cell>
-                            )}
+                        {!this.props.wallet.loadingInProgress && !this.props.wallet.loaded && (
+                            <LayoutGrid.Cell cols={12} className="center">
+                                <Button
+                                    ripple
+                                    secondary
+                                    raised
+                                    className="create-wallet"
+                                    onClick={() => route('/create-wallet')}
+                                >
+                                    <Translate text="LandingPage.createNewWallet" />
+                                </Button>
+                            </LayoutGrid.Cell>
+                        )}
                         {!this.props.wallet.loadingInProgress && (
                             <LayoutGrid.Cell cols={12} className="center">
                                 <Button

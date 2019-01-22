@@ -40,5 +40,5 @@ const enhancer = composeEnhancers(
 );
 
 export const getStore = (initialState: IState = defaultState): Store<IState> => {
-    return createStore<IState>(reducers, initialState, enhancer);
+    return createStore<IState, any, any, any>(reducers, initialState, enhancer);
 };
