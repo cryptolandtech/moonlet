@@ -35,8 +35,18 @@ export class LandingPage extends Component<IProps, IState> {
     }
 
     public render() {
+        let className = 'landing-page';
+
+        if (
+            !this.props.wallet.loadingInProgress &&
+            this.props.wallet.loaded &&
+            this.props.wallet.locked
+        ) {
+            className += ' password';
+        }
+
         return (
-            <div className="landing-page">
+            <div className={className}>
                 <LayoutGrid>
                     <LayoutGrid.Inner>
                         <LayoutGrid.Cell cols={12} className="center">
@@ -97,7 +107,7 @@ export class LandingPage extends Component<IProps, IState> {
                                     </Card>
                                 </LayoutGrid.Cell>
                             )}
-                        {!this.props.wallet.loadingInProgress && !this.props.wallet.loaded && (
+                        {!this.props.wallet.loadingInProgress && (
                             <LayoutGrid.Cell cols={12} className="center">
                                 <Button
                                     ripple
