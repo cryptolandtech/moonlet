@@ -5,7 +5,7 @@
     "license": "MIT",
     "scripts": {
         "start": "npm run dev:web",
-        "build": "node scripts/update-extension-version.js && npm run build:web -- --dest build/web && npm run build:ext -- --dest build/extension",
+        "build": "node scripts/update-extension-version.js && npm run build:ext -- --dest build/extension",
         "deploy": "npm run build && npx firebase deploy --token $FIREBASE_TOKEN",
         "publish:ext": "node scripts/publish-extension.js",
         "build:web": "preact build --config ./config/web.config.js --template src/web/index.html --no-prerender",

@@ -10,7 +10,7 @@ install:
 - npm install
 - npm run lint
 after_success:
-- npm run deploy
+- npm run build
 - npm run publish:ext
 env:
   global:
