@@ -48,7 +48,8 @@ export const translation: ITranslations = {
         SendPage: {
             errors: {
                 recipient: 'Recipient should be a valid address.',
-                amount: 'Amount should be a positive number'
+                amount: 'Amount should be a positive number.',
+                invalidValue: 'Invalid value.'
             },
             confirmationDialog: {
                 title: 'Re-Confirm & Send',

@@ -16,6 +16,7 @@ import Dialog from 'preact-material-components/Dialog';
 import { BigNumber } from 'bignumber.js';
 import { IWalletTransfer } from '../../data/wallet/state';
 import { route } from 'preact-router';
+import { getWalletProvider } from '../../app-context';
 
 interface IProps {
     blockchain: Blockchain;
@@ -63,7 +64,7 @@ export class SendPage extends Component<IProps, IState> {
 
     public componentDidUpdate(prevProps: IProps) {
         if (
-            prevProps.transferInfo.inProgress !== undefined &&
+            this.props.transferInfo.inProgress === false &&
             prevProps.transferInfo.inProgress !== this.props.transferInfo.inProgress
         ) {
             if (this.props.transferInfo.success) {
@@ -181,14 +182,15 @@ export class SendPage extends Component<IProps, IState> {
         return {};
     }
 
-    public validate() {
+    public async validate() {
+        const walletProvider = getWalletProvider();
         let valid = true;
         const fieldErrors = {
             amount: '',
             recipient: ''
         };
 
-        if (!this.state.recipient) {
+        if (!(await walletProvider.isValidAddress(this.props.blockchain, this.state.recipient))) {
             fieldErrors.recipient = translate('SendPage.errors.recipient');
             valid = false;
         }
@@ -198,12 +200,16 @@ export class SendPage extends Component<IProps, IState> {
             valid = false;
         }
 
+        if (this.state.feeOptions === undefined) {
+            valid = false;
+        }
+
         this.setState({ fieldErrors });
         return valid;
     }
 
-    public onConfirmClick() {
-        if (this.validate()) {
+    public async onConfirmClick() {
+        if (await this.validate()) {
             this.confirmationDialog.MDComponent.show();
         }
     }

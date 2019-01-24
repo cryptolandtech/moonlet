@@ -17,8 +17,14 @@ interface IProps {
 }
 
 interface IState {
-    feeOptions: IGasFeeOptions;
-    gasPriceInputValue: string;
+    gasPrice: {
+        value: string;
+        error: string;
+    };
+    gasLimit: {
+        value: string;
+        error: string;
+    };
 }
 
 export class GasFee extends Component<IProps, IState> {
@@ -29,13 +35,19 @@ export class GasFee extends Component<IProps, IState> {
         const gasPriceInputUnit = this.props.blockchainInfo.fee.config.gasPriceInputUnit;
 
         this.state = {
-            feeOptions: props.feeOptions,
-            gasPriceInputValue: convertUnit(
-                props.blockchain,
-                new BigNumber(props.feeOptions.gasPrice),
-                gasPriceUnit,
-                gasPriceInputUnit
-            ).toString()
+            gasLimit: {
+                value: (props.feeOptions.gasLimit || '').toString(),
+                error: undefined
+            },
+            gasPrice: {
+                value: convertUnit(
+                    props.blockchain,
+                    new BigNumber(props.feeOptions.gasPrice),
+                    gasPriceUnit,
+                    gasPriceInputUnit
+                ).toString(),
+                error: undefined
+            }
         };
     }
 
@@ -51,21 +63,18 @@ export class GasFee extends Component<IProps, IState> {
                         label={translate('SendPage.TransactionFee.GasFee.gasPrice', {
                             unit: gasPriceInputUnit
                         })}
-                        value={this.state.gasPriceInputValue}
+                        helperText={this.state.gasPrice.error}
+                        helperTextValidationMsg={!!this.state.gasPrice.error}
+                        value={this.state.gasPrice.value}
                         onChange={e => {
                             this.setState({
-                                gasPriceInputValue: e.target.value
-                            });
-                            this.onInputChange('gasPrice', {
-                                target: {
-                                    value: convertUnit(
-                                        this.props.blockchain,
-                                        new BigNumber(e.target.value),
-                                        gasPriceInputUnit,
-                                        gasPriceUnit
-                                    ).toString()
+                                gasPrice: {
+                                    ...this.state.gasPrice,
+                                    value: e.target.value
                                 }
                             });
+                            this.validate();
+                            this.sendUpdates();
                         }}
                     />
                 </LayoutGridCell>
@@ -73,18 +82,26 @@ export class GasFee extends Component<IProps, IState> {
                     <TextareaAutoSize
                         outlined
                         label={translate('SendPage.TransactionFee.GasFee.gasLimit')}
-                        value={this.state.feeOptions.gasLimit.toString()}
-                        onChange={e => this.onInputChange('gasLimit', e)}
+                        value={this.state.gasLimit.value}
+                        helperText={this.state.gasLimit.error}
+                        helperTextValidationMsg={!!this.state.gasLimit.error}
+                        onChange={e => {
+                            this.setState({
+                                gasLimit: {
+                                    ...this.state.gasLimit,
+                                    value: e.target.value
+                                }
+                            });
+                            this.validate();
+                            this.sendUpdates();
+                        }}
                     />
                 </LayoutGridCell>
                 <LayoutGridCell cols={4} tabletCols={8}>
                     <TextareaAutoSize
                         outlined
                         label={translate('App.labels.fee')}
-                        value={
-                            calculateFee(this.props.blockchain, this.state.feeOptions).toString() +
-                            ` ${this.props.blockchainInfo.coin}`
-                        }
+                        value={this.getTotal()}
                         disabled
                     />
                 </LayoutGridCell>
@@ -92,17 +109,75 @@ export class GasFee extends Component<IProps, IState> {
         );
     }
 
-    public onInputChange(input, e) {
-        if (this.state.feeOptions[input]) {
-            const feeOptions = {
-                ...this.state.feeOptions,
-                [input]: parseInt(e.target.value, 10)
-            };
-            this.setState({ feeOptions });
+    public getTotal(): string {
+        const feeOptions = this.getFeeOptions();
+        if (feeOptions) {
+            return (
+                calculateFee(this.props.blockchain, feeOptions).toString() +
+                ` ${this.props.blockchainInfo.coin}`
+            );
+        }
 
-            if (typeof this.props.onChange === 'function') {
-                this.props.onChange(this.state.feeOptions);
-            }
+        return '';
+    }
+
+    public getFeeOptions(): FeeOptions {
+        if (this.isValid()) {
+            const gasPriceInputUnit = this.props.blockchainInfo.fee.config.gasPriceInputUnit;
+            const gasPriceUnit = this.props.blockchainInfo.fee.config.gasPriceUnit;
+            return {
+                gasLimit: parseInt(this.state.gasLimit.value, 10),
+                gasPrice: convertUnit(
+                    this.props.blockchain,
+                    new BigNumber(parseInt(this.state.gasPrice.value, 10)),
+                    gasPriceInputUnit,
+                    gasPriceUnit
+                ).toNumber()
+            };
+        }
+        return undefined;
+    }
+
+    public validate(showErrors: boolean = true) {
+        let valid = true;
+        const gasPriceValue = parseInt(this.state.gasPrice.value, 10);
+        const gasLimitValue = parseInt(this.state.gasLimit.value, 10);
+        let gasPriceError;
+        let gasLimitError;
+
+        if (isNaN(gasPriceValue) || gasPriceValue <= 0) {
+            valid = false;
+            gasPriceError = translate('SendPage.errors.invalidValue');
+        }
+
+        if (isNaN(gasLimitValue) || gasLimitValue <= 0) {
+            valid = false;
+            gasLimitError = translate('SendPage.errors.invalidValue');
+        }
+
+        if (showErrors) {
+            this.setState({
+                gasPrice: {
+                    ...this.state.gasPrice,
+                    error: gasPriceError
+                },
+                gasLimit: {
+                    ...this.state.gasLimit,
+                    error: gasLimitError
+                }
+            });
+        }
+
+        return valid;
+    }
+
+    public isValid() {
+        return this.validate(false);
+    }
+
+    public sendUpdates() {
+        if (typeof this.props.onChange === 'function') {
+            this.props.onChange(this.getFeeOptions());
         }
     }
 }

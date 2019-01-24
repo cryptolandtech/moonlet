@@ -163,19 +163,17 @@ export class TransactionFee extends Component<IProps, IState> {
     }
 
     public setFeeSliderValue(value: number, feeOptions?: FeeOptions) {
-        if (value) {
-            this.setState({
-                feeSliderValue: value,
-                feeOptions:
-                    feeOptions ||
-                    sliderValueToFeeOptions(this.props.blockchain, value, this.state.feeOptions)
-            });
+        // if (value) {
+        this.setState({
+            feeSliderValue: value,
+            feeOptions // || sliderValueToFeeOptions(this.props.blockchain, value, this.state.feeOptions)
+        });
 
-            this.onFeeOptionsChange();
+        this.onFeeOptionsChange();
 
-            if (this.feeSliderRef) {
-                this.feeSliderRef.setValue(value);
-            }
+        if (this.feeSliderRef) {
+            this.feeSliderRef.setValue(value);
         }
+        // }
     }
 }

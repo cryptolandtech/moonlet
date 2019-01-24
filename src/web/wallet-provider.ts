@@ -50,6 +50,13 @@ export class WebWalletProvider implements IWalletProvider {
         return Promise.resolve(account);
     }
 
+    public async isValidAddress(blockchain, address) {
+        const b = this.wallet.getBlockchain(blockchain);
+        const account = b.getAccounts()[0];
+
+        return account.utils.isValidAddress(Buffer.from(address.replace(/^0x/, ''), 'hex'));
+    }
+
     public async getBalance(blockchain, address): Promise<BigNumber> {
         const b = this.wallet.getBlockchain(blockchain);
         const account = b.getAccounts().find(acc => acc.address === address);

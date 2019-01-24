@@ -73,7 +73,7 @@ export const feeOptionsToSliderValue = (blockchain: Blockchain, feeOptions: FeeO
 
     switch (blockchainInfo.fee.type) {
         case BlockchainFeeType.GAS:
-            value = (feeOptions as IGasFeeOptions).gasPrice;
+            value = ((feeOptions as IGasFeeOptions) || ({} as any)).gasPrice;
             break;
     }
     return value;

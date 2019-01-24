@@ -27,6 +27,10 @@ export class ExtensionWalletProvider implements IWalletProvider {
         return this.callAction('createAccount', [blockchain]);
     }
 
+    public async isValidAddress(blockchain, address): Promise<BigNumber> {
+        return this.callAction('isValidAddress', [blockchain, address]);
+    }
+
     public async getBalance(blockchain, address): Promise<BigNumber> {
         return this.callAction('getBalance', [blockchain, address]).then(b => new BigNumber(b));
     }
