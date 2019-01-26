@@ -1,5 +1,7 @@
 language: node_js
 node_js: 8
+matrix:
+  fast_finish: true
 branches:
   only:
   - master
@@ -8,10 +10,8 @@ script:
 - echo "Deploy!!"
 install:
 - npm install
-- npm run lint
-after_success:
-- npm run build
-- npm run publish:ext
+script:
+- npm run lint && npm run snyk && npm run build && npm run publish:ext
 env:
   global:
   - EXTENSION_ID=aepcjklheilpnnokjfpgncfcdakhbgci

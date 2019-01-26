@@ -14,7 +14,8 @@
         "dev:ext": "preact watch --config ./config/extension.config.js --template src/extension/index.html --port 8181",
         "lint": "tslint --fix 'src/**/*.{ts,tsx}'",
         "prettier": "prettier --write \"**/*.{js,ts,tsx,scss,json}\" --ignore-path .gitignore",
-        "test": "jest"
+        "test": "jest",
+        "snyk": "snyk test"
     },
     "eslintConfig": {
         "extends": "eslint-config-synacor"
@@ -39,11 +40,12 @@
         "preact-cli-plugin-typescript": "^0.2.2",
         "prettier": "1.16.1",
         "sass-loader": "^7.1.0",
-        "typescript": "^3.2.1",
+        "snyk": "^1.122.3",
         "ts-jest": "^23.1.4",
         "tslint": "^5.11.0",
         "tslint-config-prettier": "^1.15.0",
         "tslint-microsoft-contrib": "^6.0.0",
+        "typescript": "^3.2.1",
         "web-ext-types": "^3.1.0",
         "webpack-bundle-analyzer": "^3.0.3",
         "write-file-webpack-plugin": "^4.3.2",
