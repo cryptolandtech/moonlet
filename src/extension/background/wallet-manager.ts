@@ -13,8 +13,8 @@ import { WalletErrorCodes } from '../../app/iwallet-provider';
 const WALLET_STORAGE_KEY = 'serializedWallet';
 
 // fix chain id
-import networksZil from 'moonlet-core/src/blockchain/zilliqa/networks';
-networksZil[0].chainId = 62;
+// import networksZil from 'moonlet-core/src/blockchain/zilliqa/networks';
+// networksZil[0].chainId = 62;
 
 export class WalletManager {
     private wallet: Wallet;
