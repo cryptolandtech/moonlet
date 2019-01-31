@@ -17,6 +17,7 @@ import { BigNumber } from 'bignumber.js';
 import { IWalletTransfer } from '../../data/wallet/state';
 import { route } from 'preact-router';
 import { getWalletProvider } from '../../app-context';
+import Card from 'preact-material-components/Card';
 
 interface IProps {
     blockchain: Blockchain;
@@ -81,6 +82,18 @@ export class SendPage extends Component<IProps, IState> {
                 <LayoutGrid>
                     <LayoutGrid.Inner>
                         <LayoutGridCell cols={12}>
+                            <Card className="card">
+                                <p
+                                    style="padding: 16px; font-weight:bold"
+                                    className="mdc-typography--body2"
+                                >
+                                    WARNING!!!
+                                    <br />
+                                    Transactions are not processed during the bootstrap phase.
+                                </p>
+                            </Card>
+                        </LayoutGridCell>
+                        <LayoutGridCell cols={12}>
                             <TextareaAutoSize
                                 outlined
                                 label={translate('App.labels.recipient')}
@@ -109,7 +122,13 @@ export class SendPage extends Component<IProps, IState> {
                 />
 
                 <LayoutGrid class="right-text">
-                    <Button ripple raised secondary onClick={this.onConfirmClick.bind(this)}>
+                    <Button
+                        disabled
+                        ripple
+                        raised
+                        secondary
+                        onClick={this.onConfirmClick.bind(this)}
+                    >
                         <Translate text="App.labels.confirm" />
                     </Button>
                 </LayoutGrid>
