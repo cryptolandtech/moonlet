@@ -4,8 +4,7 @@
     "description": "Moonlet Wallet Extension",
     "permissions": ["storage"],
     "background": {
-        "scripts": ["bundle.background.js"],
-        "persistent": false
+        "scripts": ["bundle.background.js"]
     },
     "icons": {
         "16": "assets/icon-16px.png",
