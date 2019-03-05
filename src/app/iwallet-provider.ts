@@ -1,3 +1,5 @@
+import { Blockchain } from 'moonlet-core/src/core/blockchain';
+
 export enum WalletErrorCodes {
     GENERIC_ERROR = 'GENERIC_ERROR',
     INVALID_PASSWORD = 'INVALID_PASSWORD',
@@ -9,6 +11,7 @@ export enum WalletErrorCodes {
 export interface IWalletProvider {
     createWallet(mnemonics, password);
     getWallet();
+    getAccounts(testnetOptions?: { [blockchain: string]: number });
     lockWallet();
     unlockWallet(password);
     saveWallet();

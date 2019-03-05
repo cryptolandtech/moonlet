@@ -1,3 +1,5 @@
+import { Network } from 'moonlet-core/src/core/network';
+import { GenericAccount } from 'moonlet-core/src/core/account';
 import { BigNumber } from 'bignumber.js';
 import { IWalletProvider, WalletErrorCodes } from '../app/iwallet-provider';
 import Wallet from 'moonlet-core/src/core/wallet';
@@ -20,16 +22,38 @@ export class WebWalletProvider implements IWalletProvider {
         this.wallet.loadBlockchain(await this.loadBlockchain('ethereum'));
 
         this.wallet.createAccount(Blockchain.ZILLIQA);
-
         return this.getWallet();
     }
 
     public async getWallet() {
         if (this.wallet) {
             return Promise.resolve(JSON.parse(this.wallet.toJSON()));
-        } else {
-            Promise.reject(Response.reject(WalletErrorCodes.WALLET_NOT_FOUND));
         }
+
+        return Promise.reject(Response.reject(WalletErrorCodes.WALLET_NOT_FOUND));
+    }
+
+    public async getAccounts(testnetOptions?) {
+        const wallet = await this.getWallet();
+        const mainnet = testnetOptions === undefined;
+        const accounts = [];
+
+        if (wallet.accounts) {
+            for (const blockchain in wallet.accounts) {
+                if (wallet.accounts.hasOwnProperty(blockchain)) {
+                    const testnetId = mainnet ? 0 : testnetOptions[blockchain] || 1;
+                    for (const acc of wallet.accounts[blockchain]) {
+                        if (mainnet && acc.node.network.network_id === 0) {
+                            accounts.push(acc);
+                        } else if (testnetOptions && acc.node.network.network_id === testnetId) {
+                            accounts.push(acc);
+                        }
+                    }
+                }
+            }
+        }
+
+        return Promise.resolve(accounts);
     }
 
     public async lockWallet() {
