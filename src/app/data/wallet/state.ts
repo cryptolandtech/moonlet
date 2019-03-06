@@ -15,6 +15,12 @@ export interface IWalletTransfer {
     txn: string;
 }
 
+export interface IAccountsBalances {
+    [blockchain: string]: {
+        [address: string]: IAccountBalance;
+    };
+}
+
 export interface IWalletState {
     invalidPassword: boolean;
     loadingInProgress: boolean;
@@ -24,10 +30,6 @@ export interface IWalletState {
     selectedNetwork: number;
     selectedAccount: number;
     data?: IWalletData;
-    balances?: {
-        [blockchain: string]: {
-            [address: string]: IAccountBalance;
-        };
-    };
+    balances?: IAccountsBalances;
     transfer?: IWalletTransfer;
 }

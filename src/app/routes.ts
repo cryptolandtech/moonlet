@@ -46,19 +46,36 @@ export const ROUTES: IRoute[] = [
             import('./pages/dashboard/dashboard.container').then(module => module.default),
         config: {
             [Platform.ALL]: {
-                [DeviceScreenSize.SMALL]: {
+                [DeviceScreenSize.ALL]: {
                     topBar: {
                         left: {
                             icon: 'logo'
                         },
-                        middle: {
-                            type: 'networkSelection'
+                        right: {
+                            type: 'menu',
+                            icon: 'more_vert',
+                            items: [
+                                {
+                                    text: 'Add new account',
+                                    icon: 'add_circle_outline'
+                                },
+                                {
+                                    text: 'Open new tab',
+                                    icon: 'launch',
+                                    action: () => {
+                                        browser.tabs.create({
+                                            url: document.location.href.replace('popup=1', '')
+                                        });
+                                    }
+                                },
+                                {
+                                    text: 'Settings',
+                                    icon: 'settings',
+                                    href: '/settings'
+                                }
+                            ]
                         }
-                    },
-                    bottomNav: true
-                },
-                [DeviceScreenSize.BIG]: {
-                    drawerMenu: true
+                    }
                 }
             },
             [Platform.EXTENSION]: {

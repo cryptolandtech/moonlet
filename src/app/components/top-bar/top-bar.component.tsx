@@ -1,11 +1,14 @@
 import { Component, h, RenderableProps } from 'preact';
 import TopAppBar from 'preact-material-components/TopAppBar';
-
+import Menu from 'preact-material-components/Menu';
 import { IAction } from '../../data/action';
 import { IDefaultTopBarConfig } from '../../data/page-config/state';
 import { DeviceScreenSize } from '../../types';
 import './top-bar.scss';
 import NetworkSelector from '../network-selector/network-selector.container';
+import Icon from 'preact-material-components/Icon';
+import List from 'preact-material-components/List';
+import { route } from 'preact-router';
 
 interface IProps {
     config: IDefaultTopBarConfig;
@@ -15,6 +18,8 @@ interface IProps {
 }
 
 export class TopBar extends Component<IProps> {
+    private rightMenu;
+
     public getIcon(config) {
         const onClick = () => (config.action ? this.props.dispatch(config.action) : {});
         let icon = (
@@ -87,6 +92,39 @@ export class TopBar extends Component<IProps> {
                     break;
                 case 'text':
                     sectionContent = <div className="right-text grey">{right.text}</div>;
+                    break;
+                case 'menu':
+                    sectionContent = (
+                        <Menu.Anchor>
+                            <TopAppBar.Icon
+                                navigation={true}
+                                onClick={() => (this.rightMenu.MDComponent.open = true)}
+                            >
+                                {right.icon}
+                            </TopAppBar.Icon>
+
+                            <Menu ref={m => (this.rightMenu = m)}>
+                                {Array.isArray(right.items) &&
+                                    right.items.map(item => (
+                                        <Menu.Item
+                                            onClick={() => {
+                                                if (item.href) {
+                                                    route(item.href);
+                                                } else if (item.action) {
+                                                    this.props.dispatch(item.action as any);
+                                                }
+                                            }}
+                                        >
+                                            {item.text}
+                                            {item.icon && (
+                                                <List.ItemMeta>{item.icon}</List.ItemMeta>
+                                            )}
+                                        </Menu.Item>
+                                    ))}
+                            </Menu>
+                        </Menu.Anchor>
+                    );
+                    break;
             }
 
             return (

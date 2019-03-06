@@ -15,10 +15,16 @@ export interface IDefaultTopBarConfig {
         text?: string;
     };
     right?: {
-        type: 'text' | 'icon';
+        type: 'text' | 'icon' | 'menu';
         icon?: string;
         action?: IAction | { () };
         text?: string;
+        items?: Array<{
+            text: string;
+            icon?: string;
+            href?: string;
+            action?: IAction | { () };
+        }>;
     };
 }
 

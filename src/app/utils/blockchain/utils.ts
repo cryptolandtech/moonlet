@@ -90,3 +90,24 @@ export const formatCurrency = (amount: number | BigNumber, coin: string): string
 
     return '';
 };
+
+export const filterAccounts = (wallet, mainnet: boolean, testnetOptions?) => {
+    const accounts = [];
+
+    if (wallet.accounts) {
+        for (const blockchain in wallet.accounts) {
+            if (wallet.accounts.hasOwnProperty(blockchain)) {
+                const testnetId = mainnet ? 0 : testnetOptions[blockchain] || 1;
+                for (const acc of wallet.accounts[blockchain]) {
+                    if (mainnet && acc.node.network.network_id === 0) {
+                        accounts.push(acc);
+                    } else if (testnetOptions && acc.node.network.network_id === testnetId) {
+                        accounts.push(acc);
+                    }
+                }
+            }
+        }
+    }
+
+    return accounts;
+};

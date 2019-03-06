@@ -11,7 +11,6 @@ export enum WalletErrorCodes {
 export interface IWalletProvider {
     createWallet(mnemonics, password);
     getWallet();
-    getAccounts(testnetOptions?: { [blockchain: string]: number });
     lockWallet();
     unlockWallet(password);
     saveWallet();

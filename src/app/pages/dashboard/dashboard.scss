@@ -8,24 +8,40 @@
     word-wrap: break-word;
 
     .card {
-        padding: 8px 16px;
+        margin: 8px;
+        padding: 16px;
+        position: relative;
+        display: flex;
+        cursor: pointer;
     }
 
-    .balance-card {
-        height: 100%;
+    .coin-logo {
+        width: 40px;
+        text-align: center;
+        display: flex;
+        align-items: center;
     }
 
-    .address-textarea {
-        color: gray !important;
-        font-size: 1.5rem !important;
-        font-family: monospace;
-        border: none;
-        outline: none;
-        resize: none;
+    .coin-name {
+        font-size: 24px;
+        display: flex;
+        align-items: center;
     }
 
-    .transactions-list {
-        border: 1px solid #eee;
-        padding: 0;
+    .balance {
+        flex: 1;
+
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        //justify-content: flex-end;
+
+        .native {
+            font-size: 24px;
+        }
+
+        .wallet-name {
+            font-size: 12px;
+        }
     }
 }

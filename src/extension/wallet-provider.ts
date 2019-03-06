@@ -11,29 +11,6 @@ export class ExtensionWalletProvider implements IWalletProvider {
         return this.callAction('get');
     }
 
-    public async getAccounts(testnetOptions?) {
-        const wallet = await this.getWallet();
-        const mainnet = testnetOptions === undefined;
-        const accounts = [];
-
-        if (wallet.accounts) {
-            for (const blockchain in wallet.accounts) {
-                if (wallet.accounts.hasOwnProperty(blockchain)) {
-                    const testnetId = mainnet ? 0 : testnetOptions[blockchain] || 1;
-                    for (const acc of wallet.accounts[blockchain]) {
-                        if (mainnet && acc.node.network.network_id === 0) {
-                            accounts.push(acc);
-                        } else if (testnetOptions && acc.node.network.network_id === testnetId) {
-                            accounts.push(acc);
-                        }
-                    }
-                }
-            }
-        }
-
-        return Promise.resolve(accounts);
-    }
-
     public async lockWallet() {
         return this.callAction('lock');
     }
