@@ -1,0 +1,40 @@
+@import '../../styles/base';
+
+.big-screen-dashboard {
+    display: flex;
+
+    .dashboard-page {
+        flex: 4;
+        height: calc(100vh - 64px);
+        overflow: auto;
+    }
+
+    .account-page {
+        flex: 6;
+        height: calc(100vh - 64px);
+        overflow: auto;
+    }
+}
+
+.account-page {
+    .mdc-card {
+        margin: 16px 8px;
+        padding: 8px;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+
+        .button {
+            text-align: center;
+            cursor: pointer;
+            margin: 0 16px;
+        }
+    }
+
+    .transactions-label {
+        font-weight: bold;
+        line-height: 24px;
+    }
+}

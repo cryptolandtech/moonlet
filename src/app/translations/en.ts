@@ -4,6 +4,7 @@ export const translation: ITranslations = {
     texts: {
         App: {
             labels: {
+                address: 'Address',
                 authorize: 'Authorize',
                 dashboard: 'Dashboard',
                 send: 'Send',
@@ -16,6 +17,7 @@ export const translation: ITranslations = {
                 recipient: 'Recipient',
                 amount: 'Amount',
                 confirm: 'Confirm',
+                transactions: 'Transactions',
                 transactionFee: 'Transaction Fee',
                 fee: 'Fee',
                 cancel: 'Cancel',
@@ -23,7 +25,8 @@ export const translation: ITranslations = {
                 alert: 'Alert',
                 ok: 'OK',
                 from: 'From',
-                total: 'Total'
+                total: 'Total',
+                copyToClipboard: 'Copy to clipboard'
             }
         },
         DrawerMenu: {
@@ -145,17 +148,33 @@ export const translation: ITranslations = {
             passwordRequired: 'Your password is required for the next step'
         },
         RevealPage: {
-            phraseWarning:
-                'WARNING: Never disclose your secret phrase. Anyone with this phrase can take your funds forever.',
-            phraseTips:
-                "Backup Tips: It's important to backup this secret phrase securely where nobody else can access it, such as on a piece of paper or in a password manager. Don't email or screenshot the secret phrase.",
-            privateKeyWarning:
-                'WARNING: Never disclose your private key. Anyone with this key can take your funds forever.',
-            privateKeyTips:
-                'Backup Tips: It’s important to backup this private key securely where nobody else can access it, such as on a piece of paper or in a password manager. Don’t email or screenshot the private key.',
-            copyToClipboard: 'Copy to clipboard',
-            revealSecretPhrase: 'Reveal Secret Phrase',
-            revealPrivateKey: 'Reveal Private Key'
+            enterPassword: 'Enter password',
+            invalidPassword: 'Invalid password',
+            secretPhrase: {
+                title: 'Reveal Secret Phrase',
+                warning:
+                    'WARNING: Never disclose your secret phrase. Anyone with this phrase can take your funds forever.',
+                tips:
+                    "Backup Tips: It's important to backup this secret phrase securely where nobody else can access it, such as on a piece of paper or in a password manager. Don't email or screenshot the secret phrase."
+            },
+            privateKey: {
+                title: 'Reveal Private Key',
+                warning:
+                    'WARNING: Never disclose your private key. Anyone with this key can take your funds forever.',
+                tips:
+                    'Backup Tips: It’s important to backup this private key securely where nobody else can access it, such as on a piece of paper or in a password manager. Don’t email or screenshot the private key.'
+            },
+            publicKey: {
+                title: 'Reveal Public Key',
+                warning:
+                    'Info: The address, which is used in transactions, is a shorter representative form of the public key.',
+                tips: ''
+            }
+        },
+        AccountPage: {
+            revealPrivateKey: 'Reveal Private Key',
+            revealPublicKey: 'Reveal Public Key',
+            discardAddress: 'Discard Address'
         }
     },
     plural: (n: number, ord: boolean) => {

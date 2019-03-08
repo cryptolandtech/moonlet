@@ -4,14 +4,18 @@ import { SendPage } from './send.component';
 import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
 import { createTransfer } from '../../data/wallet/actions';
 import { getWalletProvider } from '../../app-context';
-const mapStateToProps = (state: IState) => {
+const mapStateToProps = (state: IState, ownProps) => {
+    const { blockchain, address } = ownProps;
+
+    let account;
+    if (state.wallet.data.accounts[blockchain]) {
+        account = state.wallet.data.accounts[blockchain].filter(acc => acc.address === address)[0];
+    }
+
     return {
-        blockchain: state.wallet.selectedBlockchain,
-        blockchainInfo: BLOCKCHAIN_INFO[state.wallet.selectedBlockchain],
-        account:
-            state.wallet.data.accounts[state.wallet.selectedBlockchain][
-                state.wallet.selectedAccount
-            ],
+        blockchain: account.node.blockchain,
+        blockchainInfo: BLOCKCHAIN_INFO[account.node.blockchain],
+        account,
         transferInfo: state.wallet.transfer || {}
     };
 };

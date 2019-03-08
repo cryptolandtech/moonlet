@@ -1,12 +1,14 @@
 import { h, Component } from 'preact';
 import List from 'preact-material-components/List';
+import { timingSafeEqual } from 'crypto';
 
 interface IProps {
-    icon?: string;
+    icon?: any;
     primaryText: string;
     secondaryText: string;
     href?: string;
     target?: string;
+    noDivider?: boolean;
 
     onClick?: (e?) => any;
 }
@@ -57,7 +59,7 @@ export class ListItem extends Component<IProps, {}> {
     public render() {
         return (
             <div>
-                {this.getListItem()} <List.Divider />
+                {this.getListItem()} {!this.props.noDivider && <List.Divider />}
             </div>
         );
     }

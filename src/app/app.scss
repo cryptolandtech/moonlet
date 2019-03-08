@@ -7,10 +7,21 @@ html,
 body {
     height: 100%;
     font-family: Roboto, sans-serif;
+    color: #666666;
+}
+
+a {
+    color: #666666;
+    text-decoration: none;
 }
 
 .app-root {
     min-height: 100%;
+}
+
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 @import './styles/material-components';

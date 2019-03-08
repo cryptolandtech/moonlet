@@ -3,6 +3,9 @@ import { IRouteConfig } from './../../routes';
 import { IAction } from './../action';
 
 export interface IDefaultTopBarConfig {
+    options?: {
+        theme: 'default' | 'white';
+    };
     left?: {
         /**
          * material icon name or "logo" to display the logo as icon
@@ -11,12 +14,13 @@ export interface IDefaultTopBarConfig {
         action?: IAction | { () };
     };
     middle?: {
-        type: 'text' | 'networkSelection';
-        text?: string;
+        type: 'text' | 'networkSelection' | 'tokenPageTitle';
+        text?: string | (() => string);
     };
     right?: {
         type: 'text' | 'icon' | 'menu';
         icon?: string;
+        menuWidth?: number;
         action?: IAction | { () };
         text?: string;
         items?: Array<{

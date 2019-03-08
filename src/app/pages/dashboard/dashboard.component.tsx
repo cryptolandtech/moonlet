@@ -13,15 +13,24 @@ import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { BigNumber } from 'bignumber.js';
 import { IAccountsBalances, IAccountBalance } from '../../data/wallet/state';
 import { convertUnit } from '../../utils/blockchain/utils';
+import { route } from 'preact-router';
+import { IDevice } from '../../data/page-config/state';
+import { DeviceScreenSize } from '../../types';
 
 interface IProps {
     accounts: any[];
     balances: IAccountsBalances;
+    selectedAccount?: { blockchain: Blockchain; address: string };
+    device: IDevice;
 
     updateBalance: (blockchain: Blockchain, address: string) => any;
 }
 
-export class DashboardPage extends Component<IProps, any> {
+export class DashboardPage extends Component<IProps> {
+    constructor(props: IProps) {
+        super(props);
+    }
+
     public getCoin(account) {
         return BLOCKCHAIN_INFO[account.node.blockchain].coin;
     }
@@ -38,7 +47,18 @@ export class DashboardPage extends Component<IProps, any> {
         return (
             <div className="dashboard-page">
                 {this.props.accounts.map(account => (
-                    <Card className="card" onClick={() => alert('aloha')}>
+                    <Card
+                        className={
+                            this.props.selectedAccount &&
+                            this.props.selectedAccount.blockchain === account.node.blockchain &&
+                            this.props.selectedAccount.address === account.address
+                                ? 'selected'
+                                : ''
+                        }
+                        onClick={() =>
+                            route(`/account/${account.node.blockchain}/${account.address}`)
+                        }
+                    >
                         <div style="display: flex">
                             <div class="coin-logo">
                                 <img

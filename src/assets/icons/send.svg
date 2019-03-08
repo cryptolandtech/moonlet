@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="76px" height="76px" viewBox="0 0 76 76" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Artboard</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="out" transform="translate(1.000000, 0.000000)">
+            <path d="M47.0110123,45 L54.4793566,45 C55.8714695,45 57,46.3300595 57,48.0281067 L57,53.9718933 C57,55.6442705 55.8884228,57 54.4978209,57 L19.5021791,57 C18.1202638,57 17,55.6699405 17,53.9718933 L17,48.0281067 C17,46.3557295 18.1422887,45 19.5127787,45 L26.9578208,45" id="Rectangle-7" stroke="#1A1434" stroke-width="3" stroke-linecap="round"></path>
+            <rect id="Rectangle-8" fill="#5D8EFF" x="35" y="20" width="5" height="18" rx="2.5"></rect>
+            <polyline id="Rectangle-6" stroke="#1A1434" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="46 27 37.5 20 29 27"></polyline>
+        </g>
+    </g>
+</svg>

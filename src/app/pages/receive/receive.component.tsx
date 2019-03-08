@@ -6,11 +6,12 @@ import Button from 'preact-material-components/Button';
 
 import './receive.scss';
 import { Translate } from '../../components/translate/translate.component';
-import { GenericAccount } from 'moonlet-core/src/core/account';
 import { TextareaAutoSize } from '../../components/textarea-auto-size/textarea-auto-size.components';
+import { AccountCard } from '../account/components/account-card/account-card.component';
+import { AddressCard } from '../account/components/address-card/address-card.component';
 
 interface IProps {
-    account: GenericAccount;
+    account: any;
 }
 
 export class ReceivePage extends Component<IProps, any> {
@@ -18,24 +19,11 @@ export class ReceivePage extends Component<IProps, any> {
 
     public render() {
         return (
-            <LayoutGrid className="receive-page">
-                <Card className="card">
-                    <QRCode
-                        className="qr-image"
-                        value={this.props.account.address}
-                        renderAs="svg"
-                    />
-                    <TextareaAutoSize
-                        value={this.props.account.address}
-                        noBorder
-                        className="address"
-                        inputRef={el => (this.textareaElement = el)}
-                    />
-                    <Button onClick={() => this.copyToClipboard()}>
-                        <Translate text="ReceivePage.copyToClipboard" />
-                    </Button>
-                </Card>
-            </LayoutGrid>
+            <div class="receive-page">
+                <AccountCard account={this.props.account} />
+                <AddressCard account={this.props.account} />
+                <QRCode className="qr-image" value={this.props.account.address} renderAs="svg" />
+            </div>
         );
     }
 

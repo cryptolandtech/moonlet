@@ -4,8 +4,7 @@
     z-index: 10;
 
     .top-appbar-icon {
-        width: 24px;
-        height: 24px;
+        height: 21px;
         margin-left: 16px;
     }
 
@@ -23,7 +22,6 @@
     }
     .title {
         width: 100%;
-        color: grey;
         padding-left: 0px;
     }
 
@@ -40,5 +38,14 @@
 
         padding-right: 2em;
         font-size: 1em;
+    }
+}
+
+.top-bar.theme-white {
+    background: white;
+    color: black;
+
+    .mdc-top-app-bar__icon {
+        color: black;
     }
 }

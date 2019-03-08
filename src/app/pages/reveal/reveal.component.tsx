@@ -6,128 +6,119 @@ import Button from 'preact-material-components/Button';
 import { GenericAccount } from 'moonlet-core/src/core/account';
 import Chips from 'preact-material-components/Chips';
 import { removeType } from '../../utils/remove-type';
+import { translate } from '../../utils/translate';
+import { TextareaAutoSize } from '../../components/textarea-auto-size/textarea-auto-size.components';
+import TextField from 'preact-material-components/TextField';
+import { getWalletProvider } from '../../app-context';
 
 interface IProps {
-    account: GenericAccount;
+    account: any;
     words: string[];
-    routeName: string;
+    type: string;
 }
 
 interface IState {
-    wordsVisible: boolean;
-    layoutProps?: {
-        warningText: string;
-        tipsText: string;
-        revealButtonText: string;
-    };
+    currentScreen: 'password' | 'info';
+    passwordInput: string;
+    passwordInputError: string;
 }
 
 export class RevealPage extends Component<IProps, IState> {
-    private wordsTextarea;
-    private isPrivateKeyLayout: boolean;
-
     constructor(props: IProps) {
         super(props);
-        let layoutProps;
-        switch (this.props.routeName) {
-            case 'revealSecretPhrase':
-                this.isPrivateKeyLayout = false;
-                layoutProps = {
-                    warningText: 'RevealPage.phraseWarning',
-                    tipsText: 'RevealPage.phraseTips',
-                    revealButtonText: 'RevealPage.revealSecretPhrase'
-                };
-                break;
-            case 'revealPrivateKey':
-                this.isPrivateKeyLayout = true;
-                layoutProps = {
-                    warningText: 'RevealPage.privateKeyWarning',
-                    tipsText: 'RevealPage.privateKeyTips',
-                    revealButtonText: 'RevealPage.revealPrivateKey'
-                };
-                break;
-        }
 
         this.state = {
-            wordsVisible: false,
-            layoutProps
+            currentScreen: 'password',
+            passwordInput: '',
+            passwordInputError: ''
         };
     }
 
-    public onRevealClick() {
-        this.setState({ wordsVisible: true });
+    public renderPasswordScreen() {
+        return (
+            <div>
+                <div class="warning">{translate(`RevealPage.${this.props.type}.warning`)}</div>
+                <div class="password-input">
+                    <TextField
+                        outlined
+                        label={translate('RevealPage.enterPassword')}
+                        value={this.state.passwordInput}
+                        type="password"
+                        onKeyPress={e => {
+                            this.setState({ passwordInput: (e.target as any).value });
+                            if (e.code === 'Enter') {
+                                this.checkPassword();
+                            }
+                        }}
+                    />
+                </div>
+                {this.state.passwordInputError && (
+                    <div class="error">{this.state.passwordInputError}</div>
+                )}
+                <Button
+                    ripple
+                    secondary
+                    raised
+                    class="reveal-button"
+                    onClick={this.checkPassword.bind(this)}
+                >
+                    <Translate text={`RevealPage.${this.props.type}.title`} />
+                </Button>
+            </div>
+        );
     }
 
-    public copyToClipboard() {
-        if (this.wordsTextarea) {
-            this.wordsTextarea.select();
-            document.execCommand('copy');
+    public getInfo() {
+        switch (this.props.type) {
+            case 'secretPhrase':
+                return (
+                    <Chips className="info">
+                        {this.props.words.map(word =>
+                            removeType(
+                                <Chips.Chip>
+                                    {removeType(<Chips.Text>{word}</Chips.Text>)}
+                                </Chips.Chip>
+                            )
+                        )}
+                    </Chips>
+                );
+                break;
+            case 'publicKey':
+            case 'privateKey':
+                return <div class="info key">{this.props.account[this.props.type]}</div>;
+                break;
         }
     }
 
-    public displayText() {
-        let elementToRender;
-        if (this.state.wordsVisible) {
-            elementToRender = (
-                <div>
-                    {this.isPrivateKeyLayout ? (
-                        <div className=" mdc-typography--headline5">
-                            {this.props.account.privateKey}
-                        </div>
-                    ) : (
-                        <Chips>
-                            {this.props.words.map(word =>
-                                removeType(
-                                    <Chips.Chip>
-                                        {removeType(<Chips.Text>{word}</Chips.Text>)}
-                                    </Chips.Chip>
-                                )
-                            )}
-                        </Chips>
-                    )}
-                    <div class="copy-button-wrapper">
-                        <Button ripple onClick={this.copyToClipboard.bind(this)}>
-                            <Translate text="RevealPage.copyToClipboard" />
-                        </Button>
-                    </div>
-                </div>
-            );
-        } else {
-            elementToRender = (
-                <div class="word-list-overlay center-text">
-                    <Button ripple secondary raised onClick={this.onRevealClick.bind(this)}>
-                        <Button.Icon>remove_red_eye</Button.Icon>
-                        <Translate text={this.state.layoutProps.revealButtonText} />
-                    </Button>
-                </div>
-            );
-        }
-        return elementToRender;
+    public renderInfoScreen() {
+        return (
+            <div>
+                <div class="warning">{translate(`RevealPage.${this.props.type}.warning`)}</div>
+                {this.getInfo()}
+                <div class="tips">{translate(`RevealPage.${this.props.type}.tips`)}</div>
+            </div>
+        );
     }
 
     public render() {
         return (
-            <div>
-                <LayoutGrid className="reveal-page">
-                    <textarea
-                        class="words-textarea"
-                        ref={el => {
-                            this.wordsTextarea = el;
-                        }}
-                    >
-                        {this.isPrivateKeyLayout
-                            ? this.props.account.privateKey
-                            : this.props.words.join(' ')}
-                    </textarea>
-                    <Translate
-                        text={this.state.layoutProps.warningText}
-                        className="warning"
-                        body2
-                    />
-                    {this.displayText()}
-                    <Translate text={this.state.layoutProps.tipsText} className="tips" body2 />
-                </LayoutGrid>
+            <div class="reveal-page">
+                {this.state.currentScreen === 'password' && this.renderPasswordScreen()}
+                {this.state.currentScreen === 'info' && this.renderInfoScreen()}
             </div>
         );
+    }
+
+    public async checkPassword() {
+        try {
+            await getWalletProvider().unlockWallet(this.state.passwordInput);
+            this.setState({
+                currentScreen: 'info'
+            });
+        } catch (e) {
+            this.setState({
+                passwordInputError: translate('RevealPage.invalidPassword')
+            });
+        }
     }
 }

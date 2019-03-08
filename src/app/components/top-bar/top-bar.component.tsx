@@ -9,6 +9,7 @@ import NetworkSelector from '../network-selector/network-selector.container';
 import Icon from 'preact-material-components/Icon';
 import List from 'preact-material-components/List';
 import { route } from 'preact-router';
+import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
 
 interface IProps {
     config: IDefaultTopBarConfig;
@@ -23,7 +24,7 @@ export class TopBar extends Component<IProps> {
     public getIcon(config) {
         const onClick = () => (config.action ? this.props.dispatch(config.action) : {});
         let icon = (
-            <TopAppBar.Icon className="grey" navigation={!!config.action} onClick={onClick}>
+            <TopAppBar.Icon navigation={!!config.action} onClick={onClick}>
                 {config.icon}
             </TopAppBar.Icon>
         );
@@ -37,6 +38,13 @@ export class TopBar extends Component<IProps> {
         }
 
         return icon;
+    }
+
+    public getText(text) {
+        if (typeof text === 'function') {
+            return text();
+        }
+        return text;
     }
 
     public getLeftSection() {
@@ -59,6 +67,15 @@ export class TopBar extends Component<IProps> {
         if (middle) {
             let sectionContent;
             switch (middle.type) {
+                case 'tokenPageTitle':
+                    const blockchain = document.location.pathname.split('/')[2];
+                    const text = blockchain
+                        ? blockchain[0].toUpperCase() +
+                          blockchain.toLowerCase().slice(1) +
+                          ` (${BLOCKCHAIN_INFO[blockchain].coin.toUpperCase()})`
+                        : '';
+                    sectionContent = <TopAppBar.Title className={`title`}>{text}</TopAppBar.Title>;
+                    break;
                 case 'text':
                     const centerClass =
                         this.props.screenSize === DeviceScreenSize.SMALL && this.props.config.right
@@ -66,7 +83,7 @@ export class TopBar extends Component<IProps> {
                             : '';
                     sectionContent = (
                         <TopAppBar.Title className={`title ${centerClass}`}>
-                            {middle.text}
+                            {this.getText(middle.text)}
                         </TopAppBar.Title>
                     );
                     break;
@@ -91,19 +108,29 @@ export class TopBar extends Component<IProps> {
                     sectionContent = this.getIcon(right);
                     break;
                 case 'text':
-                    sectionContent = <div className="right-text grey">{right.text}</div>;
+                    sectionContent = (
+                        <div className="right-text grey">{this.getText(right.text)}</div>
+                    );
                     break;
                 case 'menu':
                     sectionContent = (
                         <Menu.Anchor>
                             <TopAppBar.Icon
                                 navigation={true}
-                                onClick={() => (this.rightMenu.MDComponent.open = true)}
+                                onClick={() => {
+                                    this.rightMenu.MDComponent.open = false;
+                                    setTimeout(() => (this.rightMenu.MDComponent.open = true));
+                                }}
                             >
                                 {right.icon}
                             </TopAppBar.Icon>
 
-                            <Menu ref={m => (this.rightMenu = m)}>
+                            <Menu
+                                ref={m => {
+                                    this.rightMenu = m;
+                                }}
+                                style={`width: ${right.menuWidth || 150}px;`}
+                            >
                                 {Array.isArray(right.items) &&
                                     right.items.map(item => (
                                         <Menu.Item
@@ -137,10 +164,15 @@ export class TopBar extends Component<IProps> {
 
     public render(props: RenderableProps<IProps>) {
         if (props.config) {
+            let className = 'top-bar';
+
+            if (this.props.config.options && this.props.config.options.theme) {
+                className += ` theme-${this.props.config.options.theme}`;
+            }
             return (
                 <TopAppBar
                     fixed
-                    className="top-bar"
+                    className={className}
                     onNav={() => {
                         /**/
                     }}

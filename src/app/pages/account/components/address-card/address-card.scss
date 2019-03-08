@@ -1,0 +1,30 @@
+@import '../../../../styles/base';
+
+.address-card {
+    padding: 8px;
+
+    .address-card-inner {
+        display: flex;
+
+        .mdc-menu {
+            width: 210px;
+        }
+    }
+
+    .address-label {
+        flex: 1;
+        font-weight: bold;
+        line-height: 24px;
+    }
+
+    .address-more-icon {
+        cursor: pointer;
+    }
+
+    .address {
+        word-break: break-all;
+        text-align: center;
+        padding: 8px;
+        cursor: pointer;
+    }
+}

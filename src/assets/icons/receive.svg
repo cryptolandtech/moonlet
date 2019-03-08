@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="76px" height="76px" viewBox="0 0 76 76" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 53.2 (72643) - https://sketchapp.com -->
+    <title>Artboard Copy</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Artboard-Copy" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(1.000000, 1.000000)">
+            <g id="in">
+                <path d="M46.0110123,44 L53.4793566,44 C54.8714695,44 56,45.2192212 56,46.7757645 L56,52.2242355 C56,53.7572479 54.8884228,55 53.4978209,55 L18.5021791,55 C17.1202638,55 16,53.7807788 16,52.2242355 L16,46.7757645 L16,46.7757645 C16,45.2427521 17.1422887,44 18.5127787,44 L25.9578208,44" id="Rectangle-7" stroke="#1A1434" stroke-width="3" stroke-linecap="round"></path>
+                <rect id="Rectangle-8" fill="#5D8EFF" x="34" y="18" width="5" height="17" rx="2.5"></rect>
+                <polyline id="Rectangle-6" stroke="#1A1434" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" transform="translate(36.500000, 32.500000) rotate(180.000000) translate(-36.500000, -32.500000) " points="45 36 36.5 29 28 36"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>

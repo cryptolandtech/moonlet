@@ -1,3 +1,4 @@
+import { BLOCKCHAIN_INFO } from './utils/blockchain/blockchain-info';
 import { browser } from 'webextension-polyfill-ts';
 import { goBack } from './data/page-config/actions';
 import { Component } from 'preact';
@@ -5,6 +6,7 @@ import { ILayout } from './data/page-config/state';
 import { IRoute } from './routes';
 import { DeviceScreenSize, Platform } from './types';
 import { mergeDeep } from './utils/merge-deep';
+import { translate } from './utils/translate';
 
 export type IRouteConfig = ILayout;
 
@@ -20,6 +22,39 @@ export interface IRoute {
     };
 }
 
+const dashboardConfig: IRouteConfig = {
+    topBar: {
+        left: {
+            icon: 'logo'
+        },
+        right: {
+            type: 'menu',
+            icon: 'more_vert',
+            menuWidth: 200,
+            items: [
+                {
+                    text: 'Add new account',
+                    icon: 'add_circle_outline'
+                },
+                {
+                    text: 'Open new tab',
+                    icon: 'launch',
+                    action: () => {
+                        browser.tabs.create({
+                            url: document.location.href.replace('popup=1', '')
+                        });
+                    }
+                },
+                {
+                    text: 'Settings',
+                    icon: 'settings',
+                    href: '/settings'
+                }
+            ]
+        }
+    }
+};
+
 export const ROUTES: IRoute[] = [
     {
         name: 'landingPage',
@@ -30,11 +65,7 @@ export const ROUTES: IRoute[] = [
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.ALL]: {
-                    topBar: {
-                        left: {
-                            icon: 'logo'
-                        }
-                    }
+                    topBar: {}
                 }
             }
         }
@@ -46,52 +77,7 @@ export const ROUTES: IRoute[] = [
             import('./pages/dashboard/dashboard.container').then(module => module.default),
         config: {
             [Platform.ALL]: {
-                [DeviceScreenSize.ALL]: {
-                    topBar: {
-                        left: {
-                            icon: 'logo'
-                        },
-                        right: {
-                            type: 'menu',
-                            icon: 'more_vert',
-                            items: [
-                                {
-                                    text: 'Add new account',
-                                    icon: 'add_circle_outline'
-                                },
-                                {
-                                    text: 'Open new tab',
-                                    icon: 'launch',
-                                    action: () => {
-                                        browser.tabs.create({
-                                            url: document.location.href.replace('popup=1', '')
-                                        });
-                                    }
-                                },
-                                {
-                                    text: 'Settings',
-                                    icon: 'settings',
-                                    href: '/settings'
-                                }
-                            ]
-                        }
-                    }
-                }
-            },
-            [Platform.EXTENSION]: {
-                [DeviceScreenSize.SMALL]: {
-                    topBar: {
-                        right: {
-                            type: 'icon',
-                            icon: 'launch',
-                            action: () => {
-                                browser.tabs.create({
-                                    url: document.location.href.replace('popup=1', '')
-                                });
-                            }
-                        }
-                    }
-                }
+                [DeviceScreenSize.ALL]: dashboardConfig
             }
         }
     },
@@ -147,47 +133,49 @@ export const ROUTES: IRoute[] = [
     },
     {
         name: 'send',
-        path: '/send',
+        path: '/send/:blockchain/:address',
         getComponent: () => import('./pages/send/send.container').then(module => module.default),
         config: {
             [Platform.ALL]: {
-                [DeviceScreenSize.SMALL]: {
+                [DeviceScreenSize.ALL]: {
                     topBar: {
+                        options: {
+                            theme: 'white'
+                        },
                         left: {
-                            icon: 'logo'
+                            icon: 'close',
+                            action: goBack
                         },
                         middle: {
-                            type: 'networkSelection'
+                            type: 'text',
+                            text: 'Send'
                         }
-                    },
-                    bottomNav: true
-                },
-                [DeviceScreenSize.BIG]: {
-                    drawerMenu: true
+                    }
                 }
             }
         }
     },
     {
         name: 'receive',
-        path: '/receive',
+        path: '/receive/:blockchain/:address',
         getComponent: () =>
             import('./pages/receive/recieve.container').then(module => module.default),
         config: {
             [Platform.ALL]: {
-                [DeviceScreenSize.SMALL]: {
+                [DeviceScreenSize.ALL]: {
                     topBar: {
+                        options: {
+                            theme: 'white'
+                        },
                         left: {
-                            icon: 'logo'
+                            icon: 'close',
+                            action: goBack
                         },
                         middle: {
-                            type: 'networkSelection'
+                            type: 'text',
+                            text: 'Receive'
                         }
-                    },
-                    bottomNav: true
-                },
-                [DeviceScreenSize.BIG]: {
-                    drawerMenu: true
+                    }
                 }
             }
         }
@@ -218,7 +206,7 @@ export const ROUTES: IRoute[] = [
     },
     {
         name: 'transactionDetails',
-        path: '/transaction/:transactionId',
+        path: '/transaction/:blockchain/:address/:transactionId',
         getComponent: () =>
             import('./pages/transaction-details/transaction-details.container').then(
                 module => module.default
@@ -227,6 +215,9 @@ export const ROUTES: IRoute[] = [
             [Platform.ALL]: {
                 [DeviceScreenSize.ALL]: {
                     topBar: {
+                        options: {
+                            theme: 'white'
+                        },
                         left: {
                             icon: 'close',
                             action: goBack
@@ -241,21 +232,27 @@ export const ROUTES: IRoute[] = [
         }
     },
     {
-        name: 'revealSecretPhrase',
-        path: '/revealSecretPhrase',
+        name: 'reveal',
+        path: '/reveal/:type/:blockchain?/:address?',
         getComponent: () =>
             import('./pages/reveal/reveal.container').then(module => module.default),
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.ALL]: {
                     topBar: {
+                        options: {
+                            theme: 'white'
+                        },
                         left: {
                             icon: 'close',
                             action: goBack
                         },
                         middle: {
                             type: 'text',
-                            text: 'Reveal Secret Phrase'
+                            text: () =>
+                                translate(
+                                    `RevealPage.${document.location.pathname.split('/')[2]}.title`
+                                )
                         }
                     }
                 }
@@ -281,24 +278,24 @@ export const ROUTES: IRoute[] = [
         config: {}
     },
     {
-        name: 'revealPrivateKey',
-        path: '/revealPrivateKey',
+        name: 'account',
+        path: '/account/:blockchain/:address',
         getComponent: () =>
-            import('./pages/reveal/reveal.container').then(module => module.default),
+            import('./pages/account/account.container').then(module => module.default),
         config: {
             [Platform.ALL]: {
-                [DeviceScreenSize.ALL]: {
+                [DeviceScreenSize.SMALL]: {
                     topBar: {
                         left: {
-                            icon: 'close',
+                            icon: 'navigate_before',
                             action: goBack
                         },
                         middle: {
-                            type: 'text',
-                            text: 'Reveal Private Key'
+                            type: 'tokenPageTitle'
                         }
                     }
-                }
+                },
+                [DeviceScreenSize.BIG]: dashboardConfig
             }
         }
     }

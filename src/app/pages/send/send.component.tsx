@@ -18,11 +18,13 @@ import { IWalletTransfer } from '../../data/wallet/state';
 import { route } from 'preact-router';
 import { getWalletProvider } from '../../app-context';
 import Card from 'preact-material-components/Card';
+import { AddressCard } from '../account/components/address-card/address-card.component';
+import { AccountCard } from '../account/components/account-card/account-card.component';
 
 interface IProps {
     blockchain: Blockchain;
     blockchainInfo: IBlockchainInfo;
-    account: GenericAccount;
+    account: any;
     transferInfo: IWalletTransfer;
 
     transfer: (
@@ -81,6 +83,12 @@ export class SendPage extends Component<IProps, IState> {
             <div class="send-page">
                 <LayoutGrid>
                     <LayoutGrid.Inner>
+                        <LayoutGridCell cols={12}>
+                            <AccountCard account={this.props.account} />
+                        </LayoutGridCell>
+                        <LayoutGridCell cols={12}>
+                            <AddressCard account={this.props.account} />
+                        </LayoutGridCell>
                         <LayoutGridCell cols={12}>
                             <Card className="card">
                                 <p

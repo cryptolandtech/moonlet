@@ -1,42 +1,44 @@
 @import '../../styles/base';
 
 .reveal-page {
-    color: rgba(0, 0, 0, 0.6);
-    padding: 16px;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-
-    .words-textarea {
-        height: 0px;
-        width: 0px;
-        overflow: hidden;
-        position: absolute;
-        left: -10px;
-    }
-
-    .subtitle {
-        margin: 0px 0 48px 0;
-    }
-
+    padding: 24px;
     .warning {
-        margin-bottom: 16px;
+        font-size: 13px;
+        margin-top: 50px;
     }
 
-    .word-list-overlay {
-        width: 100%;
-        background-color: $mdc-theme-primary;
+    .password-input {
+        display: flex;
+        margin-top: 24px;
 
-        .mdc-button {
-            margin: 100px 0;
+        .mdc-text-field {
+            flex: 1;
         }
     }
 
-    .copy-button-wrapper {
-        margin-top: 20px;
+    .error {
+        font-size: 13px;
+        color: red;
+        margin: 5px 10px;
+    }
+
+    .info {
+        margin: 30px 0;
+
+        &.key {
+            text-align: center;
+            font-size: 24px;
+            word-wrap: break-word;
+        }
+    }
+
+    .reveal-button {
         width: 100%;
+        margin: 24px 0;
     }
 
     .tips {
-        margin: 24px 0 30px 0;
+        font-size: 13px;
+        margin: 24px 0;
     }
 }

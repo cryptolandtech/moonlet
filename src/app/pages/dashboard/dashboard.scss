@@ -7,12 +7,16 @@
     white-space: pre-wrap;
     word-wrap: break-word;
 
-    .card {
+    .mdc-card {
         margin: 8px;
         padding: 16px;
         position: relative;
         display: flex;
         cursor: pointer;
+
+        &.selected {
+            background: #e4f1ff;
+        }
     }
 
     .coin-logo {

@@ -7,34 +7,25 @@ import { IState } from '../../data';
 import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
 
 const mapStateToProps = (state: IState, ownProps) => {
-    const wallet = state.wallet.data;
-    const transactionId = ownProps.transactionId;
+    const { blockchain, address, transactionId } = ownProps;
+    let account;
     let transaction;
-    let txAccount;
-    let txBlockchain;
+    if (state.wallet.data.accounts[blockchain]) {
+        account = state.wallet.data.accounts[blockchain].filter(acc => acc.address === address)[0];
+    }
 
-    Object.keys(wallet.accounts).forEach((blockchain: Blockchain) => {
-        const blockchainAccounts: GenericAccount[] = wallet.accounts[blockchain];
-        blockchainAccounts.forEach((account: GenericAccount) => {
-            (account as any).transactions.forEach((tx: GenericTransaction) => {
-                if (
-                    tx.txn === transactionId ||
-                    ((tx.txn as any).TranID && (tx.txn as any).TranID === transactionId)
-                ) {
-                    transaction = tx;
-                    txAccount = account;
-                    txBlockchain = blockchain;
-                }
-            });
-        });
-    });
+    transaction = account.transactions.filter(
+        tx =>
+            tx.txn === transactionId ||
+            ((tx.txn as any).TranID && (tx.txn as any).TranID === transactionId)
+    )[0];
 
     return {
         ...ownProps,
         transaction,
-        account: txAccount,
-        blockchain: txBlockchain,
-        blockchainInfo: BLOCKCHAIN_INFO[state.wallet.selectedBlockchain]
+        account,
+        blockchain,
+        blockchainInfo: BLOCKCHAIN_INFO[blockchain]
     };
 };
 

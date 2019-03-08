@@ -6,13 +6,15 @@ import { createGetBalance } from '../../data/wallet/actions';
 import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
 import { filterAccounts } from '../../utils/blockchain/utils';
 
-const mapStateToProps = (state: IState) => {
+const mapStateToProps = (state: IState, ownProps) => {
     const accounts = filterAccounts(state.wallet.data, true);
     const balances = state.wallet.balances || {};
 
     return {
+        ...ownProps,
         accounts,
-        balances
+        balances,
+        device: state.pageConfig.device
     };
 };
 

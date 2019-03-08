@@ -1,6 +1,6 @@
 import { connect } from 'preact-redux';
+import { AccountPage } from './account.component';
 import { IState } from '../../data';
-import { ReceivePage } from './receive.component';
 
 const mapStateToProps = (state: IState, ownProps) => {
     const { blockchain, address } = ownProps;
@@ -11,8 +11,9 @@ const mapStateToProps = (state: IState, ownProps) => {
     }
 
     return {
-        account
+        account,
+        device: state.pageConfig.device
     };
 };
 
-export default connect(mapStateToProps)(ReceivePage);
+export default connect(mapStateToProps)(AccountPage);

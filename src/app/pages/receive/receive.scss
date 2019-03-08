@@ -1,22 +1,12 @@
 .receive-page {
-    color: gray;
-
-    .card {
-        padding: 16px;
+    .mdc-card {
+        margin: 16px 8px;
     }
-
     .qr-image {
-        width: 100%;
+        width: calc(100% - 16px);
         height: auto;
         max-width: 300px;
-        margin: 0 auto;
-        margin-bottom: 16px;
-    }
-
-    .address {
-        word-wrap: break-word;
-        font-size: 1.5rem;
-        color: gray !important;
-        text-align: center;
+        margin: 16px auto;
+        display: block;
     }
 }
