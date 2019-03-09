@@ -1,3 +1,4 @@
+import { IUserPreferences } from './user-preferences/state';
 import { compose, createStore, applyMiddleware, Store } from 'redux';
 import { IPageConfig } from './page-config/state';
 import { reducers } from './reducers';
@@ -10,12 +11,17 @@ export interface IState {
     extension?: {
         version: string;
     };
+    userPreferences: IUserPreferences;
 }
 
 const defaultState: IState = {
     pageConfig: undefined,
     wallet: undefined,
-    extension: undefined
+    extension: undefined,
+    userPreferences: {
+        devMode: false,
+        testNet: false
+    }
 };
 
 const composeEnhancers =

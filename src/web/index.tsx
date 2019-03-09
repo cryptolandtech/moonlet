@@ -6,6 +6,9 @@ import { DeviceScreenSize, Platform } from '../app/types';
 import { getScreenSizeMatchMedia } from '../app/utils/screen-size-match-media';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { WebWalletProvider } from './wallet-provider';
+import { createWallet, createWalletLoaded } from '../app/data/wallet/actions';
+import { IWalletProvider } from '../app/iwallet-provider';
+import { fdatasync } from 'fs';
 
 const store = getStore({
     pageConfig: {
@@ -28,9 +31,22 @@ const store = getStore({
         data: {
             accounts: []
         }
+    },
+    userPreferences: {
+        devMode: false,
+        testNet: false
     }
 });
-const walletProvider = new WebWalletProvider();
+const walletProvider: IWalletProvider = new WebWalletProvider();
+
+// (async () => {
+//     const wallet = await walletProvider.createWallet(
+//         'gadget clean certain tiger abandon prevent light pluck muscle obtain mobile agree',
+//         'asd'
+//     );
+//     // console.log(await walletProvider.getAccounts({ ZILLIQA: 2 }));
+//     store.dispatch(createWalletLoaded(false, true, false, wallet));
+// })();
 
 export default props => (
     <Provider store={store}>

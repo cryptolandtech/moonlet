@@ -129,6 +129,7 @@ export const translation: ITranslations = {
             }
         },
         TransactionDetailsPage: {
+            title: 'Transaction details',
             dateTime: 'Date and time',
             amount: 'Amount',
             fees: 'Fees',
@@ -175,6 +176,14 @@ export const translation: ITranslations = {
             revealPrivateKey: 'Reveal Private Key',
             revealPublicKey: 'Reveal Public Key',
             discardAddress: 'Discard Address'
+        },
+        DisclaimerPage: {
+            title: 'Disclaimer'
+        },
+        NetworkOptionsPage: {
+            title: 'Network Options',
+            mainnet: 'Mainnets',
+            testnet: 'Testnets'
         }
     },
     plural: (n: number, ord: boolean) => {

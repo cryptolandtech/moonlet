@@ -10,16 +10,17 @@ import { translate } from './utils/translate';
 
 export type IRouteConfig = ILayout;
 
+interface IConfig {
+    [platform: string]: {
+        [screenSize: string]: IRouteConfig;
+    };
+}
 export interface IRoute {
     name: string;
     path: string;
     getComponent: () => Promise<Component>;
     withoutWalletInstance?: boolean;
-    config: {
-        [platform: string]: {
-            [screenSize: string]: IRouteConfig;
-        };
-    };
+    config: IConfig;
 }
 
 const dashboardConfig: IRouteConfig = {
@@ -53,6 +54,33 @@ const dashboardConfig: IRouteConfig = {
             ]
         }
     }
+};
+
+const popupPageConfig = (titleTextKey): IConfig => {
+    let text = () => translate(titleTextKey);
+    if (typeof titleTextKey === 'function') {
+        text = titleTextKey;
+    }
+
+    return {
+        [Platform.ALL]: {
+            [DeviceScreenSize.ALL]: {
+                topBar: {
+                    options: {
+                        theme: 'white'
+                    },
+                    left: {
+                        icon: 'close',
+                        action: goBack
+                    },
+                    middle: {
+                        type: 'text',
+                        text
+                    }
+                }
+            }
+        }
+    };
 };
 
 export const ROUTES: IRoute[] = [
@@ -135,71 +163,51 @@ export const ROUTES: IRoute[] = [
         name: 'send',
         path: '/send/:blockchain/:address',
         getComponent: () => import('./pages/send/send.container').then(module => module.default),
-        config: {
-            [Platform.ALL]: {
-                [DeviceScreenSize.ALL]: {
-                    topBar: {
-                        options: {
-                            theme: 'white'
-                        },
-                        left: {
-                            icon: 'close',
-                            action: goBack
-                        },
-                        middle: {
-                            type: 'text',
-                            text: 'Send'
-                        }
-                    }
-                }
-            }
-        }
+        config: popupPageConfig('App.labels.send')
     },
     {
         name: 'receive',
         path: '/receive/:blockchain/:address',
         getComponent: () =>
             import('./pages/receive/recieve.container').then(module => module.default),
-        config: {
-            [Platform.ALL]: {
-                [DeviceScreenSize.ALL]: {
-                    topBar: {
-                        options: {
-                            theme: 'white'
-                        },
-                        left: {
-                            icon: 'close',
-                            action: goBack
-                        },
-                        middle: {
-                            type: 'text',
-                            text: 'Receive'
-                        }
-                    }
-                }
-            }
-        }
+        config: popupPageConfig('App.labels.receive')
+    },
+    {
+        name: 'settingsDisclaimer',
+        path: '/settings/disclaimer',
+        getComponent: () =>
+            import('./pages/settings/pages/disclaimer/disclaimer.component').then(
+                module => module.DisclaimerPage
+            ),
+        config: popupPageConfig('DisclaimerPage.title')
+    },
+    {
+        name: 'settingsNetworkOptions',
+        path: '/settings/networkOptions',
+        getComponent: () =>
+            import('./pages/settings/pages/network-options/network-options.container').then(
+                module => module.default
+            ),
+        config: popupPageConfig('NetworkOptionsPage.title')
     },
     {
         name: 'settings',
-        path: '/settings',
+        path: '/settings/:level1?',
         getComponent: () =>
             import('./pages/settings/settings.container').then(module => module.default),
         config: {
             [Platform.ALL]: {
-                [DeviceScreenSize.SMALL]: {
+                [DeviceScreenSize.ALL]: {
                     topBar: {
                         left: {
-                            icon: 'logo'
+                            icon: 'navigate_before',
+                            action: goBack
                         },
                         middle: {
-                            type: 'networkSelection'
+                            type: 'text',
+                            text: () => translate('App.labels.settings')
                         }
-                    },
-                    bottomNav: true
-                },
-                [DeviceScreenSize.BIG]: {
-                    drawerMenu: true
+                    }
                 }
             }
         }
@@ -211,53 +219,16 @@ export const ROUTES: IRoute[] = [
             import('./pages/transaction-details/transaction-details.container').then(
                 module => module.default
             ),
-        config: {
-            [Platform.ALL]: {
-                [DeviceScreenSize.ALL]: {
-                    topBar: {
-                        options: {
-                            theme: 'white'
-                        },
-                        left: {
-                            icon: 'close',
-                            action: goBack
-                        },
-                        middle: {
-                            type: 'text',
-                            text: 'Transaction details'
-                        }
-                    }
-                }
-            }
-        }
+        config: popupPageConfig('TransactionDetailsPage.title')
     },
     {
         name: 'reveal',
         path: '/reveal/:type/:blockchain?/:address?',
         getComponent: () =>
             import('./pages/reveal/reveal.container').then(module => module.default),
-        config: {
-            [Platform.ALL]: {
-                [DeviceScreenSize.ALL]: {
-                    topBar: {
-                        options: {
-                            theme: 'white'
-                        },
-                        left: {
-                            icon: 'close',
-                            action: goBack
-                        },
-                        middle: {
-                            type: 'text',
-                            text: () =>
-                                translate(
-                                    `RevealPage.${document.location.pathname.split('/')[2]}.title`
-                                )
-                        }
-                    }
-                }
-            }
-        }
+        config: popupPageConfig(() =>
+            translate(`RevealPage.${document.location.pathname.split('/')[2]}.title`)
+        )
     },
     {
         name: 'transaction-confirmation',

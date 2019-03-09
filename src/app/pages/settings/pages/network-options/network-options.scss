@@ -1,0 +1,24 @@
+@import '../../../../styles/base';
+
+.network-options-page {
+    .switcher {
+        display: flex;
+    }
+
+    .mainnet {
+        text-align: right;
+        padding: 0 10px;
+        flex: 1;
+        line-height: 48px;
+    }
+
+    .testnet {
+        flex: 1;
+        padding: 0 10px;
+        line-height: 48px;
+    }
+
+    .active {
+        color: $mdc-theme-secondary;
+    }
+}

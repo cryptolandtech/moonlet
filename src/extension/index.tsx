@@ -32,6 +32,10 @@ const store = getStore({
     },
     extension: {
         version: VERSION
+    },
+    userPreferences: {
+        devMode: false,
+        testNet: false
     }
 });
 const walletProvider = new ExtensionWalletProvider();

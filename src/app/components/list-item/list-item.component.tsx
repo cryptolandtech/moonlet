@@ -9,6 +9,7 @@ interface IProps {
     href?: string;
     target?: string;
     noDivider?: boolean;
+    disabled?: boolean;
 
     onClick?: (e?) => any;
 }
@@ -33,7 +34,7 @@ export class ListItem extends Component<IProps, {}> {
 
     public getListItem() {
         let ItemComponent = List.Item;
-        if (this.props.href) {
+        if (!this.props.disabled && this.props.href) {
             ItemComponent = List.LinkItem as any;
         }
 
@@ -48,7 +49,10 @@ export class ListItem extends Component<IProps, {}> {
         }
 
         return (
-            <ItemComponent {...itemProps}>
+            <ItemComponent
+                {...itemProps}
+                className={this.props.disabled ? 'mdc-list-item--disabled' : ''}
+            >
                 {this.props.icon && <List.ItemGraphic>{this.props.icon}</List.ItemGraphic>}
                 {this.getItemText(this.props.primaryText, this.props.secondaryText)}
                 {this.props.href && <List.ItemMeta>keyboard_arrow_right</List.ItemMeta>}
