@@ -10,6 +10,8 @@ import { translate } from '../../utils/translate';
 import { TextareaAutoSize } from '../../components/textarea-auto-size/textarea-auto-size.components';
 import TextField from 'preact-material-components/TextField';
 import { getWalletProvider } from '../../app-context';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import Icon from 'preact-material-components/Icon';
 
 interface IProps {
     account: any;
@@ -71,7 +73,7 @@ export class RevealPage extends Component<IProps, IState> {
     public getInfo() {
         switch (this.props.type) {
             case 'secretPhrase':
-                return (
+                return [
                     <Chips className="info">
                         {this.props.words.map(word =>
                             removeType(
@@ -80,12 +82,29 @@ export class RevealPage extends Component<IProps, IState> {
                                 </Chips.Chip>
                             )
                         )}
-                    </Chips>
-                );
+                    </Chips>,
+                    <div class="center-text">
+                        <CopyToClipboard text={this.props.words.join(' ')}>
+                            <Button ripple>
+                                <Translate text="App.labels.copyToClipboard" />
+                            </Button>
+                        </CopyToClipboard>
+                    </div>
+                ];
                 break;
             case 'publicKey':
             case 'privateKey':
-                return <div class="info key">{this.props.account[this.props.type]}</div>;
+                return (
+                    <CopyToClipboard text={this.props.account[this.props.type]}>
+                        <div>
+                            <div class="info key">{this.props.account[this.props.type]}</div>
+                            <div class="copy-to-clipboard center-text">
+                                <Translate text="App.labels.copyToClipboard" />
+                                <Icon>file_copy</Icon>
+                            </div>
+                        </div>
+                    </CopyToClipboard>
+                );
                 break;
         }
     }

@@ -176,7 +176,8 @@ export const translation: ITranslations = {
         AccountPage: {
             revealPrivateKey: 'Reveal Private Key',
             revealPublicKey: 'Reveal Public Key',
-            discardAddress: 'Discard Address'
+            discardAddress: 'Discard Address',
+            addressCopied: 'Address copied to clipboard'
         },
         DisclaimerPage: {
             title: 'Disclaimer'

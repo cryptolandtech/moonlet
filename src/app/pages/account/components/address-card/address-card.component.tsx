@@ -7,6 +7,9 @@ import Menu from 'preact-material-components/Menu';
 import Icon from 'preact-material-components/Icon';
 import List from 'preact-material-components/List';
 import Typography from 'preact-material-components/Typography';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import Snackbar from 'preact-material-components/Snackbar';
+import { translate } from '../../../../utils/translate';
 
 interface IProps {
     account: any;
@@ -15,6 +18,7 @@ interface IProps {
 
 export class AddressCard extends Component<IProps> {
     private addressMenu;
+    private bar;
 
     public render() {
         const account = this.props.account;
@@ -55,9 +59,31 @@ export class AddressCard extends Component<IProps> {
                         </Menu.Anchor>
                     )}
                 </div>
-                <Typography headline5 class="address">
-                    {this.props.account.address}
-                </Typography>
+
+                <CopyToClipboard
+                    text={this.props.account.address}
+                    onCopy={() =>
+                        this.bar.MDComponent.show({
+                            message: translate('AccountPage.addressCopied')
+                        })
+                    }
+                >
+                    <div>
+                        <Typography headline5 class="address">
+                            {this.props.account.address}
+                        </Typography>
+                        <div class="copy-to-clipboard center-text">
+                            <Translate text="App.labels.copyToClipboard" />
+                            <Icon>file_copy</Icon>
+                        </div>
+                    </div>
+                </CopyToClipboard>
+
+                <Snackbar
+                    ref={bar => {
+                        this.bar = bar;
+                    }}
+                />
             </Card>
         );
     }
