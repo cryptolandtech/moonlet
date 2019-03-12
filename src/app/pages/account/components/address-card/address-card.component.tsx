@@ -10,6 +10,7 @@ import Typography from 'preact-material-components/Typography';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Snackbar from 'preact-material-components/Snackbar';
 import { translate } from '../../../../utils/translate';
+import { Copy } from '../../../../components/copy/copy.component';
 
 interface IProps {
     account: any;
@@ -60,24 +61,11 @@ export class AddressCard extends Component<IProps> {
                     )}
                 </div>
 
-                <CopyToClipboard
-                    text={this.props.account.address}
-                    onCopy={() =>
-                        this.bar.MDComponent.show({
-                            message: translate('AccountPage.addressCopied')
-                        })
-                    }
-                >
-                    <div>
-                        <Typography headline5 class="address">
-                            {this.props.account.address}
-                        </Typography>
-                        <div class="copy-to-clipboard center-text">
-                            <Translate text="App.labels.copyToClipboard" />
-                            <Icon>file_copy</Icon>
-                        </div>
-                    </div>
-                </CopyToClipboard>
+                <Copy text={this.props.account.address}>
+                    <Typography headline5 class="address">
+                        {this.props.account.address}
+                    </Typography>
+                </Copy>
 
                 <Snackbar
                     ref={bar => {

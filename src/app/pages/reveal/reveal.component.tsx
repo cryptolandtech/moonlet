@@ -12,6 +12,7 @@ import TextField from 'preact-material-components/TextField';
 import { getWalletProvider } from '../../app-context';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Icon from 'preact-material-components/Icon';
+import { Copy } from '../../components/copy/copy.component';
 
 interface IProps {
     account: any;
@@ -95,15 +96,9 @@ export class RevealPage extends Component<IProps, IState> {
             case 'publicKey':
             case 'privateKey':
                 return (
-                    <CopyToClipboard text={this.props.account[this.props.type]}>
-                        <div>
-                            <div class="info key">{this.props.account[this.props.type]}</div>
-                            <div class="copy-to-clipboard center-text">
-                                <Translate text="App.labels.copyToClipboard" />
-                                <Icon>file_copy</Icon>
-                            </div>
-                        </div>
-                    </CopyToClipboard>
+                    <Copy text={this.props.account[this.props.type]}>
+                        <div class="info key">{this.props.account[this.props.type]}</div>
+                    </Copy>
                 );
                 break;
         }
