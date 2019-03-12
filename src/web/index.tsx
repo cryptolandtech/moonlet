@@ -6,9 +6,36 @@ import { DeviceScreenSize, Platform } from '../app/types';
 import { getScreenSizeMatchMedia } from '../app/utils/screen-size-match-media';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { WebWalletProvider } from './wallet-provider';
-import { createWallet, createWalletLoaded } from '../app/data/wallet/actions';
+import { createWalletLoaded } from '../app/data/wallet/actions';
 import { IWalletProvider } from '../app/iwallet-provider';
-import { fdatasync } from 'fs';
+import { IUserPreferences } from '../app/data/user-preferences/state';
+
+const loadState = (): IUserPreferences => {
+    const defaults = {
+        devMode: false,
+        testNet: false,
+        networks: {}
+    };
+
+    try {
+        const serializedState = localStorage.getItem('state');
+        if (serializedState === null) {
+            return defaults;
+        }
+        return JSON.parse(serializedState);
+    } catch (err) {
+        return defaults;
+    }
+};
+
+const saveState = state => {
+    try {
+        const serializedState = JSON.stringify(state.userPreferences);
+        localStorage.setItem('state', serializedState);
+    } catch {
+        // ignore write errors
+    }
+};
 
 const store = getStore({
     pageConfig: {
@@ -32,11 +59,11 @@ const store = getStore({
             accounts: []
         }
     },
-    userPreferences: {
-        devMode: false,
-        testNet: false
-    }
+    userPreferences: loadState()
 });
+
+store.subscribe(() => saveState(store.getState()));
+
 const walletProvider: IWalletProvider = new WebWalletProvider();
 
 // (async () => {
