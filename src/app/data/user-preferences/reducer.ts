@@ -1,5 +1,5 @@
 import { IAction } from '../action';
-import { DEV_MODE_TOGGLE, TESTNET_TOGGLE } from './actions';
+import { DEV_MODE_TOGGLE, TESTNET_TOGGLE, NETWORK_SWITCH, SET_PREFERENCES } from './actions';
 import { IUserPreferences } from './state';
 
 export default (state: IUserPreferences, action: IAction): IUserPreferences => {
@@ -11,16 +11,21 @@ export default (state: IUserPreferences, action: IAction): IUserPreferences => {
     }
 
     switch (action.type) {
+        case SET_PREFERENCES:
+            state = action.data;
+            break;
         case DEV_MODE_TOGGLE:
             if (typeof action.data.value === 'boolean') {
                 state = {
                     ...state,
-                    devMode: action.data.value
+                    devMode: action.data.value,
+                    testNet: action.data.value ? state.testNet : false
                 };
             } else {
                 state = {
                     ...state,
-                    devMode: !state.devMode
+                    devMode: !state.devMode,
+                    testNet: !state.devMode ? state.testNet : false
                 };
             }
             break;
@@ -36,6 +41,31 @@ export default (state: IUserPreferences, action: IAction): IUserPreferences => {
                     testNet: !state.testNet
                 };
             }
+            break;
+        case NETWORK_SWITCH:
+            let networkOptions: any = {};
+            if (!state.networks) {
+                state.networks = {};
+            }
+
+            if (state.networks[action.data.blockchain]) {
+                networkOptions = state.networks[action.data.blockchain];
+            }
+
+            if (action.data.mainNet) {
+                networkOptions.mainNet = action.data.networkId;
+            } else {
+                networkOptions.testNet = action.data.networkId;
+            }
+
+            state = {
+                ...state,
+                networks: {
+                    ...state.networks,
+                    [action.data.blockchain]: networkOptions
+                }
+            };
+
             break;
     }
 

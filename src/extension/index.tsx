@@ -10,6 +10,10 @@ import { createLoadWallet } from '../app/data/wallet/actions';
 import { ExtensionWalletProvider } from './wallet-provider';
 
 import { VERSION } from './version';
+import { browser } from 'webextension-polyfill-ts';
+import { createSetPreferences } from '../app/data/user-preferences/actions';
+
+const USER_PREFERENCES_STORAGE_KEY = 'userPref';
 
 const store = getStore({
     pageConfig: {
@@ -33,13 +37,30 @@ const store = getStore({
     extension: {
         version: VERSION
     },
-    userPreferences: {
-        devMode: false,
-        testNet: false
-    }
+    userPreferences: undefined
 });
 const walletProvider = new ExtensionWalletProvider();
-store.dispatch(createLoadWallet(walletProvider) as any);
+
+(async () => {
+    const storage = await browser.storage.local.get();
+    let userPreferences = {
+        devMode: false,
+        testNet: false,
+        networks: {}
+    };
+
+    if (storage[USER_PREFERENCES_STORAGE_KEY]) {
+        userPreferences = storage[USER_PREFERENCES_STORAGE_KEY];
+    }
+    store.dispatch(createSetPreferences(userPreferences));
+    store.dispatch(createLoadWallet(walletProvider) as any);
+})();
+
+store.subscribe(() => {
+    browser.storage.local.set({
+        [USER_PREFERENCES_STORAGE_KEY]: store.getState().userPreferences
+    });
+});
 
 export default props => (
     <Provider store={store}>

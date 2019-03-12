@@ -21,4 +21,8 @@
     .active {
         color: $mdc-theme-secondary;
     }
+
+    .network-list-item {
+        cursor: pointer;
+    }
 }

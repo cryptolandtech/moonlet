@@ -1,7 +1,10 @@
 import { connect } from 'preact-redux';
 import { NetworkOptionsPage } from './network-options.component';
 import { IState } from '../../../../data';
-import { createTestNetToggle } from '../../../../data/user-preferences/actions';
+import {
+    createTestNetToggle,
+    createSwitchNetwork
+} from '../../../../data/user-preferences/actions';
 
 const mapStateToProps = (state: IState, ownProps) => {
     return {
@@ -11,7 +14,8 @@ const mapStateToProps = (state: IState, ownProps) => {
 };
 
 const mapDispatchToProps = {
-    toggleTestNet: createTestNetToggle
+    toggleTestNet: createTestNetToggle,
+    switchNetwork: createSwitchNetwork
 };
 
 export default connect(

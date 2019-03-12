@@ -20,7 +20,8 @@ const defaultState: IState = {
     extension: undefined,
     userPreferences: {
         devMode: false,
-        testNet: false
+        testNet: false,
+        networks: {}
     }
 };
 

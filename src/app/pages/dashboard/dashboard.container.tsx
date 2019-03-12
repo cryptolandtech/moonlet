@@ -7,7 +7,11 @@ import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
 import { filterAccounts } from '../../utils/blockchain/utils';
 
 const mapStateToProps = (state: IState, ownProps) => {
-    const accounts = filterAccounts(state.wallet.data, true);
+    const accounts = filterAccounts(
+        state.wallet.data,
+        !state.userPreferences.testNet,
+        state.userPreferences.networks
+    );
     const balances = state.wallet.balances || {};
 
     return {

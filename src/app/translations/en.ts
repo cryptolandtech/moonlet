@@ -26,7 +26,8 @@ export const translation: ITranslations = {
                 ok: 'OK',
                 from: 'From',
                 total: 'Total',
-                copyToClipboard: 'Copy to clipboard'
+                copyToClipboard: 'Copy to clipboard',
+                switch: 'Switch'
             }
         },
         DrawerMenu: {
@@ -183,7 +184,12 @@ export const translation: ITranslations = {
         NetworkOptionsPage: {
             title: 'Network Options',
             mainnet: 'Mainnets',
-            testnet: 'Testnets'
+            testnet: 'Testnets',
+            switchDialog: {
+                title: 'Network switch',
+                text:
+                    'You are about to switch to testnet networks. Bear in mind that the account/addresses will differ from main networks.'
+            }
         }
     },
     plural: (n: number, ord: boolean) => {

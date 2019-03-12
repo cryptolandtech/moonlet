@@ -183,7 +183,7 @@ export const ROUTES: IRoute[] = [
     },
     {
         name: 'settingsNetworkOptions',
-        path: '/settings/networkOptions',
+        path: '/settings/networkOptions/:blockchain?',
         getComponent: () =>
             import('./pages/settings/pages/network-options/network-options.container').then(
                 module => module.default

@@ -1,3 +1,4 @@
+import { INetworksOptions } from './../../data/user-preferences/state';
 import { FeeOptions, IGasFeeOptions } from './types';
 import { BLOCKCHAIN_INFO, BlockchainFeeType } from './blockchain-info';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
@@ -91,17 +92,20 @@ export const formatCurrency = (amount: number | BigNumber, coin: string): string
     return '';
 };
 
-export const filterAccounts = (wallet, mainnet: boolean, testnetOptions?) => {
+export const filterAccounts = (wallet, mainnet: boolean, networkOptions: INetworksOptions) => {
     const accounts = [];
 
     if (wallet.accounts) {
         for (const blockchain in wallet.accounts) {
             if (wallet.accounts.hasOwnProperty(blockchain)) {
-                const testnetId = mainnet ? 0 : testnetOptions[blockchain] || 1;
+                if (!networkOptions[blockchain]) {
+                    networkOptions[blockchain] = {};
+                }
+                const networkId = mainnet
+                    ? networkOptions[blockchain].mainNet || 0
+                    : networkOptions[blockchain].testNet || 1;
                 for (const acc of wallet.accounts[blockchain]) {
-                    if (mainnet && acc.node.network.network_id === 0) {
-                        accounts.push(acc);
-                    } else if (testnetOptions && acc.node.network.network_id === testnetId) {
+                    if (acc.node.network.network_id === networkId) {
                         accounts.push(acc);
                     }
                 }
