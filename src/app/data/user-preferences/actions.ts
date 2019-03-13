@@ -8,6 +8,7 @@ export const SET_PREFERENCES = 'SET_PREFERENCES';
 export const DEV_MODE_TOGGLE = 'DEV_MODE_TOGGLE';
 export const TESTNET_TOGGLE = 'TESTNET_TOGGLE';
 export const NETWORK_SWITCH = 'NETWORK_SWITCH';
+export const CHANGE_PREFERRED_CURRENCY = 'CHANGE_PREFERRED_CURRENCY';
 
 // Action creators
 
@@ -47,6 +48,15 @@ export const createSwitchNetwork = (
             blockchain,
             networkId,
             mainNet
+        }
+    };
+};
+
+export const createChangePreferredCurrency = (currency: string): IAction => {
+    return {
+        type: CHANGE_PREFERRED_CURRENCY,
+        data: {
+            currency
         }
     };
 };

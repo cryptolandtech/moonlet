@@ -1,21 +1,15 @@
 import { Component, h } from 'preact';
 
 import Card from 'preact-material-components/Card';
-import Icon from 'preact-material-components/Icon';
-import LayoutGrid from 'preact-material-components/LayoutGrid';
 import './dashboard.scss';
-import List from 'preact-material-components/List';
-import Elevation from 'preact-material-components/Elevation';
-import { Translate } from '../../components/translate/translate.component';
-import { TextareaAutoSize } from '../../components/textarea-auto-size/textarea-auto-size.components';
-import { BLOCKCHAIN_INFO, IBlockchainInfo } from '../../utils/blockchain/blockchain-info';
+
+import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import { BigNumber } from 'bignumber.js';
+
 import { IAccountsBalances, IAccountBalance } from '../../data/wallet/state';
-import { convertUnit } from '../../utils/blockchain/utils';
+import Currency from '../../components/currency/currency.container';
 import { route } from 'preact-router';
 import { IDevice } from '../../data/page-config/state';
-import { DeviceScreenSize } from '../../types';
 
 interface IProps {
     accounts: any[];
@@ -27,10 +21,6 @@ interface IProps {
 }
 
 export class DashboardPage extends Component<IProps> {
-    constructor(props: IProps) {
-        super(props);
-    }
-
     public getCoin(account) {
         return BLOCKCHAIN_INFO[account.node.blockchain].coin;
     }
@@ -71,12 +61,20 @@ export class DashboardPage extends Component<IProps> {
                             <div class="coin-name">{this.getCoin(account)}</div>
                             <div class="balance">
                                 <div class="native">
-                                    {this.getBalance(account).amount ||
-                                        Math.random()
-                                            .toString()
-                                            .substr(0, 6)}
+                                    <Currency
+                                        amount={this.getBalance(account).amount || Math.random()}
+                                        currency={this.getCoin(account)}
+                                        hideCurrency
+                                    />
                                 </div>
-                                <div class="wallet-name">Account 1</div>
+                                <div class="wallet-name">
+                                    Account 1 ~{' '}
+                                    <Currency
+                                        amount={this.getBalance(account).amount || Math.random()}
+                                        currency={this.getCoin(account)}
+                                        convert
+                                    />
+                                </div>
                             </div>
                         </div>
                     </Card>

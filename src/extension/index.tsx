@@ -12,6 +12,7 @@ import { ExtensionWalletProvider } from './wallet-provider';
 import { VERSION } from './version';
 import { browser } from 'webextension-polyfill-ts';
 import { createSetPreferences } from '../app/data/user-preferences/actions';
+import { createUpdateConversionRates } from '../app/data/currency/actions';
 
 const USER_PREFERENCES_STORAGE_KEY = 'userPref';
 
@@ -44,16 +45,20 @@ const walletProvider = new ExtensionWalletProvider();
 (async () => {
     const storage = await browser.storage.local.get();
     let userPreferences = {
+        preferredCurrency: 'USD',
         devMode: false,
         testNet: false,
         networks: {}
     };
 
     if (storage[USER_PREFERENCES_STORAGE_KEY]) {
-        userPreferences = storage[USER_PREFERENCES_STORAGE_KEY];
+        userPreferences = { ...userPreferences, ...storage[USER_PREFERENCES_STORAGE_KEY] };
     }
     store.dispatch(createSetPreferences(userPreferences));
     store.dispatch(createLoadWallet(walletProvider) as any);
+
+    store.dispatch(createUpdateConversionRates() as any);
+    setInterval(() => store.dispatch(createUpdateConversionRates() as any), 5 * 60 * 1000);
 })();
 
 store.subscribe(() => {

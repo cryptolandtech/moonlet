@@ -182,6 +182,15 @@ export const ROUTES: IRoute[] = [
         config: popupPageConfig('DisclaimerPage.title')
     },
     {
+        name: 'settingsCurrency',
+        path: '/settings/currency',
+        getComponent: () =>
+            import('./pages/settings/pages/currency/currency.container').then(
+                module => module.default
+            ),
+        config: popupPageConfig('CurrencyPage.title')
+    },
+    {
         name: 'settingsNetworkOptions',
         path: '/settings/networkOptions/:blockchain?',
         getComponent: () =>

@@ -9,9 +9,11 @@ import { WebWalletProvider } from './wallet-provider';
 import { createWalletLoaded } from '../app/data/wallet/actions';
 import { IWalletProvider } from '../app/iwallet-provider';
 import { IUserPreferences } from '../app/data/user-preferences/state';
+import { createUpdateConversionRates } from '../app/data/currency/actions';
 
 const loadState = (): IUserPreferences => {
     const defaults = {
+        preferredCurrency: 'USD',
         devMode: false,
         testNet: false,
         networks: {}
@@ -22,7 +24,7 @@ const loadState = (): IUserPreferences => {
         if (serializedState === null) {
             return defaults;
         }
-        return JSON.parse(serializedState);
+        return { ...defaults, ...JSON.parse(serializedState) };
     } catch (err) {
         return defaults;
     }
@@ -66,14 +68,17 @@ store.subscribe(() => saveState(store.getState()));
 
 const walletProvider: IWalletProvider = new WebWalletProvider();
 
-// (async () => {
-//     const wallet = await walletProvider.createWallet(
-//         'gadget clean certain tiger abandon prevent light pluck muscle obtain mobile agree',
-//         'asd'
-//     );
-//     // console.log(await walletProvider.getAccounts({ ZILLIQA: 2 }));
-//     store.dispatch(createWalletLoaded(false, true, false, wallet));
-// })();
+(async () => {
+    const wallet = await walletProvider.createWallet(
+        'gadget clean certain tiger abandon prevent light pluck muscle obtain mobile agree',
+        'asd'
+    );
+    // console.log(await walletProvider.getAccounts({ ZILLIQA: 2 }));
+    store.dispatch(createWalletLoaded(false, true, false, wallet));
+
+    store.dispatch(createUpdateConversionRates() as any);
+    setInterval(() => store.dispatch(createUpdateConversionRates() as any), 5 * 60 * 1000);
+})();
 
 export default props => (
     <Provider store={store}>

@@ -71,10 +71,10 @@ export class SettingsPage extends Component<IProps> {
                     ]
                 }
             },
-            // {
-            //     primaryText: 'Currency',
-            //     href: '/settings/currency'
-            // },
+            {
+                primaryText: 'Currency',
+                href: '/settings/currency'
+            },
             {
                 primaryText: 'Developer Options',
                 href: '/settings/developerOptions',

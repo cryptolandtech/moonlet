@@ -1,5 +1,11 @@
 import { IAction } from '../action';
-import { DEV_MODE_TOGGLE, TESTNET_TOGGLE, NETWORK_SWITCH, SET_PREFERENCES } from './actions';
+import {
+    DEV_MODE_TOGGLE,
+    TESTNET_TOGGLE,
+    NETWORK_SWITCH,
+    SET_PREFERENCES,
+    CHANGE_PREFERRED_CURRENCY
+} from './actions';
 import { IUserPreferences } from './state';
 
 export default (state: IUserPreferences, action: IAction): IUserPreferences => {
@@ -66,6 +72,12 @@ export default (state: IUserPreferences, action: IAction): IUserPreferences => {
                 }
             };
 
+            break;
+        case CHANGE_PREFERRED_CURRENCY:
+            state = {
+                ...state,
+                preferredCurrency: action.data.currency
+            };
             break;
     }
 

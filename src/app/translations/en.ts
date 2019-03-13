@@ -191,6 +191,9 @@ export const translation: ITranslations = {
                 text:
                     'You are about to switch to testnet networks. Bear in mind that the account/addresses will differ from main networks.'
             }
+        },
+        CurrencyPage: {
+            title: 'Preferred Currency'
         }
     },
     plural: (n: number, ord: boolean) => {

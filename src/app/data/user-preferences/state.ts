@@ -11,4 +11,5 @@ export interface IUserPreferences {
     devMode: boolean;
     testNet: boolean;
     networks: INetworksOptions;
+    preferredCurrency: string;
 }

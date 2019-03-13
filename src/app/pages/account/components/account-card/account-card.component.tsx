@@ -3,6 +3,7 @@ import Card from 'preact-material-components/Card';
 import { BLOCKCHAIN_INFO } from '../../../../utils/blockchain/blockchain-info';
 
 import './account-card.scss';
+import Currency from '../../../../components/currency/currency.container';
 
 interface IProps {
     account: any;
@@ -23,7 +24,18 @@ export class AccountCard extends Component<IProps> {
                     <div class="account-name">Account 1</div>
                 </div>
                 <div class="account-balance">
-                    0.123123 {BLOCKCHAIN_INFO[this.props.account.node.blockchain].coin}
+                    <Currency
+                        amount={Math.random()}
+                        currency={BLOCKCHAIN_INFO[this.props.account.node.blockchain].coin}
+                    />
+                </div>
+                <div class="account-balance-fiat center-text">
+                    ~{' '}
+                    <Currency
+                        amount={Math.random()}
+                        currency={BLOCKCHAIN_INFO[this.props.account.node.blockchain].coin}
+                        convert
+                    />
                 </div>
             </Card>
         );
