@@ -5,6 +5,7 @@ import {
     createTestNetToggle,
     createSwitchNetwork
 } from '../../../../data/user-preferences/actions';
+import { getWalletProvider } from '../../../../app-context';
 
 const mapStateToProps = (state: IState, ownProps) => {
     return {
@@ -15,7 +16,8 @@ const mapStateToProps = (state: IState, ownProps) => {
 
 const mapDispatchToProps = {
     toggleTestNet: createTestNetToggle,
-    switchNetwork: createSwitchNetwork
+    switchNetwork: (blockchain, networkId, mainNet) =>
+        createSwitchNetwork(getWalletProvider(), blockchain, networkId, mainNet)
 };
 
 export default connect(

@@ -5,7 +5,8 @@ import {
     WALLET_INVALID_PASSWORD,
     WALLET_SIGN_OUT,
     WALLET_UPDATE_BALANCE,
-    WALLET_TRANSFER
+    WALLET_TRANSFER,
+    WALLET_CLEAR_BALANCES
 } from './actions';
 import { IAction } from '../action';
 import { IWalletState } from './state';
@@ -52,19 +53,26 @@ export default (state: IWalletState, action: IAction): IWalletState => {
             const balances = state.balances || {};
             const accountsBalances = balances[action.data.blockchain] || {};
             const accountBalance = accountsBalances[action.data.address] || { amount: '' };
+            const blockchainBalances = balances[action.data.blockchain] || {};
 
             state = {
                 ...state,
                 balances: {
                     ...balances,
                     [action.data.blockchain]: {
+                        ...balances[action.data.blockchain],
                         [action.data.address]: {
+                            ...accountBalance,
                             loading: action.data.loading,
                             amount: action.data.amount || accountBalance.amount
                         }
                     }
                 }
             };
+
+            if (!action.data.loading) {
+                state.balances[action.data.blockchain][action.data.address].lastUpdate = Date.now();
+            }
             break;
         case WALLET_TRANSFER:
             state = {
@@ -75,6 +83,12 @@ export default (state: IWalletState, action: IAction): IWalletState => {
                     error: action.data.error,
                     txn: action.data.txn
                 }
+            };
+            break;
+        case WALLET_CLEAR_BALANCES:
+            state = {
+                ...state,
+                balances: {}
             };
             break;
     }

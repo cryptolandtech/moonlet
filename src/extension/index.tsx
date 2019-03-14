@@ -13,6 +13,7 @@ import { VERSION } from './version';
 import { browser } from 'webextension-polyfill-ts';
 import { createSetPreferences } from '../app/data/user-preferences/actions';
 import { createUpdateConversionRates } from '../app/data/currency/actions';
+import { getSwitchNetworkConfig } from '../app/utils/blockchain/utils';
 
 const USER_PREFERENCES_STORAGE_KEY = 'userPref';
 
@@ -55,7 +56,10 @@ const walletProvider = new ExtensionWalletProvider();
         userPreferences = { ...userPreferences, ...storage[USER_PREFERENCES_STORAGE_KEY] };
     }
     store.dispatch(createSetPreferences(userPreferences));
-    store.dispatch(createLoadWallet(walletProvider) as any);
+    store.dispatch(createLoadWallet(walletProvider, {
+        testNet: userPreferences.testNet,
+        networks: userPreferences.networks
+    }) as any);
 
     store.dispatch(createUpdateConversionRates() as any);
     setInterval(() => store.dispatch(createUpdateConversionRates() as any), 5 * 60 * 1000);

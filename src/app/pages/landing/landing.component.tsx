@@ -17,8 +17,9 @@ import { appContext } from '../../app-context';
 
 interface IProps {
     wallet: IWalletState;
+    networkConfig: any;
 
-    loadWallet: (walletProvider: IWalletProvider, password?: string) => any;
+    loadWallet: (walletProvider: IWalletProvider, netWorksConfig, password?: string) => any;
 }
 
 interface IState {
@@ -75,6 +76,7 @@ export class LandingPage extends Component<IProps, IState> {
                                                 e.code === 'Enter' &&
                                                 this.props.loadWallet(
                                                     appContext('walletProvider'),
+                                                    this.props.networkConfig,
                                                     this.state.password
                                                 )
                                             }
@@ -98,6 +100,7 @@ export class LandingPage extends Component<IProps, IState> {
                                             onClick={() =>
                                                 this.props.loadWallet(
                                                     appContext('walletProvider'),
+                                                    this.props.networkConfig,
                                                     this.state.password
                                                 )
                                             }

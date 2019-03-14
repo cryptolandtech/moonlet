@@ -10,6 +10,7 @@ import { createWalletLoaded } from '../app/data/wallet/actions';
 import { IWalletProvider } from '../app/iwallet-provider';
 import { IUserPreferences } from '../app/data/user-preferences/state';
 import { createUpdateConversionRates } from '../app/data/currency/actions';
+import { getSwitchNetworkConfig } from '../app/utils/blockchain/utils';
 
 const loadState = (): IUserPreferences => {
     const defaults = {
@@ -72,6 +73,12 @@ const walletProvider: IWalletProvider = new WebWalletProvider();
     const wallet = await walletProvider.createWallet(
         'gadget clean certain tiger abandon prevent light pluck muscle obtain mobile agree',
         'asd'
+    );
+    walletProvider.switchNetwork(
+        getSwitchNetworkConfig(
+            store.getState().userPreferences.testNet,
+            store.getState().userPreferences.networks
+        )
     );
     // console.log(await walletProvider.getAccounts({ ZILLIQA: 2 }));
     store.dispatch(createWalletLoaded(false, true, false, wallet));

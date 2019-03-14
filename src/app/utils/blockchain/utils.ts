@@ -115,3 +115,13 @@ export const filterAccounts = (wallet, mainnet: boolean, networkOptions: INetwor
 
     return accounts;
 };
+
+export const getSwitchNetworkConfig = (testNet, networks) => {
+    const config = {};
+    Object.keys(BLOCKCHAIN_INFO).map(blockchain => {
+        const blockchainConfig = { testNet: 1, mainNet: 0, ...(networks[blockchain] || {}) };
+
+        config[blockchain] = testNet ? blockchainConfig.testNet : blockchainConfig.mainNet;
+    });
+    return config;
+};

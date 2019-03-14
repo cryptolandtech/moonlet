@@ -1,3 +1,4 @@
+import { getSwitchNetworkConfig } from './../../utils/blockchain/utils';
 import { FeeOptions } from './../../utils/blockchain/types';
 import { BigNumber } from 'bignumber.js';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
@@ -14,6 +15,7 @@ export const WALLET_INVALID_PASSWORD = 'WALLET_INVALID_PASSWORD';
 export const WALLET_SIGN_OUT = 'WALLET_SIGN_OUT';
 export const WALLET_UPDATE_BALANCE = 'WALLET_UPDATE_BALANCE';
 export const WALLET_TRANSFER = 'WALLET_TRANSFER';
+export const WALLET_CLEAR_BALANCES = 'WALLET_CLEAR_BALANCES';
 
 // Action creators
 export const createChangeNetwork = (blockchain: Blockchain, network: Network) => {
@@ -59,12 +61,26 @@ export const createWallet = (
     };
 };
 
-export const createLoadWallet = (walletProvider: IWalletProvider, pass?: string) => {
+interface INetworksConfigParam {
+    testNet: boolean;
+    networks: {
+        [blockchain: string]: number;
+    };
+}
+export const createLoadWallet = (
+    walletProvider: IWalletProvider,
+    netWorksConfig: INetworksConfigParam,
+    pass?: string
+) => {
     return async dispatch => {
         try {
             const wallet = pass
                 ? await walletProvider.unlockWallet(pass)
                 : await walletProvider.getWallet();
+
+            await walletProvider.switchNetwork(
+                getSwitchNetworkConfig(netWorksConfig.testNet, netWorksConfig.networks)
+            );
 
             dispatch(createWalletLoaded(false, true, false, wallet));
         } catch (e) {
@@ -94,13 +110,18 @@ export const createSignOut = (walletProvider: IWalletProvider) => {
     };
 };
 
+const getBalanceInProgress = {};
 export const createGetBalance = (
     walletProvider: IWalletProvider,
     blockchain: Blockchain,
     address: string
 ) => {
     return async dispatch => {
+        const key = `${blockchain}/${address}`;
         try {
+            if (getBalanceInProgress[key]) {
+                return;
+            }
             dispatch({
                 type: WALLET_UPDATE_BALANCE,
                 data: {
@@ -109,7 +130,11 @@ export const createGetBalance = (
                     loading: true
                 }
             });
+
+            getBalanceInProgress[key] = true;
             const balance: BigNumber = await walletProvider.getBalance(blockchain, address);
+            delete getBalanceInProgress[key];
+
             dispatch({
                 type: WALLET_UPDATE_BALANCE,
                 data: {
@@ -120,6 +145,7 @@ export const createGetBalance = (
                 }
             });
         } catch (e) {
+            delete getBalanceInProgress[key];
             // console.log("error", e);
             // TODO error handling -> maybe show an error message on UI
         }
@@ -151,7 +177,7 @@ export const createTransfer = (
                 amount,
                 feeOptions
             );
-            createLoadWallet(walletProvider)(dispatch);
+            // createLoadWallet(walletProvider)(dispatch);
             dispatch({
                 type: WALLET_TRANSFER,
                 data: {

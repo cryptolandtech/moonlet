@@ -23,6 +23,10 @@ export class ExtensionWalletProvider implements IWalletProvider {
         return this.callAction('saveToStorage');
     }
 
+    public async switchNetwork(config: { [blockchain: string]: number }) {
+        return this.callAction('saveToStorage', [config]);
+    }
+
     public async createAccount(blockchain) {
         return this.callAction('createAccount', [blockchain]);
     }

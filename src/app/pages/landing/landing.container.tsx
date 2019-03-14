@@ -5,6 +5,10 @@ import { createLoadWallet } from '../../data/wallet/actions';
 
 const mapStateToProps = (state: IState) => {
     return {
+        networkConfig: {
+            testNet: state.userPreferences.testNet,
+            networks: state.userPreferences.networks
+        },
         wallet: state.wallet
     };
 };

@@ -21,27 +21,54 @@ export class WebWalletProvider implements IWalletProvider {
         this.wallet.loadBlockchain(await this.loadBlockchain('zilliqa'));
         this.wallet.loadBlockchain(await this.loadBlockchain('ethereum'));
 
-        this.wallet.createAccount(Blockchain.ZILLIQA);
-        this.wallet.createAccount(Blockchain.ZILLIQA);
-        this.wallet.createAccount(Blockchain.ZILLIQA);
-        this.wallet.createAccount(Blockchain.ZILLIQA, 1);
-        this.wallet.createAccount(Blockchain.ZILLIQA, 1);
-        this.wallet.createAccount(Blockchain.ZILLIQA, 1);
-        this.wallet.createAccount(Blockchain.ZILLIQA, 2);
-        this.wallet.createAccount(Blockchain.ZILLIQA, 2);
-        this.wallet.createAccount(Blockchain.ZILLIQA, 2);
-        this.wallet.createAccount(Blockchain.ZILLIQA, 2);
+        // const acc = this.wallet.createAccount(Blockchain.ZILLIQA);
 
-        this.wallet.createAccount(Blockchain.ETHEREUM);
-        this.wallet.createAccount(Blockchain.ETHEREUM);
-        this.wallet.createAccount(Blockchain.ETHEREUM);
-        this.wallet.createAccount(Blockchain.ETHEREUM, 1);
-        this.wallet.createAccount(Blockchain.ETHEREUM, 1);
-        this.wallet.createAccount(Blockchain.ETHEREUM, 1);
-        this.wallet.createAccount(Blockchain.ETHEREUM, 2);
-        this.wallet.createAccount(Blockchain.ETHEREUM, 2);
-        this.wallet.createAccount(Blockchain.ETHEREUM, 2);
-        this.wallet.createAccount(Blockchain.ETHEREUM, 2);
+        // (acc as any).transactions = [
+        //     {
+        //         status: 'PENDING',
+        //         amount: 1000000000000,
+        //         times: [{ name: 'creation', unixtime: Date.now() }],
+        //         txn: '1231231231231312'
+        //     },
+        //     {
+        //         status: 'PENDING',
+        //         amount: 1000000000000,
+        //         times: [{ name: 'creation', unixtime: Date.now() }],
+        //         txn: '1231231231231312'
+        //     },
+        //     {
+        //         status: 'PENDING',
+        //         amount: 1000000000000,
+        //         times: [{ name: 'creation', unixtime: Date.now() }],
+        //         txn: '1231231231231312'
+        //     },
+        //     {
+        //         status: 'PENDING',
+        //         amount: 1000000000000,
+        //         times: [{ name: 'creation', unixtime: Date.now() }],
+        //         txn: '1231231231231312'
+        //     }
+        // ];
+        // this.wallet.createAccount(Blockchain.ZILLIQA);
+        // this.wallet.createAccount(Blockchain.ZILLIQA);
+        // this.wallet.createAccount(Blockchain.ZILLIQA, 1);
+        // this.wallet.createAccount(Blockchain.ZILLIQA, 1);
+        // this.wallet.createAccount(Blockchain.ZILLIQA, 1);
+        // this.wallet.createAccount(Blockchain.ZILLIQA, 2);
+        // this.wallet.createAccount(Blockchain.ZILLIQA, 2);
+        // this.wallet.createAccount(Blockchain.ZILLIQA, 2);
+        // this.wallet.createAccount(Blockchain.ZILLIQA, 2);
+
+        // this.wallet.createAccount(Blockchain.ETHEREUM);
+        // this.wallet.createAccount(Blockchain.ETHEREUM);
+        // this.wallet.createAccount(Blockchain.ETHEREUM);
+        // this.wallet.createAccount(Blockchain.ETHEREUM, 1);
+        // this.wallet.createAccount(Blockchain.ETHEREUM, 1);
+        // this.wallet.createAccount(Blockchain.ETHEREUM, 1);
+        // this.wallet.createAccount(Blockchain.ETHEREUM, 2);
+        // this.wallet.createAccount(Blockchain.ETHEREUM, 2);
+        // this.wallet.createAccount(Blockchain.ETHEREUM, 2);
+        // this.wallet.createAccount(Blockchain.ETHEREUM, 2);
 
         return this.getWallet();
     }
@@ -60,11 +87,20 @@ export class WebWalletProvider implements IWalletProvider {
     }
 
     public async unlockWallet(password) {
+        if (password === 'pass') {
+            return Promise.resolve();
+        }
         return Promise.reject(Response.reject('NOT_IMPLEMENTED'));
     }
 
     public async saveWallet() {
         return Promise.reject(Response.reject('NOT_IMPLEMENTED'));
+    }
+
+    public async switchNetwork(config: { [blockchain: string]: number }) {
+        for (const blockchain of Object.keys(config)) {
+            this.wallet.switchNetwork(blockchain as Blockchain, config[blockchain]);
+        }
     }
 
     public async createAccount(blockchain) {

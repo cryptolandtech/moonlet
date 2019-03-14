@@ -6,6 +6,7 @@ export type IWalletData = any;
 export interface IAccountBalance {
     loading: boolean;
     amount: BigNumber;
+    lastUpdate: number;
 }
 
 export interface IWalletTransfer {

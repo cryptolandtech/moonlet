@@ -10,6 +10,7 @@ import { IAccountsBalances, IAccountBalance } from '../../data/wallet/state';
 import Currency from '../../components/currency/currency.container';
 import { route } from 'preact-router';
 import { IDevice } from '../../data/page-config/state';
+import Balance from '../../components/balance/balance.container';
 
 interface IProps {
     accounts: any[];
@@ -26,7 +27,7 @@ export class DashboardPage extends Component<IProps> {
     }
 
     public getBalance(account): IAccountBalance {
-        let balance = { loading: false, amount: undefined };
+        let balance = { loading: false, amount: undefined, lastUpdate: undefined };
         if (this.props.balances[account.node.blockchain]) {
             balance = this.props.balances[account.node.blockchain][account.address] || balance;
         }
@@ -61,17 +62,17 @@ export class DashboardPage extends Component<IProps> {
                             <div class="coin-name">{this.getCoin(account)}</div>
                             <div class="balance">
                                 <div class="native">
-                                    <Currency
-                                        amount={this.getBalance(account).amount || Math.random()}
-                                        currency={this.getCoin(account)}
+                                    <Balance
+                                        blockchain={account.node.blockchain}
+                                        address={account.address}
                                         hideCurrency
                                     />
                                 </div>
                                 <div class="wallet-name">
                                     Account 1 ~{' '}
-                                    <Currency
-                                        amount={this.getBalance(account).amount || Math.random()}
-                                        currency={this.getCoin(account)}
+                                    <Balance
+                                        blockchain={account.node.blockchain}
+                                        address={account.address}
                                         convert
                                     />
                                 </div>

@@ -14,6 +14,7 @@ export interface IWalletProvider {
     lockWallet();
     unlockWallet(password);
     saveWallet();
+    switchNetwork(config: { [blockchain: string]: number });
 
     createAccount(blockchain);
     isValidAddress(blockchain, address);

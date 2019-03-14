@@ -1,6 +1,8 @@
 import { IUserPreferences } from './state';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { IAction } from '../action';
+import { IWalletProvider } from '../../iwallet-provider';
+import { WALLET_CLEAR_BALANCES } from '../wallet/actions';
 
 // Action constants
 
@@ -38,17 +40,23 @@ export const createTestNetToggle = (value?: boolean): IAction => {
 };
 
 export const createSwitchNetwork = (
+    walletProvider: IWalletProvider,
     blockchain: Blockchain,
     networkId: number,
     mainNet: boolean
-): IAction => {
-    return {
-        type: NETWORK_SWITCH,
-        data: {
-            blockchain,
-            networkId,
-            mainNet
-        }
+) => {
+    return async dispatch => {
+        await walletProvider.switchNetwork({ [blockchain]: networkId });
+
+        dispatch({ type: WALLET_CLEAR_BALANCES });
+        dispatch({
+            type: NETWORK_SWITCH,
+            data: {
+                blockchain,
+                networkId,
+                mainNet
+            }
+        });
     };
 };
 

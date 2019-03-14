@@ -118,6 +118,12 @@ export class WalletManager {
         }
     }
 
+    public async switchNetwork(config: { [blockchain: string]: number }) {
+        for (const blockchain of Object.keys(config)) {
+            this.wallet.switchNetwork(blockchain as Blockchain, config[blockchain]);
+        }
+    }
+
     public async getBalance(sender, blockchain: Blockchain, address: string) {
         const b = this.wallet.getBlockchain(blockchain);
         const account = b.getAccounts().find(acc => acc.address === address);
