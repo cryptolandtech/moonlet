@@ -75,7 +75,8 @@ export default class App extends Component<IProps, IState> {
             !this.route.current.attributes.withoutWalletInstance &&
             !walletOk
         ) {
-            this.redirectAfterWalletLoaded = this.route.url || '/dashboard';
+            this.redirectAfterWalletLoaded =
+                this.route.url.replace('/settings', '/dashboard') || '/dashboard';
             route('/');
         }
     }
