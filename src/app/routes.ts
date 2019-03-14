@@ -7,6 +7,7 @@ import { IRoute } from './routes';
 import { DeviceScreenSize, Platform } from './types';
 import { mergeDeep } from './utils/merge-deep';
 import { translate } from './utils/translate';
+import { isExtension } from './utils/platform-utils';
 
 export type IRouteConfig = ILayout;
 
@@ -236,7 +237,11 @@ export const ROUTES: IRoute[] = [
         getComponent: () =>
             import('./pages/reveal/reveal.container').then(module => module.default),
         config: popupPageConfig(() =>
-            translate(`RevealPage.${document.location.pathname.split('/')[2]}.title`)
+            translate(
+                `RevealPage.${
+                    (isExtension() ? location.hash : location.pathname).split('/')[2]
+                }.title`
+            )
         )
     },
     {

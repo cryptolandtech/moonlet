@@ -10,6 +10,7 @@ import Icon from 'preact-material-components/Icon';
 import List from 'preact-material-components/List';
 import { route } from 'preact-router';
 import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
+import { isExtension } from '../../utils/platform-utils';
 
 interface IProps {
     config: IDefaultTopBarConfig;
@@ -68,7 +69,9 @@ export class TopBar extends Component<IProps> {
             let sectionContent;
             switch (middle.type) {
                 case 'tokenPageTitle':
-                    const blockchain = document.location.pathname.split('/')[2];
+                    const blockchain = (isExtension() ? location.hash : location.pathname).split(
+                        '/'
+                    )[2];
                     const text = blockchain
                         ? blockchain[0].toUpperCase() +
                           blockchain.toLowerCase().slice(1) +
