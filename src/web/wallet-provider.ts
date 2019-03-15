@@ -21,7 +21,7 @@ export class WebWalletProvider implements IWalletProvider {
         await this.loadBlockchain('zilliqa');
         await this.loadBlockchain('ethereum');
 
-        // const acc = this.wallet.createAccount(Blockchain.ZILLIQA);
+        const acc = this.wallet.createAccount(Blockchain.ZILLIQA);
 
         // (acc as any).transactions = [
         //     {

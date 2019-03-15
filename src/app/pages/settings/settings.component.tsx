@@ -9,7 +9,7 @@ import Switch from 'preact-material-components/Switch';
 import './settings.component.scss';
 import { IWalletProvider } from '../../iwallet-provider';
 import { appContext } from '../../app-context';
-import { IUserPreferences } from '../../data/user-preferences/state';
+import { IUserPreferences, INetworksOptions } from '../../data/user-preferences/state';
 
 interface IProps {
     level1: string;
@@ -17,7 +17,7 @@ interface IProps {
     userPreferences: IUserPreferences;
 
     signOut: (walletProvider: IWalletProvider) => any;
-    toggleDevMode: (value?: boolean) => any;
+    toggleDevMode: (devMode: boolean, testNet: boolean, networks: INetworksOptions) => any;
 }
 
 interface IListItem {
@@ -85,7 +85,12 @@ export class SettingsPage extends Component<IProps> {
                             primaryText: 'On',
                             type: 'switch',
                             getValue: () => this.props.userPreferences.devMode,
-                            setValue: (v?) => this.props.toggleDevMode(v)
+                            setValue: (v?) =>
+                                this.props.toggleDevMode(
+                                    v,
+                                    this.props.userPreferences.testNet,
+                                    this.props.userPreferences.networks
+                                )
                         },
                         {
                             primaryText: 'Network Options',

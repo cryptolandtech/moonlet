@@ -1,8 +1,9 @@
-import { IUserPreferences } from './state';
+import { IUserPreferences, INetworksOptions } from './state';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { IAction } from '../action';
 import { IWalletProvider } from '../../iwallet-provider';
 import { WALLET_CLEAR_BALANCES } from '../wallet/actions';
+import { getSwitchNetworkConfig } from '../../utils/blockchain/utils';
 
 // Action constants
 
@@ -21,12 +22,24 @@ export const createSetPreferences = (userPref: IUserPreferences): IAction => {
     };
 };
 
-export const createDevModeToggle = (value?: boolean): IAction => {
-    return {
-        type: DEV_MODE_TOGGLE,
-        data: {
-            value
-        }
+export const createDevModeToggle = (
+    walletProvider: IWalletProvider,
+    devMode: boolean,
+    testNet: boolean,
+    networks: INetworksOptions
+) => {
+    return async dispatch => {
+        await walletProvider.switchNetwork(
+            getSwitchNetworkConfig(devMode ? testNet : false, networks)
+        );
+        dispatch({ type: WALLET_CLEAR_BALANCES });
+
+        dispatch({
+            type: DEV_MODE_TOGGLE,
+            data: {
+                value: devMode
+            }
+        });
     };
 };
 

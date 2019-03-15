@@ -11,6 +11,7 @@ import List from 'preact-material-components/List';
 import { ListItem } from '../../../../components/list-item/list-item.component';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { translate } from '../../../../utils/translate';
+import { BLOCKCHAIN_INFO } from '../../../../utils/blockchain/blockchain-info';
 
 interface IProps {
     userPreferences: IUserPreferences;
@@ -37,9 +38,11 @@ export class NetworkOptionsPage extends Component<IProps> {
         this.switchRef.MDComponent.unlisten('MDCIconButtonToggle:change', this.onSwitchChange);
     }
 
-    public getSelectedNetworkId(blockchain) {
+    public getSelectedNetworkId(blockchain, testNet?: boolean) {
+        testNet = typeof testNet === 'boolean' ? testNet : this.props.userPreferences.testNet;
+
         if (
-            this.props.userPreferences.testNet &&
+            testNet &&
             this.props.userPreferences.networks[blockchain] &&
             this.props.userPreferences.networks[blockchain].testNet
         ) {
@@ -47,21 +50,26 @@ export class NetworkOptionsPage extends Component<IProps> {
         }
 
         if (
-            !this.props.userPreferences.testNet &&
+            !testNet &&
             this.props.userPreferences.networks[blockchain] &&
             this.props.userPreferences.networks[blockchain].mainNet
         ) {
             return this.props.userPreferences.networks[blockchain].mainNet;
         }
 
-        return NETWORKS[blockchain].filter(
-            n => n.mainNet === !this.props.userPreferences.testNet
-        )[0].network_id;
+        return NETWORKS[blockchain].filter(n => n.mainNet === !testNet)[0].network_id;
     }
 
     @bind
     public onSwitchChange(e) {
         this.props.toggleTestNet(e.detail.isOn);
+        Object.keys(BLOCKCHAIN_INFO).map(blockchain => {
+            this.props.switchNetwork(
+                blockchain as Blockchain,
+                this.getSelectedNetworkId(blockchain, e.detail.isOn),
+                !e.detail.isOn
+            );
+        });
         if (e.detail.isOn) {
             this.switchDialogRef.MDComponent.show();
         }
