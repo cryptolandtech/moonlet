@@ -3,6 +3,7 @@ import { FeeOptions, IGasFeeOptions } from './types';
 import { BLOCKCHAIN_INFO, BlockchainFeeType } from './blockchain-info';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import BigNumber from 'bignumber.js';
+import { IState } from '../../data';
 
 export const convertUnit = (
     blockchain: Blockchain,
@@ -124,4 +125,20 @@ export const getSwitchNetworkConfig = (testNet, networks) => {
         config[blockchain] = testNet ? blockchainConfig.testNet : blockchainConfig.mainNet;
     });
     return config;
+};
+
+export const getAccountFromState = (state: IState, blockchain: Blockchain, address: string) => {
+    let account;
+    const networks = getSwitchNetworkConfig(
+        state.userPreferences.testNet,
+        state.userPreferences.networks
+    );
+
+    if (state.wallet.data.accounts[blockchain]) {
+        account = state.wallet.data.accounts[blockchain].filter(acc => {
+            return acc.address === address && acc.node.network.network_id === networks[blockchain];
+        })[0];
+    }
+
+    return account;
 };
