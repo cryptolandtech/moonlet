@@ -145,7 +145,9 @@ export const createGetBalance = (
             });
 
             getBalanceInProgress[key] = true;
+            const timeout = setTimeout(() => delete getBalanceInProgress[key], 3000);
             const balance: BigNumber = await walletProvider.getBalance(blockchain, address);
+            clearTimeout(timeout);
             delete getBalanceInProgress[key];
 
             dispatch({
