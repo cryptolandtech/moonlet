@@ -6,7 +6,8 @@ import {
     WALLET_SIGN_OUT,
     WALLET_UPDATE_BALANCE,
     WALLET_TRANSFER,
-    WALLET_CLEAR_BALANCES
+    WALLET_CLEAR_BALANCES,
+    WALLET_SYNC
 } from './actions';
 import { IAction } from '../action';
 import { IWalletState } from './state';
@@ -31,6 +32,12 @@ export default (state: IWalletState, action: IAction): IWalletState => {
                 loadingInProgress: action.data.loadingInProgress,
                 loaded: action.data.loaded,
                 locked: action.data.locked,
+                data: action.data.wallet
+            };
+            break;
+        case WALLET_SYNC:
+            state = {
+                ...state,
                 data: action.data.wallet
             };
             break;

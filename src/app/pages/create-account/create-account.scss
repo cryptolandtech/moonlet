@@ -1,0 +1,17 @@
+.create-account-page {
+    .mdc-select,
+    .mdc-text-field,
+    .mdc-button {
+        width: 100%;
+    }
+
+    .helper-text {
+        color: red;
+        margin: 0 12px;
+        font-size: 0.75rem;
+        line-height: normal;
+        font-weight: 400;
+        letter-spacing: 0.03333em;
+        line-height: 1.25rem;
+    }
+}

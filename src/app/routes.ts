@@ -36,7 +36,8 @@ const dashboardConfig: IRouteConfig = {
             items: [
                 {
                     text: 'Add new account',
-                    icon: 'add_circle_outline'
+                    icon: 'add_circle_outline',
+                    href: '/create-account'
                 },
                 {
                     text: 'Open new tab',
@@ -243,6 +244,15 @@ export const ROUTES: IRoute[] = [
                 }.title`
             )
         )
+    },
+    {
+        name: 'create-account',
+        path: '/create-account',
+        getComponent: () =>
+            import('./pages/create-account/create-account.component').then(
+                module => module.CreateAccountPage
+            ),
+        config: popupPageConfig(() => translate(`CreateAccountPage.title`))
     },
     {
         name: 'transaction-confirmation',

@@ -69,7 +69,7 @@ export class DashboardPage extends Component<IProps> {
                                     />
                                 </div>
                                 <div class="wallet-name">
-                                    Account 1 ~{' '}
+                                    {account.name} ~{' '}
                                     <Balance
                                         blockchain={account.node.blockchain}
                                         address={account.address}

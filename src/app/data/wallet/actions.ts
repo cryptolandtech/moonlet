@@ -11,6 +11,7 @@ import { IAction } from '../action';
 
 export const CHANGE_NETWORK = 'CHANGE_NETWORK';
 export const WALLET_LOADED = 'WALLET_LOADED';
+export const WALLET_SYNC = 'WALLET_SYNC';
 export const WALLET_INVALID_PASSWORD = 'WALLET_INVALID_PASSWORD';
 export const WALLET_SIGN_OUT = 'WALLET_SIGN_OUT';
 export const WALLET_UPDATE_BALANCE = 'WALLET_UPDATE_BALANCE';
@@ -101,6 +102,18 @@ export const createLoadWallet = (
     };
 };
 
+export const createWalletSync = (walletProvider: IWalletProvider) => {
+    return async dispatch => {
+        const wallet = await walletProvider.getWallet();
+        dispatch({
+            type: WALLET_SYNC,
+            data: {
+                wallet
+            }
+        });
+    };
+};
+
 export const createSignOut = (walletProvider: IWalletProvider) => {
     return async dispatch => {
         await walletProvider.lockWallet();
@@ -177,7 +190,7 @@ export const createTransfer = (
                 amount,
                 feeOptions
             );
-            // createLoadWallet(walletProvider)(dispatch);
+            createWalletSync(walletProvider)(dispatch);
             dispatch({
                 type: WALLET_TRANSFER,
                 data: {

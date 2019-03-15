@@ -22,7 +22,7 @@ export class AccountCard extends Component<IProps> {
                             }.svg`}
                         />
                     </div>
-                    <div class="account-name">Account 1</div>
+                    <div class="account-name">{this.props.account.name}</div>
                 </div>
                 <div class="account-balance">
                     <Balance

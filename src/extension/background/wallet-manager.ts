@@ -102,8 +102,24 @@ export class WalletManager {
         return Response.resolve();
     }
 
-    public async createAccount(sender, blockchain: Blockchain) {
+    public async createAccount(sender, blockchain: Blockchain, accountName?: string) {
         const account = this.wallet.getBlockchain(blockchain).createAccount();
+        if (accountName) {
+            account.name = accountName;
+        }
+        return Response.resolve(account);
+    }
+
+    public async importAccount(
+        sender,
+        blockchain: Blockchain,
+        privateKey: string,
+        accountName?: string
+    ) {
+        const account = this.wallet.getBlockchain(blockchain).importAccountByPrivateKey(privateKey);
+        if (accountName) {
+            account.name = accountName;
+        }
         return Response.resolve(account);
     }
 

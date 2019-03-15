@@ -27,7 +27,11 @@ export const translation: ITranslations = {
                 from: 'From',
                 total: 'Total',
                 copyToClipboard: 'Copy to clipboard',
-                switch: 'Switch'
+                switch: 'Switch',
+                blockchain: 'Blockchain',
+                privateKey: 'Private key',
+                import: 'Import',
+                create: 'Create'
             }
         },
         DrawerMenu: {
@@ -194,6 +198,21 @@ export const translation: ITranslations = {
         },
         CurrencyPage: {
             title: 'Preferred Currency'
+        },
+        CreateAccountPage: {
+            title: 'New Account',
+            blockchainError: 'Select a blockchain.',
+            accountName: 'Account name',
+            accountNameError: 'Enter an account name.',
+            privateKeyError: 'Enter a valid private key.',
+            sections: {
+                add: {
+                    title: 'Add'
+                },
+                import: {
+                    title: 'Import'
+                }
+            }
         }
     },
     plural: (n: number, ord: boolean) => {

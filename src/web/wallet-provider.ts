@@ -18,8 +18,8 @@ export class WebWalletProvider implements IWalletProvider {
     public async createWallet(mnemonics, password) {
         this.wallet = new Wallet(mnemonics, password);
 
-        this.wallet.loadBlockchain(await this.loadBlockchain('zilliqa'));
-        this.wallet.loadBlockchain(await this.loadBlockchain('ethereum'));
+        await this.loadBlockchain('zilliqa');
+        await this.loadBlockchain('ethereum');
 
         // const acc = this.wallet.createAccount(Blockchain.ZILLIQA);
 
@@ -103,8 +103,23 @@ export class WebWalletProvider implements IWalletProvider {
         }
     }
 
-    public async createAccount(blockchain) {
+    public async createAccount(blockchain, accountName?) {
         const account = this.wallet.createAccount(blockchain);
+
+        if (accountName) {
+            account.name = accountName;
+        }
+
+        return Promise.resolve(account);
+    }
+
+    public async importAccount(blockchain, privateKey, accountName?) {
+        const account = this.wallet.importAccountByPrivateKey(blockchain, privateKey);
+
+        if (accountName) {
+            account.name = accountName;
+        }
+
         return Promise.resolve(account);
     }
 
@@ -193,7 +208,7 @@ export class WebWalletProvider implements IWalletProvider {
     }
 
     private async loadBlockchain(name: string) {
-        const blockchain = await await import(/* webpackChunkName: "blockchain/[request]" */ `moonlet-core/src/blockchain/${name}/class.index`);
+        const blockchain = await await import(/* webpackChunkName: "blockchain/[request]" */ `moonlet-core/src/blockchain/${name.toLocaleLowerCase()}/class.index`);
         if (this.wallet) {
             this.wallet.loadBlockchain(blockchain.default);
         }

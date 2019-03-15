@@ -18,3 +18,12 @@
 @import 'preact-material-components/IconButton/mdc-icon-button';
 @import 'preact-material-components/Switch/mdc-switch';
 @import 'preact-material-components/Snackbar/mdc-snackbar';
+@import 'preact-material-components/TabBar/mdc-tab-bar';
+@import 'preact-material-components/Tabs/mdc-tabs';
+@import 'preact-material-components/TabScroller/mdc-tab-scroller';
+@import 'preact-material-components/TabIndicator/mdc-tab-indicator';
+
+.mdc-tab {
+    border: none;
+    flex: 1;
+}

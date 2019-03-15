@@ -27,8 +27,12 @@ export class ExtensionWalletProvider implements IWalletProvider {
         return this.callAction('saveToStorage', [config]);
     }
 
-    public async createAccount(blockchain) {
-        return this.callAction('createAccount', [blockchain]);
+    public async createAccount(blockchain, accountName?) {
+        return this.callAction('createAccount', [blockchain, accountName]);
+    }
+
+    public async importAccount(blockchain, privateKey, accountName?) {
+        return this.callAction('createAccount', [blockchain, privateKey, accountName]);
     }
 
     public async isValidAddress(blockchain, address): Promise<BigNumber> {
