@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "moonlet",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "license": "MIT",
     "scripts": {
         "start": "npm run dev:web",
@@ -12,6 +12,7 @@
         "build:ext": "preact build --config ./config/extension.config.js --template src/extension/index.html --no-prerender",
         "dev:web": "preact watch --config ./config/web.config.js --template src/web/index.html ",
         "dev:ext": "preact watch --config ./config/extension.config.js --template src/extension/index.html --port 8181",
+        "zip:ext": "node scripts/create-build-zip.js",
         "lint": "tslint --fix 'src/**/*.{ts,tsx}'",
         "prettier": "prettier --write \"**/*.{js,ts,tsx,scss,json}\" --ignore-path .gitignore",
         "test": "jest",
