@@ -9,11 +9,11 @@ import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { createLoadWallet } from '../app/data/wallet/actions';
 import { ExtensionWalletProvider } from './wallet-provider';
 
-import { VERSION } from './version';
 import { browser } from 'webextension-polyfill-ts';
 import { createSetPreferences } from '../app/data/user-preferences/actions';
 import { createUpdateConversionRates } from '../app/data/currency/actions';
-import { getSwitchNetworkConfig } from '../app/utils/blockchain/utils';
+
+import manifest from './manifest.json';
 
 const USER_PREFERENCES_STORAGE_KEY = 'userPref';
 
@@ -37,7 +37,7 @@ const store = getStore({
         selectedAccount: 0
     },
     extension: {
-        version: VERSION
+        version: manifest.version
     },
     userPreferences: undefined
 });
