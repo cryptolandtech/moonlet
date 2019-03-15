@@ -10,10 +10,7 @@ const mapStateToProps = (state, ownProps) => {
     }
 
     return {
-        account:
-            state.wallet.data.accounts[state.wallet.selectedBlockchain][
-                state.wallet.selectedAccount
-            ],
+        account,
         type,
         words: state.wallet.data.mnemonics.split(' ')
     };
