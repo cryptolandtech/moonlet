@@ -24,7 +24,7 @@ export class ExtensionWalletProvider implements IWalletProvider {
     }
 
     public async switchNetwork(config: { [blockchain: string]: number }) {
-        return this.callAction('saveToStorage', [config]);
+        return this.callAction('switchNetwork', [config]);
     }
 
     public async createAccount(blockchain, accountName?) {
@@ -32,7 +32,7 @@ export class ExtensionWalletProvider implements IWalletProvider {
     }
 
     public async importAccount(blockchain, privateKey, accountName?) {
-        return this.callAction('createAccount', [blockchain, privateKey, accountName]);
+        return this.callAction('importAccount', [blockchain, privateKey, accountName]);
     }
 
     public async isValidAddress(blockchain, address): Promise<BigNumber> {

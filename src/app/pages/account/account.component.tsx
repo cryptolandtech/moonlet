@@ -39,67 +39,80 @@ export class AccountPage extends Component<IProps> {
     }
 
     public renderAccountPage() {
-        return (
-            <div class="account-page">
-                <AccountCard account={this.props.account} />
-                <AddressCard account={this.props.account} showMenu={true} />
-                <div class="actions">
-                    <Link
-                        class="button"
-                        href={`/send/${this.props.account.node.blockchain}/${
-                            this.props.account.address
-                        }`}
-                    >
-                        <img src="/assets/icons/send.svg" />
-                        <br />
-                        <Translate text="App.labels.send" />
-                    </Link>
-                    <Link
-                        class="button"
-                        href={`/receive/${this.props.account.node.blockchain}/${
-                            this.props.account.address
-                        }`}
-                    >
-                        <img src="/assets/icons/receive.svg" />
-                        <br />
-                        <Translate text="App.labels.receive" />
-                    </Link>
-                </div>
-                {this.props.account.transactions.length > 0 && (
-                    <Card>
-                        <Translate text="App.labels.transactions" className="transactions-label" />
-                        <List two-line={true}>
-                            {this.props.account.transactions.map((tx, index, transactions) => (
-                                <ListItem
-                                    primaryText={
-                                        BLOCKCHAIN_INFO[this.props.account.node.blockchain].coin +
-                                        ' ' +
-                                        convertUnit(
-                                            this.props.account.node.blockchain,
-                                            new BigNumber((tx as any).value || (tx as any).amount),
+        if (this.props.account) {
+            return (
+                <div class="account-page">
+                    <AccountCard account={this.props.account} />
+                    <AddressCard account={this.props.account} showMenu={true} />
+                    <div class="actions">
+                        <Link
+                            class="button"
+                            href={`/send/${this.props.account.node.blockchain}/${
+                                this.props.account.address
+                            }`}
+                        >
+                            <img src="/assets/icons/send.svg" />
+                            <br />
+                            <Translate text="App.labels.send" />
+                        </Link>
+                        <Link
+                            class="button"
+                            href={`/receive/${this.props.account.node.blockchain}/${
+                                this.props.account.address
+                            }`}
+                        >
+                            <img src="/assets/icons/receive.svg" />
+                            <br />
+                            <Translate text="App.labels.receive" />
+                        </Link>
+                    </div>
+                    {this.props.account.transactions.length > 0 && (
+                        <Card>
+                            <Translate
+                                text="App.labels.transactions"
+                                className="transactions-label"
+                            />
+                            <List two-line={true}>
+                                {this.props.account.transactions.map((tx, index, transactions) => (
+                                    <ListItem
+                                        primaryText={
                                             BLOCKCHAIN_INFO[this.props.account.node.blockchain]
-                                                .defaultUnit,
-                                            BLOCKCHAIN_INFO[this.props.account.node.blockchain].coin
-                                        ).toString()
-                                    }
-                                    secondaryText={
-                                        tx.times[0]
-                                            ? new Date(tx.times[0].unixtime).toLocaleString()
-                                            : ''
-                                    }
-                                    href={`/transaction/${this.props.account.node.blockchain}/${
-                                        this.props.account.address
-                                    }/${
-                                        typeof tx.txn === 'string' ? tx.txn : (tx.txn as any).TranID
-                                    }`}
-                                    icon={<img src="/assets/icons/send.svg" width="48" />}
-                                    noDivider={index === transactions.length - 1}
-                                />
-                            ))}
-                        </List>
-                    </Card>
-                )}
-            </div>
-        );
+                                                .coin +
+                                            ' ' +
+                                            convertUnit(
+                                                this.props.account.node.blockchain,
+                                                new BigNumber(
+                                                    (tx as any).value || (tx as any).amount
+                                                ),
+                                                BLOCKCHAIN_INFO[this.props.account.node.blockchain]
+                                                    .defaultUnit,
+                                                BLOCKCHAIN_INFO[this.props.account.node.blockchain]
+                                                    .coin
+                                            ).toString()
+                                        }
+                                        secondaryText={
+                                            tx.times[0]
+                                                ? new Date(tx.times[0].unixtime).toLocaleString()
+                                                : ''
+                                        }
+                                        href={`/transaction/${this.props.account.node.blockchain}/${
+                                            this.props.account.address
+                                        }/${
+                                            typeof tx.txn === 'string'
+                                                ? tx.txn
+                                                : (tx.txn as any).TranID
+                                        }`}
+                                        icon={<img src="/assets/icons/send.svg" width="48" />}
+                                        noDivider={index === transactions.length - 1}
+                                    />
+                                ))}
+                            </List>
+                        </Card>
+                    )}
+                </div>
+            );
+        }
+
+        return null;
     }
 }

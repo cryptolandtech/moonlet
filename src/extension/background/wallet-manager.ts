@@ -134,10 +134,11 @@ export class WalletManager {
         }
     }
 
-    public async switchNetwork(config: { [blockchain: string]: number }) {
+    public async switchNetwork(sender, config: { [blockchain: string]: number }) {
         for (const blockchain of Object.keys(config)) {
             this.wallet.switchNetwork(blockchain as Blockchain, config[blockchain]);
         }
+        return Response.resolve(true);
     }
 
     public async getBalance(sender, blockchain: Blockchain, address: string) {

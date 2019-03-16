@@ -40,13 +40,15 @@ export class DashboardPage extends Component<IProps> {
                 <div class="total-balance">
                     <CurrencyTotal
                         amounts={this.props.accounts.map(acc => {
-                            const amount = this.props.balances[acc.node.blockchain]
-                                ? parseFloat(
-                                      this.props.balances[acc.node.blockchain][
-                                          acc.address
-                                      ].amount.toString()
-                                  )
-                                : undefined;
+                            const amount =
+                                this.props.balances[acc.node.blockchain] &&
+                                this.props.balances[acc.node.blockchain][acc.address]
+                                    ? parseFloat(
+                                          this.props.balances[acc.node.blockchain][
+                                              acc.address
+                                          ].amount.toString()
+                                      )
+                                    : undefined;
                             const coin = BLOCKCHAIN_INFO[acc.node.blockchain].coin;
                             return { amount, coin };
                         })}
