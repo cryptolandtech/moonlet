@@ -13,6 +13,7 @@ import { getWalletProvider } from '../../app-context';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Icon from 'preact-material-components/Icon';
 import { Copy } from '../../components/copy/copy.component';
+import { bind } from 'bind-decorator';
 
 interface IProps {
     account: any;
@@ -47,7 +48,7 @@ export class RevealPage extends Component<IProps, IState> {
                         label={translate('RevealPage.enterPassword')}
                         value={this.state.passwordInput}
                         type="password"
-                        onKeyPress={e => {
+                        onKeyUp={e => {
                             this.setState({ passwordInput: (e.target as any).value });
                             if (e.code === 'Enter') {
                                 this.checkPassword();
@@ -58,13 +59,7 @@ export class RevealPage extends Component<IProps, IState> {
                 {this.state.passwordInputError && (
                     <div class="error">{this.state.passwordInputError}</div>
                 )}
-                <Button
-                    ripple
-                    secondary
-                    raised
-                    class="reveal-button"
-                    onClick={this.checkPassword.bind(this)}
-                >
+                <Button ripple secondary raised class="reveal-button" onClick={this.checkPassword}>
                     <Translate text={`RevealPage.${this.props.type}.title`} />
                 </Button>
             </div>
@@ -123,6 +118,7 @@ export class RevealPage extends Component<IProps, IState> {
         );
     }
 
+    @bind
     public async checkPassword() {
         try {
             await getWalletProvider().unlockWallet(this.state.passwordInput);
