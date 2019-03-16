@@ -6,7 +6,11 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1">
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta http-equiv="refresh" content="0; url=https://chrome.google.com/webstore/detail/moonlet-wallet/aepcjklheilpnnokjfpgncfcdakhbgci" />
+		<script>
+				if (document.location.hostname !== "localhost") {
+					document.location.href="https://chrome.google.com/webstore/detail/moonlet-wallet/aepcjklheilpnnokjfpgncfcdakhbgci";
+				}
+		</script>
 		<link rel="manifest" href="<%= htmlWebpackPlugin.files.publicPath %>manifest.json">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
 		<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
