@@ -27,6 +27,7 @@ export const translation: ITranslations = {
                 from: 'From',
                 total: 'Total',
                 copyToClipboard: 'Copy to clipboard',
+                copiedToClipboard: 'Copied to clipboard',
                 switch: 'Switch',
                 blockchain: 'Blockchain',
                 privateKey: 'Private key',

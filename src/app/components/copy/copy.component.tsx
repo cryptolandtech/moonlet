@@ -39,7 +39,13 @@ export class Copy extends Component<IProps, IState> {
                             this.state.textCopied ? 'copied' : ''
                         }`}
                     >
-                        <Translate text="App.labels.copyToClipboard" />
+                        <Translate
+                            text={
+                                this.state.textCopied
+                                    ? 'App.labels.copiedToClipboard'
+                                    : 'App.labels.copyToClipboard'
+                            }
+                        />
                         <Icon>{this.state.textCopied ? 'check' : 'file_copy'}</Icon>
                     </div>
                 </div>
