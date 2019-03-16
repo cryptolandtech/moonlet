@@ -105,6 +105,7 @@ export const createLoadWallet = (
 export const createWalletSync = (walletProvider: IWalletProvider) => {
     return async dispatch => {
         const wallet = await walletProvider.getWallet();
+        await walletProvider.saveWallet();
         dispatch({
             type: WALLET_SYNC,
             data: {
