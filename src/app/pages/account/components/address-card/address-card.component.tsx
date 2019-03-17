@@ -21,6 +21,10 @@ export class AddressCard extends Component<IProps> {
     private addressMenu;
     private bar;
 
+    public componentDidMount() {
+        this.addressMenu.MDComponent.setFixedPosition(true);
+    }
+
     public render() {
         const account = this.props.account;
         return (
