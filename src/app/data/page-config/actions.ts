@@ -1,6 +1,7 @@
 import { IRouteConfig } from '../../routes';
 import { IAction } from '../action';
 import { DeviceScreenSize } from './../../types';
+import { route } from 'preact-router';
 
 // Action constants
 

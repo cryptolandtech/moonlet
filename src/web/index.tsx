@@ -11,6 +11,7 @@ import { IWalletProvider } from '../app/iwallet-provider';
 import { IUserPreferences } from '../app/data/user-preferences/state';
 import { createUpdateConversionRates } from '../app/data/currency/actions';
 import { getSwitchNetworkConfig } from '../app/utils/blockchain/utils';
+import { WalletStatus } from '../app/data/wallet/state';
 
 const loadState = (): IUserPreferences => {
     const defaults = {
@@ -52,12 +53,7 @@ const store = getStore({
     },
     wallet: {
         invalidPassword: false,
-        loadingInProgress: false,
-        loaded: false,
-        locked: false,
-        selectedBlockchain: Blockchain.ZILLIQA,
-        selectedNetwork: 0,
-        selectedAccount: 0,
+        status: WalletStatus.LOADING,
         data: {
             accounts: []
         }
@@ -81,7 +77,7 @@ const walletProvider: IWalletProvider = new WebWalletProvider();
         )
     );
     // console.log(await walletProvider.getAccounts({ ZILLIQA: 2 }));
-    store.dispatch(createWalletLoaded(false, true, false, wallet));
+    store.dispatch(createWalletLoaded(WalletStatus.UNLOCKED, wallet));
 
     store.dispatch(createUpdateConversionRates() as any);
     setInterval(() => store.dispatch(createUpdateConversionRates() as any), 5 * 60 * 1000);

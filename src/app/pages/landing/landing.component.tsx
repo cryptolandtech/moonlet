@@ -11,7 +11,7 @@ import { TextField } from 'preact-material-components/TextField';
 import { translate } from '../../utils/translate';
 import Card from 'preact-material-components/Card';
 
-import { IWalletState } from '../../data/wallet/state';
+import { IWalletState, WalletStatus } from '../../data/wallet/state';
 import { IWalletProvider } from '../../iwallet-provider';
 import { appContext } from '../../app-context';
 
@@ -38,11 +38,7 @@ export class LandingPage extends Component<IProps, IState> {
     public render() {
         let className = 'landing-page';
 
-        if (
-            !this.props.wallet.loadingInProgress &&
-            this.props.wallet.loaded &&
-            this.props.wallet.locked
-        ) {
+        if (this.props.wallet.status === WalletStatus.LOCKED) {
             className += ' password';
         }
 
@@ -61,56 +57,51 @@ export class LandingPage extends Component<IProps, IState> {
                             </h6>
                             <Icon className="icon">security</Icon>
                         </LayoutGrid.Cell>
-                        {!this.props.wallet.loadingInProgress &&
-                            this.props.wallet.loaded &&
-                            this.props.wallet.locked && (
-                                <LayoutGrid.Cell cols={12} class="center">
-                                    <Card className="password-input-wrapper">
-                                        <TextField
-                                            type="password"
-                                            value={this.state.password}
-                                            onInput={e =>
-                                                this.setState({ password: (e.target as any).value })
-                                            }
-                                            onKeyPress={e =>
-                                                e.code === 'Enter' &&
-                                                this.props.loadWallet(
-                                                    appContext('walletProvider'),
-                                                    this.props.networkConfig,
-                                                    this.state.password
-                                                )
-                                            }
-                                            label={translate('LandingPage.enterPassword')}
-                                        />
+                        {this.props.wallet.status === WalletStatus.LOCKED && (
+                            <LayoutGrid.Cell cols={12} class="center">
+                                <Card className="password-input-wrapper">
+                                    <TextField
+                                        type="password"
+                                        value={this.state.password}
+                                        onInput={e =>
+                                            this.setState({ password: (e.target as any).value })
+                                        }
+                                        onKeyPress={e =>
+                                            e.code === 'Enter' &&
+                                            this.props.loadWallet(
+                                                appContext('walletProvider'),
+                                                this.props.networkConfig,
+                                                this.state.password
+                                            )
+                                        }
+                                        label={translate('LandingPage.enterPassword')}
+                                    />
 
-                                        <div className="error">
-                                            {this.props.wallet.invalidPassword && (
-                                                <Translate
-                                                    text="LandingPage.invalidPassword"
-                                                    caption
-                                                />
-                                            )}
-                                        </div>
+                                    <div className="error">
+                                        {this.props.wallet.invalidPassword && (
+                                            <Translate text="LandingPage.invalidPassword" caption />
+                                        )}
+                                    </div>
 
-                                        <Button
-                                            ripple
-                                            secondary
-                                            raised
-                                            className="sign-in"
-                                            onClick={() =>
-                                                this.props.loadWallet(
-                                                    appContext('walletProvider'),
-                                                    this.props.networkConfig,
-                                                    this.state.password
-                                                )
-                                            }
-                                        >
-                                            <Translate text="LandingPage.signIn" />
-                                        </Button>
-                                    </Card>
-                                </LayoutGrid.Cell>
-                            )}
-                        {!this.props.wallet.loadingInProgress && (
+                                    <Button
+                                        ripple
+                                        secondary
+                                        raised
+                                        className="sign-in"
+                                        onClick={() =>
+                                            this.props.loadWallet(
+                                                appContext('walletProvider'),
+                                                this.props.networkConfig,
+                                                this.state.password
+                                            )
+                                        }
+                                    >
+                                        <Translate text="LandingPage.signIn" />
+                                    </Button>
+                                </Card>
+                            </LayoutGrid.Cell>
+                        )}
+                        {this.props.wallet.status !== WalletStatus.LOADING && (
                             <LayoutGrid.Cell cols={12} className="center">
                                 <Button
                                     ripple
@@ -123,7 +114,7 @@ export class LandingPage extends Component<IProps, IState> {
                                 </Button>
                             </LayoutGrid.Cell>
                         )}
-                        {!this.props.wallet.loadingInProgress && (
+                        {this.props.wallet.status !== WalletStatus.LOADING && (
                             <LayoutGrid.Cell cols={12} className="center">
                                 <Button
                                     ripple

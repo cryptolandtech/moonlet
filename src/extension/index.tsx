@@ -14,6 +14,7 @@ import { createSetPreferences } from '../app/data/user-preferences/actions';
 import { createUpdateConversionRates } from '../app/data/currency/actions';
 
 import manifest from './manifest.json';
+import { WalletStatus } from '../app/data/wallet/state';
 
 const USER_PREFERENCES_STORAGE_KEY = 'userPref';
 
@@ -29,12 +30,7 @@ const store = getStore({
     },
     wallet: {
         invalidPassword: false,
-        loadingInProgress: true,
-        loaded: false,
-        locked: false,
-        selectedBlockchain: Blockchain.ZILLIQA,
-        selectedNetwork: 0,
-        selectedAccount: 0
+        status: WalletStatus.LOADING
     },
     extension: {
         version: manifest.version

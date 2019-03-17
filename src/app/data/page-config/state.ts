@@ -14,7 +14,7 @@ export interface IDefaultTopBarConfig {
         action?: IAction | { () };
     };
     middle?: {
-        type: 'text' | 'networkSelection' | 'tokenPageTitle';
+        type: 'text' | 'tokenPageTitle';
         text?: string | (() => string);
     };
     right?: {

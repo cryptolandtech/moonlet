@@ -5,7 +5,6 @@ import { IAction } from '../../data/action';
 import { IDefaultTopBarConfig } from '../../data/page-config/state';
 import { DeviceScreenSize } from '../../types';
 import './top-bar.scss';
-import NetworkSelector from '../network-selector/network-selector.container';
 import List from 'preact-material-components/List';
 import { route } from 'preact-router';
 import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
@@ -92,9 +91,6 @@ export class TopBar extends Component<IProps> {
                             {this.getText(middle.text)}
                         </TopAppBar.Title>
                     );
-                    break;
-                case 'networkSelection':
-                    sectionContent = <NetworkSelector />;
                     break;
             }
             return (

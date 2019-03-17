@@ -3,13 +3,11 @@ import { FeeOptions } from './../../utils/blockchain/types';
 import { BigNumber } from 'bignumber.js';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { Network } from 'moonlet-core/src/core/network';
-import { IWalletData } from './state';
+import { IWalletData, WalletStatus } from './state';
 import { IWalletProvider, WalletErrorCodes } from '../../iwallet-provider';
 import { IAction } from '../action';
 
 // Action constants
-
-export const CHANGE_NETWORK = 'CHANGE_NETWORK';
 export const WALLET_LOADED = 'WALLET_LOADED';
 export const WALLET_SYNC = 'WALLET_SYNC';
 export const WALLET_INVALID_PASSWORD = 'WALLET_INVALID_PASSWORD';
@@ -19,28 +17,11 @@ export const WALLET_TRANSFER = 'WALLET_TRANSFER';
 export const WALLET_CLEAR_BALANCES = 'WALLET_CLEAR_BALANCES';
 
 // Action creators
-export const createChangeNetwork = (blockchain: Blockchain, network: Network) => {
-    return {
-        type: CHANGE_NETWORK,
-        data: {
-            blockchain,
-            network
-        }
-    };
-};
-
-export const createWalletLoaded = (
-    loadingInProgress: boolean,
-    loaded: boolean,
-    locked: boolean,
-    wallet?: IWalletData
-) => {
+export const createWalletLoaded = (status: WalletStatus, wallet?: IWalletData) => {
     return {
         type: WALLET_LOADED,
         data: {
-            loadingInProgress,
-            loaded,
-            locked,
+            status,
             wallet
         }
     };
@@ -54,7 +35,7 @@ export const createWallet = (
     return async dispatch => {
         try {
             const wallet = await walletProvider.createWallet(mnemonics, password);
-            dispatch(createWalletLoaded(false, true, false, wallet));
+            dispatch(createWalletLoaded(WalletStatus.UNLOCKED, wallet));
         } catch (e) {
             // TODO: handle exceptions
             // console.log(e);
@@ -83,11 +64,11 @@ export const createLoadWallet = (
                 getSwitchNetworkConfig(netWorksConfig.testNet, netWorksConfig.networks)
             );
 
-            dispatch(createWalletLoaded(false, true, false, wallet));
+            dispatch(createWalletLoaded(WalletStatus.UNLOCKED, wallet));
         } catch (e) {
             switch (e.code) {
                 case WalletErrorCodes.WALLET_LOCKED:
-                    dispatch(createWalletLoaded(false, true, true));
+                    dispatch(createWalletLoaded(WalletStatus.LOCKED));
                     break;
                 case WalletErrorCodes.INVALID_PASSWORD:
                     dispatch({
@@ -95,7 +76,7 @@ export const createLoadWallet = (
                     });
                     break;
                 default:
-                    dispatch(createWalletLoaded(false, false, false));
+                    dispatch(createWalletLoaded(WalletStatus.UNAVAILABLE));
                     break;
             }
         }

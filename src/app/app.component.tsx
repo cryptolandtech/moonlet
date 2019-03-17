@@ -10,15 +10,16 @@ import DefaultLayout from './layouts/default/default.container';
 import { loadTranslations, Language } from './utils/translate';
 import { IWalletProvider } from './iwallet-provider';
 import { appContext } from './app-context';
+import { WalletStatus } from './data/wallet/state';
+import { GenericAccount } from 'moonlet-core/src/core/account';
 
 interface IProps {
     history: CustomHistory;
     walletProvider: IWalletProvider;
     language: Language;
 
-    walletLoaded: boolean;
-    walletLoadingInProgress: boolean;
-    walletLocked: boolean;
+    walletStatus: WalletStatus;
+    accounts: GenericAccount[];
 
     onScreenSizeChange: { (screenSize: DeviceScreenSize) };
     onRouteChange: { (routeConfig: IRouteConfig) };
@@ -52,32 +53,91 @@ export default class App extends Component<IProps, IState> {
         };
     }
 
-    public componentDidUpdate() {
-        this.doRedirects();
+    public componentDidUpdate(prevProps: IProps) {
+        if (this.props.walletStatus !== prevProps.walletStatus) {
+            // console.log('component did update', prevProps.walletStatus, this.props.walletStatus);
+            this.doRedirects();
+        }
+    }
+
+    public checkAccountAndRedirect() {
+        const currentRoute = this.route.current;
+
+        if (
+            currentRoute &&
+            currentRoute.attributes &&
+            currentRoute.attributes.blockchain &&
+            currentRoute.attributes.address
+        ) {
+            const { blockchain, address } = currentRoute.attributes;
+
+            if (this.props.accounts.length > 0) {
+                const account = this.props.accounts.filter(
+                    acc => acc.node.blockchain === blockchain && acc.address === address
+                )[0];
+
+                if (!account) {
+                    if (this.state.screenSize === DeviceScreenSize.BIG) {
+                        route(
+                            `/account/${this.props.accounts[0].node.blockchain}/${
+                                this.props.accounts[0].address
+                            }`
+                        );
+                    } else {
+                        route('/dashboard');
+                    }
+                }
+            } else {
+                route('/dashboard');
+            }
+        } else if (
+            this.state.screenSize === DeviceScreenSize.BIG &&
+            currentRoute &&
+            currentRoute.attributes &&
+            currentRoute.attributes.name === 'dashboard' &&
+            this.props.accounts.length > 0
+        ) {
+            route(
+                `/account/${this.props.accounts[0].node.blockchain}/${
+                    this.props.accounts[0].address
+                }`
+            );
+        }
     }
 
     public doRedirects() {
-        const walletOk =
-            !this.props.walletLoadingInProgress &&
-            this.props.walletLoaded &&
-            !this.props.walletLocked;
+        // console.log('doRedirects', this.redirectAfterWalletLoaded);
+        const currentRoute = this.route.current;
+        const walletStatus = this.props.walletStatus;
 
-        if (walletOk && this.redirectAfterWalletLoaded) {
-            route(this.redirectAfterWalletLoaded);
-            this.redirectAfterWalletLoaded = undefined;
-        } else if (
-            walletOk &&
-            ['/', '/import-wallet', '/create-wallet'].indexOf(this.route.url) >= 0
-        ) {
-            route('/dashboard');
-        } else if (
-            !this.props.walletLoadingInProgress &&
-            !this.route.current.attributes.withoutWalletInstance &&
-            !walletOk
-        ) {
-            this.redirectAfterWalletLoaded =
-                this.route.url.replace('/settings', '/dashboard') || '/dashboard';
-            route('/');
+        if (currentRoute) {
+            if (walletStatus === WalletStatus.UNLOCKED) {
+                if (this.redirectAfterWalletLoaded) {
+                    // wallet loaded but -> user will be redirected to desired page
+                    // console.log('redirect', 1);
+                    route(this.redirectAfterWalletLoaded);
+                    this.redirectAfterWalletLoaded = undefined;
+                } else if (['/', '/import-wallet', '/create-wallet'].indexOf(this.route.url) >= 0) {
+                    // go to dashboard as user already has a wallet
+                    // console.log('redirect', 2);
+                    route('/dashboard');
+                } else {
+                    this.checkAccountAndRedirect();
+                }
+            } else if (walletStatus === WalletStatus.LOADING) {
+                // do nothing, wait for wallet to load :)
+            } else {
+                if (currentRoute.attributes && currentRoute.attributes.withoutWalletInstance) {
+                    // let route without wallet loaded
+                } else {
+                    this.redirectAfterWalletLoaded = this.route.url || '/dashboard';
+                    if (this.redirectAfterWalletLoaded.startsWith('/settings')) {
+                        this.redirectAfterWalletLoaded = '/dashboard';
+                    }
+                    // console.log('redirect', 3);
+                    route('/');
+                }
+            }
         }
     }
 
@@ -92,9 +152,13 @@ export default class App extends Component<IProps, IState> {
     }
 
     public handleRouteChange(e: RouterOnChangeArgs) {
-        this.route = e;
-        // this.doRedirects();
-        this.props.onRouteChange(e.current.attributes.config);
+        if (e.current) {
+            this.route = e;
+
+            // console.log('new route', this.route);
+            this.doRedirects();
+            this.props.onRouteChange(e.current.attributes.config);
+        }
     }
 
     public render(props: RenderableProps<IProps>) {

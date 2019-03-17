@@ -1,6 +1,5 @@
 import { isExtension } from './../../utils/platform-utils';
 import {
-    CHANGE_NETWORK,
     WALLET_LOADED,
     WALLET_INVALID_PASSWORD,
     WALLET_SIGN_OUT,
@@ -10,7 +9,7 @@ import {
     WALLET_SYNC
 } from './actions';
 import { IAction } from '../action';
-import { IWalletState } from './state';
+import { IWalletState, WalletStatus } from './state';
 
 export default (state: IWalletState, action: IAction): IWalletState => {
     if (!state) {
@@ -18,20 +17,11 @@ export default (state: IWalletState, action: IAction): IWalletState => {
     }
 
     switch (action.type) {
-        case CHANGE_NETWORK:
-            state = {
-                ...state,
-                selectedBlockchain: action.data.blockchain,
-                selectedNetwork: action.data.network
-            };
-            break;
         case WALLET_LOADED:
             state = {
                 ...state,
                 invalidPassword: false,
-                loadingInProgress: action.data.loadingInProgress,
-                loaded: action.data.loaded,
-                locked: action.data.locked,
+                status: action.data.status,
                 data: action.data.wallet
             };
             break;
@@ -51,9 +41,7 @@ export default (state: IWalletState, action: IAction): IWalletState => {
             state = {
                 ...state,
                 invalidPassword: false,
-                loadingInProgress: false,
-                loaded: isExtension(),
-                locked: isExtension()
+                status: WalletStatus.LOCKED // isExtension() ? WalletStatus.LOCKED : WalletStatus.UNAVAILABLE
             };
             break;
         case WALLET_UPDATE_BALANCE:

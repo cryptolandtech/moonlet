@@ -1,7 +1,13 @@
 import { BigNumber } from 'bignumber.js';
-import { Blockchain } from 'moonlet-core/src/core/blockchain';
 
 export type IWalletData = any;
+
+export enum WalletStatus {
+    UNAVAILABLE = 'UNAVAILABLE',
+    LOADING = 'LOADING',
+    LOCKED = 'LOCKED',
+    UNLOCKED = 'UNLOCKED'
+}
 
 export interface IAccountBalance {
     loading: boolean;
@@ -24,12 +30,7 @@ export interface IAccountsBalances {
 
 export interface IWalletState {
     invalidPassword: boolean;
-    loadingInProgress: boolean;
-    loaded: boolean;
-    locked: boolean;
-    selectedBlockchain: Blockchain;
-    selectedNetwork: number;
-    selectedAccount: number;
+    status: WalletStatus;
     data?: IWalletData;
     balances?: IAccountsBalances;
     transfer?: IWalletTransfer;
