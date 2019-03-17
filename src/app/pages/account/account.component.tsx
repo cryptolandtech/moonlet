@@ -23,31 +23,6 @@ interface IProps {
 }
 
 export class AccountPage extends Component<IProps> {
-    public componentWillMount() {
-        const props = this.props;
-        if (!props.account) {
-            if (
-                props.device.screenSize === DeviceScreenSize.BIG &&
-                props.accounts &&
-                props.accounts.length > 0
-            ) {
-                setTimeout(
-                    () =>
-                        route(
-                            `/account/${props.accounts[0].node.blockchain}/${
-                                props.accounts[0].address
-                            }`
-                        ),
-                    10
-                );
-            }
-
-            if (props.device.screenSize !== DeviceScreenSize.BIG) {
-                setTimeout(() => route('/dashboard'), 10);
-            }
-        }
-    }
-
     public render() {
         if (!this.props.account) {
             return null;

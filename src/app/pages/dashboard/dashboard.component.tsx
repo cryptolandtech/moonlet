@@ -37,22 +37,6 @@ export class DashboardPage extends Component<IProps> {
         return balance;
     }
 
-    public componentWillReceiveProps(props: IProps) {
-        if (
-            props.device.screenSize === DeviceScreenSize.BIG &&
-            props.accounts &&
-            props.accounts.length > 0
-        ) {
-            setTimeout(
-                () =>
-                    route(
-                        `/account/${props.accounts[0].node.blockchain}/${props.accounts[0].address}`
-                    ),
-                10
-            );
-        }
-    }
-
     public render() {
         return (
             <div className="dashboard-page">
