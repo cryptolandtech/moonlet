@@ -32,7 +32,8 @@ export const translation: ITranslations = {
                 blockchain: 'Blockchain',
                 privateKey: 'Private key',
                 import: 'Import',
-                create: 'Create'
+                create: 'Create',
+                warning: 'Warning'
             }
         },
         DrawerMenu: {
@@ -214,6 +215,11 @@ export const translation: ITranslations = {
                     title: 'Import'
                 }
             }
+        },
+        TestnetWarningComponent: {
+            generic: "You're using testnets for all accounts.",
+            specific: "You're using {{blockchain}} {{testnetName}} testnet.",
+            goTo: 'Go to Settings -> Dev Tools to switch networks.'
         }
     },
     plural: (n: number, ord: boolean) => {

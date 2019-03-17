@@ -1,0 +1,18 @@
+.testnet-warning-component {
+    background-color: #fee94e;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .mdc-icon {
+        color: rgba(red, 0.8);
+        margin-right: 16px;
+    }
+
+    .text {
+        flex: 1;
+    }
+}

@@ -14,6 +14,7 @@ import { Link, route } from 'preact-router';
 
 import { AccountCard } from './components/account-card/account-card.component';
 import { AddressCard } from './components/address-card/address-card.component';
+import TestnetWarning from '../../components/testnet-warning/testnet-warning.container';
 
 interface IProps {
     accounts: any[];
@@ -58,6 +59,7 @@ export class AccountPage extends Component<IProps> {
         return (
             <div class="big-screen-dashboard">
                 <DashboardPage
+                    hideTestNetWarning={true}
                     selectedAccount={{
                         blockchain: this.props.account.node.blockchain,
                         address: this.props.account.address
@@ -72,6 +74,7 @@ export class AccountPage extends Component<IProps> {
         if (this.props.account) {
             return (
                 <div class="account-page">
+                    <TestnetWarning account={this.props.account} />
                     <AccountCard account={this.props.account} />
                     <AddressCard account={this.props.account} showMenu={true} />
                     <div class="actions">

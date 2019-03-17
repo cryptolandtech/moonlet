@@ -12,9 +12,11 @@ import { IDevice } from '../../data/page-config/state';
 import Balance from '../../components/balance/balance.container';
 import CurrencyTotal from '../../components/currency-total/currency-total.container';
 import { DeviceScreenSize } from '../../types';
-
+import TestnetWarning from '../../components/testnet-warning/testnet-warning.container';
+import { GenericAccount } from 'moonlet-core/src/core/account';
 interface IProps {
-    accounts: any[];
+    hideTestNetWarning: boolean;
+    accounts: GenericAccount[];
     balances: IAccountsBalances;
     selectedAccount?: { blockchain: Blockchain; address: string };
     device: IDevice;
@@ -54,6 +56,7 @@ export class DashboardPage extends Component<IProps> {
     public render() {
         return (
             <div className="dashboard-page">
+                {!this.props.hideTestNetWarning && <TestnetWarning />}
                 {this.props.accounts.map(account => (
                     <Card
                         className={
