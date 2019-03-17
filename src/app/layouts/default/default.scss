@@ -1,17 +1,15 @@
+@import '../../styles/base';
+
 .default-layout {
     height: 100vh;
-    display: flex;
 
-    .drawer-menu {
-        min-width: 200px;
-        max-width: 240px;
-        width: 25%;
-        flex-grow: 0;
-        flex-shrink: 0;
+    &.bg-primary {
+        background-color: $mdc-theme-primary;
     }
 
     .page-container {
-        flex: 1;
         overflow-y: auto;
+        max-width: 900px;
+        margin: 0 auto;
     }
 }

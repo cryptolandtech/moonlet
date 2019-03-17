@@ -26,6 +26,9 @@ export interface IRoute {
 
 const dashboardConfig: IRouteConfig = {
     topBar: {
+        secondRow: {
+            type: 'total-balance'
+        },
         left: {
             icon: 'logo'
         },
@@ -95,6 +98,9 @@ export const ROUTES: IRoute[] = [
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.ALL]: {
+                    options: {
+                        backgroundColor: 'primary'
+                    },
                     topBar: {}
                 }
             }

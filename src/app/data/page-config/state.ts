@@ -30,9 +30,15 @@ export interface IDefaultTopBarConfig {
             action?: IAction | { () };
         }>;
     };
+    secondRow?: {
+        type: 'total-balance';
+    };
 }
 
 export interface ILayout {
+    options?: {
+        backgroundColor: 'white' | 'primary';
+    };
     topBar?: IDefaultTopBarConfig;
     bottomNav?: boolean;
     drawerMenu?: boolean;

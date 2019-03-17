@@ -94,7 +94,7 @@ export class WebWalletProvider implements IWalletProvider {
     }
 
     public async saveWallet() {
-        return Promise.reject(Response.reject('NOT_IMPLEMENTED'));
+        return Promise.resolve();
     }
 
     public async switchNetwork(config: { [blockchain: string]: number }) {

@@ -6,15 +6,18 @@ import { IDefaultTopBarConfig } from '../../data/page-config/state';
 import { DeviceScreenSize } from '../../types';
 import './top-bar.scss';
 import NetworkSelector from '../network-selector/network-selector.container';
-import Icon from 'preact-material-components/Icon';
 import List from 'preact-material-components/List';
 import { route } from 'preact-router';
 import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
 import { isExtension } from '../../utils/platform-utils';
+import CurrencyTotal from '../currency-total/currency-total.container';
+import { IAccountsBalances } from '../../data/wallet/state';
 
 interface IProps {
     config: IDefaultTopBarConfig;
     screenSize: DeviceScreenSize;
+    accounts: any[];
+    balances: IAccountsBalances;
 
     dispatch: { (action: IAction) };
 }
@@ -165,6 +168,38 @@ export class TopBar extends Component<IProps> {
         }
     }
 
+    public renderSecondRow() {
+        if (this.props.config.secondRow) {
+            let content = null;
+            let rowExtraClass = '';
+
+            switch (this.props.config.secondRow.type) {
+                case 'total-balance':
+                    rowExtraClass = 'total-balance';
+                    content = (
+                        <CurrencyTotal
+                            amounts={this.props.accounts.map(acc => {
+                                const amount =
+                                    this.props.balances[acc.node.blockchain] &&
+                                    this.props.balances[acc.node.blockchain][acc.address]
+                                        ? parseFloat(
+                                              this.props.balances[acc.node.blockchain][
+                                                  acc.address
+                                              ].amount.toString()
+                                          )
+                                        : undefined;
+                                const coin = BLOCKCHAIN_INFO[acc.node.blockchain].coin;
+                                return { amount, coin };
+                            })}
+                        />
+                    );
+                    break;
+            }
+            return <TopAppBar.Row className={rowExtraClass}>{content}</TopAppBar.Row>;
+        }
+        return null;
+    }
+
     public render(props: RenderableProps<IProps>) {
         if (props.config) {
             let className = 'top-bar';
@@ -185,6 +220,7 @@ export class TopBar extends Component<IProps> {
                         {this.getMiddleSection()}
                         {this.getRightSection()}
                     </TopAppBar.Row>
+                    {this.renderSecondRow()}
                 </TopAppBar>
             );
         }

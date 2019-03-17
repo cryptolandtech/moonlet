@@ -11,6 +11,7 @@ import { route } from 'preact-router';
 import { IDevice } from '../../data/page-config/state';
 import Balance from '../../components/balance/balance.container';
 import CurrencyTotal from '../../components/currency-total/currency-total.container';
+import { DeviceScreenSize } from '../../types';
 
 interface IProps {
     accounts: any[];
@@ -34,26 +35,25 @@ export class DashboardPage extends Component<IProps> {
         return balance;
     }
 
+    public componentWillReceiveProps(props: IProps) {
+        if (
+            props.device.screenSize === DeviceScreenSize.BIG &&
+            props.accounts &&
+            props.accounts.length > 0
+        ) {
+            setTimeout(
+                () =>
+                    route(
+                        `/account/${props.accounts[0].node.blockchain}/${props.accounts[0].address}`
+                    ),
+                10
+            );
+        }
+    }
+
     public render() {
         return (
             <div className="dashboard-page">
-                <div class="total-balance">
-                    <CurrencyTotal
-                        amounts={this.props.accounts.map(acc => {
-                            const amount =
-                                this.props.balances[acc.node.blockchain] &&
-                                this.props.balances[acc.node.blockchain][acc.address]
-                                    ? parseFloat(
-                                          this.props.balances[acc.node.blockchain][
-                                              acc.address
-                                          ].amount.toString()
-                                      )
-                                    : undefined;
-                            const coin = BLOCKCHAIN_INFO[acc.node.blockchain].coin;
-                            return { amount, coin };
-                        })}
-                    />
-                </div>
                 {this.props.accounts.map(account => (
                     <Card
                         className={

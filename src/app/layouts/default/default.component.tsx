@@ -1,39 +1,29 @@
 import { h, Component, RenderableProps } from 'preact';
 
 import './default.scss';
-import { TopBar } from '../../components/top-bar/top-bar.component';
-import DrawerMenu from '../../components/drawer-menu/drawer-menu.container';
-import { ILayout, IDevice } from '../../data/page-config/state';
-import { BottomBar } from '../../components/bottom-bar/bottom-bar.components';
-import { IAction } from '../../data/action';
+import TopBar from '../../components/top-bar/top-bar.container';
+import { ILayout } from '../../data/page-config/state';
 
 interface IProps {
     layout: ILayout;
-    device: IDevice;
-
-    dispatch: { (action: IAction) };
 }
 
 export class DefaultLayout extends Component<IProps> {
     public render(props: RenderableProps<IProps>) {
+        const topBarAdjustClass = (props.layout.topBar || {}).secondRow
+            ? 'top-bar-adjust-two-rows'
+            : 'top-bar-adjust-one-row';
+
         return (
-            <div class="default-layout mdc-typography">
-                <TopBar
-                    config={props.layout.topBar}
-                    screenSize={props.device.screenSize}
-                    dispatch={props.dispatch}
-                />
-                {props.layout.drawerMenu && <DrawerMenu platform={props.device.platform} />}
-                <div
-                    className={
-                        'page-container ' +
-                        (props.layout.topBar ? 'mdc-top-app-bar--fixed-adjust ' : '') +
-                        (props.layout.bottomNav ? 'mdc-bottom-navigation--fixed-adjust ' : '')
-                    }
-                >
-                    {props.children}
-                </div>
-                {props.layout.bottomNav && <BottomBar platform={props.device.platform} />}
+            <div
+                class={`default-layout mdc-typography ${
+                    props.layout.options && props.layout.options.backgroundColor
+                        ? `bg-${props.layout.options.backgroundColor}`
+                        : ''
+                }`}
+            >
+                <TopBar />
+                <div className={`page-container ${topBarAdjustClass}`}>{props.children}</div>
             </div>
         );
     }

@@ -39,6 +39,15 @@
         padding-right: 2em;
         font-size: 1em;
     }
+
+    .total-balance {
+        align-items: center;
+        justify-content: center;
+
+        .currency {
+            font-size: 24px;
+        }
+    }
 }
 
 .top-bar.theme-white {
@@ -47,5 +56,21 @@
 
     .mdc-top-app-bar__icon {
         color: black;
+    }
+}
+
+.top-bar-adjust-one-row {
+    padding-top: $mdc-top-app-bar-row-height;
+}
+.top-bar-adjust-two-rows {
+    padding-top: $mdc-top-app-bar-row-height * 2;
+}
+
+@media (max-width: $mdc-top-app-bar-mobile-breakpoint) {
+    .top-bar-adjust-one-row {
+        padding-top: $mdc-top-app-bar-mobile-row-height;
+    }
+    .top-bar-adjust-two-rows {
+        padding-top: $mdc-top-app-bar-mobile-row-height * 2;
     }
 }

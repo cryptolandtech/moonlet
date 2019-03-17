@@ -10,18 +10,48 @@ import BigNumber from 'bignumber.js';
 import { IDevice } from '../../data/page-config/state';
 import { DeviceScreenSize } from '../../types';
 import DashboardPage from '../dashboard/dashboard.container';
-import { Link } from 'preact-router';
+import { Link, route } from 'preact-router';
 
 import { AccountCard } from './components/account-card/account-card.component';
 import { AddressCard } from './components/address-card/address-card.component';
 
 interface IProps {
+    accounts: any[];
     account: any;
     device: IDevice;
 }
 
 export class AccountPage extends Component<IProps> {
+    public componentWillMount() {
+        const props = this.props;
+        if (!props.account) {
+            if (
+                props.device.screenSize === DeviceScreenSize.BIG &&
+                props.accounts &&
+                props.accounts.length > 0
+            ) {
+                setTimeout(
+                    () =>
+                        route(
+                            `/account/${props.accounts[0].node.blockchain}/${
+                                props.accounts[0].address
+                            }`
+                        ),
+                    10
+                );
+            }
+
+            if (props.device.screenSize !== DeviceScreenSize.BIG) {
+                setTimeout(() => route('/dashboard'), 10);
+            }
+        }
+    }
+
     public render() {
+        if (!this.props.account) {
+            return null;
+        }
+
         if (this.props.device.screenSize === DeviceScreenSize.SMALL) {
             return this.renderAccountPage();
         }

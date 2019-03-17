@@ -10,11 +10,7 @@ const getLayout = (
     screenSize: DeviceScreenSize
 ): ILayout => {
     const config = getRouteConfig(routeConfig, platform, screenSize);
-    return {
-        topBar: config.topBar,
-        bottomNav: config.bottomNav,
-        drawerMenu: config.drawerMenu
-    };
+    return config;
 };
 
 export default (state: IPageConfig, action: IAction): IPageConfig => {
