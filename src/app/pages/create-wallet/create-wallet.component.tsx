@@ -50,7 +50,13 @@ export class CreateWalletPage extends Component<IProps, IState> {
                     <CreateWalletStep2
                         words={this.state.words}
                         onBack={() => this.setState({ step: 1 })}
-                        onComplete={() => this.setState({ step: 3 })}
+                        onComplete={() => {
+                            if (this.props.platform === Platform.WEB) {
+                                this.onWalletCreated('');
+                            } else {
+                                this.setState({ step: 3 });
+                            }
+                        }}
                     />
                 );
                 break;
@@ -63,7 +69,6 @@ export class CreateWalletPage extends Component<IProps, IState> {
                 );
                 if (this.props.platform === Platform.WEB) {
                     content = null;
-                    this.onWalletCreated('');
                 }
                 break;
         }

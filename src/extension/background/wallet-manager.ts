@@ -12,10 +12,6 @@ import { WalletErrorCodes } from '../../app/iwallet-provider';
 
 const WALLET_STORAGE_KEY = 'serializedWallet';
 
-// fix chain id
-// import networksZil from 'moonlet-core/src/blockchain/zilliqa/networks';
-// networksZil[0].chainId = 62;
-
 export class WalletManager {
     private wallet: Wallet;
     private password: string;
@@ -24,8 +20,6 @@ export class WalletManager {
         this.wallet = new Wallet(mnemonics);
         this.wallet.loadBlockchain(await this.loadBlockchain('zilliqa'));
         this.wallet.loadBlockchain(await this.loadBlockchain('ethereum'));
-
-        this.wallet.createAccount(Blockchain.ZILLIQA);
 
         this.password = password;
         await this.saveToStorage();

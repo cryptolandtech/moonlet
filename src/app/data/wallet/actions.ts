@@ -1,3 +1,5 @@
+import { createSwitchNetwork, createDevModeToggle } from './../user-preferences/actions';
+import { BLOCKCHAIN_INFO } from './../../utils/blockchain/blockchain-info';
 import { getSwitchNetworkConfig } from './../../utils/blockchain/utils';
 import { FeeOptions } from './../../utils/blockchain/types';
 import { BigNumber } from 'bignumber.js';
@@ -6,6 +8,7 @@ import { Network } from 'moonlet-core/src/core/network';
 import { IWalletData, WalletStatus } from './state';
 import { IWalletProvider, WalletErrorCodes } from '../../iwallet-provider';
 import { IAction } from '../action';
+import { translate } from '../../utils/translate';
 
 // Action constants
 export const WALLET_LOADED = 'WALLET_LOADED';
@@ -35,7 +38,24 @@ export const createWallet = (
     return async dispatch => {
         try {
             const wallet = await walletProvider.createWallet(mnemonics, password);
-            dispatch(createWalletLoaded(WalletStatus.UNLOCKED, wallet));
+            createDevModeToggle(walletProvider, false, false, {})(dispatch);
+
+            // create accounts
+            if (wallet.accounts) {
+                Object.keys(BLOCKCHAIN_INFO).map(async blockchain => {
+                    const accounts = (wallet.accounts[blockchain] || []).filter(
+                        acc => acc.node.network.network_id === 0
+                    );
+                    if (accounts.length === 0) {
+                        await walletProvider.createAccount(
+                            blockchain,
+                            `${blockchain} ${translate('App.labels.account')} 1`
+                        );
+                    }
+                });
+            }
+
+            dispatch(createWalletLoaded(WalletStatus.UNLOCKED, await walletProvider.getWallet()));
         } catch (e) {
             // TODO: handle exceptions
             // console.log(e);

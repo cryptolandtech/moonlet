@@ -36,7 +36,15 @@ export class ImportWalletPage extends Component<IProps, IState> {
         switch (this.state.step) {
             case 1:
                 content = (
-                    <ImportWalletStep1 onComplete={words => this.setState({ words, step: 2 })} />
+                    <ImportWalletStep1
+                        onComplete={words => {
+                            if (this.props.platform === Platform.WEB) {
+                                this.onWalletCreated('');
+                            } else {
+                                this.setState({ words, step: 2 });
+                            }
+                        }}
+                    />
                 );
                 break;
             case 2:
@@ -48,7 +56,6 @@ export class ImportWalletPage extends Component<IProps, IState> {
                 );
                 if (this.props.platform === Platform.WEB) {
                     content = null;
-                    this.onWalletCreated('');
                 }
                 break;
         }
@@ -56,7 +63,7 @@ export class ImportWalletPage extends Component<IProps, IState> {
         return <div class="import-wallet-page">{content}</div>;
     }
 
-    public async onWalletCreated(password: string) {
+    public onWalletCreated(password: string) {
         this.props.createWallet(appContext('walletProvider'), this.state.words.join(' '), password);
     }
 }

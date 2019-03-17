@@ -6,7 +6,7 @@ import { DeviceScreenSize, Platform } from '../app/types';
 import { getScreenSizeMatchMedia } from '../app/utils/screen-size-match-media';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { WebWalletProvider } from './wallet-provider';
-import { createWalletLoaded } from '../app/data/wallet/actions';
+import { createWalletLoaded, createLoadWallet } from '../app/data/wallet/actions';
 import { IWalletProvider } from '../app/iwallet-provider';
 import { IUserPreferences } from '../app/data/user-preferences/state';
 import { createUpdateConversionRates } from '../app/data/currency/actions';
@@ -66,18 +66,23 @@ store.subscribe(() => saveState(store.getState()));
 const walletProvider: IWalletProvider = new WebWalletProvider();
 
 (async () => {
-    const wallet = await walletProvider.createWallet(
-        'gadget clean certain tiger abandon prevent light pluck muscle obtain mobile agree',
-        'asd'
-    );
-    walletProvider.switchNetwork(
-        getSwitchNetworkConfig(
-            store.getState().userPreferences.testNet,
-            store.getState().userPreferences.networks
-        )
-    );
-    // console.log(await walletProvider.getAccounts({ ZILLIQA: 2 }));
-    store.dispatch(createWalletLoaded(WalletStatus.UNLOCKED, wallet));
+    // const wallet = await walletProvider.createWallet(
+    //     'gadget clean certain tiger abandon prevent light pluck muscle obtain mobile agree',
+    //     'asd'
+    // );
+    // walletProvider.switchNetwork(
+    //     getSwitchNetworkConfig(
+    //         store.getState().userPreferences.testNet,
+    //         store.getState().userPreferences.networks
+    //     )
+    // );
+    // // console.log(await walletProvider.getAccounts({ ZILLIQA: 2 }));
+    // store.dispatch(createWalletLoaded(WalletStatus.UNLOCKED, wallet));
+
+    store.dispatch(createLoadWallet(walletProvider, {
+        testNet: loadState().testNet,
+        networks: {}
+    }) as any);
 
     store.dispatch(createUpdateConversionRates() as any);
     setInterval(() => store.dispatch(createUpdateConversionRates() as any), 5 * 60 * 1000);

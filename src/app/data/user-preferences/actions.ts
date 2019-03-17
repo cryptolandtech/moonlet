@@ -2,8 +2,9 @@ import { IUserPreferences, INetworksOptions } from './state';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { IAction } from '../action';
 import { IWalletProvider } from '../../iwallet-provider';
-import { WALLET_CLEAR_BALANCES } from '../wallet/actions';
+import { WALLET_CLEAR_BALANCES, createWalletSync } from '../wallet/actions';
 import { getSwitchNetworkConfig } from '../../utils/blockchain/utils';
+import { translate } from '../../utils/translate';
 
 // Action constants
 
@@ -61,6 +62,22 @@ export const createSwitchNetwork = (
     return async dispatch => {
         await walletProvider.switchNetwork({ [blockchain]: networkId });
 
+        if (!mainNet) {
+            const wallet = await walletProvider.getWallet();
+            if (wallet.accounts) {
+                const accounts = (wallet.accounts[blockchain] || []).filter(
+                    acc => acc.node.network.network_id === networkId
+                );
+                if (accounts.length === 0) {
+                    await walletProvider.createAccount(
+                        blockchain,
+                        `${blockchain} ${translate('App.labels.account')} 1`
+                    );
+                }
+            }
+        }
+
+        await createWalletSync(walletProvider)(dispatch);
         dispatch({ type: WALLET_CLEAR_BALANCES });
         dispatch({
             type: NETWORK_SWITCH,

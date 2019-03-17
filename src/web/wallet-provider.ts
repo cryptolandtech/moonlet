@@ -1,5 +1,3 @@
-import { Network } from 'moonlet-core/src/core/network';
-import { GenericAccount } from 'moonlet-core/src/core/account';
 import { BigNumber } from 'bignumber.js';
 import { IWalletProvider, WalletErrorCodes } from '../app/iwallet-provider';
 import Wallet from 'moonlet-core/src/core/wallet';
@@ -8,69 +6,18 @@ import { Response } from '../app/utils/response';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { IGasFeeOptions } from '../app/utils/blockchain/types';
 
-// fix chain id
-import networksZil from 'moonlet-core/src/blockchain/zilliqa/networks';
-networksZil[0].chainId = 62;
-
 export class WebWalletProvider implements IWalletProvider {
     private wallet: Wallet;
 
     public async createWallet(mnemonics, password) {
         this.wallet = new Wallet(mnemonics, password);
-
-        await this.loadBlockchain('zilliqa');
-        await this.loadBlockchain('ethereum');
-
-        const acc = this.wallet.createAccount(Blockchain.ZILLIQA);
-
-        // (acc as any).transactions = [
-        //     {
-        //         status: 'PENDING',
-        //         amount: 1000000000000,
-        //         times: [{ name: 'creation', unixtime: Date.now() }],
-        //         txn: '1231231231231312'
-        //     },
-        //     {
-        //         status: 'PENDING',
-        //         amount: 1000000000000,
-        //         times: [{ name: 'creation', unixtime: Date.now() }],
-        //         txn: '1231231231231312'
-        //     },
-        //     {
-        //         status: 'PENDING',
-        //         amount: 1000000000000,
-        //         times: [{ name: 'creation', unixtime: Date.now() }],
-        //         txn: '1231231231231312'
-        //     },
-        //     {
-        //         status: 'PENDING',
-        //         amount: 1000000000000,
-        //         times: [{ name: 'creation', unixtime: Date.now() }],
-        //         txn: '1231231231231312'
-        //     }
-        // ];
-        // this.wallet.createAccount(Blockchain.ZILLIQA);
-        // this.wallet.createAccount(Blockchain.ZILLIQA);
-        // this.wallet.createAccount(Blockchain.ZILLIQA, 1);
-        // this.wallet.createAccount(Blockchain.ZILLIQA, 1);
-        // this.wallet.createAccount(Blockchain.ZILLIQA, 1);
-        // this.wallet.createAccount(Blockchain.ZILLIQA, 2);
-        // this.wallet.createAccount(Blockchain.ZILLIQA, 2);
-        // this.wallet.createAccount(Blockchain.ZILLIQA, 2);
-        // this.wallet.createAccount(Blockchain.ZILLIQA, 2);
-
-        // this.wallet.createAccount(Blockchain.ETHEREUM);
-        // this.wallet.createAccount(Blockchain.ETHEREUM);
-        // this.wallet.createAccount(Blockchain.ETHEREUM);
-        // this.wallet.createAccount(Blockchain.ETHEREUM, 1);
-        // this.wallet.createAccount(Blockchain.ETHEREUM, 1);
-        // this.wallet.createAccount(Blockchain.ETHEREUM, 1);
-        // this.wallet.createAccount(Blockchain.ETHEREUM, 2);
-        // this.wallet.createAccount(Blockchain.ETHEREUM, 2);
-        // this.wallet.createAccount(Blockchain.ETHEREUM, 2);
-        // this.wallet.createAccount(Blockchain.ETHEREUM, 2);
-
-        return this.getWallet();
+        this.wallet.loadBlockchain(
+            require('moonlet-core/src/blockchain/zilliqa/class.index').default
+        );
+        this.wallet.loadBlockchain(
+            require('moonlet-core/src/blockchain/ethereum/class.index').default
+        );
+        return Promise.resolve(this.wallet);
     }
 
     public async getWallet() {
@@ -205,14 +152,5 @@ export class WebWalletProvider implements IWalletProvider {
                 `Account with address: ${fromAddress} was not found.`
             )
         );
-    }
-
-    private async loadBlockchain(name: string) {
-        const blockchain = await await import(/* webpackChunkName: "blockchain/[request]" */ `moonlet-core/src/blockchain/${name.toLocaleLowerCase()}/class.index`);
-        if (this.wallet) {
-            this.wallet.loadBlockchain(blockchain.default);
-        }
-
-        return blockchain.default;
     }
 }

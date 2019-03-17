@@ -4,6 +4,7 @@ export const translation: ITranslations = {
     texts: {
         App: {
             labels: {
+                account: 'Account',
                 address: 'Address',
                 authorize: 'Authorize',
                 dashboard: 'Dashboard',
