@@ -7,13 +7,15 @@ import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 
 import { IAccountsBalances, IAccountBalance } from '../../data/wallet/state';
-import { route } from 'preact-router';
+import { route, Link } from 'preact-router';
 import { IDevice } from '../../data/page-config/state';
 import Balance from '../../components/balance/balance.container';
 import CurrencyTotal from '../../components/currency-total/currency-total.container';
 import { DeviceScreenSize } from '../../types';
 import TestnetWarning from '../../components/testnet-warning/testnet-warning.container';
 import { GenericAccount } from 'moonlet-core/src/core/account';
+import Icon from 'preact-material-components/Icon';
+import { Translate } from '../../components/translate/translate.component';
 interface IProps {
     hideTestNetWarning: boolean;
     accounts: GenericAccount[];
@@ -84,6 +86,12 @@ export class DashboardPage extends Component<IProps> {
                         </div>
                     </Card>
                 ))}
+                <Link class="create-account" href="/create-account">
+                    <Icon>add_circle_outline</Icon>
+                    <div>
+                        <Translate text="DashboardPage.menu.addNewAccount" />
+                    </div>
+                </Link>
             </div>
         );
     }

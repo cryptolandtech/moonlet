@@ -66,23 +66,23 @@ store.subscribe(() => saveState(store.getState()));
 const walletProvider: IWalletProvider = new WebWalletProvider();
 
 (async () => {
-    // const wallet = await walletProvider.createWallet(
-    //     'gadget clean certain tiger abandon prevent light pluck muscle obtain mobile agree',
-    //     'asd'
-    // );
-    // walletProvider.switchNetwork(
-    //     getSwitchNetworkConfig(
-    //         store.getState().userPreferences.testNet,
-    //         store.getState().userPreferences.networks
-    //     )
-    // );
-    // // console.log(await walletProvider.getAccounts({ ZILLIQA: 2 }));
-    // store.dispatch(createWalletLoaded(WalletStatus.UNLOCKED, wallet));
+    const wallet = await walletProvider.createWallet(
+        'gadget clean certain tiger abandon prevent light pluck muscle obtain mobile agree',
+        'asd'
+    );
+    walletProvider.switchNetwork(
+        getSwitchNetworkConfig(
+            store.getState().userPreferences.testNet,
+            store.getState().userPreferences.networks
+        )
+    );
+    // console.log(await walletProvider.getAccounts({ ZILLIQA: 2 }));
+    store.dispatch(createWalletLoaded(WalletStatus.UNLOCKED, wallet));
 
-    store.dispatch(createLoadWallet(walletProvider, {
-        testNet: loadState().testNet,
-        networks: {}
-    }) as any);
+    // store.dispatch(createLoadWallet(walletProvider, {
+    //     testNet: loadState().testNet,
+    //     networks: {}
+    // }) as any);
 
     store.dispatch(createUpdateConversionRates() as any);
     setInterval(() => store.dispatch(createUpdateConversionRates() as any), 5 * 60 * 1000);

@@ -33,7 +33,7 @@ export class CreateAccountTabAdd extends Component<IProps, IState> {
         this.state = {
             blockchain: undefined,
             blockchainError: false,
-            accountName: `Account ${this.props.accounts.length + 1}`,
+            accountName: ``,
             accountNameError: false
         };
     }
@@ -78,7 +78,18 @@ export class CreateAccountTabAdd extends Component<IProps, IState> {
                         <Select
                             ref={ref => (this.blockchainSelectRef = ref)}
                             hintText={translate('App.labels.blockchain')}
-                            onChange={(e: any) => this.setState({ blockchain: e.target.value })}
+                            onChange={(e: any) => {
+                                const blockchain = e.target.value;
+                                const accounts = this.props.accounts.filter(
+                                    acc => acc.node.blockchain === blockchain
+                                );
+                                this.setState({
+                                    blockchain,
+                                    accountName: `${blockchain} ${translate(
+                                        'App.labels.account'
+                                    )} ${accounts.length + 1}`
+                                });
+                            }}
                         >
                             {Object.keys(BLOCKCHAIN_INFO).map(blockchain => (
                                 <Select.Item value={blockchain}>{blockchain}</Select.Item>

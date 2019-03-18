@@ -57,4 +57,16 @@
             font-size: 12px;
         }
     }
+
+    .create-account {
+        margin-top: 20px;
+        display: block;
+        font-size: 18px;
+        opacity: 0.8;
+        text-align: center;
+
+        .mdc-icon {
+            font-size: 48px;
+        }
+    }
 }
