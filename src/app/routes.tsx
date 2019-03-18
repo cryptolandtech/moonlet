@@ -1,7 +1,8 @@
-import { BLOCKCHAIN_INFO } from './utils/blockchain/blockchain-info';
+import { h, Component } from 'preact';
+
+import { Translate } from './components/translate/translate.component';
 import { browser } from 'webextension-polyfill-ts';
 import { goBack } from './data/page-config/actions';
-import { Component } from 'preact';
 import { ILayout } from './data/page-config/state';
 import { IRoute } from './routes';
 import { DeviceScreenSize, Platform } from './types';
@@ -38,12 +39,12 @@ const dashboardConfig: IRouteConfig = {
             menuWidth: 200,
             items: [
                 {
-                    text: 'Add new account',
+                    text: <Translate text="DashboardPage.menu.addNewAccount" />,
                     icon: 'add_circle_outline',
                     href: '/create-account'
                 },
                 {
-                    text: 'Open new tab',
+                    text: <Translate text="DashboardPage.menu.openNewTab" />,
                     icon: 'launch',
                     action: () => {
                         browser.tabs.create({
@@ -52,7 +53,7 @@ const dashboardConfig: IRouteConfig = {
                     }
                 },
                 {
-                    text: 'Settings',
+                    text: <Translate text="App.labels.settings" />,
                     icon: 'settings',
                     href: '/settings'
                 }
@@ -62,7 +63,7 @@ const dashboardConfig: IRouteConfig = {
 };
 
 const popupPageConfig = (titleTextKey): IConfig => {
-    let text = () => translate(titleTextKey);
+    let text = <Translate text={titleTextKey} />;
     if (typeof titleTextKey === 'function') {
         text = titleTextKey;
     }
@@ -133,11 +134,7 @@ export const ROUTES: IRoute[] = [
                         },
                         middle: {
                             type: 'text',
-                            text: 'Create New Wallet'
-                        },
-                        right: {
-                            type: 'text',
-                            text: '1/3'
+                            text: <Translate text="CreateWalletPage.title" />
                         }
                     }
                 }
@@ -160,7 +157,7 @@ export const ROUTES: IRoute[] = [
                         },
                         middle: {
                             type: 'text',
-                            text: 'Restore Existing Wallet'
+                            text: <Translate text="ImportWalletPage.title" />
                         }
                     }
                 }
@@ -185,7 +182,7 @@ export const ROUTES: IRoute[] = [
         path: '/settings/disclaimer',
         getComponent: () =>
             import('./pages/settings/pages/disclaimer/disclaimer.component').then(
-                module => module.DisclaimerPage
+                module => module.DisclaimerPage as any
             ),
         config: popupPageConfig('DisclaimerPage.title')
     },
@@ -222,7 +219,21 @@ export const ROUTES: IRoute[] = [
                         },
                         middle: {
                             type: 'text',
-                            text: () => translate('App.labels.settings')
+                            text: () => {
+                                const level1 =
+                                    (isExtension() ? location.hash : location.pathname).split(
+                                        '/'
+                                    )[2] || '';
+
+                                switch (level1) {
+                                    case 'security':
+                                        return <Translate text="SettingsPage.security" />;
+                                    case 'developerOptions':
+                                        return <Translate text="SettingsPage.developerOptions" />;
+                                    default:
+                                        return <Translate text="App.labels.settings" />;
+                                }
+                            }
                         }
                     }
                 }

@@ -34,7 +34,8 @@ export const translation: ITranslations = {
                 privateKey: 'Private key',
                 import: 'Import',
                 create: 'Create',
-                warning: 'Warning'
+                warning: 'Warning',
+                on: 'On'
             }
         },
         DrawerMenu: {
@@ -54,7 +55,11 @@ export const translation: ITranslations = {
             walletAddress: 'Wallet address',
             copy: 'Copy',
             noTransactions:
-                'Your transaction history will appear here once you send or receive tokens.'
+                'Your transaction history will appear here once you send or receive tokens.',
+            menu: {
+                addNewAccount: 'Add new account',
+                openNewTab: 'Open new tab'
+            }
         },
         SendPage: {
             errors: {
@@ -150,11 +155,15 @@ export const translation: ITranslations = {
             copyToClipboard: 'Copy to clipboard'
         },
         SettingsPage: {
-            aboutMoonlet: 'About Moonlet',
+            applicationVersion: 'Application version',
             revealSecretPhrase: 'Reveal Secret Phrase',
             revealPrivateKey: 'Reveal Private Key',
             restoreWallet: 'Restore Existing Wallet',
-            passwordRequired: 'Your password is required for the next step'
+            passwordRequired: 'Your password is required for the next step',
+            security: 'Security',
+            developerOptions: 'Developer options',
+            currency: 'Currency',
+            disclaimer: 'Disclaimer'
         },
         RevealPage: {
             enterPassword: 'Enter password',

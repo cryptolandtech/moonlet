@@ -5,8 +5,8 @@ import { timingSafeEqual } from 'crypto';
 interface IProps {
     icon?: any;
     iconProps?: {};
-    primaryText: string;
-    secondaryText?: string;
+    primaryText: string | JSX.Element;
+    secondaryText?: string | JSX.Element;
     href?: string;
     target?: string;
     noDivider?: boolean;

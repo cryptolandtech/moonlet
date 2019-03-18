@@ -35,8 +35,8 @@ interface ISettingsMenu {
 }
 
 interface ISettingsMenuItem {
-    primaryText: string;
-    secondaryText?: string;
+    primaryText: string | JSX.Element;
+    secondaryText?: string | JSX.Element;
     href?: string;
     onClick?: (e?) => any;
 
@@ -55,34 +55,34 @@ export class SettingsPage extends Component<IProps> {
         name: 'root',
         items: [
             {
-                primaryText: 'Disclaimer',
+                primaryText: <Translate text="SettingsPage.disclaimer" />,
                 href: '/settings/disclaimer'
             },
             {
-                primaryText: 'Security',
+                primaryText: <Translate text="SettingsPage.security" />,
                 href: '/settings/security',
                 subMenu: {
                     name: 'security',
                     items: [
                         {
-                            primaryText: 'Reveal Secret Phrase',
+                            primaryText: <Translate text="SettingsPage.revealSecretPhrase" />,
                             href: '/reveal/secretPhrase'
                         }
                     ]
                 }
             },
             {
-                primaryText: 'Currency',
+                primaryText: <Translate text="SettingsPage.currency" />,
                 href: '/settings/currency'
             },
             {
-                primaryText: 'Developer Options',
+                primaryText: <Translate text="SettingsPage.developerOptions" />,
                 href: '/settings/developerOptions',
                 subMenu: {
                     name: 'developerOptions',
                     items: [
                         {
-                            primaryText: 'On',
+                            primaryText: <Translate text="App.labels.on" />,
                             type: 'switch',
                             getValue: () => this.props.userPreferences.devMode,
                             setValue: (v?) =>
@@ -93,7 +93,7 @@ export class SettingsPage extends Component<IProps> {
                                 )
                         },
                         {
-                            primaryText: 'Network Options',
+                            primaryText: <Translate text="NetworkOptionsPage.title" />,
                             href: '/settings/networkOptions',
                             isDisabled: () => !this.props.userPreferences.devMode
                         }
@@ -101,7 +101,7 @@ export class SettingsPage extends Component<IProps> {
                 }
             },
             {
-                primaryText: 'Application Version',
+                primaryText: <Translate text="SettingsPage.applicationVersion" />,
                 secondaryText: this.props.version || ''
             }
         ]

@@ -15,16 +15,16 @@ export interface IDefaultTopBarConfig {
     };
     middle?: {
         type: 'text' | 'tokenPageTitle';
-        text?: string | (() => string);
+        text?: string | JSX.Element | (() => string | JSX.Element);
     };
     right?: {
         type: 'text' | 'icon' | 'menu';
         icon?: string;
         menuWidth?: number;
         action?: IAction | { () };
-        text?: string;
+        text?: string | JSX.Element;
         items?: Array<{
-            text: string;
+            text: string | JSX.Element;
             icon?: string;
             href?: string;
             action?: IAction | { () };
