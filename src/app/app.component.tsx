@@ -61,7 +61,7 @@ export default class App extends Component<IProps, IState> {
     }
 
     public checkAccountAndRedirect() {
-        const currentRoute = this.route.current;
+        const currentRoute = this.route ? this.route.current : undefined;
 
         if (
             currentRoute &&
@@ -107,7 +107,7 @@ export default class App extends Component<IProps, IState> {
 
     public doRedirects() {
         // console.log('doRedirects', this.redirectAfterWalletLoaded);
-        const currentRoute = this.route.current;
+        const currentRoute = this.route ? this.route.current : undefined;
         const walletStatus = this.props.walletStatus;
 
         if (currentRoute) {
