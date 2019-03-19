@@ -14,6 +14,8 @@ interface IState {
 }
 
 export class Copy extends Component<IProps, IState> {
+    public notCopiedTimeout;
+
     constructor(props: IProps) {
         super(props);
     }
@@ -30,7 +32,14 @@ export class Copy extends Component<IProps, IState> {
         return (
             <CopyToClipboard
                 text={this.props.text}
-                onCopy={() => this.setState({ textCopied: true })}
+                onCopy={() => {
+                    clearTimeout(this.notCopiedTimeout);
+                    this.notCopiedTimeout = setTimeout(
+                        () => this.setState({ textCopied: false }),
+                        5000
+                    );
+                    this.setState({ textCopied: true });
+                }}
             >
                 <div>
                     {this.props.children || []}
