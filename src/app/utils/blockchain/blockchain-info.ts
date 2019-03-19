@@ -53,7 +53,7 @@ export const BLOCKCHAIN_INFO: {
                 gasPriceInputUnit: 'GWEI',
                 ui: 'simple',
                 default: {
-                    gasPrice: 3,
+                    gasPrice: 20,
                     gasLimit: 21000,
                     gasPricePresets: {
                         safeLow: 2,
@@ -78,15 +78,15 @@ export const BLOCKCHAIN_INFO: {
             config: {
                 gasPriceUnit: 'QA',
                 gasPriceInputUnit: 'LI',
-                ui: 'advanced',
+                ui: 'simple',
                 default: {
                     gasPrice: 1000000000,
                     gasLimit: 1,
                     gasPricePresets: {
-                        safeLow: 1,
-                        standard: 1,
+                        safeLow: undefined,
+                        standard: 1000000000,
                         fast: undefined,
-                        fastest: 10
+                        fastest: undefined
                     }
                 }
             }

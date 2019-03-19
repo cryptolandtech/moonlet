@@ -62,8 +62,10 @@ export const sliderValueToFeeOptions = (
 
     switch (blockchainInfo.fee.type) {
         case BlockchainFeeType.GAS:
-            feeOptions = currentFeeOptions as IGasFeeOptions;
-            feeOptions.gasPrice = value;
+            feeOptions = {
+                ...(currentFeeOptions as IGasFeeOptions),
+                gasPrice: value
+            };
             break;
     }
     return feeOptions;

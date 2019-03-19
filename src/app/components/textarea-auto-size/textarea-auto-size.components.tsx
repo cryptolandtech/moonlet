@@ -11,7 +11,8 @@ interface IProps {
     className?: string;
     placeholder?: string;
     disabled?: boolean;
-    helperText?: string;
+    helperText?: string | JSX.Element;
+    helperTextInside?: string | JSX.Element;
     helperTextValidationMsg?: boolean;
 
     inputRef?: (el) => any;
@@ -55,6 +56,9 @@ export class TextareaAutoSize extends Component<IProps, IState> {
                         {...this.props}
                         className={this.props.className + ' mdc-text-field__input'}
                     />
+                    {this.props.helperTextInside && (
+                        <span class="helper-text-inside">{this.props.helperTextInside}</span>
+                    )}
                 </fieldset>
                 {this.props.helperText && (
                     <div className={helperTextClassName}>{this.props.helperText}</div>

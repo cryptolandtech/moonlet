@@ -7,6 +7,7 @@ import { FeeOptions, IGasFeeOptions } from '../../../../../../utils/blockchain/t
 import { IBlockchainInfo } from '../../../../../../utils/blockchain/blockchain-info';
 import { translate } from '../../../../../../utils/translate';
 import BigNumber from 'bignumber.js';
+import Currency from '../../../../../../components/currency/currency.container';
 
 interface IProps {
     feeOptions: IGasFeeOptions;
@@ -102,6 +103,19 @@ export class GasFee extends Component<IProps, IState> {
                         outlined
                         label={translate('App.labels.fee')}
                         value={this.getTotal()}
+                        helperTextInside={
+                            <span>
+                                ~{' '}
+                                <Currency
+                                    amount={calculateFee(
+                                        this.props.blockchain,
+                                        this.getFeeOptions()
+                                    )}
+                                    currency={this.props.blockchainInfo.coin}
+                                    convert
+                                />
+                            </span>
+                        }
                         disabled
                     />
                 </LayoutGridCell>

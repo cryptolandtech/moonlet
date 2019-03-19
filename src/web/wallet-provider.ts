@@ -17,6 +17,7 @@ export class WebWalletProvider implements IWalletProvider {
         this.wallet.loadBlockchain(
             require('moonlet-core/src/blockchain/ethereum/class.index').default
         );
+
         return Promise.resolve(this.wallet);
     }
 
@@ -131,8 +132,8 @@ export class WebWalletProvider implements IWalletProvider {
                     toAddress,
                     amount.toNumber(),
                     nonce,
-                    (feeOptions as IGasFeeOptions).gasLimit,
-                    (feeOptions as IGasFeeOptions).gasPrice
+                    (feeOptions as IGasFeeOptions).gasPrice,
+                    (feeOptions as IGasFeeOptions).gasLimit
                 );
                 account.signTransaction(tx);
                 const response = await account.send(tx);

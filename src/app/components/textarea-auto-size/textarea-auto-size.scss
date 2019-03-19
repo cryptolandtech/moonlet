@@ -33,6 +33,11 @@
             box-sizing: border-box;
             resize: none;
         }
+
+        .helper-text-inside {
+            font-size: 13px;
+            margin: -8px 8px 8px;
+        }
     }
 
     .mdc-text-field-helper-text--validation-msg {

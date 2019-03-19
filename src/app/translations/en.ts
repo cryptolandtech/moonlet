@@ -78,9 +78,10 @@ export const translation: ITranslations = {
             },
 
             TransactionFee: {
-                cheap: 'Cheap',
+                safeLow: 'Cheap',
                 standard: 'Standard',
                 fast: 'Fast',
+                fastest: 'Fastest',
                 advanced: 'Advanced',
                 simple: 'Simple',
 

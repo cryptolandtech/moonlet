@@ -189,8 +189,8 @@ export class WalletManager {
                     toAddress,
                     new BigNumber(amount).toNumber(),
                     nonce,
-                    (feeOptions as IGasFeeOptions).gasLimit,
-                    (feeOptions as IGasFeeOptions).gasPrice
+                    (feeOptions as IGasFeeOptions).gasPrice,
+                    (feeOptions as IGasFeeOptions).gasLimit
                 );
                 account.signTransaction(tx);
                 const response = await account.send(tx);

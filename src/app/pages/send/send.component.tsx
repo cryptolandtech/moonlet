@@ -20,11 +20,12 @@ import { getWalletProvider } from '../../app-context';
 import Card from 'preact-material-components/Card';
 import { AddressCard } from '../account/components/address-card/address-card.component';
 import { AccountCard } from '../account/components/account-card/account-card.component';
+import Currency from '../../components/currency/currency.container';
 
 interface IProps {
     blockchain: Blockchain;
     blockchainInfo: IBlockchainInfo;
-    account: any;
+    account: GenericAccount;
     transferInfo: IWalletTransfer;
 
     transfer: (
@@ -38,13 +39,14 @@ interface IProps {
 
 interface IState {
     recipient: string;
-    amount: number;
+    amount: string;
     feeOptions: FeeOptions;
     fieldErrors: {
         amount: string;
         recipient: string;
     };
     errorDialogExtraMessage?: string;
+    disabled: boolean;
 }
 
 export class SendPage extends Component<IProps, IState> {
@@ -61,7 +63,11 @@ export class SendPage extends Component<IProps, IState> {
             fieldErrors: {
                 amount: '',
                 recipient: ''
-            }
+            },
+            disabled:
+                props.account &&
+                props.account.node.blockchain === Blockchain.ZILLIQA &&
+                props.account.node.network.network_id === 0
         };
     }
 
@@ -71,7 +77,9 @@ export class SendPage extends Component<IProps, IState> {
             prevProps.transferInfo.inProgress !== this.props.transferInfo.inProgress
         ) {
             if (this.props.transferInfo.success) {
-                route('/dashboard');
+                route(
+                    `/acccount/${this.props.account.node.blockchain}/${this.props.account.address}`
+                );
             } else {
                 this.showErrorDialog(this.props.transferInfo.error);
             }
@@ -89,18 +97,20 @@ export class SendPage extends Component<IProps, IState> {
                         <LayoutGridCell cols={12}>
                             <AddressCard account={this.props.account} />
                         </LayoutGridCell>
-                        <LayoutGridCell cols={12}>
-                            <Card className="card">
-                                <p
-                                    style="padding: 16px; font-weight:bold"
-                                    className="mdc-typography--body2"
-                                >
-                                    WARNING!!!
-                                    <br />
-                                    Transactions are not processed during the bootstrap phase.
-                                </p>
-                            </Card>
-                        </LayoutGridCell>
+                        {this.state.disabled && (
+                            <LayoutGridCell cols={12}>
+                                <Card className="card">
+                                    <p
+                                        style="padding: 16px; font-weight:bold"
+                                        className="mdc-typography--body2"
+                                    >
+                                        WARNING!!!
+                                        <br />
+                                        Transactions are not processed during the bootstrap phase.
+                                    </p>
+                                </Card>
+                            </LayoutGridCell>
+                        )}
                         <LayoutGridCell cols={12}>
                             <TextareaAutoSize
                                 outlined
@@ -116,6 +126,20 @@ export class SendPage extends Component<IProps, IState> {
                                 label={translate('App.labels.amount')}
                                 onChange={e => this.setState({ amount: e.target.value })}
                                 value={this.state.amount ? String(this.state.amount) : ''}
+                                helperText={
+                                    this.state.amount ? (
+                                        <span>
+                                            ~{' '}
+                                            <Currency
+                                                amount={parseFloat(this.state.amount)}
+                                                currency={this.props.blockchainInfo.coin}
+                                                convert
+                                            />
+                                        </span>
+                                    ) : (
+                                        ''
+                                    )
+                                }
                                 {...this.getValidationProps('amount')}
                             />
                         </LayoutGridCell>
@@ -126,12 +150,14 @@ export class SendPage extends Component<IProps, IState> {
                     recipient={this.state.recipient}
                     amount={this.state.amount}
                     feeOptions={this.state.feeOptions}
+                    blockchain={this.props.blockchain}
+                    blockchainInfo={this.props.blockchainInfo}
                     onChange={this.onFeeOptionsChange.bind(this)}
                 />
 
                 <LayoutGrid class="right-text">
                     <Button
-                        disabled
+                        disabled={this.state.disabled}
                         ripple
                         raised
                         secondary
@@ -154,7 +180,7 @@ export class SendPage extends Component<IProps, IState> {
                             text="SendPage.confirmationDialog.message"
                             params={{
                                 amount: formatCurrency(
-                                    this.state.amount,
+                                    new BigNumber(this.state.amount),
                                     this.props.blockchainInfo.coin
                                 ),
                                 address: this.state.recipient
@@ -222,7 +248,7 @@ export class SendPage extends Component<IProps, IState> {
             valid = false;
         }
 
-        if (!this.state.amount || !(this.state.amount > 0)) {
+        if (!this.state.amount || !(parseFloat(this.state.amount) > 0)) {
             fieldErrors.amount = translate('SendPage.errors.amount');
             valid = false;
         }

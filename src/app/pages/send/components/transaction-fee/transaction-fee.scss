@@ -1,0 +1,25 @@
+@import '../../../../styles/base';
+
+.transaction-fee-component {
+    .gas-fee-preset {
+        .mdc-card {
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .title {
+            margin-bottom: 4px;
+        }
+
+        .fiat {
+            font-size: 12px;
+        }
+
+        &.active {
+            .mdc-card {
+                background: rgba(grey, 0.3);
+            }
+        }
+    }
+}

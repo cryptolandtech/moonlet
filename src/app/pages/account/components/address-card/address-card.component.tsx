@@ -22,7 +22,9 @@ export class AddressCard extends Component<IProps> {
     private bar;
 
     public componentDidMount() {
-        this.addressMenu.MDComponent.setFixedPosition(true);
+        if (this.addressMenu) {
+            this.addressMenu.MDComponent.setFixedPosition(true);
+        }
     }
 
     public render() {
