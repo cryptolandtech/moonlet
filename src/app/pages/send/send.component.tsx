@@ -156,15 +156,20 @@ export class SendPage extends Component<IProps, IState> {
                 />
 
                 <LayoutGrid class="right-text">
-                    <Button
-                        disabled={this.state.disabled}
-                        ripple
-                        raised
-                        secondary
-                        onClick={this.onConfirmClick.bind(this)}
-                    >
-                        <Translate text="App.labels.confirm" />
-                    </Button>
+                    <LayoutGrid.Inner>
+                        <LayoutGrid.Cell cols={2} phoneCols={4}>
+                            <Button
+                                className="cta"
+                                disabled={this.state.disabled}
+                                ripple
+                                raised
+                                secondary
+                                onClick={this.onConfirmClick.bind(this)}
+                            >
+                                <Translate text="App.labels.confirm" />
+                            </Button>
+                        </LayoutGrid.Cell>
+                    </LayoutGrid.Inner>
                 </LayoutGrid>
 
                 <Dialog
