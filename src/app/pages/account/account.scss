@@ -1,18 +1,30 @@
 @import '../../styles/base';
 
 .big-screen-dashboard {
+    box-sizing: border-box;
     display: flex;
+    position: fixed;
+    overflow: hidden;
+    width: 100%;
+    max-width: 900px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
 
     .dashboard-page {
         flex: 4;
-        height: calc(100vh - 64px);
-        overflow: auto;
+        height: 100%;
+        overflow-x: scroll;
     }
 
     .account-page {
         flex: 6;
-        height: calc(100vh - 64px);
-        overflow: auto;
+        height: 100%;
+        overflow-x: scroll;
+        padding-bottom: 20px;
+        box-sizing: border-box;
     }
 }
 

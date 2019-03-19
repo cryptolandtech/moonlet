@@ -136,7 +136,12 @@ export const getAccountFromState = (state: IState, blockchain: Blockchain, addre
         state.userPreferences.networks
     );
 
-    if (state.wallet.data.accounts[blockchain]) {
+    if (
+        state.wallet &&
+        state.wallet.data &&
+        state.wallet.data.accounts &&
+        state.wallet.data.accounts[blockchain]
+    ) {
         account = state.wallet.data.accounts[blockchain].filter(acc => {
             return acc.address === address && acc.node.network.network_id === networks[blockchain];
         })[0];

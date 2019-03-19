@@ -23,6 +23,14 @@ interface IProps {
 }
 
 export class AccountPage extends Component<IProps> {
+    public getPaddingTopStyle() {
+        const topBarElement = document.querySelector('.top-bar');
+        if (topBarElement) {
+            return { paddingTop: topBarElement.clientHeight };
+        }
+        return {};
+    }
+
     public render() {
         if (!this.props.account) {
             return null;
@@ -32,7 +40,7 @@ export class AccountPage extends Component<IProps> {
             return this.renderAccountPage();
         }
         return (
-            <div class="big-screen-dashboard">
+            <div class="big-screen-dashboard" style={this.getPaddingTopStyle()}>
                 <DashboardPage
                     hideTestNetWarning={true}
                     selectedAccount={{
