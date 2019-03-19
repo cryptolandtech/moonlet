@@ -117,6 +117,7 @@ export class TransactionFee extends Component<IProps, IState> {
                             <LayoutGrid.Cell cols={12} tabletCols={8}>
                                 <TextareaAutoSize
                                     outlined
+                                    disabled
                                     label={translate('App.labels.fee')}
                                     value={fee + ` ${this.props.blockchainInfo.coin}`}
                                     helperTextInside={
