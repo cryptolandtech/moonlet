@@ -84,6 +84,10 @@ export class DashboardPage extends Component<IProps> {
                                 </div>
                             </div>
                         </div>
+                        <img
+                            class="account-type"
+                            src={`/assets/icons/account-type-${account.type.toLowerCase()}.svg`}
+                        />
                     </Card>
                 ))}
                 <Link class="create-account" href="/create-account">

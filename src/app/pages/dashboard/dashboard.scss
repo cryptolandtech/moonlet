@@ -19,6 +19,13 @@
         }
     }
 
+    .account-type {
+        position: absolute;
+        right: 3px;
+        top: 3px;
+        height: 15px;
+    }
+
     .total-balance {
         background: $mdc-theme-primary;
         color: white;

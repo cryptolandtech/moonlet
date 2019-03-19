@@ -76,8 +76,10 @@ const walletProvider: IWalletProvider = new WebWalletProvider();
             store.getState().userPreferences.networks
         )
     );
+    await walletProvider.createAccount(Blockchain.ZILLIQA, 1);
+    await walletProvider.createAccount(Blockchain.ETHEREUM, 1);
     // console.log(await walletProvider.getAccounts({ ZILLIQA: 2 }));
-    store.dispatch(createWalletLoaded(WalletStatus.UNLOCKED, wallet));
+    store.dispatch(createWalletLoaded(WalletStatus.UNLOCKED, await walletProvider.getWallet()));
 
     // store.dispatch(createLoadWallet(walletProvider, {
     //     testNet: loadState().testNet,

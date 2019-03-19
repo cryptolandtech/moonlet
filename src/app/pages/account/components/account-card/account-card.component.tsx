@@ -5,13 +5,24 @@ import { BLOCKCHAIN_INFO } from '../../../../utils/blockchain/blockchain-info';
 import './account-card.scss';
 import Currency from '../../../../components/currency/currency.container';
 import Balance from '../../../../components/balance/balance.container';
+import { GenericAccount, AccountType } from 'moonlet-core/src/core/account';
 
 interface IProps {
-    account: any;
+    account: GenericAccount;
 }
 
 export class AccountCard extends Component<IProps> {
     public render() {
+        let accountTypeIcon;
+        switch (this.props.account.type) {
+            case AccountType.HD:
+                accountTypeIcon = '/assets/planet.svg';
+                break;
+            case AccountType.LOOSE:
+                accountTypeIcon = '/assets/import.svg';
+                break;
+        }
+
         return (
             <Card className="account-card">
                 <div class="account-card-inner">
@@ -23,6 +34,11 @@ export class AccountCard extends Component<IProps> {
                         />
                     </div>
                     <div class="account-name">{this.props.account.name}</div>
+                    <div class="account-type">
+                        <img
+                            src={`/assets/icons/account-type-${this.props.account.type.toLowerCase()}.svg`}
+                        />
+                    </div>
                 </div>
                 <div class="account-balance">
                     <Balance

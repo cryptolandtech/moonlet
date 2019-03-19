@@ -23,6 +23,17 @@
         text-align: center;
         color: $mdc-theme-gray-text;
     }
+    .account-type {
+        height: 30px;
+        width: 30px;
+        text-align: center;
+
+        img {
+            height: 20px;
+            margin-top: 2px;
+        }
+    }
+
     .account-balance {
         font-size: 22px;
         text-align: center;
