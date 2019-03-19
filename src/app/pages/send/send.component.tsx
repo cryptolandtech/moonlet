@@ -78,7 +78,8 @@ export class SendPage extends Component<IProps, IState> {
         ) {
             if (this.props.transferInfo.success) {
                 route(
-                    `/acccount/${this.props.account.node.blockchain}/${this.props.account.address}`
+                    `/account/${this.props.account.node.blockchain}/${this.props.account.address}`,
+                    true
                 );
             } else {
                 this.showErrorDialog(this.props.transferInfo.error);
