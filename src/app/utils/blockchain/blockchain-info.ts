@@ -49,17 +49,17 @@ export const BLOCKCHAIN_INFO: {
         fee: {
             type: BlockchainFeeType.GAS,
             config: {
-                gasPriceUnit: 'GWEI',
+                gasPriceUnit: 'WEI',
                 gasPriceInputUnit: 'GWEI',
                 ui: 'simple',
                 default: {
-                    gasPrice: 20,
+                    gasPrice: 20000000000,
                     gasLimit: 21000,
                     gasPricePresets: {
-                        safeLow: 2,
-                        standard: 20,
-                        fast: 40,
-                        fastest: 120
+                        safeLow: 2000000000,
+                        standard: 20000000000,
+                        fast: 40000000000,
+                        fastest: 120000000000
                     }
                 }
             }
