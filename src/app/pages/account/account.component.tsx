@@ -108,7 +108,9 @@ export class AccountPage extends Component<IProps> {
                                         }
                                         secondaryText={
                                             tx.times[0]
-                                                ? new Date(tx.times[0].unixtime).toLocaleString()
+                                                ? new Date(
+                                                      tx.times[0].unixtime * 1000
+                                                  ).toLocaleString()
                                                 : ''
                                         }
                                         href={`/transaction/${this.props.account.node.blockchain}/${

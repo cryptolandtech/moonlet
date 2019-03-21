@@ -160,7 +160,7 @@ export default class App extends Component<IProps, IState> {
             this.route = e;
 
             // console.log('new route', this.route);
-            // this.doRedirects();
+            this.doRedirects();
             this.props.onRouteChange(e.current.attributes.config);
         }
     }
