@@ -73,7 +73,10 @@ export default class App extends Component<IProps, IState> {
 
             if (this.props.accounts.length > 0) {
                 const account = this.props.accounts.filter(
-                    acc => acc.node.blockchain === blockchain && acc.address === address
+                    acc =>
+                        !acc.disabled &&
+                        acc.node.blockchain === blockchain &&
+                        acc.address === address
                 )[0];
 
                 if (!account) {
@@ -152,11 +155,12 @@ export default class App extends Component<IProps, IState> {
     }
 
     public handleRouteChange(e: RouterOnChangeArgs) {
+        // console.log(e.url);
         if (e.current) {
             this.route = e;
 
             // console.log('new route', this.route);
-            this.doRedirects();
+            // this.doRedirects();
             this.props.onRouteChange(e.current.attributes.config);
         }
     }

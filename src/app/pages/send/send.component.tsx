@@ -18,7 +18,7 @@ import { IWalletTransfer } from '../../data/wallet/state';
 import { route } from 'preact-router';
 import { getWalletProvider } from '../../app-context';
 import Card from 'preact-material-components/Card';
-import { AddressCard } from '../account/components/address-card/address-card.component';
+import AddressCard from '../account/components/address-card/address-card.container';
 import { AccountCard } from '../account/components/account-card/account-card.component';
 import Currency from '../../components/currency/currency.container';
 

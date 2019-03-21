@@ -18,6 +18,7 @@ export interface IWalletProvider {
 
     createAccount(blockchain, accountName?);
     importAccount(blockchain, privateKey, accountName?);
+    removeAccount(blockchain, address);
     isValidAddress(blockchain, address);
     getBalance(blockchain, address);
     getNonce(blockchain, address);

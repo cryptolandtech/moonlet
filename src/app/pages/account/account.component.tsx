@@ -13,7 +13,7 @@ import DashboardPage from '../dashboard/dashboard.container';
 import { Link, route } from 'preact-router';
 
 import { AccountCard } from './components/account-card/account-card.component';
-import { AddressCard } from './components/address-card/address-card.component';
+import AddressCard from './components/address-card/address-card.container';
 import TestnetWarning from '../../components/testnet-warning/testnet-warning.container';
 
 interface IProps {

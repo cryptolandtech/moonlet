@@ -108,7 +108,7 @@ export const filterAccounts = (wallet, mainnet: boolean, networkOptions: INetwor
                     ? networkOptions[blockchain].mainNet || 0
                     : networkOptions[blockchain].testNet || 1;
                 for (const acc of wallet.accounts[blockchain]) {
-                    if (acc.node.network.network_id === networkId) {
+                    if (!acc.disabled && acc.node.network.network_id === networkId) {
                         accounts.push(acc);
                     }
                 }
@@ -143,7 +143,11 @@ export const getAccountFromState = (state: IState, blockchain: Blockchain, addre
         state.wallet.data.accounts[blockchain]
     ) {
         account = state.wallet.data.accounts[blockchain].filter(acc => {
-            return acc.address === address && acc.node.network.network_id === networks[blockchain];
+            return (
+                !acc.disabled &&
+                acc.address === address &&
+                acc.node.network.network_id === networks[blockchain]
+            );
         })[0];
     }
 

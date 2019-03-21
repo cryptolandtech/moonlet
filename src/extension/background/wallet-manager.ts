@@ -9,6 +9,7 @@ import encUtf8 from 'crypto-js/enc-utf8';
 import { NonceManager } from '../../app/utils/nonce-manager';
 import { Response } from '../../app/utils/response';
 import { WalletErrorCodes } from '../../app/iwallet-provider';
+import { triggerAsyncId } from 'async_hooks';
 
 const WALLET_STORAGE_KEY = 'serializedWallet';
 
@@ -115,6 +116,15 @@ export class WalletManager {
             account.name = accountName;
         }
         return Response.resolve(account);
+    }
+
+    public async removeAccount(sender, blockchain: Blockchain, address: string) {
+        try {
+            this.wallet.getBlockchain(blockchain).removeAccount(address);
+            return Response.resolve();
+        } catch (e) {
+            return Response.reject(WalletErrorCodes.GENERIC_ERROR);
+        }
     }
 
     public async isValidAddress(sender, blockchain: Blockchain, address: string) {

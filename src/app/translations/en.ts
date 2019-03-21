@@ -8,6 +8,7 @@ export const translation: ITranslations = {
                 address: 'Address',
                 authorize: 'Authorize',
                 dashboard: 'Dashboard',
+                discard: 'Discard',
                 send: 'Send',
                 receive: 'Receive',
                 settings: 'Settings',
@@ -194,7 +195,13 @@ export const translation: ITranslations = {
             revealPrivateKey: 'Reveal Private Key',
             revealPublicKey: 'Reveal Public Key',
             discardAddress: 'Discard Address',
-            addressCopied: 'Address copied to clipboard'
+            addressCopied: 'Address copied to clipboard',
+
+            discardDialog: {
+                title: 'Discard Account',
+                text:
+                    'This account will be discarded from Moonlet Wallet. Please make sure you have the original seed phrase or private key for this account. You can still create, connect or import accounts again from topbar menu.'
+            }
         },
         DisclaimerPage: {
             title: 'Disclaimer'

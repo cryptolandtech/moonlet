@@ -35,6 +35,10 @@ export class ExtensionWalletProvider implements IWalletProvider {
         return this.callAction('importAccount', [blockchain, privateKey, accountName]);
     }
 
+    public async removeAccount(blockchain, address) {
+        return this.callAction('removeAccount', [blockchain, address]);
+    }
+
     public async isValidAddress(blockchain, address): Promise<BigNumber> {
         return this.callAction('isValidAddress', [blockchain, address]);
     }

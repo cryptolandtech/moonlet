@@ -137,11 +137,13 @@ export class TopBar extends Component<IProps> {
                                     right.items.map(item => (
                                         <Menu.Item
                                             onClick={() => {
-                                                if (item.href) {
-                                                    route(item.href);
-                                                } else if (item.action) {
-                                                    this.props.dispatch(item.action as any);
-                                                }
+                                                setTimeout(() => {
+                                                    if (item.href) {
+                                                        route(item.href);
+                                                    } else if (item.action) {
+                                                        this.props.dispatch(item.action as any);
+                                                    }
+                                                }, 50);
                                             }}
                                         >
                                             {item.text}

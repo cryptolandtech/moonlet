@@ -1,14 +1,10 @@
 import { h, Component } from 'preact';
 import QRCode from 'qrcode.react';
-import Card from 'preact-material-components/Card';
-import LayoutGrid from 'preact-material-components/LayoutGrid';
-import Button from 'preact-material-components/Button';
+
+import { AccountCard } from '../account/components/account-card/account-card.component';
+import AddressCard from '../account/components/address-card/address-card.container';
 
 import './receive.scss';
-import { Translate } from '../../components/translate/translate.component';
-import { TextareaAutoSize } from '../../components/textarea-auto-size/textarea-auto-size.components';
-import { AccountCard } from '../account/components/account-card/account-card.component';
-import { AddressCard } from '../account/components/address-card/address-card.component';
 
 interface IProps {
     account: any;

@@ -18,6 +18,7 @@ export const WALLET_SIGN_OUT = 'WALLET_SIGN_OUT';
 export const WALLET_UPDATE_BALANCE = 'WALLET_UPDATE_BALANCE';
 export const WALLET_TRANSFER = 'WALLET_TRANSFER';
 export const WALLET_CLEAR_BALANCES = 'WALLET_CLEAR_BALANCES';
+export const WALLET_REMOVE_ACCOUNT = 'WALLET_REMOVE_ACCOUNT';
 
 // Action creators
 export const createWalletLoaded = (status: WalletStatus, wallet?: IWalletData) => {
@@ -214,5 +215,17 @@ export const createTransfer = (
                 }
             });
         }
+    };
+};
+
+export const createRemoveAccount = (
+    walletProvider: IWalletProvider,
+    blockchain: Blockchain,
+    address: string
+) => {
+    return async dispatch => {
+        await walletProvider.removeAccount(blockchain, address);
+
+        await createWalletSync(walletProvider)(dispatch);
     };
 };
