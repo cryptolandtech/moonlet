@@ -10,8 +10,6 @@ import { IAccountsBalances, IAccountBalance } from '../../data/wallet/state';
 import { route, Link } from 'preact-router';
 import { IDevice } from '../../data/page-config/state';
 import Balance from '../../components/balance/balance.container';
-import CurrencyTotal from '../../components/currency-total/currency-total.container';
-import { DeviceScreenSize } from '../../types';
 import TestnetWarning from '../../components/testnet-warning/testnet-warning.container';
 import { GenericAccount } from 'moonlet-core/src/core/account';
 import Icon from 'preact-material-components/Icon';

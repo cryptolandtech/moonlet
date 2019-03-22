@@ -81,17 +81,19 @@ export default class App extends Component<IProps, IState> {
 
                 if (!account) {
                     if (this.state.screenSize === DeviceScreenSize.BIG) {
-                        route(
-                            `/account/${this.props.accounts[0].node.blockchain}/${
-                                this.props.accounts[0].address
-                            }`
+                        setTimeout(() =>
+                            route(
+                                `/account/${this.props.accounts[0].node.blockchain}/${
+                                    this.props.accounts[0].address
+                                }`
+                            )
                         );
                     } else {
-                        route('/dashboard');
+                        setTimeout(() => route('/dashboard'));
                     }
                 }
             } else {
-                route('/dashboard');
+                setTimeout(() => route('/dashboard'));
             }
         } else if (
             this.state.screenSize === DeviceScreenSize.BIG &&
@@ -100,10 +102,12 @@ export default class App extends Component<IProps, IState> {
             currentRoute.attributes.name === 'dashboard' &&
             this.props.accounts.length > 0
         ) {
-            route(
-                `/account/${this.props.accounts[0].node.blockchain}/${
-                    this.props.accounts[0].address
-                }`
+            setTimeout(() =>
+                route(
+                    `/account/${this.props.accounts[0].node.blockchain}/${
+                        this.props.accounts[0].address
+                    }`
+                )
             );
         }
     }
@@ -118,12 +122,12 @@ export default class App extends Component<IProps, IState> {
                 if (this.redirectAfterWalletLoaded) {
                     // wallet loaded but -> user will be redirected to desired page
                     // console.log('redirect', 1);
-                    route(this.redirectAfterWalletLoaded);
+                    setTimeout(() => route(this.redirectAfterWalletLoaded));
                     this.redirectAfterWalletLoaded = undefined;
                 } else if (['/', '/import-wallet', '/create-wallet'].indexOf(this.route.url) >= 0) {
                     // go to dashboard as user already has a wallet
                     // console.log('redirect', 2);
-                    route('/dashboard');
+                    setTimeout(() => route('/dashboard'));
                 } else {
                     this.checkAccountAndRedirect();
                 }
@@ -138,7 +142,7 @@ export default class App extends Component<IProps, IState> {
                         this.redirectAfterWalletLoaded = '/dashboard';
                     }
                     // console.log('redirect', 3);
-                    route('/');
+                    setTimeout(() => route('/'));
                 }
             }
         }
