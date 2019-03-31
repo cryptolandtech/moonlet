@@ -58,6 +58,7 @@
         "crypto-js": "3.1.9-1",
         "history": "4.7.2",
         "moonlet-core": "git+https://github.com/cryptolandtech/moonlet-core.git",
+        "namicorn": "0.0.13",
         "preact": "8.4.2",
         "preact-async-route": "2.2.1",
         "preact-compat": "3.18.4",

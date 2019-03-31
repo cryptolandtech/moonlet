@@ -12,7 +12,8 @@ import {
     convertUnit,
     getDefaultFeeOptions,
     formatCurrency,
-    calculateFee
+    calculateFee,
+    getAddressFromName
 } from '../../utils/blockchain/utils';
 import { FeeOptions } from '../../utils/blockchain/types';
 import { translate } from '../../utils/translate';
@@ -108,7 +109,7 @@ export class SendPage extends Component<IProps, IState> {
                                 outlined
                                 label={translate('App.labels.recipient')}
                                 onChange={e =>
-                                    this.setState({ recipient: e.target.value, address: undefined })
+                                    this.setState({ recipient: this.getName(e.target.value), address: undefined })
                                 }
                                 onBlur={() => {
                                     // todo enforce this check
@@ -307,6 +308,10 @@ export class SendPage extends Component<IProps, IState> {
             return <span>{this.state.address}</span>;
         }
         return '';
+    }
+
+    public getName(name) {
+        return getAddressFromName(name);
     }
 
     public onFeeOptionsChange(feeOptions) {

@@ -4,6 +4,7 @@ import { BLOCKCHAIN_INFO, BlockchainFeeType } from './blockchain-info';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import BigNumber from 'bignumber.js';
 import { IState } from '../../data';
+import Namicorn from 'namicorn';
 
 export const convertUnit = (
     blockchain: Blockchain,
@@ -158,4 +159,31 @@ export const getAccountFromState = (state: IState, blockchain: Blockchain, addre
     }
 
     return account;
+};
+
+export const getAddressFromName = (
+    name: string,
+    namicorn: Namicorn = new Namicorn({ debug: false, disableMatcher: true })
+) => {
+    let address: string = name;
+    const middlewares = {
+        eth: namicorn.middleware.ens(),
+        zil: namicorn.middleware.zns(),
+        rsk: namicorn.middleware.rns()
+    };
+    const nameService = name.split('.', 3)[2];
+    namicorn.use(middlewares[nameService]);
+
+    address = namicorn
+        .resolve(name)
+        .then(data => {
+            if (data) {
+                return data;
+            } else {
+                return address;
+            }
+        })
+        .catch(error => error);
+
+    return address;
 };
