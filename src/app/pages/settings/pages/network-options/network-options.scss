@@ -4,13 +4,11 @@
     .switcher {
         display: flex;
 
-        .mdc-icon-button {
+        .mdc-icon {
             padding: 0 7px;
-        }
-
-        .mdc-icon-button__icon {
             font-size: 36px;
             line-height: 48px;
+            cursor: pointer;
         }
     }
 

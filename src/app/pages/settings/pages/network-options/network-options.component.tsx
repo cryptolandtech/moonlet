@@ -1,17 +1,14 @@
 import { h, Component } from 'preact';
 import { Translate } from '../../../../components/translate/translate.component';
-import IconButton from 'preact-material-components/IconButton';
 import './network-options.scss';
 import { IUserPreferences } from '../../../../data/user-preferences/state';
-import { Button } from 'preact-material-components/Button';
-import { timingSafeEqual } from 'crypto';
-import { bind } from 'bind-decorator';
 import Dialog from 'preact-material-components/Dialog';
 import List from 'preact-material-components/List';
 import { ListItem } from '../../../../components/list-item/list-item.component';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { translate } from '../../../../utils/translate';
 import { BLOCKCHAIN_INFO } from '../../../../utils/blockchain/blockchain-info';
+import Icon from 'preact-material-components/Icon';
 
 interface IProps {
     userPreferences: IUserPreferences;
@@ -26,17 +23,7 @@ const NETWORKS = {
 };
 
 export class NetworkOptionsPage extends Component<IProps> {
-    private switchRef;
     private switchDialogRef;
-
-    public componentDidMount() {
-        this.switchRef.MDComponent.listen('MDCIconButtonToggle:change', this.onSwitchChange);
-        this.switchRef.MDComponent.on = this.props.userPreferences.testNet;
-    }
-
-    public componentWillUnmount() {
-        this.switchRef.MDComponent.unlisten('MDCIconButtonToggle:change', this.onSwitchChange);
-    }
 
     public getSelectedNetworkId(blockchain, testNet?: boolean) {
         testNet = typeof testNet === 'boolean' ? testNet : this.props.userPreferences.testNet;
@@ -60,19 +47,15 @@ export class NetworkOptionsPage extends Component<IProps> {
         return NETWORKS[blockchain].filter(n => n.mainNet === !testNet)[0].network_id;
     }
 
-    @bind
-    public onSwitchChange(e) {
-        this.props.toggleTestNet(e.detail.isOn);
+    public toggleTestNet(testNet) {
+        this.props.toggleTestNet(testNet);
         Object.keys(BLOCKCHAIN_INFO).map(blockchain => {
             this.props.switchNetwork(
                 blockchain as Blockchain,
-                this.getSelectedNetworkId(blockchain, e.detail.isOn),
-                !e.detail.isOn
+                this.getSelectedNetworkId(blockchain, testNet),
+                !testNet
             );
         });
-        if (e.detail.isOn) {
-            this.switchDialogRef.MDComponent.show();
-        }
     }
 
     public render() {
@@ -83,10 +66,18 @@ export class NetworkOptionsPage extends Component<IProps> {
                         className={`mainnet ${this.props.userPreferences.testNet ? '' : 'active'}`}
                         text="NetworkOptionsPage.mainnet"
                     />
-                    <IconButton ref={r => (this.switchRef = r)}>
-                        <IconButton.Icon>toggle_off</IconButton.Icon>
-                        <IconButton.Icon on>toggle_on</IconButton.Icon>
-                    </IconButton>
+                    <Icon
+                        onClick={() => {
+                            if (!this.props.userPreferences.testNet) {
+                                this.switchDialogRef.MDComponent.show();
+                            } else {
+                                this.toggleTestNet(!this.props.userPreferences.testNet);
+                            }
+                        }}
+                    >
+                        {this.props.userPreferences.testNet ? 'toggle_on' : 'toggle_off'}
+                    </Icon>
+
                     <Translate
                         className={`testnet ${this.props.userPreferences.testNet ? 'active' : ''}`}
                         text="NetworkOptionsPage.testnet"
@@ -132,10 +123,7 @@ export class NetworkOptionsPage extends Component<IProps> {
 
                 <Dialog
                     ref={ref => (this.switchDialogRef = ref)}
-                    onCancel={() => {
-                        this.switchRef.MDComponent.on = false;
-                        this.props.toggleTestNet(false);
-                    }}
+                    onAccept={() => this.toggleTestNet(true)}
                 >
                     <Dialog.Header>
                         <Translate text="NetworkOptionsPage.switchDialog.title" />
