@@ -9,7 +9,7 @@
 
     .page-container {
         // overflow-y: auto;
-        max-width: 900px;
+        max-width: $app-desktop-max-width;
         margin: 0 auto;
     }
 }

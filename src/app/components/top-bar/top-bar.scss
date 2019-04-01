@@ -3,6 +3,11 @@
 .top-bar {
     z-index: 5;
 
+    .mdc-top-app-bar__row {
+        max-width: $app-desktop-max-width;
+        margin: 0 auto;
+    }
+
     .top-appbar-icon {
         height: 21px;
         margin-left: 16px;
