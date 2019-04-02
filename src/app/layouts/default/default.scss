@@ -2,6 +2,7 @@
 
 .default-layout {
     height: 100vh;
+    overflow-y: auto;
 
     &.bg-primary {
         background-color: $mdc-theme-primary;
