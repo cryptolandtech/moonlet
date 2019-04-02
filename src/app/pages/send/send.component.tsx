@@ -46,7 +46,6 @@ interface IState {
         recipient: string;
     };
     errorDialogExtraMessage?: string;
-    disabled: boolean;
 }
 
 export class SendPage extends Component<IProps, IState> {
@@ -63,11 +62,7 @@ export class SendPage extends Component<IProps, IState> {
             fieldErrors: {
                 amount: '',
                 recipient: ''
-            },
-            disabled:
-                props.account &&
-                props.account.node.blockchain === Blockchain.ZILLIQA &&
-                props.account.node.network.network_id === 0
+            }
         };
     }
 
@@ -98,20 +93,6 @@ export class SendPage extends Component<IProps, IState> {
                         <LayoutGridCell cols={12}>
                             <AddressCard account={this.props.account} />
                         </LayoutGridCell>
-                        {this.state.disabled && (
-                            <LayoutGridCell cols={12}>
-                                <Card className="card">
-                                    <p
-                                        style="padding: 16px; font-weight:bold"
-                                        className="mdc-typography--body2"
-                                    >
-                                        WARNING!!!
-                                        <br />
-                                        Transactions are not processed during the bootstrap phase.
-                                    </p>
-                                </Card>
-                            </LayoutGridCell>
-                        )}
                         <LayoutGridCell cols={12}>
                             <TextareaAutoSize
                                 outlined
@@ -161,7 +142,6 @@ export class SendPage extends Component<IProps, IState> {
                         <LayoutGrid.Cell cols={2} phoneCols={4}>
                             <Button
                                 className="cta"
-                                disabled={this.state.disabled}
                                 ripple
                                 raised
                                 secondary
