@@ -17,4 +17,13 @@
     .cta {
         width: 100%;
     }
+
+    .amount-helper-text {
+        display: flex;
+        margin-top: -14px;
+
+        & > span {
+            flex: 1;
+        }
+    }
 }

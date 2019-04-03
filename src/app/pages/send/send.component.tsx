@@ -8,7 +8,12 @@ import { GenericAccount } from 'moonlet-core/src/core/account';
 import TransactionFee from './components/transaction-fee/transaction-fee.container';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { IBlockchainInfo } from '../../utils/blockchain/blockchain-info';
-import { convertUnit, getDefaultFeeOptions, formatCurrency } from '../../utils/blockchain/utils';
+import {
+    convertUnit,
+    getDefaultFeeOptions,
+    formatCurrency,
+    calculateFee
+} from '../../utils/blockchain/utils';
 import { FeeOptions } from '../../utils/blockchain/types';
 import { translate } from '../../utils/translate';
 import { Translate } from '../../components/translate/translate.component';
@@ -26,6 +31,7 @@ interface IProps {
     blockchain: Blockchain;
     blockchainInfo: IBlockchainInfo;
     account: GenericAccount;
+    balance: number;
     transferInfo: IWalletTransfer;
 
     transfer: (
@@ -106,23 +112,53 @@ export class SendPage extends Component<IProps, IState> {
                             <TextareaAutoSize
                                 outlined
                                 label={translate('App.labels.amount')}
-                                onChange={e => this.setState({ amount: e.target.value })}
+                                onChange={e => {
+                                    this.setState({ amount: e.target.value });
+                                    this.validate();
+                                }}
                                 value={this.state.amount ? String(this.state.amount) : ''}
                                 helperText={
-                                    this.state.amount ? (
-                                        <span>
-                                            ~{' '}
-                                            <Currency
-                                                amount={parseFloat(this.state.amount)}
-                                                currency={this.props.blockchainInfo.coin}
-                                                convert
-                                            />
-                                        </span>
-                                    ) : (
-                                        ''
-                                    )
+                                    <span class="amount-helper-text">
+                                        {this.state.fieldErrors.amount ? (
+                                            <span class="error-text">
+                                                {this.state.fieldErrors.amount}
+                                            </span>
+                                        ) : (
+                                            <span>
+                                                {this.state.amount
+                                                    ? [
+                                                          '~ ',
+                                                          <Currency
+                                                              amount={parseFloat(this.state.amount)}
+                                                              currency={
+                                                                  this.props.blockchainInfo.coin
+                                                              }
+                                                              convert
+                                                          />
+                                                      ]
+                                                    : ''}
+                                            </span>
+                                        )}
+                                        {this.getMaxAmount() &&
+                                            this.getMaxAmount().toString() !==
+                                                this.state.amount && (
+                                                <span class="right-text">
+                                                    <a
+                                                        href="#"
+                                                        onClick={e => {
+                                                            e.preventDefault();
+                                                            this.setState({
+                                                                amount: this.getMaxAmount().toString()
+                                                            });
+                                                            this.validate();
+                                                        }}
+                                                    >
+                                                        {translate('SendPage.addAllBalance')}
+                                                    </a>
+                                                </span>
+                                            )}
+                                    </span>
                                 }
-                                {...this.getValidationProps('amount')}
                             />
                         </LayoutGridCell>
                     </LayoutGrid.Inner>
@@ -221,6 +257,14 @@ export class SendPage extends Component<IProps, IState> {
         return {};
     }
 
+    public getMaxAmount(): number {
+        const fee = calculateFee(this.props.blockchain, this.state.feeOptions).toNumber();
+        if (this.props.balance && this.props.balance > fee) {
+            return this.props.balance - fee;
+        }
+        return undefined;
+    }
+
     public async validate() {
         const walletProvider = getWalletProvider();
         let valid = true;
@@ -234,8 +278,12 @@ export class SendPage extends Component<IProps, IState> {
             valid = false;
         }
 
+        const fee = calculateFee(this.props.blockchain, this.state.feeOptions).toNumber();
         if (!this.state.amount || !(parseFloat(this.state.amount) > 0)) {
             fieldErrors.amount = translate('SendPage.errors.amount');
+            valid = false;
+        } else if (this.props.balance && parseFloat(this.state.amount) + fee > this.props.balance) {
+            fieldErrors.amount = translate('SendPage.errors.insufficientFounds');
             valid = false;
         }
 

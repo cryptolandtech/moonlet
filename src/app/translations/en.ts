@@ -63,10 +63,13 @@ export const translation: ITranslations = {
             }
         },
         SendPage: {
+            addAllBalance: 'Add all balance',
+            added: 'Added',
             errors: {
                 recipient: 'Recipient should be a valid address.',
                 amount: 'Amount should be a positive number.',
-                invalidValue: 'Invalid value.'
+                invalidValue: 'Invalid value.',
+                insufficientFounds: 'Insufficient founds.'
             },
             confirmationDialog: {
                 title: 'Re-Confirm & Send',
