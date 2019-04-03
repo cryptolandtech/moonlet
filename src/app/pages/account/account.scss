@@ -16,13 +16,13 @@
     .dashboard-page {
         flex: 4;
         height: 100%;
-        overflow-x: scroll;
+        overflow: auto;
     }
 
     .account-page {
         flex: 6;
         height: 100%;
-        overflow-x: scroll;
+        overflow: auto;
         padding-bottom: 20px;
         box-sizing: border-box;
     }
