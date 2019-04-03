@@ -14,12 +14,16 @@ import Card from 'preact-material-components/Card';
 import { IWalletState, WalletStatus } from '../../data/wallet/state';
 import { IWalletProvider } from '../../iwallet-provider';
 import { appContext } from '../../app-context';
+import { DisclaimerPage } from '../settings/pages/disclaimer/disclaimer.component';
+import Dialog from 'preact-material-components/Dialog';
 
 interface IProps {
     wallet: IWalletState;
     networkConfig: any;
+    disclaimerVersionAccepted: number;
 
     loadWallet: (walletProvider: IWalletProvider, netWorksConfig, password?: string) => any;
+    acceptDisclaimer: () => any;
 }
 
 interface IState {
@@ -27,12 +31,24 @@ interface IState {
 }
 
 export class LandingPage extends Component<IProps, IState> {
+    public disclaimerAcceptAction;
+    public disclaimerDialogRef;
+
     constructor(props) {
         super(props);
 
         this.state = {
             password: ''
         };
+    }
+
+    public checkDisclaimerAndExecute(fn: () => any) {
+        if (DisclaimerPage.version !== this.props.disclaimerVersionAccepted) {
+            this.disclaimerAcceptAction = fn;
+            this.disclaimerDialogRef.MDComponent.show();
+        } else if (typeof fn === 'function') {
+            fn();
+        }
     }
 
     public render() {
@@ -89,10 +105,12 @@ export class LandingPage extends Component<IProps, IState> {
                                         raised
                                         className="sign-in"
                                         onClick={() =>
-                                            this.props.loadWallet(
-                                                appContext('walletProvider'),
-                                                this.props.networkConfig,
-                                                this.state.password
+                                            this.checkDisclaimerAndExecute(() =>
+                                                this.props.loadWallet(
+                                                    appContext('walletProvider'),
+                                                    this.props.networkConfig,
+                                                    this.state.password
+                                                )
                                             )
                                         }
                                     >
@@ -108,7 +126,11 @@ export class LandingPage extends Component<IProps, IState> {
                                     secondary
                                     raised
                                     className="create-wallet"
-                                    onClick={() => route('/create-wallet')}
+                                    onClick={() =>
+                                        this.checkDisclaimerAndExecute(() =>
+                                            route('/create-wallet')
+                                        )
+                                    }
                                 >
                                     <Translate text="LandingPage.createNewWallet" />
                                 </Button>
@@ -120,7 +142,11 @@ export class LandingPage extends Component<IProps, IState> {
                                     ripple
                                     raised
                                     className="restore-wallet"
-                                    onClick={() => route('/import-wallet')}
+                                    onClick={() =>
+                                        this.checkDisclaimerAndExecute(() =>
+                                            route('/import-wallet')
+                                        )
+                                    }
                                 >
                                     <Translate text="LandingPage.restoreExistingWallet" />
                                 </Button>
@@ -128,6 +154,36 @@ export class LandingPage extends Component<IProps, IState> {
                         )}
                     </LayoutGrid.Inner>
                 </LayoutGrid>
+
+                <Dialog
+                    className="disclaimer-dialog"
+                    ref={ref => (this.disclaimerDialogRef = ref)}
+                    onAccept={() => {
+                        if (typeof this.disclaimerAcceptAction === 'function') {
+                            this.props.acceptDisclaimer();
+                            this.disclaimerAcceptAction();
+                        }
+                    }}
+                >
+                    <Dialog.Header>
+                        <Translate text="DisclaimerPage.title" />
+                    </Dialog.Header>
+                    <Dialog.Body scrollable={true}>
+                        <DisclaimerPage />
+                    </Dialog.Body>
+                    <Dialog.Footer>
+                        <Dialog.FooterButton cancel={true}>
+                            {translate('App.labels.decline')}
+                        </Dialog.FooterButton>
+                        <Button
+                            raised
+                            secondary
+                            className="mdc-dialog__footer__button mdc-dialog__footer__button--accept"
+                        >
+                            {translate('App.labels.accept')}
+                        </Button>
+                    </Dialog.Footer>
+                </Dialog>
             </div>
         );
     }

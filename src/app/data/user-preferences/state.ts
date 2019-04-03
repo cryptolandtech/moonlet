@@ -12,4 +12,5 @@ export interface IUserPreferences {
     testNet: boolean;
     networks: INetworksOptions;
     preferredCurrency: string;
+    disclaimerVersionAccepted?: number;
 }

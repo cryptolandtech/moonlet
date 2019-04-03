@@ -9,6 +9,7 @@ import { IWalletData, WalletStatus } from './state';
 import { IWalletProvider, WalletErrorCodes } from '../../iwallet-provider';
 import { IAction } from '../action';
 import { translate } from '../../utils/translate';
+import { INetworksOptions } from '../user-preferences/state';
 
 // Action constants
 export const WALLET_LOADED = 'WALLET_LOADED';
@@ -66,9 +67,7 @@ export const createWallet = (
 
 interface INetworksConfigParam {
     testNet: boolean;
-    networks: {
-        [blockchain: string]: number;
-    };
+    networks: INetworksOptions;
 }
 export const createLoadWallet = (
     walletProvider: IWalletProvider,

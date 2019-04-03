@@ -5,9 +5,11 @@ export const translation: ITranslations = {
         App: {
             labels: {
                 account: 'Account',
+                accept: 'Accept',
                 address: 'Address',
                 authorize: 'Authorize',
                 dashboard: 'Dashboard',
+                decline: 'Decline',
                 discard: 'Discard',
                 send: 'Send',
                 receive: 'Receive',

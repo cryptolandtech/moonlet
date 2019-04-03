@@ -122,8 +122,10 @@ export default class App extends Component<IProps, IState> {
                 if (this.redirectAfterWalletLoaded) {
                     // wallet loaded but -> user will be redirected to desired page
                     // console.log('redirect', 1);
-                    setTimeout(() => route(this.redirectAfterWalletLoaded));
-                    this.redirectAfterWalletLoaded = undefined;
+                    setTimeout(() => {
+                        route(this.redirectAfterWalletLoaded);
+                        this.redirectAfterWalletLoaded = undefined;
+                    });
                 } else if (['/', '/import-wallet', '/create-wallet'].indexOf(this.route.url) >= 0) {
                     // go to dashboard as user already has a wallet
                     // console.log('redirect', 2);

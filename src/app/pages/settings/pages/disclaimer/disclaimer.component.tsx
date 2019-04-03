@@ -4,6 +4,8 @@ import { Translate } from '../../../../components/translate/translate.component'
 import './disclaimer.scss';
 
 export class DisclaimerPage extends Component {
+    public static readonly version: number = 1;
+
     public render() {
         return (
             <div class="disclaimer-page">

@@ -4,7 +4,8 @@ import {
     TESTNET_TOGGLE,
     NETWORK_SWITCH,
     SET_PREFERENCES,
-    CHANGE_PREFERRED_CURRENCY
+    CHANGE_PREFERRED_CURRENCY,
+    ACCEPT_DISCLAIMER
 } from './actions';
 import { IUserPreferences } from './state';
 
@@ -77,6 +78,12 @@ export default (state: IUserPreferences, action: IAction): IUserPreferences => {
             state = {
                 ...state,
                 preferredCurrency: action.data.currency
+            };
+            break;
+        case ACCEPT_DISCLAIMER:
+            state = {
+                ...state,
+                disclaimerVersionAccepted: action.data.version
             };
             break;
     }

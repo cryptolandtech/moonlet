@@ -15,6 +15,8 @@ import { createUpdateConversionRates } from '../app/data/currency/actions';
 
 import manifest from './manifest.json';
 import { WalletStatus } from '../app/data/wallet/state';
+import { IUserPreferences } from '../app/data/user-preferences/state';
+import { DisclaimerPage } from '../app/pages/settings/pages/disclaimer/disclaimer.component';
 
 const USER_PREFERENCES_STORAGE_KEY = 'userPref';
 
@@ -41,7 +43,7 @@ const walletProvider = new ExtensionWalletProvider();
 
 (async () => {
     const storage = await browser.storage.local.get();
-    let userPreferences = {
+    let userPreferences: IUserPreferences = {
         preferredCurrency: 'USD',
         devMode: false,
         testNet: false,
@@ -52,6 +54,15 @@ const walletProvider = new ExtensionWalletProvider();
         userPreferences = { ...userPreferences, ...storage[USER_PREFERENCES_STORAGE_KEY] };
     }
     store.dispatch(createSetPreferences(userPreferences));
+
+    if (userPreferences.disclaimerVersionAccepted !== DisclaimerPage.version) {
+        // lock wallet if disclaimer changed or not accepted
+        try {
+            await walletProvider.lockWallet();
+        } catch {
+            /* */
+        }
+    }
     store.dispatch(createLoadWallet(walletProvider, {
         testNet: userPreferences.testNet,
         networks: userPreferences.networks

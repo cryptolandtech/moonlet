@@ -13,6 +13,7 @@ export const DEV_MODE_TOGGLE = 'DEV_MODE_TOGGLE';
 export const TESTNET_TOGGLE = 'TESTNET_TOGGLE';
 export const NETWORK_SWITCH = 'NETWORK_SWITCH';
 export const CHANGE_PREFERRED_CURRENCY = 'CHANGE_PREFERRED_CURRENCY';
+export const ACCEPT_DISCLAIMER = 'ACCEPT_DISCLAIMER';
 
 // Action creators
 
@@ -95,6 +96,15 @@ export const createChangePreferredCurrency = (currency: string): IAction => {
         type: CHANGE_PREFERRED_CURRENCY,
         data: {
             currency
+        }
+    };
+};
+
+export const createAcceptDisclaimer = (version: number): IAction => {
+    return {
+        type: ACCEPT_DISCLAIMER,
+        data: {
+            version
         }
     };
 };
