@@ -245,6 +245,7 @@ export class SendPage extends Component<IProps, IState> {
 
     public onFeeOptionsChange(feeOptions) {
         this.setState({ feeOptions });
+        this.validate();
     }
 
     public getValidationProps(field: string) {
