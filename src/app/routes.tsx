@@ -20,7 +20,8 @@ interface IConfig {
 export interface IRoute {
     name: string;
     path: string;
-    getComponent: () => Promise<Component>;
+    component?: Component;
+    getComponent?: () => Promise<Component>;
     withoutWalletInstance?: boolean;
     config: IConfig;
 }
@@ -93,8 +94,8 @@ export const ROUTES: IRoute[] = [
     {
         name: 'landingPage',
         path: '/',
-        getComponent: () =>
-            import('./pages/landing/landing.container').then(module => module.default),
+        // getComponent: () => import('./pages/landing/landing.container').then(module => module.default),
+        component: require('./pages/landing/landing.container').default,
         withoutWalletInstance: true,
         config: {
             [Platform.ALL]: {
@@ -110,8 +111,9 @@ export const ROUTES: IRoute[] = [
     {
         name: 'dashboard',
         path: '/dashboard',
-        getComponent: () =>
-            import('./pages/dashboard/dashboard.container').then(module => module.default),
+        // getComponent: () =>
+        //     import('./pages/dashboard/dashboard.container').then(module => module.default),
+        component: require('./pages/dashboard/dashboard.container').default,
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.ALL]: dashboardConfig
@@ -121,8 +123,9 @@ export const ROUTES: IRoute[] = [
     {
         name: 'createWallet',
         path: '/create-wallet',
-        getComponent: () =>
-            import('./pages/create-wallet/create-wallet.container').then(module => module.default),
+        // getComponent: () =>
+        //     import('./pages/create-wallet/create-wallet.container').then(module => module.default),
+        component: require('./pages/create-wallet/create-wallet.container').default,
         withoutWalletInstance: true,
         config: {
             [Platform.ALL]: {
@@ -144,8 +147,9 @@ export const ROUTES: IRoute[] = [
     {
         name: 'importWallet',
         path: '/import-wallet',
-        getComponent: () =>
-            import('./pages/import-wallet/import-wallet.container').then(module => module.default),
+        // getComponent: () =>
+        //     import('./pages/import-wallet/import-wallet.container').then(module => module.default),
+        component: require('./pages/import-wallet/import-wallet.container').default,
         withoutWalletInstance: true,
         config: {
             [Platform.ALL]: {
@@ -167,48 +171,55 @@ export const ROUTES: IRoute[] = [
     {
         name: 'send',
         path: '/send/:blockchain/:address',
-        getComponent: () => import('./pages/send/send.container').then(module => module.default),
+        // getComponent: () => import('./pages/send/send.container').then(module => module.default),
+        component: require('./pages/send/send.container').default,
         config: popupPageConfig('App.labels.send')
     },
     {
         name: 'receive',
         path: '/receive/:blockchain/:address',
-        getComponent: () =>
-            import('./pages/receive/recieve.container').then(module => module.default),
+        // getComponent: () =>
+        //     import('./pages/receive/receive.container').then(module => module.default),
+        component: require('./pages/receive/receive.container').default,
         config: popupPageConfig('App.labels.receive')
     },
     {
         name: 'settingsDisclaimer',
         path: '/settings/disclaimer',
-        getComponent: () =>
-            import('./pages/settings/pages/disclaimer/disclaimer.component').then(
-                module => module.DisclaimerPage as any
-            ),
+        // getComponent: () =>
+        //     import('./pages/settings/pages/disclaimer/disclaimer.component').then(
+        //         module => module.DisclaimerPage as any
+        //     ),
+        component: require('./pages/settings/pages/disclaimer/disclaimer.component').DisclaimerPage,
         config: popupPageConfig('DisclaimerPage.title')
     },
     {
         name: 'settingsCurrency',
         path: '/settings/currency',
-        getComponent: () =>
-            import('./pages/settings/pages/currency/currency.container').then(
-                module => module.default
-            ),
+        // getComponent: () =>
+        //     import('./pages/settings/pages/currency/currency.container').then(
+        //         module => module.default
+        //         ),
+        component: require('./pages/settings/pages/currency/currency.container').default,
         config: popupPageConfig('CurrencyPage.title')
     },
     {
         name: 'settingsNetworkOptions',
         path: '/settings/networkOptions/:blockchain?',
-        getComponent: () =>
-            import('./pages/settings/pages/network-options/network-options.container').then(
-                module => module.default
-            ),
+        // getComponent: () =>
+        //     import('./pages/settings/pages/network-options/network-options.container').then(
+        //         module => module.default
+        //     ),
+        component: require('./pages/settings/pages/network-options/network-options.container')
+            .default,
         config: popupPageConfig('NetworkOptionsPage.title')
     },
     {
         name: 'settings',
         path: '/settings/:level1?',
-        getComponent: () =>
-            import('./pages/settings/settings.container').then(module => module.default),
+        // getComponent: () =>
+        //     import('./pages/settings/settings.container').then(module => module.default),
+        component: require('./pages/settings/settings.container').default,
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.ALL]: {
@@ -243,17 +254,19 @@ export const ROUTES: IRoute[] = [
     {
         name: 'transactionDetails',
         path: '/transaction/:blockchain/:address/:transactionId',
-        getComponent: () =>
-            import('./pages/transaction-details/transaction-details.container').then(
-                module => module.default
-            ),
+        // getComponent: () =>
+        //     import('./pages/transaction-details/transaction-details.container').then(
+        //         module => module.default
+        //     ),
+        component: require('./pages/transaction-details/transaction-details.container').default,
         config: popupPageConfig('TransactionDetailsPage.title')
     },
     {
         name: 'reveal',
         path: '/reveal/:type/:blockchain?/:address?',
-        getComponent: () =>
-            import('./pages/reveal/reveal.container').then(module => module.default),
+        // getComponent: () =>
+        //     import('./pages/reveal/reveal.container').then(module => module.default),
+        component: require('./pages/reveal/reveal.container').default,
         config: popupPageConfig(() =>
             translate(
                 `RevealPage.${
@@ -265,35 +278,41 @@ export const ROUTES: IRoute[] = [
     {
         name: 'create-account',
         path: '/create-account',
-        getComponent: () =>
-            import('./pages/create-account/create-account.component').then(
-                module => module.CreateAccountPage
-            ),
+        // getComponent: () =>
+        //     import('./pages/create-account/create-account.component').then(
+        //         module => module.CreateAccountPage
+        //     ),
+        component: require('./pages/create-account/create-account.component').CreateAccountPage,
         config: popupPageConfig(() => translate(`CreateAccountPage.title`))
     },
     {
         name: 'transaction-confirmation',
         path: '/transaction-confirmation',
-        getComponent: () =>
-            import('./pages/transaction-confirmation/transaction-confirmation.container').then(
-                module => module.default
-            ),
+        // getComponent: () =>
+        //     import('./pages/transaction-confirmation/transaction-confirmation.container').then(
+        //         module => module.default
+        //     ),
+        component: require('./pages/transaction-confirmation/transaction-confirmation.container')
+            .default,
         config: {}
     },
     {
         name: 'request-account-access',
         path: '/request-account-access',
-        getComponent: () =>
-            import('./pages/request-account-access/request-account-access.container').then(
-                module => module.default
-            ),
+        // getComponent: () =>
+        //     import('./pages/request-account-access/request-account-access.container').then(
+        //         module => module.default
+        //     ),
+        component: require('./pages/request-account-access/request-account-access.container')
+            .default,
         config: {}
     },
     {
         name: 'account',
         path: '/account/:blockchain/:address',
-        getComponent: () =>
-            import('./pages/account/account.container').then(module => module.default),
+        // getComponent: () =>
+        //     import('./pages/account/account.container').then(module => module.default),
+        component: require('./pages/account/account.container').default,
         config: {
             [Platform.ALL]: {
                 [DeviceScreenSize.SMALL]: {
