@@ -6,14 +6,18 @@ import './account-card.scss';
 import Currency from '../../../../components/currency/currency.container';
 import Balance from '../../../../components/balance/balance.container';
 import { GenericAccount, AccountType } from 'moonlet-core/src/core/account';
+import { Copy } from '../../../../components/copy/copy.component';
+import Typography from 'preact-material-components/Typography';
 
 interface IProps {
     account: GenericAccount;
+    showAddress?: boolean;
 }
 
 export class AccountCard extends Component<IProps> {
     public render() {
         let accountTypeIcon;
+        const address = this.props.account.address || '';
         switch (this.props.account.type) {
             case AccountType.HD:
                 accountTypeIcon = '/assets/planet.svg';
@@ -40,6 +44,13 @@ export class AccountCard extends Component<IProps> {
                         />
                     </div>
                 </div>
+
+                {this.props.showAddress && (
+                    <Typography headline6 class="center-text">
+                        {address.substr(0, 7)}...{address.substr(-5)}
+                    </Typography>
+                )}
+
                 <div class="account-balance">
                     <Balance
                         blockchain={this.props.account.node.blockchain}

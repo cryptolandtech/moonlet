@@ -94,11 +94,9 @@ export class SendPage extends Component<IProps, IState> {
                 <LayoutGrid>
                     <LayoutGrid.Inner>
                         <LayoutGridCell cols={12}>
-                            <AccountCard account={this.props.account} />
+                            <AccountCard account={this.props.account} showAddress />
                         </LayoutGridCell>
-                        <LayoutGridCell cols={12}>
-                            <AddressCard account={this.props.account} />
-                        </LayoutGridCell>
+
                         <LayoutGridCell cols={12}>
                             <TextareaAutoSize
                                 outlined

@@ -38,6 +38,7 @@ export class AddressCard extends Component<IProps> {
 
     public render() {
         const account = this.props.account;
+        const address = account.address;
         return (
             <Card className="address-card">
                 <div class="address-card-inner">
@@ -130,8 +131,8 @@ export class AddressCard extends Component<IProps> {
                 </div>
 
                 <Copy text={this.props.account.address}>
-                    <Typography headline5 class="address">
-                        {this.props.account.address}
+                    <Typography headline6 class="address">
+                        {address.substr(0, 7)}...{address.substr(-5)}
                     </Typography>
                 </Copy>
 
