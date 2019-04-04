@@ -102,6 +102,7 @@ export class WalletManager {
         if (accountName) {
             account.name = accountName;
         }
+        await this.saveToStorage();
         return Response.resolve(account);
     }
 
@@ -115,12 +116,14 @@ export class WalletManager {
         if (accountName) {
             account.name = accountName;
         }
+        await this.saveToStorage();
         return Response.resolve(account);
     }
 
     public async removeAccount(sender, blockchain: Blockchain, address: string) {
         try {
             this.wallet.getBlockchain(blockchain).removeAccount(address);
+            await this.saveToStorage();
             return Response.resolve();
         } catch (e) {
             return Response.reject(WalletErrorCodes.GENERIC_ERROR);
