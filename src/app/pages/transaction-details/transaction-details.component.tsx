@@ -81,10 +81,21 @@ export class TransactionDetailsPage extends Component<IProps> {
         });
 
         // transaction id
+        const txn = typeof tx.txn === 'string' ? tx.txn : (tx.txn as any).TranID;
+        const txExplorerUrlProps: any = {};
+        if (this.props.account.node.network.explorerTxPattern) {
+            txExplorerUrlProps.href = this.props.account.node.network.explorerTxPattern.replace(
+                '{txn}',
+                txn.replace(/^0x/, '')
+            );
+            txExplorerUrlProps.target = '_blank';
+        }
+
         details.push({
             icon: 'crop',
-            primaryText: typeof tx.txn === 'string' ? tx.txn : (tx.txn as any).TranID,
-            secondaryText: translate('TransactionDetailsPage.id')
+            primaryText: txn,
+            secondaryText: translate('TransactionDetailsPage.id'),
+            ...txExplorerUrlProps
             // href:
             //     'https://explorer-scilla.zilliqa.com/transactions/5DF6E0E2761359D30A8275058E299FCC0381534545F55CF43E41983F5D4C9456',
             // target: '_blank'
