@@ -8,11 +8,11 @@ import { DisclaimerPage } from '../settings/pages/disclaimer/disclaimer.componen
 const mapStateToProps = (state: IState) => {
     return {
         networkConfig: {
-            testNet: state.userPreferences.testNet,
-            networks: state.userPreferences.networks
+            testNet: (state.userPreferences || ({} as any)).testNet,
+            networks: (state.userPreferences || ({} as any)).networks
         },
         wallet: state.wallet,
-        disclaimerVersionAccepted: state.userPreferences.disclaimerVersionAccepted
+        disclaimerVersionAccepted: (state.userPreferences || ({} as any)).disclaimerVersionAccepted
     };
 };
 

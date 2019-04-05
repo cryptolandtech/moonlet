@@ -37,7 +37,7 @@ const store = getStore({
     extension: {
         version: manifest.version
     },
-    userPreferences: undefined
+    userPreferences: {} as any
 });
 const walletProvider = new ExtensionWalletProvider();
 
