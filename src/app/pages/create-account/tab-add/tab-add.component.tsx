@@ -85,7 +85,7 @@ export class CreateAccountTabAdd extends Component<IProps, IState> {
                                 );
                                 this.setState({
                                     blockchain,
-                                    accountName: `${blockchain} ${translate(
+                                    accountName: `${translate(
                                         'App.labels.account'
                                     )} ${accounts.length + 1}`
                                 });

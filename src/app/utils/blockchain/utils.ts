@@ -95,7 +95,12 @@ export const formatCurrency = (amount: number | BigNumber, coin: string): string
     return '';
 };
 
-export const filterAccounts = (wallet, mainnet: boolean, networkOptions: INetworksOptions) => {
+export const filterAccounts = (
+    wallet,
+    mainnet: boolean,
+    networkOptions: INetworksOptions,
+    returnDisabled?: boolean
+) => {
     const accounts = [];
 
     if (wallet.accounts) {
@@ -108,7 +113,8 @@ export const filterAccounts = (wallet, mainnet: boolean, networkOptions: INetwor
                     ? networkOptions[blockchain].mainNet || 0
                     : networkOptions[blockchain].testNet || 1;
                 for (const acc of wallet.accounts[blockchain]) {
-                    if (!acc.disabled && acc.node.network.network_id === networkId) {
+                    const returnAccount = returnDisabled ? true : !acc.disabled;
+                    if (returnAccount && acc.node.network.network_id === networkId) {
                         accounts.push(acc);
                     }
                 }
