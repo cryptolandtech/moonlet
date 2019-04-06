@@ -29,6 +29,10 @@
 
     .cta-wrapper {
         margin-top: 32px;
+
+        button:not(:disabled) {
+            background-color: $mdc-theme-secondary;
+        }
     }
 
     .error {

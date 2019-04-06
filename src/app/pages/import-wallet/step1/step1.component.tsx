@@ -24,9 +24,14 @@ export class ImportWalletStep1 extends Component<IProps, IState> {
             words: [],
             error: false
         };
+
+        this.onWordsInputChange = this.onWordsInputChange.bind(this);
+        this.onRestoreWalletClick = this.onRestoreWalletClick.bind(this);
     }
 
     public render() {
+        const isValid = !!this.state.words.filter(Boolean).length;
+
         let textFieldHelp = 'ImportWalletPage.step1.inputHelp';
         if (this.state.error) {
             textFieldHelp = 'ImportWalletPage.step1.inputError';
@@ -45,7 +50,7 @@ export class ImportWalletStep1 extends Component<IProps, IState> {
                         textarea
                         fullwidth
                         value={this.state.words.join(' ')}
-                        onInput={this.onWordsInputChange.bind(this)}
+                        onInput={this.onWordsInputChange}
                     />
                 </fieldset>
                 <Translate
@@ -55,7 +60,7 @@ export class ImportWalletStep1 extends Component<IProps, IState> {
                 />
 
                 <div class="cta-wrapper">
-                    <Button ripple raised secondary onClick={this.onRestoreWalletClick.bind(this)}>
+                    <Button disabled={!isValid} ripple raised onClick={this.onRestoreWalletClick}>
                         <Translate text="ImportWalletPage.step1.restoreWallet" />
                     </Button>
                 </div>
@@ -71,7 +76,7 @@ export class ImportWalletStep1 extends Component<IProps, IState> {
 
     public validate() {
         try {
-            const wallet = new Wallet(this.state.words.join(' '));
+            const wallet = new Wallet(this.state.words.filter(Boolean).join(' '));
             return true;
         } catch {
             this.setState({ error: true });
