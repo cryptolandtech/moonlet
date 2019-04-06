@@ -92,13 +92,13 @@ if (document.location.search.indexOf('popup=1') > 0) {
     );
 }
 
-// browser.runtime.onMessage.addListener((message, sender) => {
-//     // accept messages only from moonlet extension
-//     if (sender.id !== browser.runtime.id) {
-//         return Promise.reject('INVALID_REQUEST');
-//     }
+browser.runtime.onMessage.addListener((message, sender) => {
+    // accept messages only from moonlet extension
+    if (sender.id !== browser.runtime.id) {
+        return Promise.reject('INVALID_REQUEST');
+    }
 
-//     //store.dispatch(createWalletSync(walletProvider) as any);
+    store.dispatch(createWalletSync(walletProvider) as any);
 
-//     //return Promise.resolve({success: true});
-// });
+    return Promise.resolve({ success: true });
+});

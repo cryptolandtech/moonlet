@@ -20,7 +20,7 @@ export class WalletManager {
     constructor() {
         WalletEventEmitter.subscribe((type, data) => {
             this.saveToStorage();
-            // browser.runtime.sendMessage({type, data});
+            browser.runtime.sendMessage({ type, data });
         });
     }
 

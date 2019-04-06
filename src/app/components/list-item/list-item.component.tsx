@@ -60,6 +60,7 @@ export class ListItem extends Component<IProps, {}> {
                 )}
                 {this.getItemText(this.props.primaryText, this.props.secondaryText)}
                 {this.props.href && <List.ItemMeta>keyboard_arrow_right</List.ItemMeta>}
+                {this.props.children && this.props.children}
             </ItemComponent>
         );
     }

@@ -49,4 +49,22 @@
         font-weight: bold;
         line-height: 24px;
     }
+
+    .transaction-status-badge {
+        position: absolute;
+        bottom: 0px;
+        left: 2px;
+        font-size: 10px;
+        text-align: center;
+        width: 52px;
+        text-transform: uppercase;
+
+        &.success {
+            color: green;
+        }
+
+        &.pending {
+            color: orange;
+        }
+    }
 }

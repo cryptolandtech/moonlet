@@ -15,6 +15,7 @@ import { Link, route } from 'preact-router';
 import { AccountCard } from './components/account-card/account-card.component';
 import AddressCard from './components/address-card/address-card.container';
 import TestnetWarning from '../../components/testnet-warning/testnet-warning.container';
+import { TransactionStatus } from 'moonlet-core/src/core/transaction';
 
 interface IProps {
     accounts: any[];
@@ -118,7 +119,17 @@ export class AccountPage extends Component<IProps> {
                                         }/${tx.id}`}
                                         icon={<img src="/assets/icons/send.svg" width="48" />}
                                         noDivider={index === transactions.length - 1}
-                                    />
+                                    >
+                                        {[
+                                            TransactionStatus.PENDING,
+                                            TransactionStatus.SUCCESS
+                                        ].indexOf(tx.status) >= 0 && (
+                                            <Translate
+                                                text={`App.labels.${tx.status.toLowerCase()}`}
+                                                className={`transaction-status-badge ${tx.status.toLowerCase()}`}
+                                            />
+                                        )}
+                                    </ListItem>
                                 ))}
                             </List>
                         </Card>

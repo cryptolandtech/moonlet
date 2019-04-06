@@ -1,8 +1,49 @@
+import {
+    IBackgroundMessage,
+    BackgroundMessageType,
+    BackgroundMessageController,
+    ConnectionPort
+} from './types';
 import { BigNumber } from 'bignumber.js';
 import { IWalletProvider } from '../app/iwallet-provider';
-import { browser } from 'webextension-polyfill-ts';
+import { browser, Runtime } from 'webextension-polyfill-ts';
+import { Deferred } from '../app/utils/deferred';
+import { Response } from '../app/utils/response';
+
+const REQUEST_TIMEOUT = 2000; // ms
+
+interface IRequestInfo {
+    timeout: any;
+    deferred: Deferred;
+}
 
 export class ExtensionWalletProvider implements IWalletProvider {
+    public port: Runtime.Port;
+    public requests: Map<string, IRequestInfo> = new Map();
+
+    constructor() {
+        this.port = browser.runtime.connect({ name: ConnectionPort.BACKGROUND } as any);
+        this.port.onMessage.addListener((message: IBackgroundMessage) => {
+            if (
+                message.id &&
+                message.type === BackgroundMessageType.RESPONSE &&
+                message.response &&
+                this.requests.has(message.id)
+            ) {
+                const requestInfo = this.requests.get(message.id);
+                clearTimeout(requestInfo.timeout);
+
+                if (message.response.error) {
+                    requestInfo.deferred.reject(message.response);
+                } else {
+                    requestInfo.deferred.resolve(message.response.data);
+                }
+
+                this.requests.delete(message.id);
+            }
+        });
+    }
+
     public async createWallet(mnemonics, password) {
         return this.callAction('create', [mnemonics, password]);
     }
@@ -62,16 +103,31 @@ export class ExtensionWalletProvider implements IWalletProvider {
     }
 
     private async callAction(action, params?) {
-        const response = await browser.runtime.sendMessage({
-            scope: 'walletManager',
-            action,
-            params
-        });
+        const message: IBackgroundMessage = {
+            id: Math.random()
+                .toString()
+                .substr(2),
+            type: BackgroundMessageType.REQUEST,
+            request: {
+                controller: BackgroundMessageController.WALLET_MANAGER,
+                action,
+                params
+            }
+        };
 
-        if (response.error) {
-            return Promise.reject(response);
-        } else {
-            return Promise.resolve(response.data);
-        }
+        const deferred = new Deferred();
+        this.requests.set(message.id, {
+            timeout: this.getRequestTimeout(message, deferred),
+            deferred
+        });
+        this.port.postMessage(message);
+        return deferred.promise;
+    }
+
+    private getRequestTimeout(message, deferred: Deferred) {
+        return setTimeout(() => {
+            this.requests.delete(message.id);
+            deferred.reject(Response.reject('REQUEST_TIMEOUT', message));
+        }, REQUEST_TIMEOUT);
     }
 }

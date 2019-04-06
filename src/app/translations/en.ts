@@ -38,7 +38,9 @@ export const translation: ITranslations = {
                 import: 'Import',
                 create: 'Create',
                 warning: 'Warning',
-                on: 'On'
+                on: 'On',
+                pending: 'Pending',
+                success: 'Success'
             }
         },
         DrawerMenu: {
