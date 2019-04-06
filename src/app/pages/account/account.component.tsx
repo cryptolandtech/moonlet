@@ -115,11 +115,7 @@ export class AccountPage extends Component<IProps> {
                                         }
                                         href={`/transaction/${this.props.account.node.blockchain}/${
                                             this.props.account.address
-                                        }/${
-                                            typeof tx.txn === 'string'
-                                                ? tx.txn
-                                                : (tx.txn as any).TranID
-                                        }`}
+                                        }/${tx.id}`}
                                         icon={<img src="/assets/icons/send.svg" width="48" />}
                                         noDivider={index === transactions.length - 1}
                                     />

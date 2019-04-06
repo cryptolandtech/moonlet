@@ -9,13 +9,20 @@ import encUtf8 from 'crypto-js/enc-utf8';
 import { NonceManager } from '../../app/utils/nonce-manager';
 import { Response } from '../../app/utils/response';
 import { WalletErrorCodes } from '../../app/iwallet-provider';
-import { triggerAsyncId } from 'async_hooks';
+import { WalletEventEmitter } from 'moonlet-core/src/core/wallet-event-emitter';
 
 const WALLET_STORAGE_KEY = 'serializedWallet';
 
 export class WalletManager {
     private wallet: Wallet;
     private password: string;
+
+    constructor() {
+        WalletEventEmitter.subscribe((type, data) => {
+            this.saveToStorage();
+            // browser.runtime.sendMessage({type, data});
+        });
+    }
 
     public async create(sender, mnemonics: string, password: string) {
         this.wallet = new Wallet(mnemonics);

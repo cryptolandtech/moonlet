@@ -81,19 +81,18 @@ export class TransactionDetailsPage extends Component<IProps> {
         });
 
         // transaction id
-        const txn = typeof tx.txn === 'string' ? tx.txn : (tx.txn as any).TranID;
         const txExplorerUrlProps: any = {};
         if (this.props.account.node.network.explorerTxPattern) {
             txExplorerUrlProps.href = this.props.account.node.network.explorerTxPattern.replace(
                 '{txn}',
-                txn.replace(/^0x/, '')
+                tx.id.replace(/^0x/, '')
             );
             txExplorerUrlProps.target = '_blank';
         }
 
         details.push({
             icon: 'crop',
-            primaryText: txn,
+            primaryText: tx.id,
             secondaryText: translate('TransactionDetailsPage.id'),
             ...txExplorerUrlProps
             // href:

@@ -11,11 +11,7 @@ const mapStateToProps = (state: IState, ownProps) => {
     const { blockchain, address, transactionId } = ownProps;
     const account = getAccountFromState(state, blockchain, address);
 
-    const transaction = account.transactions.filter(
-        tx =>
-            tx.txn === transactionId ||
-            ((tx.txn as any).TranID && (tx.txn as any).TranID === transactionId)
-    )[0];
+    const transaction = account.transactions.filter(tx => tx.id === transactionId)[0];
 
     return {
         ...ownProps,

@@ -200,7 +200,7 @@ export const createTransfer = (
                 data: {
                     inProgress: false,
                     success: true,
-                    txn: typeof response.txn === 'string' ? response.txn : response.txn.TranID
+                    txn: response.id
                 }
             });
         } catch (e) {

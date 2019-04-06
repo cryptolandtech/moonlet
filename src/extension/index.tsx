@@ -6,7 +6,7 @@ import { getStore } from '../app/data';
 import { DeviceScreenSize, Platform } from '../app/types';
 import { getScreenSizeMatchMedia } from '../app/utils/screen-size-match-media';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import { createLoadWallet } from '../app/data/wallet/actions';
+import { createLoadWallet, createWalletSync } from '../app/data/wallet/actions';
 import { ExtensionWalletProvider } from './wallet-provider';
 
 import { browser } from 'webextension-polyfill-ts';
@@ -91,3 +91,14 @@ if (document.location.search.indexOf('popup=1') > 0) {
         'width: 360px; min-width:360px; max-width: 360px; height: 600px; min-height: 600px; max-height: 600px;'
     );
 }
+
+// browser.runtime.onMessage.addListener((message, sender) => {
+//     // accept messages only from moonlet extension
+//     if (sender.id !== browser.runtime.id) {
+//         return Promise.reject('INVALID_REQUEST');
+//     }
+
+//     //store.dispatch(createWalletSync(walletProvider) as any);
+
+//     //return Promise.resolve({success: true});
+// });
