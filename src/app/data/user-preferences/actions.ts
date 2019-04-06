@@ -72,7 +72,7 @@ export const createSwitchNetwork = (
                 if (accounts.length === 0) {
                     await walletProvider.createAccount(
                         blockchain,
-                        `${blockchain} ${translate('App.labels.account')} 1`
+                        `${translate('App.labels.account')} 1`
                     );
                 }
             }
