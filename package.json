@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "moonlet",
-    "version": "0.5.10",
+    "version": "0.5.11",
     "license": "MIT",
     "scripts": {
         "start": "npm run dev:web",
