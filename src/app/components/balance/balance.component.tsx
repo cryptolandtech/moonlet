@@ -42,6 +42,10 @@ export class Balance extends Component<IProps> {
             !props.balances[props.blockchain][props.address].loading
         ) {
             // balance available
+            if (Date.now() - props.balances[props.blockchain][props.address].lastUpdate > 60000) {
+                // balance is old, update it
+                props.updateBalance(props.blockchain, props.address);
+            }
         } else {
             props.updateBalance(props.blockchain, props.address);
         }

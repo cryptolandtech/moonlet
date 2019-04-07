@@ -10,6 +10,7 @@ import { NonceManager } from '../../app/utils/nonce-manager';
 import { Response } from '../../app/utils/response';
 import { WalletErrorCodes } from '../../app/iwallet-provider';
 import { WalletEventEmitter } from 'moonlet-core/src/core/wallet-event-emitter';
+import { ExtensionMessageType, IExtensionMessage } from '../types';
 
 const WALLET_STORAGE_KEY = 'serializedWallet';
 
@@ -20,7 +21,14 @@ export class WalletManager {
     constructor() {
         WalletEventEmitter.subscribe((type, data) => {
             this.saveToStorage();
-            browser.runtime.sendMessage({ type, data });
+            const message: IExtensionMessage = {
+                type: ExtensionMessageType.WALLET_EVENT,
+                data: {
+                    type,
+                    data
+                }
+            };
+            browser.runtime.sendMessage(message);
         });
     }
 

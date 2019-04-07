@@ -6,7 +6,7 @@ import { getStore } from '../app/data';
 import { DeviceScreenSize, Platform } from '../app/types';
 import { getScreenSizeMatchMedia } from '../app/utils/screen-size-match-media';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import { createLoadWallet, createWalletSync } from '../app/data/wallet/actions';
+import { createLoadWallet, createWalletSync, createGetBalance } from '../app/data/wallet/actions';
 import { ExtensionWalletProvider } from './wallet-provider';
 
 import { browser } from 'webextension-polyfill-ts';
@@ -17,7 +17,9 @@ import manifest from './manifest.json';
 import { WalletStatus } from '../app/data/wallet/state';
 import { IUserPreferences } from '../app/data/user-preferences/state';
 import { DisclaimerPage } from '../app/pages/settings/pages/disclaimer/disclaimer.component';
-import { ConnectionPort } from './types';
+import { ConnectionPort, IExtensionMessage, ExtensionMessageType } from './types';
+import { WalletEventType } from 'moonlet-core/src/core/wallet-event-emitter';
+import { TransactionStatus } from 'moonlet-core/src/core/transaction';
 
 const USER_PREFERENCES_STORAGE_KEY = 'userPref';
 
@@ -95,13 +97,27 @@ if (document.location.search.indexOf('popup=1') > 0) {
     browser.runtime.connect({ name: ConnectionPort.POPUP_DETECTION } as any);
 }
 
-browser.runtime.onMessage.addListener((message, sender) => {
+browser.runtime.onMessage.addListener((message: IExtensionMessage, sender) => {
     // accept messages only from moonlet extension
     if (sender.id !== browser.runtime.id) {
         return Promise.reject('INVALID_REQUEST');
     }
 
-    store.dispatch(createWalletSync(walletProvider) as any);
+    if (message.type === ExtensionMessageType.WALLET_EVENT) {
+        store.dispatch(createWalletSync(walletProvider) as any);
+
+        const event = message.data;
+        if (
+            event.type === WalletEventType.TRANSACTION_UPDATE &&
+            event.data.status === TransactionStatus.SUCCESS
+        ) {
+            store.dispatch(createGetBalance(
+                walletProvider,
+                event.data.blockchain,
+                event.data.address
+            ) as any);
+        }
+    }
 
     return Promise.resolve({ success: true });
 });

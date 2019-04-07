@@ -48,7 +48,6 @@ export default (state: IWalletState, action: IAction): IWalletState => {
             const balances = state.balances || {};
             const accountsBalances = balances[action.data.blockchain] || {};
             const accountBalance = accountsBalances[action.data.address] || { amount: '' };
-            const blockchainBalances = balances[action.data.blockchain] || {};
 
             state = {
                 ...state,
@@ -59,7 +58,8 @@ export default (state: IWalletState, action: IAction): IWalletState => {
                         [action.data.address]: {
                             ...accountBalance,
                             loading: action.data.loading,
-                            amount: action.data.amount || accountBalance.amount
+                            amount: action.data.amount || accountBalance.amount,
+                            lastUpdate: Date.now()
                         }
                     }
                 }

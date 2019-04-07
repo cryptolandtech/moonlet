@@ -1,4 +1,5 @@
 import { IResponseData } from './../app/utils/response';
+import { WalletEventType, WalletEventData } from 'moonlet-core/src/core/wallet-event-emitter';
 
 export enum ConnectionPort {
     BACKGROUND = 'BACKGROUND',
@@ -24,4 +25,13 @@ export interface IBackgroundMessage {
         params?: any[];
     };
     response?: IResponseData;
+}
+
+export enum ExtensionMessageType {
+    WALLET_EVENT = 'WALLET_EVENT'
+}
+
+export interface IExtensionMessage {
+    type: ExtensionMessageType;
+    data: { data: WalletEventData; type: WalletEventType };
 }
