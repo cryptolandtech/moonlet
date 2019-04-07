@@ -17,7 +17,24 @@ interface IProps {
 export class Balance extends Component<IProps> {
     constructor(props: IProps) {
         super(props);
+        this.updateBalance();
+    }
 
+    // componentDidMount() {
+    //     this.updateBalance;
+    // }
+
+    public componentDidUpdate(prevProps: IProps, prevState, prevContext) {
+        if (
+            prevProps.blockchain !== this.props.blockchain ||
+            prevProps.address !== this.props.address
+        ) {
+            this.updateBalance();
+        }
+    }
+
+    public updateBalance() {
+        const props = this.props;
         if (
             props.balances &&
             props.balances[props.blockchain] &&
@@ -29,6 +46,7 @@ export class Balance extends Component<IProps> {
             props.updateBalance(props.blockchain, props.address);
         }
     }
+
     public render(props: IProps) {
         let balance: IAccountBalance = { loading: true, amount: undefined, lastUpdate: undefined };
         if (
