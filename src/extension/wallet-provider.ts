@@ -10,7 +10,7 @@ import { browser, Runtime } from 'webextension-polyfill-ts';
 import { Deferred } from '../app/utils/deferred';
 import { Response } from '../app/utils/response';
 
-const REQUEST_TIMEOUT = 2000; // ms
+const REQUEST_TIMEOUT = 8000; // ms
 
 interface IRequestInfo {
     timeout: any;
