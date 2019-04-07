@@ -2,7 +2,7 @@
     "name": "Moonlet Wallet",
     "version": "0.0.0",
     "description": "Moonlet Wallet Extension",
-    "permissions": ["storage"],
+    "permissions": ["storage", "tabs"],
     "background": {
         "scripts": ["bundle.background.js"]
     },

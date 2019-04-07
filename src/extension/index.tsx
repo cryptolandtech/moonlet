@@ -17,6 +17,7 @@ import manifest from './manifest.json';
 import { WalletStatus } from '../app/data/wallet/state';
 import { IUserPreferences } from '../app/data/user-preferences/state';
 import { DisclaimerPage } from '../app/pages/settings/pages/disclaimer/disclaimer.component';
+import { ConnectionPort } from './types';
 
 const USER_PREFERENCES_STORAGE_KEY = 'userPref';
 
@@ -90,6 +91,8 @@ if (document.location.search.indexOf('popup=1') > 0) {
         'style',
         'width: 360px; min-width:360px; max-width: 360px; height: 600px; min-height: 600px; max-height: 600px;'
     );
+
+    browser.runtime.connect({ name: ConnectionPort.POPUP_DETECTION } as any);
 }
 
 browser.runtime.onMessage.addListener((message, sender) => {

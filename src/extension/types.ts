@@ -1,7 +1,8 @@
 import { IResponseData } from './../app/utils/response';
 
 export enum ConnectionPort {
-    BACKGROUND = 'BACKGROUND'
+    BACKGROUND = 'BACKGROUND',
+    POPUP_DETECTION = 'POPUP_DETECTION'
 }
 
 export enum BackgroundMessageController {
