@@ -281,7 +281,10 @@ export class SendPage extends Component<IProps, IState> {
         if (!this.state.amount || !(parseFloat(this.state.amount) > 0)) {
             fieldErrors.amount = translate('SendPage.errors.amount');
             valid = false;
-        } else if (this.props.balance && parseFloat(this.state.amount) + fee > this.props.balance) {
+        } else if (
+            typeof this.props.balance === 'number' &&
+            parseFloat(this.state.amount) + fee > this.props.balance
+        ) {
             fieldErrors.amount = translate('SendPage.errors.insufficientFounds');
             valid = false;
         }

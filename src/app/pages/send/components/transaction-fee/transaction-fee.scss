@@ -3,13 +3,14 @@
 .transaction-fee-component {
     .gas-fee-preset {
         .mdc-card {
-            padding: 8px;
+            padding: 4px;
             text-align: center;
             cursor: pointer;
         }
 
         .title {
             margin-bottom: 4px;
+            font-size: 12px;
         }
 
         .fiat {

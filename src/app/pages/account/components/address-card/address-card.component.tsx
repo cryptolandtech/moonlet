@@ -132,7 +132,7 @@ export class AddressCard extends Component<IProps> {
 
                 <Copy text={this.props.account.address}>
                     <Typography headline6 class="address">
-                        {address.substr(0, 7)}...{address.substr(-5)}
+                        {address}
                     </Typography>
                 </Copy>
 
