@@ -71,7 +71,12 @@ export class ImportWalletStep1 extends Component<IProps, IState> {
 
     public validate() {
         try {
-            const wallet = new Wallet(this.state.words.join(' '));
+            if (this.state.words.filter(Boolean).length === 0) {
+                this.setState({ error: true });
+                return false;
+            }
+
+            const wallet = new Wallet(this.state.words.filter(Boolean).join(' '));
             return true;
         } catch {
             this.setState({ error: true });
