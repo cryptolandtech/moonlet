@@ -8,8 +8,10 @@ import { browser, Runtime, Tabs } from 'webextension-polyfill-ts';
 import { WalletManager } from './wallet-manager';
 import { Response, IResponseData } from '../../app/utils/response';
 import { RemoteInterface } from './remote-interface';
+import { BrowserIconManager } from './browser-icon-manager';
 
 // Implementation
+const browserIconManager = new BrowserIconManager();
 const walletManager = new WalletManager();
 const remoteInterface = new RemoteInterface(walletManager);
 
@@ -25,11 +27,14 @@ const generateResponse = (message: IBackgroundMessage, response: IResponseData) 
 browser.runtime.onConnect.addListener((port: Runtime.Port) => {
     if (port.name === ConnectionPort.POPUP_DETECTION) {
         // popup open
+        browserIconManager.setState({ popup: true });
 
         port.onDisconnect.addListener(() => {
             // popup closed
+            browserIconManager.setState({ popup: false });
         });
     }
+
     if (port.name === ConnectionPort.BACKGROUND) {
         // console.log('bg port connected');
         port.onMessage.addListener(async (message: IBackgroundMessage) => {
@@ -61,27 +66,27 @@ browser.runtime.onConnect.addListener((port: Runtime.Port) => {
     }
 });
 
-// browser.tabs.onActivated.addListener(async (activeTab: Tabs.OnActivatedActiveInfoType) => {
-//     const tab = await browser.tabs.get(activeTab.tabId);
-//     if (tab.url && tab.url.startsWith('chrome-extension://' + browser.runtime.id)) {
-//         extensionStatus.tabOpen = true;
-//         toggleSecureBadge();
-//     } else {
-//         extensionStatus.tabOpen = false;
-//         toggleSecureBadge();
-//     }
-// });
+browser.tabs.onActivated.addListener(async (activeTab: Tabs.OnActivatedActiveInfoType) => {
+    const tab = await browser.tabs.get(activeTab.tabId);
+    if (tab.url && tab.url.startsWith('chrome-extension://' + browser.runtime.id)) {
+        browserIconManager.setState({ tab: true });
+    } else {
+        browserIconManager.setState({ tab: false });
+    }
+});
 
-// browser.windows.onFocusChanged.addListener(async (windowId: number) => {
-//     const window = await browser.windows.get(windowId, {populate: true});
-//     if (window.tabs) {
-//         const tab = window.tabs.filter(tab => tab.active)[0];
-//         if (tab && tab.url && tab.url.startsWith('chrome-extension://' + browser.runtime.id)) {
-//             extensionStatus.tabOpen = true;
-//             await toggleSecureBadge();
-//         } else {
-//             extensionStatus.tabOpen = false;
-//             await toggleSecureBadge();
-//         }
-//     }
-// });
+browser.windows.onFocusChanged.addListener(async (windowId: number) => {
+    try {
+        const window = await browser.windows.get(windowId, { populate: true });
+        if (window.tabs) {
+            const tab = window.tabs.filter(t => t.active)[0];
+            if (tab && tab.url && tab.url.startsWith('chrome-extension://' + browser.runtime.id)) {
+                browserIconManager.setState({ tab: true });
+            } else {
+                browserIconManager.setState({ tab: false });
+            }
+        }
+    } catch {
+        browserIconManager.setState({ tab: false });
+    }
+});
