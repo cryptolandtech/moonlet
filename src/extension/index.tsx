@@ -94,7 +94,27 @@ if (document.location.search.indexOf('popup=1') > 0) {
         'width: 360px; min-width:360px; max-width: 360px; height: 600px; min-height: 600px; max-height: 600px;'
     );
 
-    browser.runtime.connect({ name: ConnectionPort.POPUP_DETECTION } as any);
+    const port = browser.runtime.connect({ name: ConnectionPort.POPUP_DETECTION } as any);
+    browser.windows.getCurrent().then(w => {
+        port.postMessage({
+            type: 'currentWindow',
+            window: w
+        });
+
+        window.onfocus = () => {
+            port.postMessage({
+                type: 'currentWindow',
+                window: w
+            });
+        };
+
+        window.onblur = () => {
+            port.postMessage({
+                type: 'currentWindow',
+                window: {}
+            });
+        };
+    });
 }
 
 browser.runtime.onMessage.addListener((message: IExtensionMessage, sender) => {

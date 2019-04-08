@@ -12,18 +12,37 @@ let blinkInterval;
 export class BrowserIconManager {
     private currentIcon;
     private state = {
-        popup: false,
-        tab: false
+        tab: false,
+
+        currentWindowId: undefined,
+        popupsOpened: []
     };
 
     constructor() {
         this.stopBlink();
     }
 
-    public setState(state: { popup?: boolean; tab?: boolean }) {
+    public setState(state: {
+        currentWindowId?: number;
+        popupOpenedOnWindow?: number;
+        popupClosedOnWindow?: number;
+        tab?: boolean;
+    }) {
+        const popupsOpened = Array.from(
+            new Set([...this.state.popupsOpened, state.popupOpenedOnWindow])
+        ).filter(Boolean);
+
+        const index = popupsOpened.indexOf(state.popupClosedOnWindow);
+        if (index >= 0) {
+            popupsOpened.splice(index, 1);
+        }
+
+        delete state.popupOpenedOnWindow;
+        delete state.popupClosedOnWindow;
         const newState = {
             ...this.state,
-            ...state
+            ...state,
+            popupsOpened
         };
 
         if (JSON.stringify(newState) !== JSON.stringify(this.state)) {
@@ -33,7 +52,7 @@ export class BrowserIconManager {
     }
 
     public updateIcon() {
-        if (!this.state.tab && !this.state.popup) {
+        if (!this.state.tab && this.state.popupsOpened.indexOf(this.state.currentWindowId) < 0) {
             // default icon
             this.stopBlink();
         } else {

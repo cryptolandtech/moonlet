@@ -26,12 +26,23 @@ const generateResponse = (message: IBackgroundMessage, response: IResponseData) 
 
 browser.runtime.onConnect.addListener((port: Runtime.Port) => {
     if (port.name === ConnectionPort.POPUP_DETECTION) {
-        // popup open
-        browserIconManager.setState({ popup: true });
+        let currentWindow;
+        port.onMessage.addListener(message => {
+            if (message.type === 'currentWindow' && message.window) {
+                // popup open+
+                if (message.window.id) {
+                    currentWindow = message.window;
+                }
+                browserIconManager.setState({
+                    currentWindowId: message.window.id,
+                    popupOpenedOnWindow: message.window.id
+                });
+            }
+        });
 
         port.onDisconnect.addListener(() => {
             // popup closed
-            browserIconManager.setState({ popup: false });
+            browserIconManager.setState({ popupClosedOnWindow: currentWindow.id });
         });
     }
 
@@ -69,13 +80,14 @@ browser.runtime.onConnect.addListener((port: Runtime.Port) => {
 browser.tabs.onActivated.addListener(async (activeTab: Tabs.OnActivatedActiveInfoType) => {
     const tab = await browser.tabs.get(activeTab.tabId);
     if (tab.url && tab.url.startsWith('chrome-extension://' + browser.runtime.id)) {
-        browserIconManager.setState({ tab: true });
+        browserIconManager.setState({ currentWindowId: tab.windowId, tab: true });
     } else {
-        browserIconManager.setState({ tab: false });
+        browserIconManager.setState({ currentWindowId: tab.windowId, tab: false });
     }
 });
 
 browser.windows.onFocusChanged.addListener(async (windowId: number) => {
+    browserIconManager.setState({ currentWindowId: windowId });
     try {
         const window = await browser.windows.get(windowId, { populate: true });
         if (window.tabs) {
