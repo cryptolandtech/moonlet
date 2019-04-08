@@ -118,6 +118,7 @@ export class CreateAccountTabImport extends Component<IProps, IState> {
                             type="text"
                             label={translate('CreateAccountPage.accountName')}
                             value={this.state.accountName}
+                            maxLength={30}
                             onChange={(e: any) => this.setState({ accountName: e.target.value })}
                         />
                         {this.state.accountNameError && (
