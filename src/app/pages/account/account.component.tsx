@@ -90,47 +90,53 @@ export class AccountPage extends Component<IProps> {
                                 className="transactions-label"
                             />
                             <List two-line={true}>
-                                {this.props.account.transactions.map((tx, index, transactions) => (
-                                    <ListItem
-                                        primaryText={
-                                            BLOCKCHAIN_INFO[this.props.account.node.blockchain]
-                                                .coin +
-                                            ' ' +
-                                            convertUnit(
-                                                this.props.account.node.blockchain,
-                                                new BigNumber(
-                                                    (tx as any).value || (tx as any).amount
-                                                ),
+                                {this.props.account.transactions
+                                    .sort((a, b) => {
+                                        return b.times[0].unixtime - a.times[0].unixtime;
+                                    })
+                                    .map((tx, index, transactions) => (
+                                        <ListItem
+                                            primaryText={
                                                 BLOCKCHAIN_INFO[this.props.account.node.blockchain]
-                                                    .defaultUnit,
-                                                BLOCKCHAIN_INFO[this.props.account.node.blockchain]
-                                                    .coin
-                                            ).toString()
-                                        }
-                                        secondaryText={
-                                            tx.times[0]
-                                                ? new Date(
-                                                      tx.times[0].unixtime * 1000
-                                                  ).toLocaleString()
-                                                : ''
-                                        }
-                                        href={`/transaction/${this.props.account.node.blockchain}/${
-                                            this.props.account.address
-                                        }/${tx.id}`}
-                                        icon={<img src="/assets/icons/send.svg" width="48" />}
-                                        noDivider={index === transactions.length - 1}
-                                    >
-                                        {[
-                                            TransactionStatus.PENDING,
-                                            TransactionStatus.SUCCESS
-                                        ].indexOf(tx.status) >= 0 && (
-                                            <Translate
-                                                text={`App.labels.${tx.status.toLowerCase()}`}
-                                                className={`transaction-status-badge ${tx.status.toLowerCase()}`}
-                                            />
-                                        )}
-                                    </ListItem>
-                                ))}
+                                                    .coin +
+                                                ' ' +
+                                                convertUnit(
+                                                    this.props.account.node.blockchain,
+                                                    new BigNumber(
+                                                        (tx as any).value || (tx as any).amount
+                                                    ),
+                                                    BLOCKCHAIN_INFO[
+                                                        this.props.account.node.blockchain
+                                                    ].defaultUnit,
+                                                    BLOCKCHAIN_INFO[
+                                                        this.props.account.node.blockchain
+                                                    ].coin
+                                                ).toString()
+                                            }
+                                            secondaryText={
+                                                tx.times[0]
+                                                    ? new Date(
+                                                          tx.times[0].unixtime * 1000
+                                                      ).toLocaleString()
+                                                    : ''
+                                            }
+                                            href={`/transaction/${
+                                                this.props.account.node.blockchain
+                                            }/${this.props.account.address}/${tx.id}`}
+                                            icon={<img src="/assets/icons/send.svg" width="48" />}
+                                            noDivider={index === transactions.length - 1}
+                                        >
+                                            {[
+                                                TransactionStatus.PENDING,
+                                                TransactionStatus.SUCCESS
+                                            ].indexOf(tx.status) >= 0 && (
+                                                <Translate
+                                                    text={`App.labels.${tx.status.toLowerCase()}`}
+                                                    className={`transaction-status-badge ${tx.status.toLowerCase()}`}
+                                                />
+                                            )}
+                                        </ListItem>
+                                    ))}
                             </List>
                         </Card>
                     )}
