@@ -6,14 +6,10 @@
     min-height: 100%;
     background-color: $mdc-theme-primary;
 
-    .title {
-        color: #457dff;
-    }
-
-    .icon {
-        color: #e0e0e0;
-        font-size: 128px;
-        margin: 40px 0;
+    .logo {
+        width: 70%;
+        max-height: 60px;
+        margin: 40px 0 140px;
     }
 
     &.password .icon {

@@ -63,15 +63,7 @@ export class LandingPage extends Component<IProps, IState> {
                 <LayoutGrid>
                     <LayoutGrid.Inner>
                         <LayoutGrid.Cell cols={12} className="center">
-                            <Translate
-                                text="LandingPage.title"
-                                tag="h1"
-                                className="title mdc-typography--headline4"
-                            />
-                            <h6 class="title mdc-typography mdc-typography--headline6">
-                                beta version
-                            </h6>
-                            <Icon className="icon">security</Icon>
+                            <img class="logo" src="/assets/logo.svg" />
                         </LayoutGrid.Cell>
                         {this.props.wallet.status === WalletStatus.LOCKED && (
                             <LayoutGrid.Cell cols={12} class="center">
