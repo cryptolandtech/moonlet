@@ -18,6 +18,16 @@
         width: 100%;
     }
 
+    .recipient-cell {
+        position: relative;
+
+        .loader-component {
+            position: absolute;
+            top: 14px;
+            right: 11px;
+        }
+    }
+
     .amount-helper-text {
         display: flex;
         margin-top: -14px;

@@ -24,7 +24,7 @@ export interface IBlockchainInfo {
         type: BlockchainFeeType;
         config: IGasFeeConfig;
     };
-
+    nameResolver: string;
     pagesConfig?: {
         send: {
             advancedView?: {
@@ -63,7 +63,8 @@ export const BLOCKCHAIN_INFO: {
                     }
                 }
             }
-        }
+        },
+        nameResolver: 'ens'
     },
     [Blockchain.ZILLIQA]: {
         coin: 'ZIL',
@@ -90,6 +91,7 @@ export const BLOCKCHAIN_INFO: {
                     }
                 }
             }
-        }
+        },
+        nameResolver: 'ens'
     }
 };

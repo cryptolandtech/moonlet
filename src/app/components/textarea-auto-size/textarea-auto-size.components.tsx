@@ -17,6 +17,7 @@ interface IProps {
 
     inputRef?: (el) => any;
     onChange?: (e: any) => any;
+    onBlur?: (e: any) => any;
 }
 
 interface IState {
