@@ -47,6 +47,8 @@ browser.runtime.onConnect.addListener((port: Runtime.Port) => {
     }
 
     if (port.name === ConnectionPort.BACKGROUND) {
+        let portDisconnected = false;
+        port.onDisconnect.addListener(() => (portDisconnected = true));
         // console.log('bg port connected');
         port.onMessage.addListener(async (message: IBackgroundMessage) => {
             // console.log('bg port', 'message', message);
@@ -63,12 +65,16 @@ browser.runtime.onConnect.addListener((port: Runtime.Port) => {
                     const response = await controllers[message.request.controller][
                         message.request.action
                     ](port.sender, ...(message.request.params || []));
-                    port.postMessage(generateResponse(message, response));
-                    // console.log('bg port', 'response', response);
+                    if (!portDisconnected) {
+                        port.postMessage(generateResponse(message, response));
+                        // console.log('bg port', 'response', response);
+                    }
                 } catch (error) {
-                    port.postMessage(
-                        generateResponse(message, Response.reject('GENERIC_ERROR', error))
-                    );
+                    if (!portDisconnected) {
+                        port.postMessage(
+                            generateResponse(message, Response.reject('GENERIC_ERROR', error))
+                        );
+                    }
                 }
             } else {
                 port.postMessage(generateResponse(message, Response.reject('INVALID_REQUEST')));
