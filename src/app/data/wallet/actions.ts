@@ -51,7 +51,7 @@ export const createWallet = (
                     if (accounts.length === 0) {
                         await walletProvider.createAccount(
                             blockchain,
-                            `${blockchain} ${translate('App.labels.account')} 1`
+                            `${translate('App.labels.account')} 1`
                         );
                     }
                 });
