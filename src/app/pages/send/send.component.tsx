@@ -26,6 +26,7 @@ import { AccountCard } from '../account/components/account-card/account-card.com
 import Currency from '../../components/currency/currency.container';
 import { Loader } from '../../components/material-components/loader/loader.component';
 import { UDApiClient } from '../../utils/ud-api-client';
+import { IUserPreferences } from '../../data/user-preferences/state';
 
 interface IProps {
     blockchain: Blockchain;
@@ -33,6 +34,7 @@ interface IProps {
     account: GenericAccount;
     balance: number;
     transferInfo: IWalletTransfer;
+    userPreferences: IUserPreferences;
 
     transfer: (
         blockchain: Blockchain,
@@ -112,7 +114,10 @@ export class SendPage extends Component<IProps, IState> {
                                 }
                                 onBlur={() => {
                                     // todo enforce this check
-                                    if (this.state.recipient.indexOf('.') > 0) {
+                                    if (
+                                        this.props.userPreferences.testNet &&
+                                        this.state.recipient.indexOf('.') > 0
+                                    ) {
                                         // domain, lookup for address
                                         this.setState({
                                             recipientIsDomain: true,

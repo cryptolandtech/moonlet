@@ -72,7 +72,7 @@ export const translation: ITranslations = {
             addAllBalance: 'Add all balance',
             added: 'Added',
             errors: {
-                recipient: 'Recipient should be a valid address or name.',
+                recipient: 'Recipient should be a valid address.',
                 recipientLookupInProgress: 'Name lookup in progress. Please wait to complete.',
                 recipientNameAddressInvalid: 'Name resolves to an invalid address.',
                 recipientNameNotFound: 'Name not found.',

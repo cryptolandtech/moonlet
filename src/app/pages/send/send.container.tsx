@@ -24,7 +24,8 @@ const mapStateToProps = (state: IState, ownProps) => {
         blockchainInfo: BLOCKCHAIN_INFO[account.node.blockchain],
         account,
         balance: parseFloat((balance.amount || '').toString()),
-        transferInfo: state.wallet.transfer || {}
+        transferInfo: state.wallet.transfer || {},
+        userPreferences: state.userPreferences
     };
 };
 
