@@ -14,6 +14,7 @@ export const TESTNET_TOGGLE = 'TESTNET_TOGGLE';
 export const NETWORK_SWITCH = 'NETWORK_SWITCH';
 export const CHANGE_PREFERRED_CURRENCY = 'CHANGE_PREFERRED_CURRENCY';
 export const ACCEPT_DISCLAIMER = 'ACCEPT_DISCLAIMER';
+export const DISMISS_XSELL_DASHBOARD = 'DISMISS_XSELL_DASHBOARD';
 
 // Action creators
 
@@ -106,5 +107,11 @@ export const createAcceptDisclaimer = (version: number): IAction => {
         data: {
             version
         }
+    };
+};
+
+export const createDismissXSellDashboard = (): IAction => {
+    return {
+        type: DISMISS_XSELL_DASHBOARD
     };
 };

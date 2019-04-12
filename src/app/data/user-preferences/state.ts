@@ -13,4 +13,5 @@ export interface IUserPreferences {
     networks: INetworksOptions;
     preferredCurrency: string;
     disclaimerVersionAccepted?: number;
+    xsellDashboardLastDismiss?: number;
 }

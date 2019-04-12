@@ -76,10 +76,12 @@ export class LandingPage extends Component<IProps, IState> {
                                         }
                                         onKeyPress={e =>
                                             e.code === 'Enter' &&
-                                            this.props.loadWallet(
-                                                appContext('walletProvider'),
-                                                this.props.networkConfig,
-                                                this.state.password
+                                            this.checkDisclaimerAndExecute(() =>
+                                                this.props.loadWallet(
+                                                    appContext('walletProvider'),
+                                                    this.props.networkConfig,
+                                                    this.state.password
+                                                )
                                             )
                                         }
                                         label={translate('LandingPage.enterPassword')}

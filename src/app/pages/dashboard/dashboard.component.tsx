@@ -14,14 +14,19 @@ import TestnetWarning from '../../components/testnet-warning/testnet-warning.con
 import { GenericAccount } from 'moonlet-core/src/core/account';
 import Icon from 'preact-material-components/Icon';
 import { Translate } from '../../components/translate/translate.component';
+import { IUserPreferences } from '../../data/user-preferences/state';
+import Button from 'preact-material-components/Button';
+import { translate } from '../../utils/translate';
 interface IProps {
     hideTestNetWarning: boolean;
     accounts: GenericAccount[];
     balances: IAccountsBalances;
     selectedAccount?: { blockchain: Blockchain; address: string };
     device: IDevice;
+    userPreferences: IUserPreferences;
 
     updateBalance: (blockchain: Blockchain, address: string) => any;
+    dismissXSell: () => any;
 }
 
 export class DashboardPage extends Component<IProps> {
@@ -37,10 +42,36 @@ export class DashboardPage extends Component<IProps> {
         return balance;
     }
 
+    public shouldDisplayXSell() {
+        const today = new Date().toDateString();
+        const lastDismiss = new Date(
+            this.props.userPreferences.xsellDashboardLastDismiss
+        ).toDateString();
+        return today !== lastDismiss;
+    }
+
     public render() {
         return (
             <div className="dashboard-page">
                 {!this.props.hideTestNetWarning && <TestnetWarning />}
+                {this.shouldDisplayXSell() && (
+                    <Card className="xsell-card">
+                        <Translate text="DashboardPage.xSell.text" />
+                        <div class="action-buttons">
+                            <Button onClick={() => setTimeout(() => this.props.dismissXSell(), 50)}>
+                                {translate('App.labels.dismiss')}
+                            </Button>
+                            <Button
+                                raised
+                                secondary
+                                href="https://moonlet.xyz/links/ud"
+                                target="_blank"
+                            >
+                                {translate('DashboardPage.xSell.getOneNow')}
+                            </Button>
+                        </div>
+                    </Card>
+                )}
                 {this.props.accounts.map(account => (
                     <Card
                         className={

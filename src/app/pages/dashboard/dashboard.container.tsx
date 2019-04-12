@@ -5,6 +5,7 @@ import { getWalletProvider } from '../../app-context';
 import { createGetBalance } from '../../data/wallet/actions';
 import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
 import { filterAccounts } from '../../utils/blockchain/utils';
+import { createDismissXSellDashboard } from '../../data/user-preferences/actions';
 
 const mapStateToProps = (state: IState, ownProps) => {
     const accounts = filterAccounts(
@@ -18,13 +19,15 @@ const mapStateToProps = (state: IState, ownProps) => {
         ...ownProps,
         accounts,
         balances,
-        device: state.pageConfig.device
+        device: state.pageConfig.device,
+        userPreferences: state.userPreferences
     };
 };
 
 const mapDispatchToProps = {
     updateBalance: (blockchain, address) =>
-        createGetBalance(getWalletProvider(), blockchain, address)
+        createGetBalance(getWalletProvider(), blockchain, address),
+    dismissXSell: createDismissXSellDashboard
 };
 
 export default connect(

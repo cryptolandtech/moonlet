@@ -5,7 +5,8 @@ import {
     NETWORK_SWITCH,
     SET_PREFERENCES,
     CHANGE_PREFERRED_CURRENCY,
-    ACCEPT_DISCLAIMER
+    ACCEPT_DISCLAIMER,
+    DISMISS_XSELL_DASHBOARD
 } from './actions';
 import { IUserPreferences } from './state';
 
@@ -84,6 +85,12 @@ export default (state: IUserPreferences, action: IAction): IUserPreferences => {
             state = {
                 ...state,
                 disclaimerVersionAccepted: action.data.version
+            };
+            break;
+        case DISMISS_XSELL_DASHBOARD:
+            state = {
+                ...state,
+                xsellDashboardLastDismiss: Date.now()
             };
             break;
     }

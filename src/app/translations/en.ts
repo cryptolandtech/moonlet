@@ -42,7 +42,8 @@ export const translation: ITranslations = {
                 pending: 'Pending',
                 success: 'Success',
                 giveFeedback: 'Give feedback',
-                getZilDomain: 'Get .zil domain'
+                getZilDomain: 'Get .zil domain',
+                dismiss: 'Dismiss'
             }
         },
         DrawerMenu: {
@@ -66,6 +67,11 @@ export const translation: ITranslations = {
             menu: {
                 addNewAccount: 'Add new account',
                 openNewTab: 'Open new tab'
+            },
+            xSell: {
+                text:
+                    'Make your crypto payments simple. Get now your .zil domain before someone else buys it! (e.g. johndoe.zil).',
+                getOneNow: 'Get one now'
             }
         },
         SendPage: {
