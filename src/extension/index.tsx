@@ -72,7 +72,7 @@ const walletProvider = new ExtensionWalletProvider();
     }) as any);
 
     store.dispatch(createUpdateConversionRates() as any);
-    setInterval(() => store.dispatch(createUpdateConversionRates() as any), 5 * 60 * 1000);
+    setInterval(() => store.dispatch(createUpdateConversionRates() as any), 10 * 60 * 1000);
 })();
 
 store.subscribe(() => {
