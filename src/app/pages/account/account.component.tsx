@@ -128,7 +128,8 @@ export class AccountPage extends Component<IProps> {
                                         >
                                             {[
                                                 TransactionStatus.PENDING,
-                                                TransactionStatus.SUCCESS
+                                                TransactionStatus.SUCCESS,
+                                                TransactionStatus.FAILED
                                             ].indexOf(tx.status) >= 0 && (
                                                 <Translate
                                                     text={`App.labels.${tx.status.toLowerCase()}`}

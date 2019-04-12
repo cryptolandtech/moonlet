@@ -66,5 +66,9 @@
         &.pending {
             color: orange;
         }
+
+        &.failed {
+            color: red;
+        }
     }
 }
