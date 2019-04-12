@@ -134,24 +134,7 @@ export class TopBar extends Component<IProps> {
                                 style={`width: ${right.menuWidth || 150}px;`}
                             >
                                 {Array.isArray(right.items) &&
-                                    right.items.map(item => (
-                                        <Menu.Item
-                                            onClick={() => {
-                                                setTimeout(() => {
-                                                    if (item.href) {
-                                                        route(item.href);
-                                                    } else if (item.action) {
-                                                        this.props.dispatch(item.action as any);
-                                                    }
-                                                }, 50);
-                                            }}
-                                        >
-                                            {item.text}
-                                            {item.icon && (
-                                                <List.ItemMeta>{item.icon}</List.ItemMeta>
-                                            )}
-                                        </Menu.Item>
-                                    ))}
+                                    right.items.map(item => this.getMenuItem(item))}
                             </Menu>
                         </Menu.Anchor>
                     );
@@ -162,6 +145,33 @@ export class TopBar extends Component<IProps> {
                 <TopAppBar.Section align-end className="right-section">
                     {sectionContent}
                 </TopAppBar.Section>
+            );
+        }
+    }
+
+    public getMenuItem(item) {
+        if (item.divider) {
+            return <List.Divider />;
+        } else {
+            return (
+                <Menu.Item
+                    onClick={() => {
+                        setTimeout(() => {
+                            if (item.href) {
+                                if (item.target) {
+                                    window.open(item.href);
+                                } else {
+                                    route(item.href);
+                                }
+                            } else if (item.action) {
+                                this.props.dispatch(item.action as any);
+                            }
+                        }, 50);
+                    }}
+                >
+                    {item.text}
+                    {item.icon && <List.ItemMeta>{item.icon}</List.ItemMeta>}
+                </Menu.Item>
             );
         }
     }

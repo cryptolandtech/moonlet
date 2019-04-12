@@ -24,9 +24,11 @@ export interface IDefaultTopBarConfig {
         action?: IAction | { () };
         text?: string | JSX.Element;
         items?: Array<{
-            text: string | JSX.Element;
+            divider?: boolean;
+            text?: string | JSX.Element;
             icon?: string;
             href?: string;
+            target?: string;
             action?: IAction | { () };
         }>;
     };

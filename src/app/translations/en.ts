@@ -40,7 +40,9 @@ export const translation: ITranslations = {
                 warning: 'Warning',
                 on: 'On',
                 pending: 'Pending',
-                success: 'Success'
+                success: 'Success',
+                giveFeedback: 'Give feedback',
+                getZilDomain: 'Get .zil domain'
             }
         },
         DrawerMenu: {
@@ -265,6 +267,10 @@ export const translation: ITranslations = {
             generic: "You're using testnets for all accounts.",
             specific: "You're using {{blockchain}} {{testnetName}} testnet.",
             goTo: 'Go to Settings -> Dev Tools to switch networks.'
+        },
+        SupportUsPage: {
+            title: 'Support us',
+            text: 'Donating is a helpful way to support us.'
         }
     },
     plural: (n: number, ord: boolean) => {

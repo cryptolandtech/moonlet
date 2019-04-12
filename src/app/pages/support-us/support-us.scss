@@ -1,0 +1,14 @@
+.support-us-page {
+    .mdc-card {
+        margin: 16px 8px;
+        padding: 8px;
+    }
+
+    .address {
+        word-break: break-all;
+        text-align: center;
+        padding: 8px;
+        cursor: pointer;
+        display: block;
+    }
+}

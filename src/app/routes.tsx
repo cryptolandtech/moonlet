@@ -57,6 +57,26 @@ const dashboardConfig: IRouteConfig = {
                     text: <Translate text="App.labels.settings" />,
                     icon: 'settings',
                     href: '/settings'
+                },
+                {
+                    divider: true
+                },
+                {
+                    text: <Translate text="App.labels.giveFeedback" />,
+                    href: 'https://moonlet.xyz/links/feedback',
+                    target: '_blank',
+                    icon: 'feedback'
+                },
+                {
+                    text: <Translate text="App.labels.getZilDomain" />,
+                    href: 'https://moonlet.xyz/links/ud',
+                    target: '_blank',
+                    icon: 'shopping_cart'
+                },
+                {
+                    text: <Translate text="SupportUsPage.title" />,
+                    href: '/support-us',
+                    icon: 'sentiment_satisfied_alt'
                 }
             ]
         }
@@ -329,6 +349,16 @@ export const ROUTES: IRoute[] = [
                 [DeviceScreenSize.BIG]: dashboardConfig
             }
         }
+    },
+    {
+        name: 'support-us',
+        path: '/support-us',
+        // getComponent: () =>
+        //     import('./pages/settings/pages/disclaimer/disclaimer.component').then(
+        //         module => module.DisclaimerPage as any
+        //     ),
+        component: require('./pages/support-us/support-us.component').SupportUsPage,
+        config: popupPageConfig('SupportUsPage.title')
     }
 ];
 
