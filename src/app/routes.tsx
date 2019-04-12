@@ -68,15 +68,15 @@ const dashboardConfig: IRouteConfig = {
                     icon: 'feedback'
                 },
                 {
+                    text: <Translate text="SupportUsPage.title" />,
+                    href: '/support-us',
+                    icon: 'sentiment_satisfied_alt'
+                },
+                {
                     text: <Translate text="App.labels.getZilDomain" />,
                     href: 'https://moonlet.xyz/links/ud',
                     target: '_blank',
                     icon: 'shopping_cart'
-                },
-                {
-                    text: <Translate text="SupportUsPage.title" />,
-                    href: '/support-us',
-                    icon: 'sentiment_satisfied_alt'
                 }
             ]
         }

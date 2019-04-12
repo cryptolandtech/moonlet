@@ -13,7 +13,7 @@ export class SupportUsPage extends Component {
     public render() {
         return (
             <div class="support-us-page">
-                <Translate text="SupportUsPage.text" headline6 className="center-text" />
+                <Translate text="SupportUsPage.text" headline6 className="text center-text" />
                 <Card>
                     <Typography headline6>Ethereum</Typography>
                     <Copy text={ETH_ADDRESS}>

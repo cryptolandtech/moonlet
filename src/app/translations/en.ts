@@ -42,7 +42,7 @@ export const translation: ITranslations = {
                 pending: 'Pending',
                 success: 'Success',
                 giveFeedback: 'Give feedback',
-                getZilDomain: 'Get .zil domain',
+                getZilDomain: 'Get your .zil domain',
                 dismiss: 'Dismiss'
             }
         },
@@ -71,7 +71,7 @@ export const translation: ITranslations = {
             xSell: {
                 text:
                     'Make your crypto payments simple. Get now your .zil domain before someone else buys it! (e.g. johndoe.zil).',
-                getOneNow: 'Get one now'
+                getOneNow: 'Get yours now'
             }
         },
         SendPage: {
