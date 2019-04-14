@@ -70,7 +70,7 @@ export const translation: ITranslations = {
             },
             xSell: {
                 text:
-                    'Make your crypto payments simple. Get now your .zil domain before someone else buys it! (e.g. johndoe.zil).',
+                    'Make your crypto payments simple. Get your .zil domain now before someone else buys it! (e.g. johndoe.zil).',
                 getOneNow: 'Get yours now'
             }
         },
