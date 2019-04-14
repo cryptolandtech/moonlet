@@ -20,6 +20,7 @@ export const WALLET_UPDATE_BALANCE = 'WALLET_UPDATE_BALANCE';
 export const WALLET_TRANSFER = 'WALLET_TRANSFER';
 export const WALLET_CLEAR_BALANCES = 'WALLET_CLEAR_BALANCES';
 export const WALLET_REMOVE_ACCOUNT = 'WALLET_REMOVE_ACCOUNT';
+export const WALLET_OLD_ACCOUNT_WARNING = 'WALLET_OLD_ACCOUNT_WARNING';
 
 // Action creators
 export const createWalletLoaded = (status: WalletStatus, wallet?: IWalletData) => {
@@ -226,5 +227,14 @@ export const createRemoveAccount = (
         await walletProvider.removeAccount(blockchain, address);
 
         await createWalletSync(walletProvider)(dispatch);
+    };
+};
+
+export const createOldAccountWarning = show => {
+    return {
+        type: WALLET_OLD_ACCOUNT_WARNING,
+        data: {
+            show
+        }
     };
 };

@@ -30,6 +30,7 @@ export interface IAccountsBalances {
 
 export interface IWalletState {
     invalidPassword: boolean;
+    oldAccountWarning?: boolean;
     status: WalletStatus;
     data?: IWalletData;
     balances?: IAccountsBalances;

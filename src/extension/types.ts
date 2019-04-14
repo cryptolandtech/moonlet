@@ -28,10 +28,11 @@ export interface IBackgroundMessage {
 }
 
 export enum ExtensionMessageType {
-    WALLET_EVENT = 'WALLET_EVENT'
+    WALLET_EVENT = 'WALLET_EVENT',
+    OLD_WALLET_DETECTED = 'OLD_WALLET_DETECTED'
 }
 
 export interface IExtensionMessage {
     type: ExtensionMessageType;
-    data: { data: WalletEventData; type: WalletEventType };
+    data?: { data: WalletEventData; type: WalletEventType };
 }

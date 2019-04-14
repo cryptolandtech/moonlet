@@ -86,6 +86,38 @@ export class WalletManager {
             const json = aes.decrypt(await this.getFromStorage(), password).toString(encUtf8);
             if (json) {
                 const wallet = Wallet.fromJson(json, blockchains);
+
+                // check old wallet stuff
+                const walletData = JSON.parse(json);
+                // console.log(walletData.accounts);
+                if (
+                    walletData &&
+                    walletData.accounts &&
+                    walletData.accounts[Blockchain.ZILLIQA] &&
+                    walletData.accounts[Blockchain.ZILLIQA].length === 1
+                ) {
+                    const oldAccount = walletData.accounts[Blockchain.ZILLIQA][0];
+                    const currentAccount = wallet
+                        .getBlockchain(Blockchain.ZILLIQA)
+                        .getAccounts()[0];
+
+                    if (
+                        oldAccount &&
+                        currentAccount &&
+                        oldAccount.address.toLowerCase() !== currentAccount.address.toLowerCase()
+                    ) {
+                        // console.log('old wallet detected 10018', oldAccount.address, currentAccount.address);
+                        browser.runtime.sendMessage({
+                            type: ExtensionMessageType.OLD_WALLET_DETECTED
+                        });
+                    } else if (oldAccount && !currentAccount) {
+                        // console.log('old wallet detected testnet', oldAccount.address);
+                        browser.runtime.sendMessage({
+                            type: ExtensionMessageType.OLD_WALLET_DETECTED
+                        });
+                    }
+                }
+
                 this.wallet = wallet;
                 this.password = password;
                 return this.get();

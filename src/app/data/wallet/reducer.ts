@@ -6,7 +6,8 @@ import {
     WALLET_UPDATE_BALANCE,
     WALLET_TRANSFER,
     WALLET_CLEAR_BALANCES,
-    WALLET_SYNC
+    WALLET_SYNC,
+    WALLET_OLD_ACCOUNT_WARNING
 } from './actions';
 import { IAction } from '../action';
 import { IWalletState, WalletStatus } from './state';
@@ -84,6 +85,12 @@ export default (state: IWalletState, action: IAction): IWalletState => {
             state = {
                 ...state,
                 balances: {}
+            };
+            break;
+        case WALLET_OLD_ACCOUNT_WARNING:
+            state = {
+                ...state,
+                oldAccountWarning: action.data.show
             };
             break;
     }

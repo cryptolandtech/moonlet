@@ -6,7 +6,12 @@ import { getStore } from '../app/data';
 import { DeviceScreenSize, Platform } from '../app/types';
 import { getScreenSizeMatchMedia } from '../app/utils/screen-size-match-media';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import { createLoadWallet, createWalletSync, createGetBalance } from '../app/data/wallet/actions';
+import {
+    createLoadWallet,
+    createWalletSync,
+    createGetBalance,
+    createOldAccountWarning
+} from '../app/data/wallet/actions';
 import { ExtensionWalletProvider } from './wallet-provider';
 
 import { browser } from 'webextension-polyfill-ts';
@@ -137,6 +142,10 @@ browser.runtime.onMessage.addListener((message: IExtensionMessage, sender) => {
                 event.data.address
             ) as any);
         }
+    }
+
+    if (message.type === ExtensionMessageType.OLD_WALLET_DETECTED) {
+        setTimeout(() => store.dispatch(createOldAccountWarning(true)), 2000);
     }
 
     return Promise.resolve({ success: true });

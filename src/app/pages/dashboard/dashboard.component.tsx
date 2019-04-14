@@ -17,6 +17,7 @@ import { Translate } from '../../components/translate/translate.component';
 import { IUserPreferences } from '../../data/user-preferences/state';
 import Button from 'preact-material-components/Button';
 import { translate } from '../../utils/translate';
+import Dialog from 'preact-material-components/Dialog';
 interface IProps {
     hideTestNetWarning: boolean;
     accounts: GenericAccount[];
@@ -24,12 +25,16 @@ interface IProps {
     selectedAccount?: { blockchain: Blockchain; address: string };
     device: IDevice;
     userPreferences: IUserPreferences;
+    oldAccountWarning: boolean;
 
     updateBalance: (blockchain: Blockchain, address: string) => any;
     dismissXSell: () => any;
+    showOldAccountWarning: (show: boolean) => any;
 }
 
 export class DashboardPage extends Component<IProps> {
+    public oldAccountWarningDialog;
+
     public getCoin(account) {
         return BLOCKCHAIN_INFO[account.node.blockchain].coin;
     }
@@ -48,6 +53,15 @@ export class DashboardPage extends Component<IProps> {
             this.props.userPreferences.xsellDashboardLastDismiss
         ).toDateString();
         return today !== lastDismiss;
+    }
+
+    public componentDidUpdate(prevProps: IProps) {
+        if (
+            this.props.oldAccountWarning !== prevProps.oldAccountWarning &&
+            this.props.oldAccountWarning
+        ) {
+            this.oldAccountWarningDialog.MDComponent.show();
+        }
     }
 
     public render() {
@@ -125,6 +139,35 @@ export class DashboardPage extends Component<IProps> {
                         <Translate text="DashboardPage.menu.addNewAccount" />
                     </div>
                 </Link>
+
+                <Dialog
+                    ref={ref => (this.oldAccountWarningDialog = ref)}
+                    onAccept={() => {
+                        setTimeout(() => route('/settings/zilliqa-account-recover'), 50);
+                        this.props.showOldAccountWarning(false);
+                    }}
+                    onCancel={() => {
+                        this.props.showOldAccountWarning(false);
+                    }}
+                >
+                    <Dialog.Header>
+                        <Translate text="App.labels.alert" />
+                    </Dialog.Header>
+                    <Dialog.Body>
+                        It seems that you generated your wallet with an older version of Moonlet,
+                        used for testing purposes. You might not be able to see your account
+                        anymore.
+                        <br />
+                        You can get your account on Settings -> Developer Options -> Wallets older
+                        than 0.3.111 version.
+                    </Dialog.Body>
+                    <Dialog.Footer>
+                        <Dialog.FooterButton cancel={true}>
+                            {translate('App.labels.dismiss')}
+                        </Dialog.FooterButton>
+                        <Dialog.FooterButton accept={true}>Go Now</Dialog.FooterButton>
+                    </Dialog.Footer>
+                </Dialog>
             </div>
         );
     }
