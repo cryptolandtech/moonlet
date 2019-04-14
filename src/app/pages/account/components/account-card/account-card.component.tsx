@@ -8,6 +8,7 @@ import Balance from '../../../../components/balance/balance.container';
 import { GenericAccount, AccountType } from 'moonlet-core/src/core/account';
 import { Copy } from '../../../../components/copy/copy.component';
 import Typography from 'preact-material-components/Typography';
+import { Blockchain } from 'moonlet-core/src/core/blockchain';
 
 interface IProps {
     account: GenericAccount;
@@ -65,6 +66,13 @@ export class AccountCard extends Component<IProps> {
                         convert
                     />
                 </div>
+
+                {this.props.account.node.blockchain === Blockchain.ZILLIQA && (
+                    <Typography body2 className="center-text error-text">
+                        Don’t send ZIL ERC-20 tokens to this address and from this address! Please
+                        wait for swapping phase and use it for ZIL native tokens only!
+                    </Typography>
+                )}
             </Card>
         );
     }
