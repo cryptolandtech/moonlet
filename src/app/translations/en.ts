@@ -169,7 +169,8 @@ export const translation: ITranslations = {
             status: 'Transaction status',
             from: 'From',
             recipient: 'Recipient',
-            id: 'Transaction ID'
+            id: 'Transaction ID',
+            nonce: 'Nonce'
         },
         ReceivePage: {
             copyToClipboard: 'Copy to clipboard'

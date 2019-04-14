@@ -10,7 +10,7 @@ import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { convertUnit } from '../../utils/blockchain/utils';
 
 interface ITransactionListItem {
-    icon: string;
+    icon?: string;
     primaryText: string;
     secondaryText: string;
     href?: string;
@@ -59,10 +59,17 @@ export class TransactionDetailsPage extends Component<IProps> {
         //     secondaryText: translate('TransactionDetailsPage.fees')
         // });
 
+        // transaction nonce
+        details.push({
+            icon: 'reorder',
+            primaryText: (tx.nonce || '').toString(),
+            secondaryText: translate('TransactionDetailsPage.nonce')
+        });
+
         // transaction status
         details.push({
             icon: 'access_time',
-            primaryText: tx.status.replace('FINAL', 'SUBMITTED'),
+            primaryText: tx.status,
             secondaryText: translate('TransactionDetailsPage.status')
         });
 
