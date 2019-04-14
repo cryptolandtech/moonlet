@@ -69,8 +69,7 @@ export class AccountCard extends Component<IProps> {
 
                 {this.props.account.node.blockchain === Blockchain.ZILLIQA && (
                     <Typography body2 className="center-text error-text">
-                        Don’t send ZIL ERC-20 tokens to this address and from this address! Please
-                        wait for swapping phase and use it for ZIL native tokens only!
+                        Don't send ZIL ERC-20 tokens to this address!
                     </Typography>
                 )}
             </Card>
