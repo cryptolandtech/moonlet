@@ -43,7 +43,8 @@ export const translation: ITranslations = {
                 success: 'Success',
                 giveFeedback: 'Give feedback',
                 getZilDomain: 'Get your .zil domain',
-                dismiss: 'Dismiss'
+                dismiss: 'Dismiss',
+                reportIssue: 'Report Issue'
             }
         },
         DrawerMenu: {

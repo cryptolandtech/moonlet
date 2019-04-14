@@ -62,6 +62,12 @@ const dashboardConfig: IRouteConfig = {
                     divider: true
                 },
                 {
+                    text: <Translate text="App.labels.reportIssue" />,
+                    href: 'https://moonlet.xyz/links/support',
+                    target: '_blank',
+                    icon: 'bug_report'
+                },
+                {
                     text: <Translate text="App.labels.giveFeedback" />,
                     href: 'https://moonlet.xyz/links/feedback',
                     target: '_blank',
