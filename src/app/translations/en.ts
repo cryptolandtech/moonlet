@@ -254,6 +254,9 @@ export const translation: ITranslations = {
         CurrencyPage: {
             title: 'Preferred Currency'
         },
+        ZilliqaAccountRecoverPage: {
+            title: 'Zilliqa Account Recover'
+        },
         CreateAccountPage: {
             title: 'New Account',
             blockchainError: 'Select a blockchain.',

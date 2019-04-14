@@ -224,6 +224,17 @@ export const ROUTES: IRoute[] = [
         config: popupPageConfig('CurrencyPage.title')
     },
     {
+        name: 'settingsZilliqaAccountRecover',
+        path: '/settings/zilliqa-account-recover',
+        // getComponent: () =>
+        //     import('./pages/settings/pages/currency/currency.container').then(
+        //         module => module.default
+        //         ),
+        component: require('./pages/settings/pages/zilliqa-account-recover/zilliqa-account-recover.container')
+            .default,
+        config: popupPageConfig('ZilliqaAccountRecoverPage.title')
+    },
+    {
         name: 'settingsNetworkOptions',
         path: '/settings/networkOptions/:blockchain?',
         // getComponent: () =>

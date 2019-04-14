@@ -41,7 +41,7 @@ export class Copy extends Component<IProps, IState> {
                     this.setState({ textCopied: true });
                 }}
             >
-                <div>
+                <div class="copy-component-container">
                     {this.props.children || []}
                     <div
                         class={`copy-component center-text ${

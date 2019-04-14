@@ -101,6 +101,10 @@ export class SettingsPage extends Component<IProps> {
                 }
             },
             {
+                primaryText: <Translate text="ZilliqaAccountRecoverPage.title" />,
+                href: '/settings/zilliqa-account-recover'
+            },
+            {
                 primaryText: <Translate text="SettingsPage.applicationVersion" />,
                 secondaryText: this.props.version || ''
             }
