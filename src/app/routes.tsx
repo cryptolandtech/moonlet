@@ -37,7 +37,7 @@ const dashboardConfig: IRouteConfig = {
         right: {
             type: 'menu',
             icon: 'more_vert',
-            menuWidth: 200,
+            menuWidth: 220,
             items: [
                 {
                     text: <Translate text="DashboardPage.menu.addNewAccount" />,
