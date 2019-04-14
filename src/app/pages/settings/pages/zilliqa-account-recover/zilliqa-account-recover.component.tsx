@@ -72,16 +72,6 @@ export class ZilliqaAccountRecover extends Component<IProps, IState> {
                                     </Typography>
                                 </Copy>
 
-                                <Translate
-                                    text="App.labels.privateKey"
-                                    className="label top-space"
-                                />
-                                <Copy text={account.privateKey}>
-                                    <Typography headline6 class="address">
-                                        {account.privateKey}
-                                    </Typography>
-                                </Copy>
-
                                 <Button
                                     ripple
                                     raised
