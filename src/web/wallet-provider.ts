@@ -132,18 +132,20 @@ export class WebWalletProvider implements IWalletProvider {
 
         if (account) {
             try {
-                const nonce = await NonceManager.getNext(account);
+                const nonce = await NonceManager.getNext(account, false);
                 const tx = account.buildTransferTransaction(
                     toAddress,
-                    amount.toNumber(),
+                    amount.toString(),
                     nonce,
                     (feeOptions as IGasFeeOptions).gasPrice,
                     (feeOptions as IGasFeeOptions).gasLimit
                 );
                 account.signTransaction(tx);
                 const response = await account.send(tx);
+                await NonceManager.getNext(account, true);
                 return Promise.resolve(response);
             } catch (e) {
+                // console.log(e);
                 if (e.code) {
                     return Promise.reject(Response.reject(e));
                 }

@@ -2,7 +2,7 @@ import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { GenericAccount } from 'moonlet-core/src/core/account';
 
 export class NonceManager {
-    public static async getNext(account: GenericAccount): Promise<number> {
+    public static async getNext(account: GenericAccount, update: boolean): Promise<number> {
         const currentNonce = await NonceManager.getCurrent(account);
 
         let increaseUnit = 0;
@@ -10,7 +10,9 @@ export class NonceManager {
             increaseUnit = 1;
         }
 
-        NonceManager.nonce.set(account.address, currentNonce + increaseUnit);
+        if (update) {
+            NonceManager.nonce.set(account.address, currentNonce + increaseUnit);
+        }
         return currentNonce + increaseUnit;
     }
 

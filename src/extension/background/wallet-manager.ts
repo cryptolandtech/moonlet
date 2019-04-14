@@ -212,16 +212,18 @@ export class WalletManager {
 
         if (account) {
             try {
-                const nonce = await NonceManager.getNext(account);
+                const nonce = await NonceManager.getNext(account, false);
                 const tx = account.buildTransferTransaction(
                     toAddress,
-                    new BigNumber(amount).toNumber(),
+                    new BigNumber(amount).toString(),
                     nonce,
                     (feeOptions as IGasFeeOptions).gasPrice,
                     (feeOptions as IGasFeeOptions).gasLimit
                 );
                 account.signTransaction(tx);
                 const response = await account.send(tx);
+                // update nonce
+                await NonceManager.getNext(account, true);
                 await this.saveToStorage();
                 return Response.resolve(response);
             } catch (e) {
