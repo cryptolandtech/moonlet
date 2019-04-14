@@ -53,12 +53,13 @@ export class ZilliqaAccountRecover extends Component<IProps, IState> {
             'Old Account'
         );
         await this.props.syncWallet();
-        route(`/account/${Blockchain.ZILLIQA}/${account.address}`, true);
+        route(`/dashboard`, true);
     }
 
     public render() {
         return (
             <div className="zilliqa-account-recover-page">
+                <Translate text="ZilliqaAccountRecoverPage.text" className="text" />
                 {this.state.hdKey &&
                     [10018, 1, 8888].map(hdCoinValue => {
                         const account = this.getAccount(hdCoinValue);

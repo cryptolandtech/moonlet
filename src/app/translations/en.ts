@@ -255,7 +255,9 @@ export const translation: ITranslations = {
             title: 'Preferred Currency'
         },
         ZilliqaAccountRecoverPage: {
-            title: 'Zilliqa Account Recover'
+            title: 'Zilliqa old accounts access',
+            text:
+                'If you ever used an older version of Moonlet, before 31st of January 2018, this section would help you recover access to old addresses.'
         },
         CreateAccountPage: {
             title: 'New Account',

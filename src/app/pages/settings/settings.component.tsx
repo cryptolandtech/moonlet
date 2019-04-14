@@ -96,13 +96,13 @@ export class SettingsPage extends Component<IProps> {
                             primaryText: <Translate text="NetworkOptionsPage.title" />,
                             href: '/settings/networkOptions',
                             isDisabled: () => !this.props.userPreferences.devMode
+                        },
+                        {
+                            primaryText: 'Wallets older than 0.3.111 version',
+                            href: '/settings/zilliqa-account-recover'
                         }
                     ]
                 }
-            },
-            {
-                primaryText: <Translate text="ZilliqaAccountRecoverPage.title" />,
-                href: '/settings/zilliqa-account-recover'
             },
             {
                 primaryText: <Translate text="SettingsPage.applicationVersion" />,
