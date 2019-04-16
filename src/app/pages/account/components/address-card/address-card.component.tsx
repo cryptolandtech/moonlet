@@ -17,7 +17,7 @@ import Dialog from 'preact-material-components/Dialog';
 import { translate } from '../../../../utils/translate';
 
 interface IProps {
-    account: any;
+    account: GenericAccount;
     showMenu?: boolean;
 
     accounts: GenericAccount[];
@@ -34,6 +34,26 @@ export class AddressCard extends Component<IProps> {
         if (this.addressMenu) {
             this.addressMenu.MDComponent.setFixedPosition(true);
         }
+    }
+
+    public getExplorerMenuItem() {
+        if (this.props.account.node.network.explorerAccountPattern) {
+            const href = this.props.account.node.network.explorerAccountPattern.replace(
+                '{addr}',
+                this.props.account.address.replace(/^0x/, '')
+            );
+
+            return (
+                <List.LinkItem href={href} onClick={() => window.open(href)} target="_blank">
+                    <Translate
+                        text="AccountPage.viewOn"
+                        params={{ explorer: new URL(href).hostname }}
+                    />
+                    <List.ItemMeta>launch</List.ItemMeta>
+                </List.LinkItem>
+            );
+        }
+        return null;
     }
 
     public render() {
@@ -71,6 +91,7 @@ export class AddressCard extends Component<IProps> {
                                     <Translate text="AccountPage.revealPublicKey" />
                                     <List.ItemMeta>remove_red_eye</List.ItemMeta>
                                 </List.LinkItem>
+                                {this.getExplorerMenuItem()}
                                 <List.LinkItem
                                     onClick={() => {
                                         setTimeout(() => {

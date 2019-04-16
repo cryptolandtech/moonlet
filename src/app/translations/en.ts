@@ -216,6 +216,7 @@ export const translation: ITranslations = {
             revealPublicKey: 'Reveal Public Key',
             discardAddress: 'Discard Address',
             addressCopied: 'Address copied to clipboard',
+            viewOn: 'View on {{explorer}}',
 
             discardDialog: {
                 title: 'Discard Account',
