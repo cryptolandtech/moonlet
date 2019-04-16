@@ -82,29 +82,3 @@ browser.runtime.onConnect.addListener((port: Runtime.Port) => {
         });
     }
 });
-
-browser.tabs.onActivated.addListener(async (activeTab: Tabs.OnActivatedActiveInfoType) => {
-    const tab = await browser.tabs.get(activeTab.tabId);
-    if (tab.url && tab.url.startsWith('chrome-extension://' + browser.runtime.id)) {
-        browserIconManager.setState({ currentWindowId: tab.windowId, tab: true });
-    } else {
-        browserIconManager.setState({ currentWindowId: tab.windowId, tab: false });
-    }
-});
-
-browser.windows.onFocusChanged.addListener(async (windowId: number) => {
-    browserIconManager.setState({ currentWindowId: windowId });
-    try {
-        const window = await browser.windows.get(windowId, { populate: true });
-        if (window.tabs) {
-            const tab = window.tabs.filter(t => t.active)[0];
-            if (tab && tab.url && tab.url.startsWith('chrome-extension://' + browser.runtime.id)) {
-                browserIconManager.setState({ tab: true });
-            } else {
-                browserIconManager.setState({ tab: false });
-            }
-        }
-    } catch {
-        browserIconManager.setState({ tab: false });
-    }
-});
