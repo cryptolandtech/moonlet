@@ -33,9 +33,9 @@ export class AccountCard extends Component<IProps> {
                 <div class="account-card-inner">
                     <div class="blockchain-logo">
                         <img
-                            src={`/assets/token-logos/${
-                                BLOCKCHAIN_INFO[this.props.account.node.blockchain].coin
-                            }.svg`}
+                            src={`/assets/token-logos/${BLOCKCHAIN_INFO[
+                                this.props.account.node.blockchain
+                            ].coin.toLowerCase()}.svg`}
                         />
                     </div>
                     <div class="account-name">{this.props.account.name}</div>
