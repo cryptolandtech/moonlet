@@ -16,7 +16,7 @@ interface IState {
     error: boolean;
 }
 
-export class ImportWalletStep1 extends Component<IProps, IState> {
+export class EnterMnemonic extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 
