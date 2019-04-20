@@ -4,7 +4,7 @@ import {
     BackgroundMessageType,
     ConnectionPort
 } from './../types';
-import { browser, Runtime, Tabs } from 'webextension-polyfill-ts';
+import { browser, Runtime } from 'webextension-polyfill-ts';
 import { WalletManager } from './wallet-manager';
 import { Response, IResponseData } from '../../app/utils/response';
 import { RemoteInterface } from './remote-interface';

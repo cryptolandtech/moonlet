@@ -5,14 +5,13 @@ import App from '../app/app.container';
 import { getStore } from '../app/data';
 import { DeviceScreenSize, Platform } from '../app/types';
 import { getScreenSizeMatchMedia } from '../app/utils/screen-size-match-media';
-import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import {
     createLoadWallet,
     createWalletSync,
     createGetBalance,
     createOldAccountWarning
 } from '../app/data/wallet/actions';
-import { ExtensionWalletProvider } from './wallet-provider';
+import { ExtensionWalletProvider } from './extension-wallet-provider';
 
 import { browser } from 'webextension-polyfill-ts';
 import { createSetPreferences } from '../app/data/user-preferences/actions';
@@ -25,6 +24,7 @@ import { DisclaimerPage } from '../app/pages/settings/pages/disclaimer/disclaime
 import { ConnectionPort, IExtensionMessage, ExtensionMessageType } from './types';
 import { WalletEventType } from 'moonlet-core/src/core/wallet-event-emitter';
 import { TransactionStatus } from 'moonlet-core/src/core/transaction';
+import { GoogleDriveProvider } from '../app/utils/cloud-storage/google-drive-provider';
 
 const USER_PREFERENCES_STORAGE_KEY = 'userPref';
 
@@ -47,7 +47,9 @@ const store = getStore({
     },
     userPreferences: {} as any
 });
-const walletProvider = new ExtensionWalletProvider();
+
+const backgroundCommPort = browser.runtime.connect({ name: ConnectionPort.BACKGROUND } as any);
+const walletProvider = new ExtensionWalletProvider(backgroundCommPort);
 
 (async () => {
     const storage = await browser.storage.local.get();
@@ -88,7 +90,7 @@ store.subscribe(() => {
 
 export default props => (
     <Provider store={store}>
-        <App {...props} history={createHashHistory()} walletProvider={walletProvider} />
+        <App {...props} history={createHashHistory()} {...{ walletProvider }} />
     </Provider>
 );
 
