@@ -29,6 +29,10 @@ export class WebWalletProvider implements IWalletProvider {
         return Promise.reject(Response.reject(WalletErrorCodes.WALLET_NOT_FOUND));
     }
 
+    public async getEncryptedWallet() {
+        return Promise.resolve(Response.resolve('encryptedWallet'));
+    }
+
     public async lockWallet() {
         this.wallet = null;
         return Promise.resolve();

@@ -4,4 +4,5 @@ export interface IAuth {
     logout(): Promise<any>;
     getAuthToken(): Promise<string>;
     getCurrentUser(): Promise<any>;
+    renewAuthToken(): Promise<string>;
 }

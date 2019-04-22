@@ -67,6 +67,10 @@ export class SettingsPage extends Component<IProps> {
                         {
                             primaryText: <Translate text="SettingsPage.revealSecretPhrase" />,
                             href: '/reveal/secretPhrase'
+                        },
+                        {
+                            primaryText: <Translate text="App.labels.backup" />,
+                            href: '/settings/backup'
                         }
                     ]
                 }

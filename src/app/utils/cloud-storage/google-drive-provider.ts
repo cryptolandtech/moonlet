@@ -3,7 +3,8 @@ import {
     ICreateFileOptions,
     ICreateFolderOptions,
     IUpdateFileOptions,
-    IUpdateFolderOptions
+    IUpdateFolderOptions,
+    CloudFileType
 } from './cloud-storage-provider';
 import { GoogleAuth } from '../authentication/google-auth';
 
@@ -20,11 +21,10 @@ interface IRequestOptions {
 }
 
 const GOOGLE_API_BASE_URL = 'https://www.googleapis.com';
-export class GoogleDriveProvider extends CloudStorageProvider {
-    public authProvider = new GoogleAuth();
-
+const FOLDER_MIME_TYPE = 'application/vnd.google-apps.folder';
+export class GoogleDriveProvider extends CloudStorageProvider<GoogleAuth> {
     constructor() {
-        super();
+        super(new GoogleAuth());
     }
 
     public async getFilesList(parent?: string): Promise<any> {
@@ -36,12 +36,23 @@ export class GoogleDriveProvider extends CloudStorageProvider {
             path: `/drive/v3/files`,
             params: {
                 spaces: 'appDataFolder',
-                q: `'${parent}' in parents`
+                q: `'${parent}' in parents`,
+                fields:
+                    'kind,nextPageToken,incompleteSearch,files(id,kind,mimeType,name,createdTime)',
+                orderBy: 'createdTime desc'
             }
+        }).then(data => {
+            data.files = (data.files || []).map(file => {
+                file.type =
+                    file.mimeType === FOLDER_MIME_TYPE ? CloudFileType.FOLDER : CloudFileType.FILE;
+                return file;
+            });
+            return data;
         });
     }
 
     public async createFile(options: ICreateFileOptions): Promise<any> {
+        // console.log('createFile', options);
         const body = new FormData();
 
         const contentType =
@@ -51,6 +62,7 @@ export class GoogleDriveProvider extends CloudStorageProvider {
             mimeType: contentType,
             parents: [options.parentId || 'appDataFolder']
         };
+        // console.log('createFile', metadata);
 
         body.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
 
@@ -116,9 +128,10 @@ export class GoogleDriveProvider extends CloudStorageProvider {
     }
 
     public async createFolder(options: ICreateFolderOptions): Promise<any> {
+        // console.log('createFolder', options);
         return this.createFile({
             ...options,
-            contentType: 'application/vnd.google-apps.folder',
+            contentType: FOLDER_MIME_TYPE,
             data: undefined
         });
     }
@@ -139,7 +152,7 @@ export class GoogleDriveProvider extends CloudStorageProvider {
 
         if (onlyInfo) {
             params = {
-                fields: 'id, kind, name, mimeType, parents'
+                fields: 'id, kind, name, mimeType, parents, createdTime'
             };
         } else {
             params = {

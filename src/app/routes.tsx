@@ -252,6 +252,16 @@ export const ROUTES: IRoute[] = [
         config: popupPageConfig('NetworkOptionsPage.title')
     },
     {
+        name: 'settingsBackup',
+        path: '/settings/backup',
+        // getComponent: () =>
+        //     import('./pages/settings/pages/backup/backup.component').then(
+        //         module => module.default
+        //     ),
+        component: require('./pages/settings/pages/backup/backup.component').BackupPage,
+        config: popupPageConfig('App.labels.backup')
+    },
+    {
         name: 'settings',
         path: '/settings/:level1?',
         // getComponent: () =>

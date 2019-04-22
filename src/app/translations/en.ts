@@ -8,6 +8,7 @@ export const translation: ITranslations = {
                 accept: 'Accept',
                 address: 'Address',
                 authorize: 'Authorize',
+                connect: 'Connect',
                 dashboard: 'Dashboard',
                 decline: 'Decline',
                 discard: 'Discard',
@@ -44,7 +45,8 @@ export const translation: ITranslations = {
                 giveFeedback: 'Give feedback',
                 getZilDomain: 'Get your .zil domain',
                 dismiss: 'Dismiss',
-                reportIssue: 'Report Issue'
+                reportIssue: 'Report Issue',
+                backup: 'Backup'
             }
         },
         DrawerMenu: {
@@ -285,6 +287,19 @@ export const translation: ITranslations = {
         SupportUsPage: {
             title: 'Support us',
             text: 'Donating is a helpful way to support us.'
+        },
+        BackupPage: {
+            lastBackup: 'Last backup',
+            noBackup: 'No backups yet.',
+            comingSoon: 'Coming soon',
+            confirmPassword: 'Confirm your password',
+            tasks: {
+                encrypt: 'Encrypt your wallet.',
+                checkStructure: 'Check cloud folder structure.',
+                upload: 'Upload encrypted wallet.',
+                verify: 'Verify backup.',
+                done: 'Done'
+            }
         }
     },
     plural: (n: number, ord: boolean) => {

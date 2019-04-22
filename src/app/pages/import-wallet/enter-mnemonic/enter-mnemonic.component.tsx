@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 
-import './step1.scss';
+import './enter-mnemonic.scss';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
 import { Translate } from '../../../components/translate/translate.component';
 import { TextField } from 'preact-material-components/TextField';

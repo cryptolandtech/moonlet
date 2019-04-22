@@ -1,8 +1,15 @@
+import { IAuth } from '../authentication/auth-interface';
+
 export interface ICreateFileOptions {
     name: string;
     parentId?: string;
-    contentType: string;
+    contentType?: string;
     data: any;
+}
+
+export enum CloudFileType {
+    FILE = 'FILE',
+    FOLDER = 'FOLDER'
 }
 
 export interface IUpdateFileOptions {
@@ -22,10 +29,14 @@ export interface IUpdateFolderOptions {
     parentId?: string;
 }
 
-export abstract class CloudStorageProvider<IOptions = {}> {
+export abstract class CloudStorageProvider<AuthProvider = IAuth, IOptions = {}> {
+    public authProvider: AuthProvider;
+
     protected options: IOptions;
-    constructor(options?: IOptions) {
+
+    constructor(authProvider: AuthProvider, options?: IOptions) {
         this.options = options;
+        this.authProvider = authProvider;
     }
 
     public abstract async getFilesList(parent?: string): Promise<any>;

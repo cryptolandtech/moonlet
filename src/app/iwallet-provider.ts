@@ -11,6 +11,7 @@ export enum WalletErrorCodes {
 export interface IWalletProvider {
     createWallet(mnemonics, password);
     getWallet();
+    getEncryptedWallet();
     lockWallet();
     unlockWallet(password);
     saveWallet();

@@ -18,6 +18,10 @@ export class ExtensionWalletProvider extends ExtensionBaseProvider implements IW
         return this.callAction('get');
     }
 
+    public async getEncryptedWallet() {
+        return this.callAction('getEncrypted');
+    }
+
     public async lockWallet() {
         return this.callAction('lock');
     }
