@@ -172,7 +172,8 @@ export const translation: ITranslations = {
                 enterPassword: 'Enter password',
                 restoreInfo: 'You are going to restore {{name}} from {{date}}.',
                 invalidPassword: 'Invalid password.',
-                genericError: 'There was an error while restoring your wallet.'
+                genericError: 'There was an error while restoring your wallet.',
+                noBackups: 'There are no backups on the selected account.'
             }
         },
         TransactionDetailsPage: {

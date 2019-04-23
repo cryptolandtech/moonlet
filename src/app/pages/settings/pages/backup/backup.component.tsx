@@ -208,7 +208,9 @@ export class BackupPage extends Component<{}, IState> {
         this.setState({
             ...nextState,
             screen: nextScreen,
-            tasks
+            tasks,
+            passwordInput: '',
+            passwordInputError: undefined
         });
 
         if (nextScreen === Screen.CREATE_BACKUP) {

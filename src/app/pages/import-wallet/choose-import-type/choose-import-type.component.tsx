@@ -7,6 +7,7 @@ import { isCloudProviderConnected } from '../../../utils/backup';
 import { route } from 'preact-router';
 import { Loader } from '../../../components/material-components/loader/loader.component';
 import { translate } from '../../../utils/translate';
+import { isExtensionPopup, getExtensionUrl } from '../../../utils/platform-utils';
 
 export enum ImportType {
     MNEMONIC = 'MNEMONIC',
@@ -41,17 +42,15 @@ export class ChooseImportType extends Component<{}, IState> {
                         ripple
                         secondary
                         onClick={async () => {
-                            this.setState({ googleDriveLoading: true });
-                            try {
-                                const gDrive = new GoogleDriveProvider();
-                                const connected = await isCloudProviderConnected(gDrive);
-                                if (!connected) {
-                                    await gDrive.authProvider.renewAuthToken();
-                                }
-                                this.setState({ googleDriveLoading: false });
+                            if (isExtensionPopup()) {
+                                window.open(
+                                    getExtensionUrl(
+                                        `/import-wallet/${ImportType.GOOGLE_DRIVE}`,
+                                        false
+                                    )
+                                );
+                            } else {
                                 route(`/import-wallet/${ImportType.GOOGLE_DRIVE}`);
-                            } catch {
-                                this.setState({ googleDriveLoading: false });
                             }
                         }}
                     >

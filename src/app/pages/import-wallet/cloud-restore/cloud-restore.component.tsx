@@ -12,6 +12,8 @@ import { Translate } from '../../../components/translate/translate.component';
 import bind from 'bind-decorator';
 import { getWalletProvider } from '../../../app-context';
 import { WalletErrorCodes } from '../../../iwallet-provider';
+import { isCloudProviderConnected } from '../../../utils/backup';
+import { route } from 'preact-router';
 
 enum Screen {
     PASSWORD = 'PASSWORD',
@@ -63,42 +65,53 @@ export class ImportWalletCloudRestore extends Component<IProps, IState> {
 
     public async fetchBackupList() {
         const provider = this.provider;
-        const rootFolder = await provider.getFilesList();
-        const backupsFolderInfo = rootFolder.files.filter(
-            file => file.name === 'backups' && file.type === CloudFileType.FOLDER
-        )[0];
-        if (!backupsFolderInfo) {
-            return [];
-        }
-        const backupFolder = await provider.getFilesList(backupsFolderInfo.id);
-        const backups = backupFolder.files
-            .filter(f => f.type === CloudFileType.FOLDER)
-            .reverse()
-            .map((file, index) => {
-                return {
-                    id: file.id,
-                    walletHash: file.name,
-                    name: translate('ImportWalletPage.cloudRestore.walletName', {
-                        index: index + 1,
-                        hash: file.name.substr(-6)
-                    }),
-                    date: undefined,
-                    fileId: undefined,
-                    loading: true
-                };
-            });
-        this.setState({ backups, loading: false });
 
-        for (const b of backups) {
-            const backupList = await provider.getFilesList(b.id);
-            const backup = backupList.files[0];
-
-            b.loading = false;
-            if (backup) {
-                b.date = new Date(backup.createdTime);
-                b.fileId = backup.id;
+        try {
+            const connected = await isCloudProviderConnected(provider);
+            if (!connected) {
+                await provider.authProvider.renewAuthToken();
             }
-            this.setState({ backups });
+
+            const rootFolder = await provider.getFilesList();
+            const backupsFolderInfo = rootFolder.files.filter(
+                file => file.name === 'backups' && file.type === CloudFileType.FOLDER
+            )[0];
+            if (!backupsFolderInfo) {
+                this.setState({ backups: [], loading: false });
+                return;
+            }
+            const backupFolder = await provider.getFilesList(backupsFolderInfo.id);
+            const backups = backupFolder.files
+                .filter(f => f.type === CloudFileType.FOLDER)
+                .reverse()
+                .map((file, index) => {
+                    return {
+                        id: file.id,
+                        walletHash: file.name,
+                        name: translate('ImportWalletPage.cloudRestore.walletName', {
+                            index: index + 1,
+                            hash: file.name.substr(-6)
+                        }),
+                        date: undefined,
+                        fileId: undefined,
+                        loading: true
+                    };
+                });
+            this.setState({ backups, loading: false });
+
+            for (const b of backups) {
+                const backupList = await provider.getFilesList(b.id);
+                const backup = backupList.files[0];
+
+                b.loading = false;
+                if (backup) {
+                    b.date = new Date(backup.createdTime);
+                    b.fileId = backup.id;
+                }
+                this.setState({ backups });
+            }
+        } catch {
+            route('/import-wallet');
         }
     }
 
@@ -209,7 +222,16 @@ export class ImportWalletCloudRestore extends Component<IProps, IState> {
                     content = this.renderPasswordScreen();
                     break;
                 case Screen.BACKUP_LIST:
-                    content = this.renderBackupList();
+                    content =
+                        this.state.backups.length > 0 ? (
+                            this.renderBackupList()
+                        ) : (
+                            <Translate
+                                className="no-backups"
+                                headline6
+                                text="ImportWalletPage.cloudRestore.noBackups"
+                            />
+                        );
                     break;
             }
         }

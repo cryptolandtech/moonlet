@@ -25,6 +25,7 @@ import { ConnectionPort, IExtensionMessage, ExtensionMessageType } from './types
 import { WalletEventType } from 'moonlet-core/src/core/wallet-event-emitter';
 import { TransactionStatus } from 'moonlet-core/src/core/transaction';
 import { GoogleDriveProvider } from '../app/utils/cloud-storage/google-drive-provider';
+import { isExtensionPopup } from '../app/utils/platform-utils';
 
 const USER_PREFERENCES_STORAGE_KEY = 'userPref';
 
@@ -94,7 +95,7 @@ export default props => (
     </Provider>
 );
 
-if (document.location.search.indexOf('popup=1') > 0) {
+if (isExtensionPopup()) {
     const body = document.getElementById('document-body');
     body.setAttribute(
         'style',

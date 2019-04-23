@@ -10,6 +10,7 @@ import './settings.component.scss';
 import { IWalletProvider } from '../../iwallet-provider';
 import { appContext } from '../../app-context';
 import { IUserPreferences, INetworksOptions } from '../../data/user-preferences/state';
+import { isExtensionPopup, getExtensionUrl } from '../../utils/platform-utils';
 
 interface IProps {
     level1: string;
@@ -18,15 +19,6 @@ interface IProps {
 
     signOut: (walletProvider: IWalletProvider) => any;
     toggleDevMode: (devMode: boolean, testNet: boolean, networks: INetworksOptions) => any;
-}
-
-interface IListItem {
-    icon?: string;
-    primaryText: string;
-    secondaryText: string;
-    href?: string;
-    target?: string;
-    onClick?: (e?) => any;
 }
 
 interface ISettingsMenu {
@@ -38,6 +30,7 @@ interface ISettingsMenuItem {
     primaryText: string | JSX.Element;
     secondaryText?: string | JSX.Element;
     href?: string;
+    target?: string;
     onClick?: (e?) => any;
 
     type?: 'advanced' | 'switch';
@@ -70,7 +63,10 @@ export class SettingsPage extends Component<IProps> {
                         },
                         {
                             primaryText: <Translate text="App.labels.backup" />,
-                            href: '/settings/backup'
+                            href: isExtensionPopup()
+                                ? getExtensionUrl('/settings/backup', false)
+                                : '/settings/backup',
+                            target: isExtensionPopup() ? '_blank' : '_self'
                         }
                     ]
                 }
@@ -163,6 +159,7 @@ export class SettingsPage extends Component<IProps> {
                         primaryText={item.primaryText}
                         secondaryText={item.secondaryText}
                         href={item.href}
+                        target={item.target}
                         disabled={typeof item.isDisabled === 'function' && item.isDisabled()}
                     />
                 );
