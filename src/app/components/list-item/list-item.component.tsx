@@ -11,6 +11,7 @@ interface IProps {
     target?: string;
     noDivider?: boolean;
     disabled?: boolean;
+    className?: string;
     onClick?: (e?) => any;
 }
 
@@ -51,7 +52,9 @@ export class ListItem extends Component<IProps, {}> {
         return (
             <ItemComponent
                 {...itemProps}
-                className={this.props.disabled ? 'mdc-list-item--disabled' : ''}
+                className={`${this.props.className || ''} ${
+                    this.props.disabled ? 'mdc-list-item--disabled' : ''
+                }`}
             >
                 {this.props.icon && (
                     <List.ItemGraphic {...this.props.iconProps || {}}>

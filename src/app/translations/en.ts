@@ -162,6 +162,17 @@ export const translation: ITranslations = {
                 inputHelp: 'Enter your secret phrase and write the words in the correct order.',
                 inputError: 'Invalid mnemonic.',
                 restoreWallet: 'Restore wallet'
+            },
+            chooseImportType: {
+                restoreUsingSecret: 'Restore using secret phrase',
+                restoreFrom: 'Restore from {{provider}}'
+            },
+            cloudRestore: {
+                walletName: 'Wallet {{index}} ({{hash}})',
+                enterPassword: 'Enter password',
+                restoreInfo: 'You are going to restore {{name}} from {{date}}.',
+                invalidPassword: 'Invalid password.',
+                genericError: 'There was an error while restoring your wallet.'
             }
         },
         TransactionDetailsPage: {

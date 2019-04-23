@@ -8,9 +8,13 @@ import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { Platform } from '../../types';
 import { IWalletProvider } from '../../iwallet-provider';
 import { appContext } from '../../app-context';
+import { ChooseImportType, ImportType } from './choose-import-type/choose-import-type.component';
+import ImportWalletCloudRestore from './cloud-restore/cloud-restore.container';
 
 interface IProps {
     platform: Platform;
+
+    importType: ImportType;
 
     createWallet: (walletProvider: IWalletProvider, mnemonics: string, password: string) => any;
 }
@@ -23,6 +27,7 @@ interface IState {
 
 enum Screen {
     CHOOSE_IMPORT_TYPE = 'CHOOSE_IMPORT_TYPE',
+    CLOUD_RESTORE = 'CLOUD_RESTORE',
     ENTER_MNEMONIC = 'ENTER_MNEMONIC',
     CREATE_PASSWORD = 'CREATE_PASSWORD'
 }
@@ -34,8 +39,27 @@ export class ImportWalletPage extends Component<IProps, IState> {
         this.state = {
             words: [],
             previousScreen: undefined,
-            screen: Screen.ENTER_MNEMONIC
+            screen: this.getInitialScreen()
         };
+    }
+
+    public componentDidUpdate(prevProps: IProps) {
+        if (this.props.importType !== prevProps.importType) {
+            this.setState({
+                screen: this.getInitialScreen()
+            });
+        }
+    }
+
+    public getInitialScreen() {
+        switch (this.props.importType) {
+            case ImportType.MNEMONIC:
+                return Screen.ENTER_MNEMONIC;
+            case ImportType.GOOGLE_DRIVE:
+                return Screen.CLOUD_RESTORE;
+            default:
+                return Screen.CHOOSE_IMPORT_TYPE;
+        }
     }
 
     public goTo<K extends keyof IState>(nextScreen: Screen, nextState?: Pick<IState, K>) {
@@ -50,6 +74,9 @@ export class ImportWalletPage extends Component<IProps, IState> {
         let content;
 
         switch (this.state.screen) {
+            case Screen.CHOOSE_IMPORT_TYPE:
+                content = <ChooseImportType />;
+                break;
             case Screen.ENTER_MNEMONIC:
                 content = (
                     <EnterMnemonic
@@ -73,6 +100,9 @@ export class ImportWalletPage extends Component<IProps, IState> {
                 if (this.props.platform === Platform.WEB) {
                     content = null;
                 }
+                break;
+            case Screen.CLOUD_RESTORE:
+                content = <ImportWalletCloudRestore />;
                 break;
         }
 

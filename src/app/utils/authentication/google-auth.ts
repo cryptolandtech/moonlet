@@ -9,10 +9,10 @@ export class GoogleAuth implements IAuth {
         throw new Error('Not implemented');
     }
 
-    public async getAuthToken(): Promise<string> {
+    public async getAuthToken(interactive: boolean = true): Promise<string> {
         return new Promise((resolve, reject) => {
             try {
-                chrome.identity.getAuthToken({ interactive: true }, token => {
+                chrome.identity.getAuthToken({ interactive }, token => {
                     if (chrome.runtime.lastError) {
                         reject(chrome.runtime.lastError);
                     } else {
@@ -28,20 +28,16 @@ export class GoogleAuth implements IAuth {
     public async renewAuthToken(): Promise<string> {
         return new Promise(async (resolve, reject) => {
             try {
-                const token = await this.getAuthToken();
+                const token = await this.getAuthToken(false);
                 chrome.identity.removeCachedAuthToken({ token }, async () => {
-                    try {
-                        if (chrome.runtime.lastError) {
-                            reject();
-                        } else {
-                            resolve(await this.getAuthToken());
-                        }
-                    } catch {
+                    if (chrome.runtime.lastError) {
                         reject();
+                    } else {
+                        resolve(this.getAuthToken());
                     }
                 });
             } catch {
-                reject();
+                resolve(this.getAuthToken());
             }
         });
     }

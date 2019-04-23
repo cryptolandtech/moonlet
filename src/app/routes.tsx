@@ -172,7 +172,7 @@ export const ROUTES: IRoute[] = [
     },
     {
         name: 'importWallet',
-        path: '/import-wallet',
+        path: '/import-wallet/:importType?',
         // getComponent: () =>
         //     import('./pages/import-wallet/import-wallet.container').then(module => module.default),
         component: require('./pages/import-wallet/import-wallet.container').default,

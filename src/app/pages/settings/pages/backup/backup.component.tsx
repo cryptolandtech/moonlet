@@ -70,12 +70,17 @@ export class BackupPage extends Component<{}, IState> {
     private providers: IProvider[] = [
         {
             id: 'googleDrive',
-            icon: '/assets/icons/drive.svg',
+            icon: '/assets/icons/cloud/google-drive.svg',
             instance: new GoogleDriveProvider()
         },
         {
             id: 'dropbox',
-            icon: '/assets/icons/dropbox.svg',
+            icon: '/assets/icons/cloud/dropbox.svg',
+            instance: undefined
+        },
+        {
+            id: 'oneDrive',
+            icon: '/assets/icons/cloud/one-drive.svg',
             instance: undefined
         }
     ];

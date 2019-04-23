@@ -33,6 +33,11 @@ export class WebWalletProvider implements IWalletProvider {
         return Promise.resolve(Response.resolve('encryptedWallet'));
     }
 
+    public async loadEncryptedWallet(encryptedWallet, password) {
+        this.wallet = new Wallet();
+        return Promise.resolve(Response.resolve(this.wallet));
+    }
+
     public async lockWallet() {
         this.wallet = null;
         return Promise.resolve();

@@ -1,0 +1,27 @@
+.import-wallet-choose-import-type {
+    padding: 8px;
+    text-align: center;
+
+    .mdc-button {
+        margin: 8px;
+        width: 320px;
+
+        &.disabled {
+            opacity: 0.5;
+        }
+    }
+
+    .button-logo {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+    }
+
+    .divider {
+        width: 230px;
+        margin: 10px auto;
+        height: 1px;
+        background: grey;
+        opacity: 0.4;
+    }
+}
