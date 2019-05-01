@@ -1,76 +1,34 @@
-import { IAuth } from './auth-interface';
+import { OAuth2, IAccessTokenOptions, IAccessToken } from './oAuth2';
 
-export class GoogleAuth implements IAuth {
-    public async login(): Promise<any> {
-        throw new Error('Not implemented');
+const OAUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
+const CLIENT_ID = '277593866196-i66tdj21nhpp9j3uqkm1bd3l2n4gcf16.apps.googleusercontent.com';
+
+export class GoogleAuth extends OAuth2 {
+    constructor() {
+        super(OAUTH_URL, CLIENT_ID);
     }
 
-    public async logout(): Promise<any> {
-        throw new Error('Not implemented');
+    protected getAuthUrl(scopes: string[], options: IAccessTokenOptions = {}): URL {
+        const url = super.getAuthUrl(scopes, options);
+
+        if (options.forceUserPrompt) {
+            url.searchParams.append('prompt', 'select_account');
+        }
+
+        return url;
     }
 
-    public async getAuthToken(interactive: boolean = true): Promise<string> {
-        return new Promise((resolve, reject) => {
-            try {
-                chrome.identity.getAuthToken({ interactive }, token => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    } else {
-                        resolve(token);
-                    }
-                });
-            } catch (e) {
-                reject(e);
-            }
-        });
-    }
+    protected parseAccessToken(returnUri: string): IAccessToken {
+        const url = new URL(returnUri);
+        const params = new URLSearchParams(url.hash.replace(/^#/, ''));
 
-    public async renewAuthToken(): Promise<string> {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const token = await this.getAuthToken(false);
-                chrome.identity.removeCachedAuthToken({ token }, async () => {
-                    if (chrome.runtime.lastError) {
-                        reject();
-                    } else {
-                        resolve(this.getAuthToken());
-                    }
-                });
-            } catch {
-                resolve(this.getAuthToken());
-            }
-        });
-    }
-
-    public async isLoggedIn(): Promise<boolean> {
-        return new Promise(resolve => {
-            try {
-                chrome.identity.getAuthToken({ interactive: false }, token => {
-                    if (chrome.runtime.lastError) {
-                        resolve(false);
-                    } else {
-                        resolve(true);
-                    }
-                });
-            } catch (e) {
-                resolve(false);
-            }
-        });
-    }
-
-    public getCurrentUser(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            try {
-                chrome.identity.getProfileUserInfo(data => {
-                    if (chrome.runtime.lastError) {
-                        reject(chrome.runtime.lastError);
-                    } else {
-                        resolve(data);
-                    }
-                });
-            } catch (err) {
-                reject(err);
-            }
-        });
+        return {
+            token: params.get('access_token'),
+            expires: parseInt(params.get('expires_in'), 10),
+            issueDate: Date.now(),
+            scopes: params.get('scope').split(' ')
+        };
     }
 }
+
+(window as any).GoogleAuth = GoogleAuth;

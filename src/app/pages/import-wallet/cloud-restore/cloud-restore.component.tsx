@@ -12,7 +12,6 @@ import { Translate } from '../../../components/translate/translate.component';
 import bind from 'bind-decorator';
 import { getWalletProvider } from '../../../app-context';
 import { WalletErrorCodes } from '../../../iwallet-provider';
-import { isCloudProviderConnected } from '../../../utils/backup';
 import { route } from 'preact-router';
 
 enum Screen {
@@ -67,10 +66,7 @@ export class ImportWalletCloudRestore extends Component<IProps, IState> {
         const provider = this.provider;
 
         try {
-            const connected = await isCloudProviderConnected(provider);
-            if (!connected) {
-                await provider.authProvider.renewAuthToken();
-            }
+            await provider.connect(true);
 
             const rootFolder = await provider.getFilesList();
             const backupsFolderInfo = rootFolder.files.filter(
@@ -124,6 +120,7 @@ export class ImportWalletCloudRestore extends Component<IProps, IState> {
                 walletData.encryptedWallet,
                 this.state.passwordInput
             );
+            route('/dashboard');
             document.location.reload();
         } catch (e) {
             switch (e.code) {

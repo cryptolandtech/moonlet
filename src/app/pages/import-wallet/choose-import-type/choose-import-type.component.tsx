@@ -2,8 +2,6 @@ import { h, Component } from 'preact';
 import Button from 'preact-material-components/Button';
 
 import './choose-import-type.scss';
-import { GoogleDriveProvider } from '../../../utils/cloud-storage/google-drive-provider';
-import { isCloudProviderConnected } from '../../../utils/backup';
 import { route } from 'preact-router';
 import { Loader } from '../../../components/material-components/loader/loader.component';
 import { translate } from '../../../utils/translate';

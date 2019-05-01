@@ -39,6 +39,9 @@ export abstract class CloudStorageProvider<AuthProvider = IAuth, IOptions = {}> 
         this.authProvider = authProvider;
     }
 
+    public abstract async isConnected(): Promise<boolean>;
+    public abstract async connect(forceUserPrompt: boolean): Promise<string>;
+
     public abstract async getFilesList(parent?: string): Promise<any>;
 
     public abstract async createFile(options: ICreateFileOptions): Promise<any>;

@@ -1,17 +1,5 @@
 import { CloudStorageProvider, CloudFileType } from './cloud-storage/cloud-storage-provider';
 
-export const isCloudProviderConnected = async (provider: CloudStorageProvider) => {
-    try {
-        if (provider && (await provider.authProvider.isLoggedIn())) {
-            await provider.getFilesList();
-            return true;
-        }
-        return false;
-    } catch {
-        return false;
-    }
-};
-
 export const getLastBackupDate = async (provider: CloudStorageProvider, walletHash) => {
     if (provider) {
         const rootFolder = await provider.getFilesList();

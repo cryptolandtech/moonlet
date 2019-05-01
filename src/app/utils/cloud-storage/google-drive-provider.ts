@@ -22,9 +22,24 @@ interface IRequestOptions {
 
 const GOOGLE_API_BASE_URL = 'https://www.googleapis.com';
 const FOLDER_MIME_TYPE = 'application/vnd.google-apps.folder';
+const SCOPES = ['email', 'https://www.googleapis.com/auth/drive.appfolder'];
+
 export class GoogleDriveProvider extends CloudStorageProvider<GoogleAuth> {
     constructor() {
         super(new GoogleAuth());
+    }
+
+    public async isConnected(): Promise<boolean> {
+        try {
+            await this.getFilesList();
+            return true;
+        } catch {
+            return false;
+        }
+    }
+
+    public async connect(forceUserPrompt: boolean = false): Promise<string> {
+        return this.authProvider.renewAccessToken(SCOPES, { interactive: true, forceUserPrompt });
     }
 
     public async getFilesList(parent?: string): Promise<any> {
@@ -169,7 +184,7 @@ export class GoogleDriveProvider extends CloudStorageProvider<GoogleAuth> {
 
     private async request(options: IRequestOptions): Promise<any> {
         try {
-            const token = await this.authProvider.getAuthToken();
+            const token = await this.authProvider.getAccessToken(SCOPES, { interactive: false });
 
             const authHeader = { Authorization: 'Bearer ' + token };
 

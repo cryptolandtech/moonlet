@@ -7,11 +7,7 @@ import './backup.scss';
 import { GoogleDriveProvider } from '../../../../utils/cloud-storage/google-drive-provider';
 import { CloudStorageProvider } from '../../../../utils/cloud-storage/cloud-storage-provider';
 import { Loader } from '../../../../components/material-components/loader/loader.component';
-import {
-    isCloudProviderConnected,
-    getLastBackupDate,
-    ensureBackupFolderStructure
-} from '../../../../utils/backup';
+import { getLastBackupDate, ensureBackupFolderStructure } from '../../../../utils/backup';
 import { translate } from '../../../../utils/translate';
 import { Translate } from '../../../../components/translate/translate.component';
 import TextField from 'preact-material-components/TextField';
@@ -118,7 +114,7 @@ export class BackupPage extends Component<{}, IState> {
     }
 
     public async updateProvider(provider: IProvider) {
-        const connected = await isCloudProviderConnected(provider.instance);
+        const connected = !!provider.instance && (await provider.instance.isConnected());
         let lastBackup;
         if (connected) {
             lastBackup = await getLastBackupDate(
@@ -229,7 +225,7 @@ export class BackupPage extends Component<{}, IState> {
                     }
                 }
             });
-            await provider.instance.authProvider.renewAuthToken();
+            await provider.instance.connect(true);
             this.setState({
                 providers: {
                     ...this.state.providers,
@@ -240,7 +236,7 @@ export class BackupPage extends Component<{}, IState> {
                     }
                 }
             });
-        } catch {
+        } catch (e) {
             this.setState({
                 providers: {
                     ...this.state.providers,
