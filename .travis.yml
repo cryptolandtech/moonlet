@@ -7,7 +7,7 @@ branches:
   - master
   - "/^v\\d+\\.\\d+\\.?(\\d+)?$/"
 script:
-- npm run lint && npm run snyk && npm run build && npm run zip:ext
+- npm run lint && npm run build && npm run zip:ext
 install:
 - npm install
 env:
