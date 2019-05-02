@@ -27,6 +27,7 @@ import Currency from '../../components/currency/currency.container';
 import { Loader } from '../../components/material-components/loader/loader.component';
 import { UDApiClient } from '../../utils/ud-api-client';
 import { IUserPreferences } from '../../data/user-preferences/state';
+import { Navigation } from '../../utils/navigation';
 
 interface IProps {
     blockchain: Blockchain;
@@ -86,7 +87,7 @@ export class SendPage extends Component<IProps, IState> {
             prevProps.transferInfo.inProgress !== this.props.transferInfo.inProgress
         ) {
             if (this.props.transferInfo.success) {
-                route(
+                Navigation.goTo(
                     `/account/${this.props.account.node.blockchain}/${this.props.account.address}`,
                     true
                 );

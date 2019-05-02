@@ -12,6 +12,7 @@ import { IWalletProvider } from './iwallet-provider';
 import { appContext } from './app-context';
 import { WalletStatus } from './data/wallet/state';
 import { GenericAccount } from 'moonlet-core/src/core/account';
+import { Navigation } from './utils/navigation';
 
 interface IProps {
     history: CustomHistory;
@@ -166,6 +167,8 @@ export default class App extends Component<IProps, IState> {
 
     public handleRouteChange(e: RouterOnChangeArgs) {
         // console.log(e.url);
+        Navigation.routeChange(e);
+
         if (e.current) {
             this.route = e;
 

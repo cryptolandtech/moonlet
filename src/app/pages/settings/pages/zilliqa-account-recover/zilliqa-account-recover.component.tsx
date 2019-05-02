@@ -16,6 +16,7 @@ import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { route } from 'preact-router';
 import Button from 'preact-material-components/Button';
 import { translate } from '../../../../utils/translate';
+import { Navigation } from '../../../../utils/navigation';
 
 interface IProps {
     syncWallet: () => any;
@@ -53,7 +54,7 @@ export class ZilliqaAccountRecover extends Component<IProps, IState> {
             'Old Account'
         );
         await this.props.syncWallet();
-        route(`/dashboard`, true);
+        Navigation.goTo(`/dashboard`, true);
     }
 
     public render() {

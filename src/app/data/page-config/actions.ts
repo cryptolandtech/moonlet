@@ -1,3 +1,4 @@
+import { Navigation } from './../../utils/navigation';
 import { IRouteConfig } from '../../routes';
 import { IAction } from '../action';
 import { DeviceScreenSize } from './../../types';
@@ -27,6 +28,7 @@ export const createChangePage = (routeConfig: IRouteConfig): IAction => {
 };
 
 export const goBack = (): IAction => {
-    history.back();
+    // history.back();
+    Navigation.goBack();
     return undefined;
 };
