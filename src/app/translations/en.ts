@@ -87,7 +87,7 @@ export const translation: ITranslations = {
                 recipientNameNotFound: 'Name not found.',
                 amount: 'Amount should be a positive number.',
                 invalidValue: 'Invalid value.',
-                insufficientFounds: 'Insufficient founds.'
+                insufficientFounds: 'Insufficient funds.'
             },
             confirmationDialog: {
                 title: 'Re-Confirm & Send',
@@ -127,7 +127,7 @@ export const translation: ITranslations = {
                 confirmationDialog: {
                     title: 'Re-confirm Backup',
                     body:
-                        'Did you understand that if you loose your secret phrase, you will not be able to restore your wallet and access your founds ?'
+                        'Did you understand that if you lose your secret phrase, you will not be able to restore your wallet and access your funds ?'
                 }
             },
             step2: {

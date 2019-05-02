@@ -13,6 +13,7 @@ import bind from 'bind-decorator';
 import { getWalletProvider } from '../../../app-context';
 import { WalletErrorCodes } from '../../../iwallet-provider';
 import { route } from 'preact-router';
+import { Navigation } from '../../../utils/navigation';
 
 enum Screen {
     PASSWORD = 'PASSWORD',
@@ -107,7 +108,7 @@ export class ImportWalletCloudRestore extends Component<IProps, IState> {
                 this.setState({ backups });
             }
         } catch {
-            route('/import-wallet');
+            Navigation.goTo('/import-wallet', true);
         }
     }
 
