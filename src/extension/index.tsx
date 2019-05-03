@@ -24,8 +24,10 @@ import { DisclaimerPage } from '../app/pages/settings/pages/disclaimer/disclaime
 import { ConnectionPort, IExtensionMessage, ExtensionMessageType } from './types';
 import { WalletEventType } from 'moonlet-core/src/core/wallet-event-emitter';
 import { TransactionStatus } from 'moonlet-core/src/core/transaction';
-import { GoogleDriveProvider } from '../app/utils/cloud-storage/google-drive-provider';
-import { isExtensionPopup } from '../app/utils/platform-utils';
+import { isExtensionPopup, initErrorReporting } from '../app/utils/platform-utils';
+
+// initialize Sentry
+initErrorReporting();
 
 const USER_PREFERENCES_STORAGE_KEY = 'userPref';
 
