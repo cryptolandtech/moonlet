@@ -32,7 +32,7 @@ export class Currency extends Component<IProps> {
         return (
             <span class="currency">
                 {loading && '...'}
-                {!loading && <span>{amount.toFixed(2)}</span>}{' '}
+                {!loading && <span>{this.props.convert ? amount.toFixed(2) : amount}</span>}{' '}
                 {!loading && !this.props.hideCurrency && <span>{currency}</span>}
             </span>
         );
