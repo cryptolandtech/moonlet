@@ -30,6 +30,7 @@ deploy:
     repo: cryptolandtech/moonlet
     tags: true
 - provider: script
+  skip_cleanup: true
   script: npm run sentry:deploy
   on:
     repo: cryptolandtech/moonlet

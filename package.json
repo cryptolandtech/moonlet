@@ -17,7 +17,7 @@
         "prettier": "prettier --write \"**/*.{js,ts,tsx,scss,json}\" --ignore-path .gitignore",
         "test": "jest",
         "snyk": "snyk test",
-        "sentry:deploy": "VERSION=`node -e \"console.log(require('./package.json').version)\"` && sentry-cli releases -o cryptoland -p moonlet-wallet set-commits $VERSION --auto && sentry-cli releases -o cryptoland -p moonlet-wallet files $VERSION upload-sourcemaps ./build/",
+        "sentry:deploy": "VERSION=`node -e \"console.log(require('./package.json').version)\"` && sentry-cli releases -o cryptoland -p moonlet-wallet set-commits $VERSION --auto && sentry-cli releases -o cryptoland -p moonlet-wallet files $VERSION upload-sourcemaps build/extension",
         "release": "npm version minor -m 'bump version' && git push && git push --tags"
     },
     "eslintConfig": {
