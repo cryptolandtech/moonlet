@@ -12,6 +12,7 @@ import { IUserPreferences } from '../app/data/user-preferences/state';
 import { createUpdateConversionRates } from '../app/data/currency/actions';
 import { getSwitchNetworkConfig } from '../app/utils/blockchain/utils';
 import { WalletStatus } from '../app/data/wallet/state';
+import { HardwareWalletEthereum } from '../../src/hardware-wallet/hardware-wallet-eth';
 
 const loadState = (): IUserPreferences => {
     const defaults = {
@@ -78,6 +79,22 @@ const walletProvider: IWalletProvider = new WebWalletProvider();
     );
     await walletProvider.createAccount(Blockchain.ZILLIQA, 1);
     await walletProvider.createAccount(Blockchain.ETHEREUM, 1);
+
+    // get multiple addresses from HW using a range of accountIds and derivationIds
+    // const hw = new HardwareWalletEthereum();
+    // Ok but sloooow
+    // hw.getAddressesInRange(0,0,0,50);
+
+    // timeout problems from u2f for creating too many transports !!!!!
+    // for (var di=0; di<50; di++){
+    //     const addressPromise = hw.getAddress(0, di);
+    //     addressPromise.then(function(address){
+    //         console.log("addr for index " + di + " is " + address);
+    //     }
+    //     );
+    // }
+
+    // await walletProvider.importHWAccount(Blockchain.ETHEREUM, 'ethhw1', 0, 0);
     // console.log(await walletProvider.getAccounts({ ZILLIQA: 2 }));
     store.dispatch(createWalletLoaded(WalletStatus.UNLOCKED, await walletProvider.getWallet()));
 

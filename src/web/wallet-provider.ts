@@ -5,6 +5,7 @@ import { NonceManager } from '../app/utils/nonce-manager';
 import { Response } from '../app/utils/response';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { IGasFeeOptions } from '../app/utils/blockchain/types';
+import { HardwareWalletEthereum } from '../../src/hardware-wallet/hardware-wallet-eth';
 
 export class WebWalletProvider implements IWalletProvider {
     private wallet: Wallet;
@@ -69,6 +70,34 @@ export class WebWalletProvider implements IWalletProvider {
         }
 
         return Promise.resolve(account);
+    }
+
+    public async importHWAccount(blockchain, accountName, accountIndex, derivationIndex) {
+        const w = this.wallet;
+        const hw = new HardwareWalletEthereum();
+
+        const addressPromise = hw.getAddress(accountIndex, derivationIndex);
+
+        return addressPromise
+            .then(address => {
+                const account = w.importHWAccount(
+                    blockchain,
+                    address,
+                    accountIndex,
+                    derivationIndex
+                );
+
+                if (accountName) {
+                    account.name = accountName;
+                }
+                account.accountIndex = accountIndex;
+                account.derivationIndex = derivationIndex;
+
+                return Promise.resolve(account);
+            })
+            .catch(error => {
+                return Promise.reject(error);
+            });
     }
 
     public async removeAccount(blockchain, address) {

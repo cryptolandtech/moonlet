@@ -76,6 +76,15 @@ export class ExtensionWalletProvider implements IWalletProvider {
         return this.callAction('importAccount', [blockchain, privateKey, accountName]);
     }
 
+    public async importHWAccount(blockchain, accountName, accountIndex, derivationIndex) {
+        return this.callAction('importHWAccount', [
+            blockchain,
+            accountName,
+            accountIndex,
+            derivationIndex
+        ]);
+    }
+
     public async removeAccount(blockchain, address) {
         return this.callAction('removeAccount', [blockchain, address]);
     }
