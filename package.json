@@ -57,6 +57,9 @@
     },
     "dependencies": {
         "@sentry/browser": "^5.1.1",
+        "@ledgerhq/hw-app-eth": "^4.38.6",
+        "@ledgerhq/hw-transport-u2f": "^4.38.6",
+        "babel-polyfill": "^6.26.0",
         "bignumber.js": "8.0.2",
         "bind-decorator": "^1.0.11",
         "crypto-js": "3.1.9-1",
@@ -74,7 +77,8 @@
         "react-textarea-autosize": "7.1.0",
         "redux": "4.0.1",
         "redux-thunk": "2.3.0",
-        "webextension-polyfill-ts": "0.8.9"
+        "webextension-polyfill-ts": "0.8.9",
+        "zil-ledger-js-interface": "^0.1.1"
     },
     "husky": {
         "hooks": {

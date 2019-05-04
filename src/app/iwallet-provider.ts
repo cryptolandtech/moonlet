@@ -20,6 +20,7 @@ export interface IWalletProvider {
 
     createAccount(blockchain, accountName?);
     importAccount(blockchain, privateKey, accountName?);
+    importHWAccount(blockchain, accountName, accountIndex, derivationIndex);
     removeAccount(blockchain, address);
     isValidAddress(blockchain, address);
     getBalance(blockchain, address);
