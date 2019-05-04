@@ -29,9 +29,7 @@ deploy:
     repo: cryptolandtech/moonlet
     tags: true
 - provider: script
-  script: VERSION=`node -e "console.log(require('./package.json').version)"` 
-    npx sentry-cli releases -o cryptoland -p moonlet-wallet set-commits $VERSION --auto && 
-    npx sentry-cli releases -o cryptoland -p moonlet-wallet files $VERSION upload-sourcemaps ./build/
+  script: npm run sentry:deploy
   on:
     repo: cryptolandtech/moonlet
     tags: true
