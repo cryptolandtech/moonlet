@@ -23,6 +23,7 @@
     },
     "eslintIgnore": ["build/*"],
     "devDependencies": {
+        "@sentry/cli": "^1.41.2",
         "@types/chrome": "0.0.77",
         "@types/crypto-js": "^3.1.43",
         "@types/jest": "^23.3.2",
