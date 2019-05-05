@@ -1,0 +1,16 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.3
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-AXIOS-174505:
+    - moonlet-core > axios:
+        patched: '2019-05-05T21:34:48.636Z'
+    - moonlet-core > @zilliqa-js/zilliqa > @zilliqa-js/core > axios:
+        patched: '2019-05-05T21:34:48.636Z'
+    - moonlet-core > @zilliqa-js/zilliqa > @zilliqa-js/contract > @zilliqa-js/core > axios:
+        patched: '2019-05-05T21:34:48.636Z'
+    - moonlet-core > @zilliqa-js/zilliqa > @zilliqa-js/contract > @zilliqa-js/blockchain > @zilliqa-js/core > axios:
+        patched: '2019-05-05T21:34:48.636Z'
+    - moonlet-core > @zilliqa-js/zilliqa > @zilliqa-js/contract > @zilliqa-js/blockchain > @zilliqa-js/account > @zilliqa-js/core > axios:
+        patched: '2019-05-05T21:34:48.636Z'
