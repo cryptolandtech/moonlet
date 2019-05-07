@@ -1,6 +1,6 @@
 import { h, Component } from 'preact';
 
-import './step1.scss';
+import './enter-mnemonic.scss';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
 import { Translate } from '../../../components/translate/translate.component';
 import { TextField } from 'preact-material-components/TextField';
@@ -16,7 +16,7 @@ interface IState {
     error: boolean;
 }
 
-export class ImportWalletStep1 extends Component<IProps, IState> {
+export class EnterMnemonic extends Component<IProps, IState> {
     constructor(props: IProps) {
         super(props);
 

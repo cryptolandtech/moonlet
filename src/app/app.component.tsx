@@ -12,6 +12,7 @@ import { IWalletProvider } from './iwallet-provider';
 import { appContext } from './app-context';
 import { WalletStatus } from './data/wallet/state';
 import { GenericAccount } from 'moonlet-core/src/core/account';
+import { Navigation } from './utils/navigation';
 
 interface IProps {
     history: CustomHistory;
@@ -126,7 +127,11 @@ export default class App extends Component<IProps, IState> {
                         route(this.redirectAfterWalletLoaded);
                         this.redirectAfterWalletLoaded = undefined;
                     });
-                } else if (['/', '/import-wallet', '/create-wallet'].indexOf(this.route.url) >= 0) {
+                } else if (
+                    ['landingPage', 'importWallet', 'create-wallet'].indexOf(
+                        currentRoute.attributes.name
+                    ) >= 0
+                ) {
                     // go to dashboard as user already has a wallet
                     // console.log('redirect', 2);
                     setTimeout(() => route('/dashboard'));
@@ -162,6 +167,8 @@ export default class App extends Component<IProps, IState> {
 
     public handleRouteChange(e: RouterOnChangeArgs) {
         // console.log(e.url);
+        Navigation.routeChange(e);
+
         if (e.current) {
             this.route = e;
 

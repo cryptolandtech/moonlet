@@ -9,6 +9,7 @@ import Button from 'preact-material-components/Button';
 import { getWalletProvider } from '../../../app-context';
 import { route } from 'preact-router';
 import { translate } from '../../../utils/translate';
+import { Navigation } from '../../../utils/navigation';
 
 interface IProps {
     accounts: any[];
@@ -67,7 +68,7 @@ export class CreateAccountTabImport extends Component<IProps, IState> {
                     this.state.accountName
                 );
                 this.props.syncWallet();
-                route(`/account/${this.state.blockchain}/${account.address}`, true);
+                Navigation.goTo(`/account/${this.state.blockchain}/${account.address}`, true);
             } catch (e) {
                 this.setState({
                     privateKeyError: true

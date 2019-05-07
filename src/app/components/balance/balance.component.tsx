@@ -3,6 +3,7 @@ import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { IAccountBalance, IAccountsBalances } from '../../data/wallet/state';
 import Currency from '../currency/currency.container';
 import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
+import { formatAmount } from '../../utils/blockchain/utils';
 
 interface IProps {
     blockchain: Blockchain;
@@ -65,7 +66,9 @@ export class Balance extends Component<IProps> {
             <span>
                 {balance.amount && (
                     <Currency
-                        amount={parseFloat(balance.amount.toString())}
+                        amount={parseFloat(
+                            formatAmount(props.blockchain, balance.amount.toString())
+                        )}
                         currency={BLOCKCHAIN_INFO[props.blockchain].coin}
                         hideCurrency={props.hideCurrency}
                         convert={props.convert}

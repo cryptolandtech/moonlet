@@ -1,0 +1,32 @@
+.import-wallet-cloud-restore {
+    .loader-component {
+        margin: 16px;
+    }
+
+    .password-screen {
+        padding: 16px;
+    }
+
+    .password-input {
+        display: flex;
+        margin-top: 24px;
+
+        .mdc-text-field {
+            flex: 1;
+        }
+    }
+
+    .error {
+        font-size: 13px;
+        color: red;
+        margin: 5px 10px;
+    }
+
+    .mdc-button {
+        margin-top: 24px;
+    }
+
+    .no-backups {
+        margin: 16px;
+    }
+}

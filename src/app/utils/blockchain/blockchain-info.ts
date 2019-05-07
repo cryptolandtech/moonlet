@@ -19,6 +19,7 @@ export interface IBlockchainInfo {
     units: {
         [unit: string]: BigNumber;
     };
+    decimals: number;
 
     fee: {
         type: BlockchainFeeType;
@@ -46,6 +47,7 @@ export const BLOCKCHAIN_INFO: {
             GWEI: new BigNumber(Math.pow(10, 9)),
             ETH: new BigNumber(Math.pow(10, 18))
         },
+        decimals: 4,
         fee: {
             type: BlockchainFeeType.GAS,
             config: {
@@ -74,6 +76,7 @@ export const BLOCKCHAIN_INFO: {
             LI: new BigNumber(Math.pow(10, 6)),
             ZIL: new BigNumber(Math.pow(10, 12))
         },
+        decimals: 3,
         fee: {
             type: BlockchainFeeType.GAS,
             config: {

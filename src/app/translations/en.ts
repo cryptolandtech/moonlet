@@ -8,6 +8,7 @@ export const translation: ITranslations = {
                 accept: 'Accept',
                 address: 'Address',
                 authorize: 'Authorize',
+                connect: 'Connect',
                 dashboard: 'Dashboard',
                 decline: 'Decline',
                 discard: 'Discard',
@@ -44,7 +45,8 @@ export const translation: ITranslations = {
                 giveFeedback: 'Give feedback',
                 getZilDomain: 'Get your .zil domain',
                 dismiss: 'Dismiss',
-                reportIssue: 'Report Issue'
+                reportIssue: 'Report Issue',
+                backup: 'Backup'
             }
         },
         DrawerMenu: {
@@ -85,7 +87,7 @@ export const translation: ITranslations = {
                 recipientNameNotFound: 'Name not found.',
                 amount: 'Amount should be a positive number.',
                 invalidValue: 'Invalid value.',
-                insufficientFounds: 'Insufficient founds.'
+                insufficientFounds: 'Insufficient funds.'
             },
             confirmationDialog: {
                 title: 'Re-Confirm & Send',
@@ -125,7 +127,7 @@ export const translation: ITranslations = {
                 confirmationDialog: {
                     title: 'Re-confirm Backup',
                     body:
-                        'Did you understand that if you loose your secret phrase, you will not be able to restore your wallet and access your founds ?'
+                        'Did you understand that if you lose your secret phrase, you will not be able to restore your wallet and access your funds ?'
                 }
             },
             step2: {
@@ -160,6 +162,18 @@ export const translation: ITranslations = {
                 inputHelp: 'Enter your secret phrase and write the words in the correct order.',
                 inputError: 'Invalid mnemonic.',
                 restoreWallet: 'Restore wallet'
+            },
+            chooseImportType: {
+                restoreUsingSecret: 'Restore using secret phrase',
+                restoreFrom: 'Restore from {{provider}}'
+            },
+            cloudRestore: {
+                walletName: 'Wallet {{index}} ({{hash}})',
+                enterPassword: 'Enter password',
+                restoreInfo: 'You are going to restore {{name}} from {{date}}.',
+                invalidPassword: 'Invalid password.',
+                genericError: 'There was an error while restoring your wallet.',
+                noBackups: 'There are no backups on the selected account.'
             }
         },
         TransactionDetailsPage: {
@@ -285,6 +299,19 @@ export const translation: ITranslations = {
         SupportUsPage: {
             title: 'Support us',
             text: 'Donating is a helpful way to support us.'
+        },
+        BackupPage: {
+            lastBackup: 'Last backup',
+            noBackup: 'No backups yet.',
+            comingSoon: 'Coming soon',
+            confirmPassword: 'Confirm your password',
+            tasks: {
+                encrypt: 'Encrypt your wallet.',
+                checkStructure: 'Check cloud folder structure.',
+                upload: 'Upload encrypted wallet.',
+                verify: 'Verify backup.',
+                done: 'Done'
+            }
         }
     },
     plural: (n: number, ord: boolean) => {

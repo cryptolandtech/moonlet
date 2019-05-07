@@ -159,3 +159,10 @@ export const getAccountFromState = (state: IState, blockchain: Blockchain, addre
 
     return account;
 };
+
+export const formatAmount = (blockchain: Blockchain, amount: string): string => {
+    const blockchainInfo = BLOCKCHAIN_INFO[blockchain];
+    const decimals = blockchainInfo.decimals;
+
+    return new BigNumber(amount).toFixed(decimals, BigNumber.ROUND_DOWN);
+};

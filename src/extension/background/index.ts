@@ -4,12 +4,15 @@ import {
     BackgroundMessageType,
     ConnectionPort
 } from './../types';
-import { browser, Runtime, Tabs } from 'webextension-polyfill-ts';
+import { browser, Runtime } from 'webextension-polyfill-ts';
 import { WalletManager } from './wallet-manager';
 import { Response, IResponseData } from '../../app/utils/response';
 import { RemoteInterface } from './remote-interface';
 import { BrowserIconManager } from './browser-icon-manager';
-import manifest from '../manifest.json';
+import { getEnvironment, initErrorReporting } from '../../app/utils/platform-utils';
+
+// initialize Sentry
+initErrorReporting();
 
 // Implementation
 const browserIconManager = new BrowserIconManager();
@@ -84,7 +87,12 @@ browser.runtime.onConnect.addListener((port: Runtime.Port) => {
     }
 });
 
-if (manifest.version === '0.0.0') {
-    browser.browserAction.setBadgeBackgroundColor({ color: 'orange' });
-    browser.browserAction.setBadgeText({ text: 'L' });
-}
+getEnvironment().then(env => {
+    if (env === 'local') {
+        browser.browserAction.setBadgeBackgroundColor({ color: 'orange' });
+        browser.browserAction.setBadgeText({ text: 'L' });
+    } else if (env === 'staging') {
+        browser.browserAction.setBadgeBackgroundColor({ color: 'orange' });
+        browser.browserAction.setBadgeText({ text: 'DEV' });
+    }
+});

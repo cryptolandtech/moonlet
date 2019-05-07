@@ -5,7 +5,7 @@ import { ITranslations, ITranslation } from '../translations/types';
  * http://www.unicode.org/cldr/charts/28/supplemental/language_plural_rules.html
  */
 export interface ITranslationParams {
-    [key: string]: string | number;
+    [key: string]: any;
 }
 
 export type Language = 'en';

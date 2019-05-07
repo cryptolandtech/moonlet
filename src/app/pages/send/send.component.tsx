@@ -12,7 +12,8 @@ import {
     convertUnit,
     getDefaultFeeOptions,
     formatCurrency,
-    calculateFee
+    calculateFee,
+    formatAmount
 } from '../../utils/blockchain/utils';
 import { FeeOptions } from '../../utils/blockchain/types';
 import { translate } from '../../utils/translate';
@@ -27,6 +28,7 @@ import Currency from '../../components/currency/currency.container';
 import { Loader } from '../../components/material-components/loader/loader.component';
 import { UDApiClient } from '../../utils/ud-api-client';
 import { IUserPreferences } from '../../data/user-preferences/state';
+import { Navigation } from '../../utils/navigation';
 
 interface IProps {
     blockchain: Blockchain;
@@ -86,7 +88,7 @@ export class SendPage extends Component<IProps, IState> {
             prevProps.transferInfo.inProgress !== this.props.transferInfo.inProgress
         ) {
             if (this.props.transferInfo.success) {
-                route(
+                Navigation.goTo(
                     `/account/${this.props.account.node.blockchain}/${this.props.account.address}`,
                     true
                 );
@@ -173,7 +175,17 @@ export class SendPage extends Component<IProps, IState> {
                                 outlined
                                 label={translate('App.labels.amount')}
                                 onChange={e => {
-                                    this.setState({ amount: e.target.value });
+                                    const amount = e.target.value;
+                                    const amountFormatted = formatAmount(
+                                        this.props.blockchain,
+                                        amount
+                                    );
+                                    this.setState({
+                                        amount:
+                                            amount.length > amountFormatted.length
+                                                ? amountFormatted
+                                                : amount
+                                    });
                                     this.validate();
                                 }}
                                 value={this.state.amount ? String(this.state.amount) : ''}
@@ -332,7 +344,9 @@ export class SendPage extends Component<IProps, IState> {
     public getMaxAmount(): number {
         const fee = calculateFee(this.props.blockchain, this.state.feeOptions).toNumber();
         if (this.props.balance && this.props.balance > fee) {
-            return this.props.balance - fee;
+            return parseFloat(
+                formatAmount(this.props.blockchain, (this.props.balance - fee).toString())
+            );
         }
         return undefined;
     }

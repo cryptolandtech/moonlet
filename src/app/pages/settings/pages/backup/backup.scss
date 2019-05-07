@@ -1,0 +1,82 @@
+.backup-page {
+    .provider {
+        padding: 8px;
+    }
+
+    .logo {
+        text-align: center;
+        height: 50px;
+
+        img {
+            max-width: 100%;
+            max-height: 50px;
+
+            &.inactive {
+                filter: grayscale(100%);
+            }
+        }
+    }
+
+    .content {
+        display: flex;
+        height: 36px;
+    }
+    .last-backup {
+        flex: 1;
+
+        .label {
+            font-size: 12px;
+        }
+    }
+    .coming-soon {
+        height: 36px;
+        line-height: 36px;
+        display: inline-block;
+    }
+
+    .loader {
+        margin: 0 auto;
+    }
+
+    .password-input {
+        display: flex;
+        margin-top: 24px;
+
+        .mdc-text-field {
+            flex: 1;
+        }
+    }
+
+    .error {
+        font-size: 13px;
+        color: red;
+        margin: 5px 10px;
+    }
+
+    .actions {
+        display: flex;
+        margin: 24px 0;
+
+        .mdc-button {
+            flex: 1;
+        }
+    }
+
+    .backup-task {
+        display: flex;
+        max-width: 400px;
+        margin: 0 auto;
+
+        .icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .text {
+            flex: 1;
+            margin-left: 16px;
+            height: 24px;
+            line-height: 24px;
+        }
+    }
+}

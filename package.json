@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "moonlet",
-    "version": "0.5.28",
+    "version": "0.10.2",
     "license": "MIT",
     "scripts": {
         "start": "npm run dev:web",
@@ -16,13 +16,16 @@
         "lint": "tslint --fix 'src/**/*.{ts,tsx}'",
         "prettier": "prettier --write \"**/*.{js,ts,tsx,scss,json}\" --ignore-path .gitignore",
         "test": "jest",
-        "snyk": "snyk test"
+        "snyk": "snyk test",
+        "sentry:deploy": "VERSION=`node -e \"console.log(require('./package.json').version)\"` && sentry-cli releases -o cryptoland -p moonlet-wallet set-commits $VERSION --auto && sentry-cli releases -o cryptoland -p moonlet-wallet files $VERSION upload-sourcemaps build/extension",
+        "release": "npm version minor -m 'bump version' && git push && git push --tags"
     },
     "eslintConfig": {
         "extends": "eslint-config-synacor"
     },
     "eslintIgnore": ["build/*"],
     "devDependencies": {
+        "@sentry/cli": "^1.41.2",
         "@types/chrome": "0.0.77",
         "@types/crypto-js": "^3.1.43",
         "@types/jest": "^23.3.2",
@@ -56,6 +59,7 @@
         "@ledgerhq/hw-app-eth": "^4.38.6",
         "@ledgerhq/hw-transport-u2f": "^4.38.6",
         "babel-polyfill": "^6.26.0",
+        "@sentry/browser": "^5.1.1",
         "bignumber.js": "8.0.2",
         "bind-decorator": "^1.0.11",
         "crypto-js": "3.1.9-1",

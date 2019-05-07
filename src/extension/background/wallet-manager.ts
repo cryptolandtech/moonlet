@@ -51,6 +51,38 @@ export class WalletManager {
         return Response.resolve(JSON.parse(this.wallet.toJSON())); // TODO: return a serialized version of wallet
     }
 
+    public async getEncrypted() {
+        const check = await this.checkWallet();
+        if (check.error) {
+            return check;
+        }
+
+        const encryptedWallet = aes.encrypt(this.wallet.toJSON(), this.password).toString();
+        return Response.resolve(encryptedWallet);
+    }
+
+    public async loadEncrypted(sender, encryptedWallet, password) {
+        // TODO: remove lazy loading
+        const blockchains = await Promise.all([
+            this.loadBlockchain('ethereum'),
+            this.loadBlockchain('zilliqa')
+        ]);
+
+        try {
+            const json = aes.decrypt(encryptedWallet, password).toString(encUtf8);
+            if (json) {
+                const wallet = Wallet.fromJson(json, blockchains);
+                this.wallet = wallet;
+                this.password = password;
+                return this.get();
+            }
+        } catch {
+            /* */
+        }
+
+        return Response.reject(WalletErrorCodes.INVALID_PASSWORD);
+    }
+
     public async changePassword(sender, oldPassword, newPassword) {
         let json = aes.decrypt(await this.getFromStorage(), oldPassword);
         if (json) {
