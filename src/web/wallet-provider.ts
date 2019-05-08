@@ -89,7 +89,7 @@ export class WebWalletProvider implements IWalletProvider {
         const b = this.wallet.getBlockchain(blockchain);
         const account = b.getAccounts()[0];
 
-        return account.utils.isValidAddress(Buffer.from(address.replace(/^0x/, ''), 'hex'));
+        return account.utils.isValidChecksumAddress(address);
     }
 
     public async getBalance(blockchain, address): Promise<BigNumber> {

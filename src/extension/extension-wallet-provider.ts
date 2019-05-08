@@ -54,7 +54,7 @@ export class ExtensionWalletProvider extends ExtensionBaseProvider implements IW
         return this.callAction('removeAccount', [blockchain, address]);
     }
 
-    public async isValidAddress(blockchain, address): Promise<BigNumber> {
+    public async isValidAddress(blockchain, address): Promise<boolean> {
         return this.callAction('isValidAddress', [blockchain, address]);
     }
 

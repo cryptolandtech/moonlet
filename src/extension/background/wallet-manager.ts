@@ -213,8 +213,8 @@ export class WalletManager {
         try {
             const b = this.wallet.getBlockchain(blockchain);
             const account = b.getAccounts()[0];
-            const add = Buffer.from(address.replace(/^0x/, ''), 'hex');
-            return Response.resolve(account.utils.isValidAddress(add));
+
+            return Response.resolve(account.utils.isValidChecksumAddress(address));
         } catch {
             return Response.resolve(false);
         }
