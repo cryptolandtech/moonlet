@@ -127,8 +127,7 @@ export class SendPage extends Component<IProps, IState> {
                                             address: undefined
                                         });
 
-                                        new UDApiClient(this.props.blockchainInfo
-                                            .nameResolver as any)
+                                        new UDApiClient(this.props.blockchainInfo.coin)
                                             .resolve(this.state.recipient)
                                             .then(
                                                 data => {

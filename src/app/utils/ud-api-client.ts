@@ -1,55 +1,28 @@
 export class UDApiClient {
-    private endpoint = 'https://unstoppable-domains-api.appspot.com/v1';
-    private path;
-    private resolver;
+    private endpoint = 'https://unstoppabledomains.com/api/v1';
+    private coin;
 
-    constructor(resolver: 'ens' | 'zns') {
-        this.resolver = resolver;
-        this.path = '/' + resolver;
+    constructor(coin: string) {
+        this.coin = coin;
     }
 
     public async resolve(name: string): Promise<{ name: string; address: string }> {
         try {
-            const response = await fetch(this.endpoint + this.path + '/' + name);
+            const response = await fetch(this.endpoint + '/' + name);
 
             if (response.ok) {
                 const data = await response.json();
 
-                let addressField = 'addr';
-                if (this.resolver === 'zns') {
-                    addressField = 'address';
-                }
-                if (data[addressField]) {
+                const address = data.addresses[this.coin];
+                if (address) {
                     return {
                         name,
-                        address: data[addressField]
+                        address
                     };
                 }
             }
 
-            if (response.status === 404) {
-                return Promise.reject('NOT_FOUND');
-            }
-
-            return Promise.reject('GENERIC_ERROR');
-        } catch (error) {
-            return Promise.reject('GENERIC_ERROR');
-        }
-    }
-
-    public async reverse(address: string): Promise<string[]> {
-        try {
-            const response = await fetch(
-                this.endpoint + this.path + '/findDomainsByOwner?owner=' + address
-            );
-            if (response.ok) {
-                const data = await response.json();
-                if (Array.isArray(data)) {
-                    return data;
-                }
-            }
-
-            return Promise.reject('GENERIC_ERROR');
+            return Promise.reject('NOT_FOUND');
         } catch (error) {
             return Promise.reject('GENERIC_ERROR');
         }
