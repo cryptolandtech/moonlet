@@ -286,6 +286,9 @@ export const translation: ITranslations = {
                 add: {
                     title: 'Add'
                 },
+                connect: {
+                    title: 'Connect'
+                },
                 import: {
                     title: 'Import'
                 }

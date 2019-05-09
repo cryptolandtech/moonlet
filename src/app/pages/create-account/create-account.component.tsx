@@ -10,6 +10,7 @@ import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
 
 import CreateAccountTabAdd from './tab-add/tab-add.container';
 import CreateAccountTabImport from './tab-import/tab-import.container';
+import { CreateAccountTabConnect } from './tab-connect/tab-connect.component';
 
 interface IState {
     activeTabIndex: number;
@@ -27,6 +28,10 @@ export class CreateAccountPage extends Component<{}, IState> {
         {
             titleKey: 'CreateAccountPage.sections.add.title',
             contentComponent: CreateAccountTabAdd
+        },
+        {
+            titleKey: 'CreateAccountPage.sections.connect.title',
+            contentComponent: CreateAccountTabConnect
         },
         {
             titleKey: 'CreateAccountPage.sections.import.title',
