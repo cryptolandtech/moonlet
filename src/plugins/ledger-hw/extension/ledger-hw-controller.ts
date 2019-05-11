@@ -8,6 +8,8 @@ interface IRequest {
     sent: boolean;
 }
 
+const BRIDGE_URL = 'https://localhost:8081/';
+
 export class LedgerHwController {
     public bridgeReady: boolean = false;
     public iframe: HTMLIFrameElement;
@@ -15,7 +17,7 @@ export class LedgerHwController {
 
     constructor() {
         this.iframe = document.createElement('iframe');
-        this.iframe.src = 'https://localhost:8081/';
+        this.iframe.src = BRIDGE_URL;
         document.head.appendChild(this.iframe);
 
         window.addEventListener('message', ({ origin, data }) => {
@@ -46,19 +48,19 @@ export class LedgerHwController {
         });
     }
 
-    public getAddress(sender, app, params): Promise<any> {
-        return this.request(app, 'getAddress', params);
+    public getAddress(sender, app, params, timeout?): Promise<any> {
+        return this.request(app, 'getAddress', params, timeout);
     }
 
-    public getAppInfo(sender, app): Promise<any> {
-        return this.request(app, 'getInfo');
+    public getAppInfo(sender, app, timeout?): Promise<any> {
+        return this.request(app, 'getInfo', undefined, timeout);
     }
 
-    public signTransaction(sender, app, params): Promise<any> {
+    public signTransaction(sender, app, params, timeout?): Promise<any> {
         return this.request(app, 'signTransaction', params);
     }
 
-    private request(app, action, params?): Promise<IResponseData> {
+    private request(app, action, params?, timeout?): Promise<IResponseData> {
         const id = Math.random()
             .toString()
             .substr(2);
@@ -68,7 +70,8 @@ export class LedgerHwController {
             type: 'ledger-bridge',
             action,
             app,
-            params
+            params,
+            timeout
         };
 
         const deferred = new Deferred();

@@ -13,11 +13,15 @@ export class LedgerHwPlugin extends BgCommunicationPlugin implements ILedgerHwPl
         super(port, BackgroundMessageController.LEDGER_HW_CONTROLLER);
     }
 
-    public getAppInfo(appName: string): Promise<IAppInfoResponse> {
-        return this.callAction('getAppInfo', [appName]);
+    public getAppInfo(appName: string, timeout?: number): Promise<IAppInfoResponse> {
+        return this.callAction('getAppInfo', [appName, timeout]);
     }
 
-    public getAddress(appName: string, options: IAddressOptions): Promise<IAddressResponse> {
-        return this.callAction('getAddress', [appName, options]);
+    public getAddress(
+        appName: string,
+        options: IAddressOptions,
+        timeout?: number
+    ): Promise<IAddressResponse> {
+        return this.callAction('getAddress', [appName, options, timeout]);
     }
 }

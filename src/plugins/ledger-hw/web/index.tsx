@@ -1,6 +1,10 @@
-import { bgControllerToPlugin } from '../../core/web/bg-controller-to-plugin';
 import { LedgerHwController } from '../extension/ledger-hw-controller';
+import { LedgerHwPlugin as LedgerHwPluginExtension } from '../extension';
+import { extensionPluginToWeb } from '../../core/web/extension-plugin-to-web';
 
-const controller = new LedgerHwController();
-
-export const LedgerHwPlugin = bgControllerToPlugin(controller);
+export class LedgerHwPlugin extends extensionPluginToWeb(LedgerHwPluginExtension) {
+    constructor() {
+        super(null);
+        this.ctrl = new LedgerHwController();
+    }
+}

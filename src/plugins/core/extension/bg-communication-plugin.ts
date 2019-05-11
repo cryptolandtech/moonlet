@@ -20,27 +20,29 @@ export class BgCommunicationPlugin {
     private requests: Map<string, IRequestInfo> = new Map();
 
     constructor(port: Runtime.Port, controller: BackgroundMessageController) {
-        this.port = port;
-        this.controller = controller;
-        this.port.onMessage.addListener((message: IBackgroundMessage) => {
-            if (
-                message.id &&
-                message.type === BackgroundMessageType.RESPONSE &&
-                message.response &&
-                this.requests.has(message.id)
-            ) {
-                const requestInfo = this.requests.get(message.id);
-                clearTimeout(requestInfo.timeout);
+        if (port) {
+            this.port = port;
+            this.controller = controller;
+            this.port.onMessage.addListener((message: IBackgroundMessage) => {
+                if (
+                    message.id &&
+                    message.type === BackgroundMessageType.RESPONSE &&
+                    message.response &&
+                    this.requests.has(message.id)
+                ) {
+                    const requestInfo = this.requests.get(message.id);
+                    clearTimeout(requestInfo.timeout);
 
-                if (message.response.error) {
-                    requestInfo.deferred.reject(message.response);
-                } else {
-                    requestInfo.deferred.resolve(message.response.data);
+                    if (message.response.error) {
+                        requestInfo.deferred.reject(message.response);
+                    } else {
+                        requestInfo.deferred.resolve(message.response.data);
+                    }
+
+                    this.requests.delete(message.id);
                 }
-
-                this.requests.delete(message.id);
-            }
-        });
+            });
+        }
     }
 
     public async callAction(action, params?, timeout?: number) {

@@ -47,7 +47,6 @@ export abstract class BaseWalletController {
         if (check.error) {
             return check;
         }
-
         return Response.resolve(JSON.parse(this.wallet.toJSON())); // TODO: return a serialized version of wallet
     }
 

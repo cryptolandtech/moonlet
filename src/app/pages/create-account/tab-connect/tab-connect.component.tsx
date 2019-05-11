@@ -38,9 +38,14 @@ export class CreateAccountTabConnect extends Component<IProps, IState> {
             accountNameError: false
         };
 
-        getPlugins()
-            .ledgerHw.getAddress('Eth', { index: 0 })
-            .then(data => console.log('ledger', data));
+        console.log('waiting for device...');
+        this.detect().then(data => console.log('oleeee device found'));
+    }
+
+    public detect() {
+        return getPlugins()
+            .ledgerHw.getAddress('Eth', { index: 0 }, 5000)
+            .then(() => true, () => this.detect());
     }
 
     public componentDidMount() {

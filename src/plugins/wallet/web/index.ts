@@ -1,6 +1,10 @@
+import { extensionPluginToWeb } from '../../core/web/extension-plugin-to-web';
 import { WalletController } from './wallet-controller';
-import { bgControllerToPlugin } from '../../core/web/bg-controller-to-plugin';
+import { WalletPlugin as WalletPluginExtension } from '../extension';
 
-const controller = new WalletController();
-
-export const WalletPlugin = bgControllerToPlugin(controller);
+export class WalletPlugin extends extensionPluginToWeb(WalletPluginExtension) {
+    constructor() {
+        super(null);
+        this.ctrl = new WalletController();
+    }
+}
