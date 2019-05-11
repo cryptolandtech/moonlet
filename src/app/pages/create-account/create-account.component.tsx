@@ -6,7 +6,7 @@ import { Translate } from '../../components/translate/translate.component';
 import { bind } from 'bind-decorator';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import Select from 'preact-material-components/Select';
-import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
+import { BLOCKCHAIN_INFO } from '../../../utils/blockchain/blockchain-info';
 
 import CreateAccountTabAdd from './tab-add/tab-add.container';
 import CreateAccountTabImport from './tab-import/tab-import.container';

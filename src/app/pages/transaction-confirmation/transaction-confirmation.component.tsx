@@ -4,17 +4,16 @@ import LayoutGrid, { LayoutGridCell } from 'preact-material-components/LayoutGri
 import { Button } from 'preact-material-components/Button';
 
 import './transaction-confirmation.scss';
-import { GenericAccount } from 'moonlet-core/src/core/account';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import { IBlockchainInfo, BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
-import { convertUnit, getDefaultFeeOptions, calculateFee } from '../../utils/blockchain/utils';
-import { FeeOptions, IGasFeeOptions } from '../../utils/blockchain/types';
+import { IBlockchainInfo, BLOCKCHAIN_INFO } from '../../../utils/blockchain/blockchain-info';
+import { convertUnit, getDefaultFeeOptions, calculateFee } from '../../../utils/blockchain/utils';
+import { FeeOptions } from '../../../utils/blockchain/types';
 import { translate } from '../../utils/translate';
 import { Translate } from '../../components/translate/translate.component';
 import { BigNumber } from 'bignumber.js';
 import Typography from 'preact-material-components/Typography';
 import { browser } from 'webextension-polyfill-ts';
-import { Response } from '../../utils/response';
+import { Response } from '../../../utils/response';
 import { IWalletTransfer } from '../../data/wallet/state';
 
 interface IProps {

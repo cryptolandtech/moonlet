@@ -1,17 +1,13 @@
 import { Component, h } from 'preact';
-import LayoutGrid from 'preact-material-components/LayoutGrid';
 import './reveal.scss';
 import { Translate } from '../../components/translate/translate.component';
 import Button from 'preact-material-components/Button';
-import { GenericAccount } from 'moonlet-core/src/core/account';
 import Chips from 'preact-material-components/Chips';
 import { removeType } from '../../utils/remove-type';
 import { translate } from '../../utils/translate';
-import { TextareaAutoSize } from '../../components/textarea-auto-size/textarea-auto-size.components';
 import TextField from 'preact-material-components/TextField';
-import { getWalletProvider } from '../../app-context';
+import { getWalletPlugin } from '../../app-context';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import Icon from 'preact-material-components/Icon';
 import { Copy } from '../../components/copy/copy.component';
 import { bind } from 'bind-decorator';
 
@@ -121,7 +117,7 @@ export class RevealPage extends Component<IProps, IState> {
     @bind
     public async checkPassword() {
         try {
-            await getWalletProvider().unlockWallet(this.state.passwordInput);
+            await getWalletPlugin().unlockWallet(this.state.passwordInput);
             this.setState({
                 currentScreen: 'info'
             });

@@ -35,14 +35,14 @@ const composeEnhancers =
           })
         : compose;
 
-const loggerMiddleware = store => next => action => {
-    /* tslint:disable:no-console */
-    console.log('dispatching', action);
-    const result = next(action);
-    console.log('next state', store.getState());
-    /* tslint:enable:no-console */
-    return result;
-};
+// const loggerMiddleware = store => next => action => {
+//     /* tslint:disable:no-console */
+//     console.log('dispatching', action);
+//     const result = next(action);
+//     console.log('next state', store.getState());
+//     /* tslint:enable:no-console */
+//     return result;
+// };
 
 const enhancer = composeEnhancers(
     applyMiddleware(/*loggerMiddleware, */ reduxThunk)

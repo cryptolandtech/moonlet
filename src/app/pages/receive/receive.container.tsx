@@ -1,7 +1,7 @@
 import { connect } from 'preact-redux';
 import { IState } from '../../data';
 import { ReceivePage } from './receive.component';
-import { getAccountFromState } from '../../utils/blockchain/utils';
+import { getAccountFromState } from '../../../utils/blockchain/utils';
 
 const mapStateToProps = (state: IState, ownProps) => {
     const { blockchain, address } = ownProps;

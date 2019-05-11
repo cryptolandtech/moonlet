@@ -2,9 +2,9 @@ import { h, Component } from 'preact';
 import LayoutGrid, { LayoutGridCell } from 'preact-material-components/LayoutGrid';
 import { TextareaAutoSize } from '../../../../../../components/textarea-auto-size/textarea-auto-size.components';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import { calculateFee, convertUnit } from '../../../../../../utils/blockchain/utils';
-import { FeeOptions, IGasFeeOptions } from '../../../../../../utils/blockchain/types';
-import { IBlockchainInfo } from '../../../../../../utils/blockchain/blockchain-info';
+import { calculateFee, convertUnit } from '../../../../../../../utils/blockchain/utils';
+import { FeeOptions, IGasFeeOptions } from '../../../../../../../utils/blockchain/types';
+import { IBlockchainInfo } from '../../../../../../../utils/blockchain/blockchain-info';
 import { translate } from '../../../../../../utils/translate';
 import BigNumber from 'bignumber.js';
 import Currency from '../../../../../../components/currency/currency.container';
@@ -54,7 +54,6 @@ export class GasFee extends Component<IProps, IState> {
 
     public render() {
         const gasPriceInputUnit = this.props.blockchainInfo.fee.config.gasPriceInputUnit;
-        const gasPriceUnit = this.props.blockchainInfo.fee.config.gasPriceUnit;
 
         return (
             <LayoutGrid.Inner>

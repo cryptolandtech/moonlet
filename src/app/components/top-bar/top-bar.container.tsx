@@ -1,7 +1,7 @@
 import { connect } from 'preact-redux';
 import { TopBar } from './top-bar.component';
 import { IState } from '../../data';
-import { filterAccounts } from '../../utils/blockchain/utils';
+import { filterAccounts } from '../../../utils/blockchain/utils';
 
 const mapStateToProps = (state: IState) => {
     const accounts = filterAccounts(

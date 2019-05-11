@@ -11,8 +11,6 @@ interface IProps {
 }
 
 export class ReceivePage extends Component<IProps, any> {
-    private textareaElement: HTMLTextAreaElement;
-
     public render() {
         return (
             <div class="receive-page">
@@ -21,10 +19,5 @@ export class ReceivePage extends Component<IProps, any> {
                 <QRCode className="qr-image" value={this.props.account.address} renderAs="svg" />
             </div>
         );
-    }
-
-    private copyToClipboard() {
-        this.textareaElement.select();
-        document.execCommand('copy');
     }
 }

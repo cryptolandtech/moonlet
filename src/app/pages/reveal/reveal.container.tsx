@@ -1,6 +1,6 @@
 import { connect } from 'preact-redux';
 import { RevealPage } from './reveal.component';
-import { getAccountFromState } from '../../utils/blockchain/utils';
+import { getAccountFromState } from '../../../utils/blockchain/utils';
 
 const mapStateToProps = (state, ownProps) => {
     const { type, blockchain, address } = ownProps;

@@ -1,18 +1,16 @@
 // tslint:disable:no-console
 import { h, Component } from 'preact';
 import Select from 'preact-material-components/Select';
-import { BLOCKCHAIN_INFO } from '../../../utils/blockchain/blockchain-info';
+import { BLOCKCHAIN_INFO } from '../../../../utils/blockchain/blockchain-info';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import TextField from 'preact-material-components/TextField';
 import Button from 'preact-material-components/Button';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
 
 import { bind } from 'bind-decorator';
-import { getWalletProvider } from '../../../app-context';
-import { route } from 'preact-router';
+import { getWalletPlugin, getPlugins } from '../../../app-context';
 import { translate } from '../../../utils/translate';
 import { Navigation } from '../../../utils/navigation';
-import { HardwareWalletEthereum } from '../../../../hardware-wallet/hardware-wallet-eth';
 
 interface IProps {
     accounts: any[];
@@ -40,12 +38,9 @@ export class CreateAccountTabConnect extends Component<IProps, IState> {
             accountNameError: false
         };
 
-        new HardwareWalletEthereum().getAddress(0, 0).then(
-            data => {
-                console.log('hw', data);
-            },
-            error => console.log(error)
-        );
+        getPlugins()
+            .ledgerHw.getAddress('Eth', { index: 0 })
+            .then(data => console.log('ledger', data));
     }
 
     public componentDidMount() {
@@ -66,7 +61,7 @@ export class CreateAccountTabConnect extends Component<IProps, IState> {
                 accountNameError: false
             });
 
-            const account = await getWalletProvider().createAccount(
+            const account = await getWalletPlugin().createAccount(
                 this.state.blockchain,
                 this.state.accountName
             );

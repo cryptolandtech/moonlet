@@ -1,10 +1,9 @@
 import { connect } from 'preact-redux';
 import { IState } from '../../data';
 import { DashboardPage } from './dashboard.component';
-import { getWalletProvider } from '../../app-context';
+import { getWalletPlugin } from '../../app-context';
 import { createGetBalance, createOldAccountWarning } from '../../data/wallet/actions';
-import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
-import { filterAccounts } from '../../utils/blockchain/utils';
+import { filterAccounts } from '../../../utils/blockchain/utils';
 import { createDismissXSellDashboard } from '../../data/user-preferences/actions';
 
 const mapStateToProps = (state: IState, ownProps) => {
@@ -27,7 +26,7 @@ const mapStateToProps = (state: IState, ownProps) => {
 
 const mapDispatchToProps = {
     updateBalance: (blockchain, address) =>
-        createGetBalance(getWalletProvider(), blockchain, address),
+        createGetBalance(getWalletPlugin(), blockchain, address),
     dismissXSell: createDismissXSellDashboard,
     showOldAccountWarning: createOldAccountWarning
 };

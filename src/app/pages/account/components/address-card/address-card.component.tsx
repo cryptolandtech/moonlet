@@ -7,7 +7,6 @@ import Menu from 'preact-material-components/Menu';
 import Icon from 'preact-material-components/Icon';
 import List from 'preact-material-components/List';
 import Typography from 'preact-material-components/Typography';
-import Snackbar from 'preact-material-components/Snackbar';
 import { Copy } from '../../../../components/copy/copy.component';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { GenericAccount } from 'moonlet-core/src/core/account';
@@ -27,7 +26,6 @@ interface IProps {
 
 export class AddressCard extends Component<IProps> {
     private addressMenu;
-    private bar;
     private discardDialogRef;
 
     public componentDidMount() {
@@ -156,12 +154,6 @@ export class AddressCard extends Component<IProps> {
                         {address}
                     </Typography>
                 </Copy>
-
-                <Snackbar
-                    ref={bar => {
-                        this.bar = bar;
-                    }}
-                />
             </Card>
         );
     }

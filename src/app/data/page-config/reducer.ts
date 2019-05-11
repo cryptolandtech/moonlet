@@ -1,5 +1,5 @@
 import { IAction } from '../action';
-import { getRouteConfig, IRoute, IRouteConfig } from './../../routes';
+import { getRouteConfig, IRouteConfig } from './../../routes';
 import { DeviceScreenSize, Platform } from './../../types';
 import { CHANGE_PAGE, CHANGE_SCREEN_SIZE } from './actions';
 import { ILayout, IPageConfig } from './state';

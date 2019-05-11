@@ -2,8 +2,8 @@ import { h, Component } from 'preact';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { IAccountBalance, IAccountsBalances } from '../../data/wallet/state';
 import Currency from '../currency/currency.container';
-import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
-import { formatAmount } from '../../utils/blockchain/utils';
+import { BLOCKCHAIN_INFO } from '../../../utils/blockchain/blockchain-info';
+import { formatAmount } from '../../../utils/blockchain/utils';
 
 interface IProps {
     blockchain: Blockchain;

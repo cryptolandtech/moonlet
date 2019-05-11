@@ -7,14 +7,14 @@ import { CreateWalletStep2 } from './components/step2/step2.component';
 import { CreatePassword } from '../../components/create-password/create-password.component';
 import { Platform } from '../../types';
 import Wallet from 'moonlet-core/src/core/wallet';
-import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import { IWalletProvider } from '../../iwallet-provider';
-import { appContext } from '../../app-context';
+
+import { getWalletPlugin } from '../../app-context';
+import { IWalletPlugin } from '../../../plugins/wallet/iwallet-plugin';
 
 interface IProps {
     platform: Platform;
 
-    createWallet: (walletProvider: IWalletProvider, mnemonics: string, password: string) => any;
+    createWallet: (walletProvider: IWalletPlugin, mnemonics: string, password: string) => any;
 }
 
 interface IState {
@@ -77,6 +77,6 @@ export class CreateWalletPage extends Component<IProps, IState> {
     }
 
     public onWalletCreated(password: string) {
-        this.props.createWallet(appContext('walletProvider'), this.wallet.mnemonics, password);
+        this.props.createWallet(getWalletPlugin(), this.wallet.mnemonics, password);
     }
 }

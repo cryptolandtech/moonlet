@@ -20,13 +20,19 @@ export default function(config, env, helpers) {
     );
 
     // customize config
-    config.resolve.alias['preact-cli-entrypoint'] = resolve(process.cwd(), 'src', 'web', 'index');
+    config.resolve.alias['preact-cli-entrypoint'] = resolve(
+        process.cwd(),
+        'src',
+        'platforms',
+        'web',
+        'index'
+    );
 
     // overwrite manifest.json
     config.plugins.unshift(
         new CopyWebpackPlugin([
             {
-                from: resolve(process.cwd(), 'src', 'web', 'manifest.json'),
+                from: resolve(process.cwd(), 'src', 'platforms', 'web', 'manifest.json'),
                 to: 'manifest.json'
             }
         ])

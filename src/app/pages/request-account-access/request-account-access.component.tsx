@@ -9,7 +9,7 @@ import Select from 'preact-material-components/Select';
 import { IWalletState } from '../../data/wallet/state';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { browser, Tabs } from 'webextension-polyfill-ts';
-import { Response } from '../../utils/response';
+import { Response } from '../../../utils/response';
 
 interface IProps {
     wallet: IWalletState;

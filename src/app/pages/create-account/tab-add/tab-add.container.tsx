@@ -2,9 +2,9 @@ import { connect } from 'preact-redux';
 import { IState } from '../../../data';
 import { CreateAccountTabAdd } from './tab-add.component';
 
-import { filterAccounts } from '../../../utils/blockchain/utils';
+import { filterAccounts } from '../../../../utils/blockchain/utils';
 import { createWalletSync } from '../../../data/wallet/actions';
-import { getWalletProvider } from '../../../app-context';
+import { getWalletPlugin } from '../../../app-context';
 
 const mapStateToProps = (state: IState, ownProps) => {
     const accounts = filterAccounts(
@@ -21,7 +21,7 @@ const mapStateToProps = (state: IState, ownProps) => {
 };
 
 const mapDispatchToProps = {
-    syncWallet: () => createWalletSync(getWalletProvider())
+    syncWallet: () => createWalletSync(getWalletPlugin())
 };
 
 export default connect(

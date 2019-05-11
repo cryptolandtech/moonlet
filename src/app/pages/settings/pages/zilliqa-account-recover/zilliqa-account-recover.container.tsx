@@ -1,7 +1,7 @@
 import { connect } from 'preact-redux';
 import { ZilliqaAccountRecover } from './zilliqa-account-recover.component';
 
-import { getWalletProvider } from '../../../../app-context';
+import { getWalletPlugin } from '../../../../app-context';
 import { createWalletSync } from '../../../../data/wallet/actions';
 
 const mapStateToProps = (state, ownProps) => {
@@ -11,7 +11,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
-    syncWallet: () => createWalletSync(getWalletProvider())
+    syncWallet: () => createWalletSync(getWalletPlugin())
 };
 
 export default connect(

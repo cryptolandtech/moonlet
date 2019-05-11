@@ -3,7 +3,7 @@ import { Component, h } from 'preact';
 import Card from 'preact-material-components/Card';
 import './dashboard.scss';
 
-import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
+import { BLOCKCHAIN_INFO } from '../../../utils/blockchain/blockchain-info';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 
 import { IAccountsBalances, IAccountBalance } from '../../data/wallet/state';

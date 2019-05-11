@@ -1,16 +1,16 @@
 import { h, Component } from 'preact';
 import Card from 'preact-material-components/Card';
 import './account.scss';
-import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
+import { BLOCKCHAIN_INFO } from '../../../utils/blockchain/blockchain-info';
 import { Translate } from '../../components/translate/translate.component';
 import List from 'preact-material-components/List';
 import { ListItem } from '../../components/list-item/list-item.component';
-import { convertUnit } from '../../utils/blockchain/utils';
+import { convertUnit } from '../../../utils/blockchain/utils';
 import BigNumber from 'bignumber.js';
 import { IDevice } from '../../data/page-config/state';
 import { DeviceScreenSize } from '../../types';
 import DashboardPage from '../dashboard/dashboard.container';
-import { Link, route } from 'preact-router';
+import { Link } from 'preact-router';
 
 import { AccountCard } from './components/account-card/account-card.component';
 import AddressCard from './components/address-card/address-card.container';

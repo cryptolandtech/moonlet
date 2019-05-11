@@ -1,5 +1,5 @@
 import { AVAILABLE_CURRENCIES } from './../../utils/currency-conversion';
-import { BLOCKCHAIN_INFO } from './../../utils/blockchain/blockchain-info';
+import { BLOCKCHAIN_INFO } from './../../../utils/blockchain/blockchain-info';
 import { getTokenRates } from '../../utils/currency-conversion';
 
 // Action constants

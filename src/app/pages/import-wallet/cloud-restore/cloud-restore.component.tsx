@@ -10,10 +10,10 @@ import TextField from 'preact-material-components/TextField';
 import Button from 'preact-material-components/Button';
 import { Translate } from '../../../components/translate/translate.component';
 import bind from 'bind-decorator';
-import { getWalletProvider } from '../../../app-context';
-import { WalletErrorCodes } from '../../../iwallet-provider';
+import { getWalletPlugin } from '../../../app-context';
 import { route } from 'preact-router';
 import { Navigation } from '../../../utils/navigation';
+import { WalletErrorCodes } from '../../../../plugins/wallet/iwallet-plugin';
 
 enum Screen {
     PASSWORD = 'PASSWORD',
@@ -117,7 +117,7 @@ export class ImportWalletCloudRestore extends Component<IProps, IState> {
         try {
             this.setState({ loading: true });
             const walletData = await this.provider.readFile(this.state.selectedBackup.fileId);
-            await getWalletProvider().loadEncryptedWallet(
+            await getWalletPlugin().loadEncryptedWallet(
                 walletData.encryptedWallet,
                 this.state.passwordInput
             );

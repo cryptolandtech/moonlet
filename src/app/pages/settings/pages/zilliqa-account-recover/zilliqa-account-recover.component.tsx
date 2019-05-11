@@ -10,10 +10,9 @@ import Wallet from 'moonlet-core/src/core/wallet';
 import { ZilliqaAccountUtils } from 'moonlet-core/src/blockchain/zilliqa/account-utils';
 
 import './zilliqa-account-recover.scss';
-import { getWalletProvider } from '../../../../app-context';
+import { getWalletPlugin } from '../../../../app-context';
 import { Translate } from '../../../../components/translate/translate.component';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import { route } from 'preact-router';
 import Button from 'preact-material-components/Button';
 import { translate } from '../../../../utils/translate';
 import { Navigation } from '../../../../utils/navigation';
@@ -29,7 +28,7 @@ export class ZilliqaAccountRecover extends Component<IProps, IState> {
 
     constructor(props) {
         super(props);
-        getWalletProvider()
+        getWalletPlugin()
             .getWallet()
             .then((wallet: Wallet) => {
                 this.setState({
@@ -48,11 +47,7 @@ export class ZilliqaAccountRecover extends Component<IProps, IState> {
     }
 
     public async importAccount(privateKey) {
-        const account = await getWalletProvider().importAccount(
-            Blockchain.ZILLIQA,
-            privateKey,
-            'Old Account'
-        );
+        await getWalletPlugin().importAccount(Blockchain.ZILLIQA, privateKey, 'Old Account');
         await this.props.syncWallet();
         Navigation.goTo(`/dashboard`, true);
     }

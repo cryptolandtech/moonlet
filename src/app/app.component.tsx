@@ -2,22 +2,26 @@ import { Component, h, RenderableProps } from 'preact';
 import AsyncRoute from 'preact-async-route';
 import { CustomHistory, Router, RouterOnChangeArgs, route } from 'preact-router';
 
+import 'babel-polyfill';
+
 import './app.scss';
 import { IRouteConfig, ROUTES } from './routes';
 import { DeviceScreenSize } from './types';
 import { getScreenSizeMatchMedia } from './utils/screen-size-match-media';
 import DefaultLayout from './layouts/default/default.container';
 import { loadTranslations, Language } from './utils/translate';
-import { IWalletProvider } from './iwallet-provider';
 import { appContext } from './app-context';
 import { WalletStatus } from './data/wallet/state';
 import { GenericAccount } from 'moonlet-core/src/core/account';
 import { Navigation } from './utils/navigation';
+import { IWalletPlugin } from '../plugins/wallet/iwallet-plugin';
 
 interface IProps {
     history: CustomHistory;
-    walletProvider: IWalletProvider;
     language: Language;
+    plugins: {
+        wallet: IWalletPlugin;
+    };
 
     walletStatus: WalletStatus;
     accounts: GenericAccount[];
@@ -43,7 +47,7 @@ export default class App extends Component<IProps, IState> {
             this.setState({ translationsLoaded: true });
         });
 
-        appContext('walletProvider', props.walletProvider);
+        appContext('plugins', props.plugins);
 
         this.phoneMediaQuery = getScreenSizeMatchMedia();
         this.phoneMediaQuery.addListener(this.onPhoneMediaQueryChange.bind(this));

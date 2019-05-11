@@ -1,10 +1,10 @@
 import { connect } from 'preact-redux';
 
 import { IState } from '../../../../data';
-import { filterAccounts } from '../../../../utils/blockchain/utils';
+import { filterAccounts } from '../../../../../utils/blockchain/utils';
 import { AddressCard } from './address-card.component';
 import { createRemoveAccount } from '../../../../data/wallet/actions';
-import { getWalletProvider } from '../../../../app-context';
+import { getWalletPlugin } from '../../../../app-context';
 
 const mapStateToProps = (state: IState, ownProps) => {
     const accounts = filterAccounts(
@@ -21,7 +21,7 @@ const mapStateToProps = (state: IState, ownProps) => {
 
 const mapDispatchToProps = {
     removeAccount: (blockchain, address) =>
-        createRemoveAccount(getWalletProvider(), blockchain, address)
+        createRemoveAccount(getWalletPlugin(), blockchain, address)
 };
 
 export default connect(

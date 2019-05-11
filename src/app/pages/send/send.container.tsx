@@ -1,10 +1,10 @@
 import { connect } from 'preact-redux';
 import { IState } from '../../data';
 import { SendPage } from './send.component';
-import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
+import { BLOCKCHAIN_INFO } from '../../../utils/blockchain/blockchain-info';
 import { createTransfer } from '../../data/wallet/actions';
-import { getWalletProvider } from '../../app-context';
-import { getAccountFromState } from '../../utils/blockchain/utils';
+import { getWalletPlugin } from '../../app-context';
+import { getAccountFromState } from '../../../utils/blockchain/utils';
 import { IAccountBalance } from '../../data/wallet/state';
 const mapStateToProps = (state: IState, ownProps) => {
     const { blockchain, address } = ownProps;
@@ -31,7 +31,7 @@ const mapStateToProps = (state: IState, ownProps) => {
 
 const mapDispatchToProps = {
     transfer: (blockchain, fromAddress, toAddress, amount, feeOptions) =>
-        createTransfer(getWalletProvider(), blockchain, fromAddress, toAddress, amount, feeOptions)
+        createTransfer(getWalletPlugin(), blockchain, fromAddress, toAddress, amount, feeOptions)
 };
 
 export default connect(

@@ -57,29 +57,29 @@ export const ensureBackupFolderStructure = async (
     return walletFolderInfo;
 };
 
-export const getBackupList = async (provider: CloudStorageProvider) => {
-    if (provider) {
-        const rootFolder = await provider.getFilesList();
-        const backupsFolderInfo = rootFolder.files.filter(
-            file => file.name === 'backups' && file.type === CloudFileType.FOLDER
-        )[0];
-        if (!backupsFolderInfo) {
-            return [];
-        }
-        const backupFolder = await provider.getFilesList(backupsFolderInfo.id);
-        backupFolder.files.map(file => {
-            return {
-                walletHash: file.name,
-                id: file.id
-            };
-        });
+// export const getBackupList = async (provider: CloudStorageProvider) => {
+//     if (provider) {
+//         const rootFolder = await provider.getFilesList();
+//         const backupsFolderInfo = rootFolder.files.filter(
+//             file => file.name === 'backups' && file.type === CloudFileType.FOLDER
+//         )[0];
+//         if (!backupsFolderInfo) {
+//             return [];
+//         }
+//         const backupFolder = await provider.getFilesList(backupsFolderInfo.id);
+//         backupFolder.files.map(file => {
+//             return {
+//                 walletHash: file.name,
+//                 id: file.id
+//             };
+//         });
 
-        const responses = await Promise.all(
-            backupFolder.map(backup => {
-                return provider.getFilesList(backup.id);
-            })
-        );
-    }
+//         const responses = await Promise.all(
+//             backupFolder.map(backup => {
+//                 return provider.getFilesList(backup.id);
+//             })
+//         );
+//     }
 
-    return undefined;
-};
+//     return undefined;
+// };

@@ -1,5 +1,3 @@
-import { Blockchain } from 'moonlet-core/src/core/blockchain';
-
 export interface INetworksOptions {
     [blockchain: string]: {
         mainNet?: number;

@@ -4,14 +4,17 @@ import { TextareaAutoSize } from '../../../../components/textarea-auto-size/text
 import Button from 'preact-material-components/Button';
 import GasFee from './components/gas-fee/gas-fee.container';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import { IBlockchainInfo, BlockchainFeeType } from '../../../../utils/blockchain/blockchain-info';
-import { FeeOptions, IGasFeeOptions } from '../../../../utils/blockchain/types';
+import {
+    IBlockchainInfo,
+    BlockchainFeeType
+} from '../../../../../utils/blockchain/blockchain-info';
+import { FeeOptions } from '../../../../../utils/blockchain/types';
 import {
     sliderValueToFeeOptions,
     feeOptionsToSliderValue,
     calculateFee,
     getDefaultFeeOptions
-} from '../../../../utils/blockchain/utils';
+} from '../../../../../utils/blockchain/utils';
 import { Translate } from '../../../../components/translate/translate.component';
 import { translate } from '../../../../utils/translate';
 

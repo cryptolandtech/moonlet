@@ -7,7 +7,7 @@ import { DeviceScreenSize } from '../../types';
 import './top-bar.scss';
 import List from 'preact-material-components/List';
 import { route } from 'preact-router';
-import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
+import { BLOCKCHAIN_INFO } from '../../../utils/blockchain/blockchain-info';
 import { isExtension } from '../../utils/platform-utils';
 import CurrencyTotal from '../currency-total/currency-total.container';
 import { IAccountsBalances } from '../../data/wallet/state';

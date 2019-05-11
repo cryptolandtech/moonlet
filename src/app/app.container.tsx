@@ -2,7 +2,7 @@ import { connect } from 'preact-redux';
 import App from './app.component';
 import { createChangePage, createChangeScreenSize } from './data/page-config/actions';
 import { IState } from './data/';
-import { filterAccounts } from './utils/blockchain/utils';
+import { filterAccounts } from '../utils/blockchain/utils';
 
 const mapStateToProps = (state: IState, ownProps) => {
     const accounts = filterAccounts(

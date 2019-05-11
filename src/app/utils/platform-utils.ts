@@ -1,3 +1,4 @@
+// TODO remove browser import
 import { browser } from 'webextension-polyfill-ts';
 import * as Sentry from '@sentry/browser';
 

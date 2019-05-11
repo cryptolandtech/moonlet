@@ -1,10 +1,8 @@
 import { h, Component } from 'preact';
 
 import './testnet-warning.scss';
-import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import Icon from 'preact-material-components/Icon';
 import { translate } from '../../utils/translate';
-import { INetworksOptions } from '../../data/user-preferences/state';
 import { GenericAccount } from 'moonlet-core/src/core/account';
 
 interface IProps {

@@ -7,7 +7,7 @@ import List from 'preact-material-components/List';
 import { ListItem } from '../../../../components/list-item/list-item.component';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { translate } from '../../../../utils/translate';
-import { BLOCKCHAIN_INFO } from '../../../../utils/blockchain/blockchain-info';
+import { BLOCKCHAIN_INFO } from '../../../../../utils/blockchain/blockchain-info';
 import Icon from 'preact-material-components/Icon';
 
 interface IProps {

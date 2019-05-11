@@ -1,4 +1,5 @@
-import { IWalletProvider } from './iwallet-provider';
+import { IPlugins } from './../plugins/iplugins';
+import { IWalletPlugin } from '../plugins/wallet/iwallet-plugin';
 
 const context = {};
 
@@ -15,6 +16,10 @@ export const appContext = (key, value?) => {
     return undefined;
 };
 
-export const getWalletProvider = (): IWalletProvider => {
-    return appContext('walletProvider');
+export const getPlugins = (): IPlugins => {
+    return appContext('plugins');
+};
+
+export const getWalletPlugin = (): IWalletPlugin => {
+    return getPlugins().wallet;
 };

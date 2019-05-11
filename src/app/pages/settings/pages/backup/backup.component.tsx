@@ -12,9 +12,7 @@ import { translate } from '../../../../utils/translate';
 import { Translate } from '../../../../components/translate/translate.component';
 import TextField from 'preact-material-components/TextField';
 import { bind } from 'bind-decorator';
-import { getWalletProvider } from '../../../../app-context';
-import { List } from 'preact-material-components/List';
-import { ListItem } from '../../../../components/list-item/list-item.component';
+import { getWalletPlugin } from '../../../../app-context';
 import Icon from 'preact-material-components/Icon';
 import sha3 from 'crypto-js/sha3';
 
@@ -119,7 +117,7 @@ export class BackupPage extends Component<{}, IState> {
         if (connected) {
             lastBackup = await getLastBackupDate(
                 provider.instance,
-                sha3((await getWalletProvider().getWallet()).mnemonics).toString()
+                sha3((await getWalletPlugin().getWallet()).mnemonics).toString()
             );
         }
         this.setState({
@@ -138,7 +136,7 @@ export class BackupPage extends Component<{}, IState> {
         const provider = this.providers.filter(p => p.id === this.state.selectedProvider)[0]
             .instance;
         this.setState({ tasks: { ...this.state.tasks, encrypt: TaskStatus.IN_PROGRESS } });
-        const walletProvider = getWalletProvider();
+        const walletProvider = getWalletPlugin();
         const encryptedWallet = await walletProvider.getEncryptedWallet();
         const walletSha3 = sha3((await walletProvider.getWallet()).mnemonics) + '';
         this.setState({
@@ -253,7 +251,7 @@ export class BackupPage extends Component<{}, IState> {
     @bind
     public async checkPassword() {
         try {
-            await getWalletProvider().unlockWallet(this.state.passwordInput);
+            await getWalletPlugin().unlockWallet(this.state.passwordInput);
             this.goTo(Screen.CREATE_BACKUP);
         } catch (e) {
             this.setState({

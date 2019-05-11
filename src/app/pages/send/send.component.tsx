@@ -7,22 +7,21 @@ import './send.scss';
 import { GenericAccount } from 'moonlet-core/src/core/account';
 import TransactionFee from './components/transaction-fee/transaction-fee.container';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import { IBlockchainInfo } from '../../utils/blockchain/blockchain-info';
+import { IBlockchainInfo } from '../../../utils/blockchain/blockchain-info';
 import {
     convertUnit,
     getDefaultFeeOptions,
     formatCurrency,
     calculateFee,
     formatAmount
-} from '../../utils/blockchain/utils';
-import { FeeOptions } from '../../utils/blockchain/types';
+} from '../../../utils/blockchain/utils';
+import { FeeOptions } from '../../../utils/blockchain/types';
 import { translate } from '../../utils/translate';
 import { Translate } from '../../components/translate/translate.component';
 import Dialog from 'preact-material-components/Dialog';
 import { BigNumber } from 'bignumber.js';
 import { IWalletTransfer } from '../../data/wallet/state';
-import { route } from 'preact-router';
-import { getWalletProvider } from '../../app-context';
+import { getWalletPlugin } from '../../app-context';
 import { AccountCard } from '../account/components/account-card/account-card.component';
 import Currency from '../../components/currency/currency.container';
 import { Loader } from '../../components/material-components/loader/loader.component';
@@ -351,7 +350,7 @@ export class SendPage extends Component<IProps, IState> {
     }
 
     public async isAddressValid() {
-        const walletProvider = getWalletProvider();
+        const walletProvider = getWalletPlugin();
         try {
             if (!(await walletProvider.isValidAddress(this.props.blockchain, this.state.address))) {
                 return false;

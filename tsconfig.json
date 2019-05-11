@@ -15,6 +15,7 @@
         "allowSyntheticDefaultImports": true,
         "typeRoots": ["node_modules/@types"],
         "types": ["chrome", "jest"],
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "noUnusedLocals": true
     }
 }

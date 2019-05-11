@@ -3,21 +3,19 @@ import List from 'preact-material-components/List';
 import { ListItem } from '../../components/list-item/list-item.component';
 import Button from 'preact-material-components/Button';
 import { Translate } from '../../components/translate/translate.component';
-import { translate } from '../../utils/translate';
 import Switch from 'preact-material-components/Switch';
 
 import './settings.component.scss';
-import { IWalletProvider } from '../../iwallet-provider';
-import { appContext } from '../../app-context';
 import { IUserPreferences, INetworksOptions } from '../../data/user-preferences/state';
-import { isExtensionPopup, getExtensionUrl } from '../../utils/platform-utils';
+import { IWalletPlugin } from '../../../plugins/wallet/iwallet-plugin';
+import { getWalletPlugin } from '../../app-context';
 
 interface IProps {
     level1: string;
     version: string;
     userPreferences: IUserPreferences;
 
-    signOut: (walletProvider: IWalletProvider) => any;
+    signOut: (walletProvider: IWalletPlugin) => any;
     toggleDevMode: (devMode: boolean, testNet: boolean, networks: INetworksOptions) => any;
 }
 
@@ -42,8 +40,6 @@ interface ISettingsMenuItem {
 }
 
 export class SettingsPage extends Component<IProps> {
-    private dev = false;
-
     private menu: ISettingsMenu = {
         name: 'root',
         items: [
@@ -182,7 +178,7 @@ export class SettingsPage extends Component<IProps> {
                             ripple
                             outlined
                             onClick={() => {
-                                this.props.signOut(appContext('walletProvider'));
+                                this.props.signOut(getWalletPlugin());
                             }}
                         >
                             <Translate text="App.labels.signOut" />

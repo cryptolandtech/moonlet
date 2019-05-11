@@ -1,13 +1,12 @@
 import { h, Component } from 'preact';
 import Select from 'preact-material-components/Select';
-import { BLOCKCHAIN_INFO } from '../../../utils/blockchain/blockchain-info';
+import { BLOCKCHAIN_INFO } from '../../../../utils/blockchain/blockchain-info';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
 import { bind } from 'bind-decorator';
 import TextField from 'preact-material-components/TextField';
 import Button from 'preact-material-components/Button';
-import { getWalletProvider } from '../../../app-context';
-import { route } from 'preact-router';
+import { getWalletPlugin } from '../../../app-context';
 import { translate } from '../../../utils/translate';
 import { Navigation } from '../../../utils/navigation';
 
@@ -62,7 +61,7 @@ export class CreateAccountTabImport extends Component<IProps, IState> {
             });
 
             try {
-                const account = await getWalletProvider().importAccount(
+                const account = await getWalletPlugin().importAccount(
                     this.state.blockchain,
                     this.state.privateKey,
                     this.state.accountName

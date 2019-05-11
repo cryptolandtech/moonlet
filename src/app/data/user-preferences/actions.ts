@@ -1,10 +1,10 @@
 import { IUserPreferences, INetworksOptions } from './state';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { IAction } from '../action';
-import { IWalletProvider } from '../../iwallet-provider';
 import { WALLET_CLEAR_BALANCES, createWalletSync } from '../wallet/actions';
-import { getSwitchNetworkConfig } from '../../utils/blockchain/utils';
+import { getSwitchNetworkConfig } from '../../../utils/blockchain/utils';
 import { translate } from '../../utils/translate';
+import { IWalletPlugin } from '../../../plugins/wallet/iwallet-plugin';
 
 // Action constants
 
@@ -26,7 +26,7 @@ export const createSetPreferences = (userPref: IUserPreferences): IAction => {
 };
 
 export const createDevModeToggle = (
-    walletProvider: IWalletProvider,
+    walletProvider: IWalletPlugin,
     devMode: boolean,
     testNet: boolean,
     networks: INetworksOptions
@@ -56,7 +56,7 @@ export const createTestNetToggle = (value?: boolean): IAction => {
 };
 
 export const createSwitchNetwork = (
-    walletProvider: IWalletProvider,
+    walletProvider: IWalletPlugin,
     blockchain: Blockchain,
     networkId: number,
     mainNet: boolean

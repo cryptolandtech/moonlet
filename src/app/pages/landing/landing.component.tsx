@@ -2,8 +2,6 @@ import { Component, h } from 'preact';
 import { route } from 'preact-router';
 
 import Button from 'preact-material-components/Button';
-import Icon from 'preact-material-components/Icon';
-import LayoutGrid from 'preact-material-components/LayoutGrid';
 
 import './landing.scss';
 import { Translate } from '../../components/translate/translate.component';
@@ -12,17 +10,18 @@ import { translate } from '../../utils/translate';
 import Card from 'preact-material-components/Card';
 
 import { IWalletState, WalletStatus } from '../../data/wallet/state';
-import { IWalletProvider } from '../../iwallet-provider';
-import { appContext } from '../../app-context';
+import { getWalletPlugin } from '../../app-context';
 import { DisclaimerPage } from '../settings/pages/disclaimer/disclaimer.component';
 import Dialog from 'preact-material-components/Dialog';
+import LayoutGrid from 'preact-material-components/LayoutGrid';
+import { IWalletPlugin } from '../../../plugins/wallet/iwallet-plugin';
 
 interface IProps {
     wallet: IWalletState;
     networkConfig: any;
     disclaimerVersionAccepted: number;
 
-    loadWallet: (walletProvider: IWalletProvider, netWorksConfig, password?: string) => any;
+    loadWallet: (walletProvider: IWalletPlugin, netWorksConfig, password?: string) => any;
     acceptDisclaimer: () => any;
 }
 
@@ -78,7 +77,7 @@ export class LandingPage extends Component<IProps, IState> {
                                             e.code === 'Enter' &&
                                             this.checkDisclaimerAndExecute(() =>
                                                 this.props.loadWallet(
-                                                    appContext('walletProvider'),
+                                                    getWalletPlugin(),
                                                     this.props.networkConfig,
                                                     this.state.password
                                                 )
@@ -101,7 +100,7 @@ export class LandingPage extends Component<IProps, IState> {
                                         onClick={() =>
                                             this.checkDisclaimerAndExecute(() =>
                                                 this.props.loadWallet(
-                                                    appContext('walletProvider'),
+                                                    getWalletPlugin(),
                                                     this.props.networkConfig,
                                                     this.state.password
                                                 )

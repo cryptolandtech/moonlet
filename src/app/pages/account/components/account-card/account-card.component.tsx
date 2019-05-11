@@ -1,12 +1,10 @@
 import { h, Component } from 'preact';
 import Card from 'preact-material-components/Card';
-import { BLOCKCHAIN_INFO } from '../../../../utils/blockchain/blockchain-info';
+import { BLOCKCHAIN_INFO } from '../../../../../utils/blockchain/blockchain-info';
 
 import './account-card.scss';
-import Currency from '../../../../components/currency/currency.container';
 import Balance from '../../../../components/balance/balance.container';
-import { GenericAccount, AccountType } from 'moonlet-core/src/core/account';
-import { Copy } from '../../../../components/copy/copy.component';
+import { GenericAccount } from 'moonlet-core/src/core/account';
 import Typography from 'preact-material-components/Typography';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 
@@ -17,16 +15,7 @@ interface IProps {
 
 export class AccountCard extends Component<IProps> {
     public render() {
-        let accountTypeIcon;
         const address = this.props.account.address || '';
-        switch (this.props.account.type) {
-            case AccountType.HD:
-                accountTypeIcon = '/assets/planet.svg';
-                break;
-            case AccountType.LOOSE:
-                accountTypeIcon = '/assets/import.svg';
-                break;
-        }
 
         return (
             <Card className="account-card">

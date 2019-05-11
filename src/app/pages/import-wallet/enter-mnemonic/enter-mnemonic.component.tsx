@@ -77,7 +77,7 @@ export class EnterMnemonic extends Component<IProps, IState> {
             }
 
             const wallet = new Wallet(this.state.words.filter(Boolean).join(' '));
-            return true;
+            return !!wallet;
         } catch {
             this.setState({ error: true });
             return false;

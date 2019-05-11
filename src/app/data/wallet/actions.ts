@@ -1,15 +1,14 @@
-import { createSwitchNetwork, createDevModeToggle } from './../user-preferences/actions';
-import { BLOCKCHAIN_INFO } from './../../utils/blockchain/blockchain-info';
-import { getSwitchNetworkConfig } from './../../utils/blockchain/utils';
-import { FeeOptions } from './../../utils/blockchain/types';
+import { createDevModeToggle } from './../user-preferences/actions';
+import { BLOCKCHAIN_INFO } from '../../../utils/blockchain/blockchain-info';
+import { getSwitchNetworkConfig } from '../../../utils/blockchain/utils';
+import { FeeOptions } from '../../../utils/blockchain/types';
 import { BigNumber } from 'bignumber.js';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import { Network } from 'moonlet-core/src/core/network';
 import { IWalletData, WalletStatus } from './state';
-import { IWalletProvider, WalletErrorCodes } from '../../iwallet-provider';
-import { IAction } from '../action';
+
 import { translate } from '../../utils/translate';
 import { INetworksOptions } from '../user-preferences/state';
+import { IWalletPlugin, WalletErrorCodes } from '../../../plugins/wallet/iwallet-plugin';
 
 // Action constants
 export const WALLET_LOADED = 'WALLET_LOADED';
@@ -34,7 +33,7 @@ export const createWalletLoaded = (status: WalletStatus, wallet?: IWalletData) =
 };
 
 export const createWallet = (
-    walletProvider: IWalletProvider,
+    walletProvider: IWalletPlugin,
     mnemonics: string,
     password: string
 ) => {
@@ -71,7 +70,7 @@ interface INetworksConfigParam {
     networks: INetworksOptions;
 }
 export const createLoadWallet = (
-    walletProvider: IWalletProvider,
+    walletProvider: IWalletPlugin,
     netWorksConfig: INetworksConfigParam,
     pass?: string
 ) => {
@@ -104,7 +103,7 @@ export const createLoadWallet = (
     };
 };
 
-export const createWalletSync = (walletProvider: IWalletProvider) => {
+export const createWalletSync = (walletProvider: IWalletPlugin) => {
     return async dispatch => {
         const wallet = await walletProvider.getWallet();
         await walletProvider.saveWallet();
@@ -117,7 +116,7 @@ export const createWalletSync = (walletProvider: IWalletProvider) => {
     };
 };
 
-export const createSignOut = (walletProvider: IWalletProvider) => {
+export const createSignOut = (walletProvider: IWalletPlugin) => {
     return async dispatch => {
         await walletProvider.lockWallet();
         dispatch({
@@ -128,7 +127,7 @@ export const createSignOut = (walletProvider: IWalletProvider) => {
 
 const getBalanceInProgress = {};
 export const createGetBalance = (
-    walletProvider: IWalletProvider,
+    walletProvider: IWalletPlugin,
     blockchain: Blockchain,
     address: string
 ) => {
@@ -171,7 +170,7 @@ export const createGetBalance = (
 };
 
 export const createTransfer = (
-    walletProvider: IWalletProvider,
+    walletProvider: IWalletPlugin,
     blockchain: Blockchain,
     fromAddress: string,
     toAddress: string,
@@ -219,7 +218,7 @@ export const createTransfer = (
 };
 
 export const createRemoveAccount = (
-    walletProvider: IWalletProvider,
+    walletProvider: IWalletPlugin,
     blockchain: Blockchain,
     address: string
 ) => {

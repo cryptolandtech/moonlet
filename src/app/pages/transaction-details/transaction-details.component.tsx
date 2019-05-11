@@ -5,9 +5,9 @@ import { ListItem } from '../../components/list-item/list-item.component';
 import { GenericTransaction } from 'moonlet-core/src/core/transaction';
 import { GenericAccount } from 'moonlet-core/src/core/account';
 import { BigNumber } from 'bignumber.js';
-import { BLOCKCHAIN_INFO, IBlockchainInfo } from '../../utils/blockchain/blockchain-info';
+import { BLOCKCHAIN_INFO, IBlockchainInfo } from '../../../utils/blockchain/blockchain-info';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import { convertUnit } from '../../utils/blockchain/utils';
+import { convertUnit } from '../../../utils/blockchain/utils';
 
 interface ITransactionListItem {
     icon?: string;

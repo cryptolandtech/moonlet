@@ -1,6 +1,5 @@
 import { h, Component } from 'preact';
 import List from 'preact-material-components/List';
-import { timingSafeEqual } from 'crypto';
 
 interface IProps {
     icon?: any;

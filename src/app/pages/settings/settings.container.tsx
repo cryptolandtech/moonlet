@@ -3,7 +3,7 @@ import { SettingsPage } from './settings.component';
 import { createSignOut } from '../../data/wallet/actions';
 import { IState } from '../../data/index';
 import { createDevModeToggle } from '../../data/user-preferences/actions';
-import { getWalletProvider } from '../../app-context';
+import { getWalletPlugin } from '../../app-context';
 
 const mapStateToProps = (state: IState, ownProps) => {
     return {
@@ -16,7 +16,7 @@ const mapStateToProps = (state: IState, ownProps) => {
 const mapDispatchToProps = {
     signOut: createSignOut,
     toggleDevMode: (devMode, testNet, networks) =>
-        createDevModeToggle(getWalletProvider(), devMode, testNet, networks)
+        createDevModeToggle(getWalletPlugin(), devMode, testNet, networks)
 };
 
 export default connect(

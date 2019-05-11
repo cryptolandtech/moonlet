@@ -1,4 +1,3 @@
-import { isExtension } from './../../utils/platform-utils';
 import {
     WALLET_LOADED,
     WALLET_INVALID_PASSWORD,

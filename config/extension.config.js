@@ -26,6 +26,7 @@ export default function(config, env, helpers) {
     config.resolve.alias['preact-cli-entrypoint'] = resolve(
         process.cwd(),
         'src',
+        'platforms',
         'extension',
         'index'
     );
@@ -35,6 +36,7 @@ export default function(config, env, helpers) {
     config.entry['bundle.background'] = resolve(
         process.cwd(),
         'src',
+        'platforms',
         'extension',
         'background',
         'index'
@@ -59,7 +61,7 @@ export default function(config, env, helpers) {
     config.plugins.unshift(
         new CopyWebpackPlugin([
             {
-                from: resolve(process.cwd(), 'src', 'extension', 'manifest.json'),
+                from: resolve(process.cwd(), 'src', 'platforms', 'extension', 'manifest.json'),
                 to: 'manifest.json'
             }
         ])
