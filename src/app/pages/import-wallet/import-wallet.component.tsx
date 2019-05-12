@@ -56,8 +56,8 @@ export class ImportWalletPage extends Component<IProps, IState> {
             case ImportType.GOOGLE_DRIVE:
                 return Screen.CLOUD_RESTORE;
             default:
-                return Screen.ENTER_MNEMONIC;
-            // return Screen.CHOOSE_IMPORT_TYPE;
+                // return Screen.ENTER_MNEMONIC;
+                return Screen.CHOOSE_IMPORT_TYPE;
         }
     }
 

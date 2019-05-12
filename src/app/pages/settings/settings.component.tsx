@@ -9,6 +9,7 @@ import './settings.component.scss';
 import { IUserPreferences, INetworksOptions } from '../../data/user-preferences/state';
 import { IWalletPlugin } from '../../../plugins/wallet/iwallet-plugin';
 import { getWalletPlugin } from '../../app-context';
+import { isExtensionPopup, getExtensionUrl } from '../../utils/platform-utils';
 
 interface IProps {
     level1: string;
@@ -56,14 +57,14 @@ export class SettingsPage extends Component<IProps> {
                         {
                             primaryText: <Translate text="SettingsPage.revealSecretPhrase" />,
                             href: '/reveal/secretPhrase'
+                        },
+                        {
+                            primaryText: <Translate text="App.labels.backup" />,
+                            href: isExtensionPopup()
+                                ? getExtensionUrl('/settings/backup', false)
+                                : '/settings/backup',
+                            target: isExtensionPopup() ? '_blank' : '_self'
                         }
-                        // {
-                        //     primaryText: <Translate text="App.labels.backup" />,
-                        //     href: isExtensionPopup()
-                        //         ? getExtensionUrl('/settings/backup', false)
-                        //         : '/settings/backup',
-                        //     target: isExtensionPopup() ? '_blank' : '_self'
-                        // }
                     ]
                 }
             },
