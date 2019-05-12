@@ -18,7 +18,15 @@ export interface IWalletPlugin {
 
     createAccount(blockchain, accountName?);
     importAccount(blockchain, privateKey, accountName?);
-    importHWAccount(blockchain, accountName, accountIndex, derivationIndex);
+    importHWAccount(
+        deviceType,
+        blockchain,
+        accountName,
+        derivationPath,
+        address,
+        accountIndex,
+        derivationIndex
+    );
     removeAccount(blockchain, address);
     isValidAddress(blockchain, address);
     getBalance(blockchain, address);

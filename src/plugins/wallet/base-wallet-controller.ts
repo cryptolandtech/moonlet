@@ -10,6 +10,8 @@ import { Response } from '../../utils/response';
 import { WalletErrorCodes } from './iwallet-plugin';
 import { NonceManager } from '../../utils/blockchain/nonce-manager';
 import { IGasFeeOptions } from '../../utils/blockchain/types';
+import { HWDevice } from 'moonlet-core/src/core/account';
+import { GenericAccountUtils } from 'moonlet-core/src/core/account-utils';
 
 export abstract class BaseWalletController {
     protected wallet: Wallet;
@@ -176,7 +178,33 @@ export abstract class BaseWalletController {
         accountName?: string
     ) {
         const account = this.wallet.getBlockchain(blockchain).importAccountByPrivateKey(privateKey);
-        if (accountName) {
+        if (accountName && !account.name) {
+            account.name = accountName;
+        }
+        await this.saveWallet();
+        return Response.resolve(account);
+    }
+
+    public async importHWAccount(
+        sender,
+        deviceType: HWDevice,
+        blockchain: Blockchain,
+        accountName: string,
+        derivationPath: string,
+        address: string,
+        accountIndex: string,
+        derivationIndex: string
+    ) {
+        const account = this.wallet
+            .getBlockchain(blockchain)
+            .importHWAccount(
+                deviceType,
+                derivationPath,
+                address,
+                accountIndex + '',
+                derivationIndex + ''
+            );
+        if (accountName && !account.name) {
             account.name = accountName;
         }
         await this.saveWallet();
@@ -222,11 +250,17 @@ export abstract class BaseWalletController {
             } catch (e) {
                 return Response.reject(WalletErrorCodes.GENERIC_ERROR, e.message, e);
             }
+        } else {
+            try {
+                const balance = await this.wallet.getNode(blockchain).getBalance(address);
+                const utils = this.wallet
+                    .getClassMapper()
+                    .getInstance(GenericAccountUtils.getImplementedClassName(blockchain));
+                return Response.resolve(utils.balanceToStd(balance));
+            } catch (e) {
+                return Response.reject(WalletErrorCodes.GENERIC_ERROR, e.message, e);
+            }
         }
-        return Response.reject(
-            WalletErrorCodes.ACCOUNT_NOT_FOUND,
-            `Account with address: ${address} was not found.`
-        );
     }
 
     public async getNonce(sender, blockchain: Blockchain, address: string) {

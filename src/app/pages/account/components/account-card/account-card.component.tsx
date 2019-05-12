@@ -7,6 +7,7 @@ import Balance from '../../../../components/balance/balance.container';
 import { GenericAccount } from 'moonlet-core/src/core/account';
 import Typography from 'preact-material-components/Typography';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
+import { getAccountIcon } from '../../../../utils/account';
 
 interface IProps {
     account: GenericAccount;
@@ -29,9 +30,7 @@ export class AccountCard extends Component<IProps> {
                     </div>
                     <div class="account-name">{this.props.account.name}</div>
                     <div class="account-type">
-                        <img
-                            src={`/assets/icons/account-type-${this.props.account.type.toLowerCase()}.svg`}
-                        />
+                        <img src={getAccountIcon(this.props.account)} />
                     </div>
                 </div>
 

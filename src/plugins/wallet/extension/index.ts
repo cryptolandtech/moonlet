@@ -3,6 +3,8 @@ import { BackgroundMessageController } from '../../../platforms/extension/types'
 import { BigNumber } from 'bignumber.js';
 import { Runtime } from 'webextension-polyfill-ts';
 import { IWalletPlugin } from '../iwallet-plugin';
+import { HWDevice } from 'moonlet-core/src/core/account';
+import { Blockchain } from 'moonlet-core/src/core/blockchain';
 
 export class WalletPlugin extends BgCommunicationPlugin implements IWalletPlugin {
     constructor(port: Runtime.Port) {
@@ -50,10 +52,21 @@ export class WalletPlugin extends BgCommunicationPlugin implements IWalletPlugin
         return this.callAction('importAccount', [blockchain, privateKey, accountName]);
     }
 
-    public async importHWAccount(blockchain, accountName, accountIndex, derivationIndex) {
+    public async importHWAccount(
+        deviceType: HWDevice,
+        blockchain: Blockchain,
+        accountName: string,
+        derivationPath: string,
+        address: string,
+        accountIndex: string,
+        derivationIndex: string
+    ) {
         return this.callAction('importHWAccount', [
+            deviceType,
             blockchain,
             accountName,
+            derivationPath,
+            address,
             accountIndex,
             derivationIndex
         ]);

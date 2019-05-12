@@ -4,8 +4,8 @@ import { ICurrency } from '../../data/currency/state';
 interface IProps {
     amount: number;
     currency: string;
-    convert: boolean;
-    hideCurrency: boolean;
+    convert?: boolean;
+    hideCurrency?: boolean;
 
     conversionRates: ICurrency;
     preferredCurrency: string;

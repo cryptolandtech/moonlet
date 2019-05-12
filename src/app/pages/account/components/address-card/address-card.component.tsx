@@ -9,7 +9,7 @@ import List from 'preact-material-components/List';
 import Typography from 'preact-material-components/Typography';
 import { Copy } from '../../../../components/copy/copy.component';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import { GenericAccount } from 'moonlet-core/src/core/account';
+import { GenericAccount, AccountType } from 'moonlet-core/src/core/account';
 import { route } from 'preact-router';
 import { DeviceScreenSize } from '../../../../types';
 import Dialog from 'preact-material-components/Dialog';
@@ -73,22 +73,24 @@ export class AddressCard extends Component<IProps> {
                                 more_vert
                             </Icon>
                             <Menu ref={m => (this.addressMenu = m)}>
-                                <List.LinkItem
-                                    href={`/reveal/privateKey/${account.node.blockchain}/${
-                                        account.address
-                                    }`}
-                                >
-                                    <Translate text="AccountPage.revealPrivateKey" />
-                                    <List.ItemMeta>vpn_key</List.ItemMeta>
-                                </List.LinkItem>
-                                <List.LinkItem
-                                    href={`/reveal/publicKey/${account.node.blockchain}/${
-                                        account.address
-                                    }`}
-                                >
-                                    <Translate text="AccountPage.revealPublicKey" />
-                                    <List.ItemMeta>remove_red_eye</List.ItemMeta>
-                                </List.LinkItem>
+                                {account.type !== AccountType.HARDWARE && [
+                                    <List.LinkItem
+                                        href={`/reveal/privateKey/${account.node.blockchain}/${
+                                            account.address
+                                        }`}
+                                    >
+                                        <Translate text="AccountPage.revealPrivateKey" />
+                                        <List.ItemMeta>vpn_key</List.ItemMeta>
+                                    </List.LinkItem>,
+                                    <List.LinkItem
+                                        href={`/reveal/publicKey/${account.node.blockchain}/${
+                                            account.address
+                                        }`}
+                                    >
+                                        <Translate text="AccountPage.revealPublicKey" />
+                                        <List.ItemMeta>remove_red_eye</List.ItemMeta>
+                                    </List.LinkItem>
+                                ]}
                                 {this.getExplorerMenuItem()}
                                 <List.LinkItem
                                     onClick={() => {

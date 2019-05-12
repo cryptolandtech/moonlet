@@ -18,6 +18,7 @@ import { IUserPreferences } from '../../data/user-preferences/state';
 import Button from 'preact-material-components/Button';
 import { translate } from '../../utils/translate';
 import Dialog from 'preact-material-components/Dialog';
+import { getAccountIcon } from '../../utils/account';
 interface IProps {
     hideTestNetWarning: boolean;
     accounts: GenericAccount[];
@@ -127,10 +128,7 @@ export class DashboardPage extends Component<IProps> {
                                 </div>
                             </div>
                         </div>
-                        <img
-                            class="account-type"
-                            src={`/assets/icons/account-type-${account.type.toLowerCase()}.svg`}
-                        />
+                        <img class="account-type" src={getAccountIcon(account)} />
                     </Card>
                 ))}
                 <Link class="create-account" href="/create-account">

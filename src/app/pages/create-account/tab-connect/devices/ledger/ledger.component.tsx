@@ -11,26 +11,40 @@ import { translate } from '../../../../../utils/translate';
 import { Translate } from '../../../../../components/translate/translate.component';
 import { capitalize } from '../../../../../utils/string';
 import { Loader } from '../../../../../components/material-components/loader/loader.component';
-import { getPlugins } from '../../../../../app-context';
+import { getPlugins, getWalletPlugin } from '../../../../../app-context';
 import List from 'preact-material-components/List';
 import { Button } from 'preact-material-components/Button';
 import LinearProgress from 'preact-material-components/LinearProgress';
+import TextField from 'preact-material-components/TextField';
+import { GenericAccount, AccountType, HWDevice } from 'moonlet-core/src/core/account';
+import { formatAmount } from '../../../../../../utils/blockchain/utils';
+import Currency from '../../../../../components/currency/currency.container';
 
 interface IProps {
-    onAccountSelected: (blockchain: Blockchain, address: string, options: IAddressOptions) => any;
+    accounts: GenericAccount[];
+    onAccountSelected: (
+        blockchain: Blockchain,
+        accountName: string,
+        address: string,
+        options: IAddressOptions
+    ) => any;
 }
 
 interface IState {
     blockchain: Blockchain;
     derivationPath: string;
     deviceConnected: boolean;
+    accountName: string;
+    accountNameError: boolean;
     addresses: Array<{
         address: string;
         index: number;
         derivationIndex: number;
         path: string;
-        balance: string;
     }>;
+    balances: {
+        [address: string]: string;
+    };
 }
 
 export class LedgerDeviceScreen extends Component<IProps, IState> {
@@ -44,9 +58,12 @@ export class LedgerDeviceScreen extends Component<IProps, IState> {
 
         this.state = {
             blockchain: undefined,
+            accountName: this.getAccountName(),
+            accountNameError: false,
             derivationPath: undefined,
             deviceConnected: false,
-            addresses: []
+            addresses: [],
+            balances: {}
         };
     }
 
@@ -66,6 +83,19 @@ export class LedgerDeviceScreen extends Component<IProps, IState> {
                 selectElement.value = this.state.derivationPath;
             }
         }
+    }
+
+    public getAccountName() {
+        if (this.props.accounts) {
+            const accountsCount = this.props.accounts.filter(
+                account =>
+                    account.type === AccountType.HARDWARE && account.deviceType === HWDevice.LEDGER
+            ).length;
+            return translate('CreateAccountPage.sections.connect.ledger.accountName', {
+                index: accountsCount + 1
+            });
+        }
+        return '';
     }
 
     public selectedBlockchain(blockchain: Blockchain) {
@@ -96,6 +126,24 @@ export class LedgerDeviceScreen extends Component<IProps, IState> {
         this.forceUpdate();
     }
 
+    public selectedAccount(acc) {
+        if (this.state.accountName) {
+            this.setState({ accountNameError: false });
+            this.props.onAccountSelected(
+                this.state.blockchain,
+                this.state.accountName,
+                acc.address,
+                { ...acc, path: acc.derivationPath }
+            );
+        } else {
+            this.setState({ accountNameError: true });
+            if (this.blockchainSelectRef && this.blockchainSelectRef.base) {
+                const selectElement = this.blockchainSelectRef.base.querySelector('select');
+                selectElement.scrollIntoView();
+            }
+        }
+    }
+
     public fetchAddresses() {
         const appName = BLOCKCHAIN_INFO[this.state.blockchain].hardwareWallet.ledger.appName;
         this.addressFetcher = this.ledger.fetchAddresses(
@@ -103,8 +151,20 @@ export class LedgerDeviceScreen extends Component<IProps, IState> {
             { index: 0, derivationIndex: 0, path: this.state.derivationPath },
             address => {
                 this.setState({
-                    addresses: [...this.state.addresses, { ...address, balance: undefined }]
+                    addresses: [...this.state.addresses, address]
                 });
+                if (!this.state.balances[address.address]) {
+                    getWalletPlugin()
+                        .getBalance(this.state.blockchain, address.address)
+                        .then(balance => {
+                            this.setState({
+                                balances: {
+                                    ...this.state.balances,
+                                    [address.address]: formatAmount(this.state.blockchain, balance)
+                                }
+                            });
+                        });
+                }
             }
         );
     }
@@ -178,16 +238,18 @@ export class LedgerDeviceScreen extends Component<IProps, IState> {
                         {this.state.addresses.map(acc => [
                             <List.Item
                                 className="pointer"
-                                onClick={() =>
-                                    this.props.onAccountSelected(
-                                        this.state.blockchain,
-                                        acc.address,
-                                        acc
-                                    )
-                                }
+                                onClick={() => this.selectedAccount(acc)}
                             >
-                                {acc.index + 1}. {acc.address.substr(0, 7)}...
-                                {acc.address.substr(-5)}
+                                <div style="flex: 1">
+                                    {acc.index + 1}. {acc.address.substr(0, 7)}...
+                                    {acc.address.substr(-5)}
+                                </div>
+                                {this.state.balances[acc.address] && (
+                                    <Currency
+                                        amount={parseFloat(this.state.balances[acc.address] + '')}
+                                        currency={BLOCKCHAIN_INFO[this.state.blockchain].coin}
+                                    />
+                                )}
                             </List.Item>,
                             <List.Divider />
                         ])}
@@ -204,6 +266,26 @@ export class LedgerDeviceScreen extends Component<IProps, IState> {
                         >
                             {translate('App.labels.more')}
                         </Button>
+                    )}
+                </LayoutGrid.Cell>
+            );
+        }
+        return null;
+    }
+
+    public renderAccountNameInput() {
+        if (this.state.blockchain && this.state.deviceConnected) {
+            return (
+                <LayoutGrid.Cell cols={12}>
+                    <TextField
+                        type="text"
+                        label={translate('CreateAccountPage.accountName')}
+                        value={this.state.accountName}
+                        maxLength={30}
+                        onChange={(e: any) => this.setState({ accountName: e.target.value })}
+                    />
+                    {this.state.accountNameError && (
+                        <p class="helper-text">{translate('CreateAccountPage.accountNameError')}</p>
                     )}
                 </LayoutGrid.Cell>
             );
@@ -233,6 +315,7 @@ export class LedgerDeviceScreen extends Component<IProps, IState> {
                     </LayoutGrid.Cell>
 
                     {this.renderInstructions()}
+                    {this.renderAccountNameInput()}
                     {this.renderDerivationPathSelector()}
                     {this.renderAccountsList()}
                 </LayoutGrid.Inner>

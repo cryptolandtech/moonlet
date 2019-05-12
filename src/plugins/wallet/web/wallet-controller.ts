@@ -3,14 +3,14 @@ import { BaseWalletController } from '../base-wallet-controller';
 
 export class WalletController extends BaseWalletController {
     public sendMessage(message) {
-        return Response.reject('NOT_IMPLEMENTED');
+        return Response.resolve();
     }
 
     public async saveWallet() {
-        return Response.reject('NOT_IMPLEMENTED');
+        return Response.resolve();
     }
 
     protected async loadFromStorage() {
-        return Response.reject('NOT_IMPLEMENTED');
+        return Response.resolve();
     }
 }

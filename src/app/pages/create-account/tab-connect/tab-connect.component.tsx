@@ -4,9 +4,12 @@ import { Card } from 'preact-material-components/Card';
 
 import './tab-connect.scss';
 import { LedgerDeviceScreen } from './devices/ledger/ledger.component';
+import { GenericAccount, HWDevice } from 'moonlet-core/src/core/account';
+import { getWalletPlugin } from '../../../app-context';
+import { Navigation } from '../../../utils/navigation';
 
 interface IProps {
-    accounts: any[];
+    accounts: GenericAccount[];
 
     syncWallet: () => any;
 }
@@ -63,8 +66,19 @@ export class CreateAccountTabConnect extends Component<IProps, IState> {
             case 'ledger':
                 return (
                     <LedgerDeviceScreen
-                        onAccountSelected={() => {
-                            /* */
+                        accounts={this.props.accounts}
+                        onAccountSelected={(blockchain, accountName, address, options) => {
+                            getWalletPlugin().importHWAccount(
+                                HWDevice.LEDGER,
+                                blockchain,
+                                accountName,
+                                options.path,
+                                address,
+                                options.index,
+                                options.derivationIndex
+                            );
+                            this.props.syncWallet();
+                            Navigation.goTo(`/account/${blockchain}/${address}`, true);
                         }}
                     />
                 );

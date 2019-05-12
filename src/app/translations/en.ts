@@ -290,6 +290,7 @@ export const translation: ITranslations = {
                 connect: {
                     title: 'Connect',
                     ledger: {
+                        accountName: 'Ledger {{index}}',
                         hdPath: 'HD Path',
                         selectAccount: 'Select an Account',
                         waiting: 'Waiting for device to be ready.',
