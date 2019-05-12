@@ -26,12 +26,12 @@ export class CreateAccountPage extends Component<{}, IState> {
 
     private readonly TABS = [
         {
-            titleKey: 'CreateAccountPage.sections.add.title',
-            contentComponent: CreateAccountTabAdd
-        },
-        {
             titleKey: 'CreateAccountPage.sections.connect.title',
             contentComponent: CreateAccountTabConnect
+        },
+        {
+            titleKey: 'CreateAccountPage.sections.add.title',
+            contentComponent: CreateAccountTabAdd
         },
         {
             titleKey: 'CreateAccountPage.sections.import.title',

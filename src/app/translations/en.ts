@@ -46,7 +46,8 @@ export const translation: ITranslations = {
                 getZilDomain: 'Get your .zil domain',
                 dismiss: 'Dismiss',
                 reportIssue: 'Report Issue',
-                backup: 'Backup'
+                backup: 'Backup',
+                more: 'More'
             }
         },
         DrawerMenu: {
@@ -287,7 +288,20 @@ export const translation: ITranslations = {
                     title: 'Add'
                 },
                 connect: {
-                    title: 'Connect'
+                    title: 'Connect',
+                    ledger: {
+                        hdPath: 'HD Path',
+                        selectAccount: 'Select an Account',
+                        waiting: 'Waiting for device to be ready.',
+                        instructions:
+                            'Connect your Ledger directly to your computer and open {{appName}} application.',
+                        derivationPathInfo:
+                            "If you don't see your existing Ledger accounts below, try switching HD Paths",
+                        paths: {
+                            live: 'Ledger Live',
+                            legacy: 'Legacy'
+                        }
+                    }
                 },
                 import: {
                     title: 'Import'

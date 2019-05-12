@@ -1,16 +1,9 @@
-// tslint:disable:no-console
 import { h, Component } from 'preact';
-import Select from 'preact-material-components/Select';
 import { BLOCKCHAIN_INFO } from '../../../../utils/blockchain/blockchain-info';
-import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import TextField from 'preact-material-components/TextField';
-import Button from 'preact-material-components/Button';
-import LayoutGrid from 'preact-material-components/LayoutGrid';
+import { Card } from 'preact-material-components/Card';
 
-import { bind } from 'bind-decorator';
-import { getWalletPlugin, getPlugins } from '../../../app-context';
-import { translate } from '../../../utils/translate';
-import { Navigation } from '../../../utils/navigation';
+import './tab-connect.scss';
+import { LedgerDeviceScreen } from './devices/ledger/ledger.component';
 
 interface IProps {
     accounts: any[];
@@ -18,120 +11,77 @@ interface IProps {
     syncWallet: () => any;
 }
 
+enum Screen {
+    CHOOSE_DEVICE_TYPE = 'CHOOSE_DEVICE_TYPE',
+    DEVICE_SCREEN = 'DEVICE_SCREEN'
+}
+
 interface IState {
-    blockchain: Blockchain;
-    blockchainError: boolean;
-    accountName: string;
-    accountNameError: boolean;
+    screen: Screen;
+    device: string;
 }
 
 export class CreateAccountTabConnect extends Component<IProps, IState> {
-    private blockchainSelectRef;
-
     constructor(props) {
         super(props);
 
         this.state = {
-            blockchain: undefined,
-            blockchainError: false,
-            accountName: ``,
-            accountNameError: false
+            screen: Screen.CHOOSE_DEVICE_TYPE,
+            device: undefined
         };
-
-        console.log('waiting for device...');
-        this.detect().then(data => console.log('oleeee device found'));
     }
 
-    public detect() {
-        return getPlugins()
-            .ledgerHw.getAddress('Eth', { index: 0 }, 5000)
-            .then(() => true, () => this.detect());
+    public goTo(nextScreen, state) {
+        this.setState({
+            ...state,
+            screen: nextScreen
+        });
     }
 
-    public componentDidMount() {
-        if (this.blockchainSelectRef && this.blockchainSelectRef.base) {
-            const selectElement = this.blockchainSelectRef.base.querySelector('select');
-
-            if (selectElement) {
-                selectElement.value = this.state.blockchain;
+    public renderChooseDeviceTypeScreen() {
+        const availableDevices = [];
+        for (const blockchain of Object.keys(BLOCKCHAIN_INFO)) {
+            const bi = BLOCKCHAIN_INFO[blockchain];
+            if (bi.hardwareWallet) {
+                for (const device of Object.keys(bi.hardwareWallet)) {
+                    if (bi.hardwareWallet[device] && availableDevices.indexOf(device) < 0) {
+                        availableDevices.push(device);
+                    }
+                }
             }
         }
+
+        return availableDevices.map(device => (
+            <Card class="device-card" onClick={() => this.goTo(Screen.DEVICE_SCREEN, { device })}>
+                <img class={device} src={`/assets/icons/hw/${device}.svg`} />
+            </Card>
+        ));
     }
 
-    @bind
-    public async onCreateClick() {
-        if (this.state.blockchain && this.state.accountName) {
-            this.setState({
-                blockchainError: false,
-                accountNameError: false
-            });
-
-            const account = await getWalletPlugin().createAccount(
-                this.state.blockchain,
-                this.state.accountName
-            );
-            this.props.syncWallet();
-            Navigation.goTo(`/account/${this.state.blockchain}/${account.address}`, true);
-        } else {
-            this.setState({
-                blockchainError: !!!this.state.blockchain,
-                accountNameError: !!!this.state.accountName
-            });
+    public renderDeviceScreen() {
+        switch (this.state.device) {
+            case 'ledger':
+                return (
+                    <LedgerDeviceScreen
+                        onAccountSelected={() => {
+                            /* */
+                        }}
+                    />
+                );
         }
     }
 
     public render() {
-        return (
-            <LayoutGrid className="create-account-tab-add-component">
-                <LayoutGrid.Inner>
-                    <LayoutGrid.Cell cols={12}>
-                        <Select
-                            ref={ref => (this.blockchainSelectRef = ref)}
-                            hintText={translate('App.labels.blockchain')}
-                            onChange={(e: any) => {
-                                const blockchain = e.target.value;
-                                const accounts = this.props.accounts.filter(
-                                    acc => acc.node.blockchain === blockchain
-                                );
-                                this.setState({
-                                    blockchain,
-                                    accountName: `${translate(
-                                        'App.labels.account'
-                                    )} ${accounts.length + 1}`
-                                });
-                            }}
-                        >
-                            {Object.keys(BLOCKCHAIN_INFO).map(blockchain => (
-                                <Select.Item value={blockchain}>{blockchain}</Select.Item>
-                            ))}
-                        </Select>
-                        {this.state.blockchainError && (
-                            <p class="helper-text">
-                                {translate('CreateAccountPage.blockchainError')}
-                            </p>
-                        )}
-                    </LayoutGrid.Cell>
-                    <LayoutGrid.Cell cols={12}>
-                        <TextField
-                            type="text"
-                            label={translate('CreateAccountPage.accountName')}
-                            value={this.state.accountName}
-                            maxLength={30}
-                            onChange={(e: any) => this.setState({ accountName: e.target.value })}
-                        />
-                        {this.state.accountNameError && (
-                            <p class="helper-text">
-                                {translate('CreateAccountPage.accountNameError')}
-                            </p>
-                        )}
-                    </LayoutGrid.Cell>
-                    <LayoutGrid.Cell cols={12}>
-                        <Button ripple raised secondary onClick={this.onCreateClick}>
-                            {translate('App.labels.create')}
-                        </Button>
-                    </LayoutGrid.Cell>
-                </LayoutGrid.Inner>
-            </LayoutGrid>
-        );
+        let content = null;
+        switch (this.state.screen) {
+            case Screen.CHOOSE_DEVICE_TYPE:
+                content = this.renderChooseDeviceTypeScreen();
+                break;
+            case Screen.DEVICE_SCREEN:
+                content = this.renderDeviceScreen();
+                break;
+        }
+
+        return <div class="create-account-tab-connect">{content}</div>;
     }
 }

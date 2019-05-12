@@ -1,0 +1,17 @@
+.create-account-tab-connect {
+    .device-card {
+        margin: 8px auto;
+        padding: 8px;
+        max-width: 300px;
+        text-align: center;
+        cursor: pointer;
+
+        img {
+            max-height: 56px;
+
+            &.ledger {
+                margin-top: 10px;
+            }
+        }
+    }
+}

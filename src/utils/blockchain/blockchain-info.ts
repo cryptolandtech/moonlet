@@ -26,6 +26,12 @@ export interface IBlockchainInfo {
         config: IGasFeeConfig;
     };
     nameResolver: string;
+    hardwareWallet?: {
+        ledger?: {
+            appName: string;
+            derivationPaths?: string[];
+        };
+    };
     pagesConfig?: {
         send: {
             advancedView?: {
@@ -66,7 +72,13 @@ export const BLOCKCHAIN_INFO: {
                 }
             }
         },
-        nameResolver: 'ens'
+        nameResolver: 'ens',
+        hardwareWallet: {
+            ledger: {
+                appName: 'Eth',
+                derivationPaths: ['live', 'legacy']
+            }
+        }
     },
     [Blockchain.ZILLIQA]: {
         coin: 'ZIL',

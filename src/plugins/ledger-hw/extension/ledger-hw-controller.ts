@@ -8,7 +8,7 @@ interface IRequest {
     sent: boolean;
 }
 
-const BRIDGE_URL = 'https://localhost:8081/';
+const BRIDGE_URL = 'https://moonlet-wallet.firebaseapp.com/ledger-bridge/';
 
 export class LedgerHwController {
     public bridgeReady: boolean = false;
@@ -35,7 +35,7 @@ export class LedgerHwController {
                 }
             }
 
-            if (data.type === 'ledger-bridge-response') {
+            if (data.type === 'ledger-bridge-response' && this.requests[data.id]) {
                 if (data.error) {
                     this.requests[data.id].deferred.reject(Response.reject(data.error));
                 } else {
