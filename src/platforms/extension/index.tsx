@@ -110,28 +110,6 @@ if (isExtensionPopup()) {
     );
 }
 
-const port = browser.runtime.connect({ name: ConnectionPort.POPUP_DETECTION } as any);
-browser.windows.getCurrent().then(w => {
-    port.postMessage({
-        type: 'currentWindow',
-        window: w
-    });
-
-    window.onfocus = () => {
-        port.postMessage({
-            type: 'currentWindow',
-            window: w
-        });
-    };
-
-    window.onblur = () => {
-        port.postMessage({
-            type: 'currentWindow',
-            window: {}
-        });
-    };
-});
-
 browser.runtime.onMessage.addListener((message: IExtensionMessage, sender) => {
     // accept messages only from moonlet extension
     if (sender.id !== browser.runtime.id) {

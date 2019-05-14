@@ -2,8 +2,7 @@ import { WalletEventType, WalletEventData } from 'moonlet-core/src/core/wallet-e
 import { IResponseData } from '../../utils/response';
 
 export enum ConnectionPort {
-    BACKGROUND = 'BACKGROUND',
-    POPUP_DETECTION = 'POPUP_DETECTION'
+    BACKGROUND = 'BACKGROUND'
 }
 
 export enum BackgroundMessageController {

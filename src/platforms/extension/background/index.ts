@@ -30,30 +30,17 @@ const generateResponse = (message: IBackgroundMessage, response: IResponseData) 
 };
 
 browser.runtime.onConnect.addListener((port: Runtime.Port) => {
-    if (port.name === ConnectionPort.POPUP_DETECTION) {
-        let currentWindow;
-        port.onMessage.addListener(message => {
-            if (message.type === 'currentWindow' && message.window) {
-                // popup open+
-                if (message.window.id) {
-                    currentWindow = message.window;
-                }
-                browserIconManager.setState({
-                    currentWindowId: message.window.id,
-                    popupOpenedOnWindow: message.window.id
-                });
-            }
-        });
-
-        port.onDisconnect.addListener(() => {
-            // popup closed
-            browserIconManager.setState({ popupClosedOnWindow: currentWindow.id });
-        });
-    }
-
     if (port.name === ConnectionPort.BACKGROUND) {
+        const connectionId = Math.random()
+            .toString()
+            .substr(2);
+        browserIconManager.openConnection(connectionId);
+
         let portDisconnected = false;
-        port.onDisconnect.addListener(() => (portDisconnected = true));
+        port.onDisconnect.addListener(() => {
+            portDisconnected = true;
+            browserIconManager.closeConnection(connectionId);
+        });
         // console.log('bg port connected');
         port.onMessage.addListener(async (message: IBackgroundMessage) => {
             // console.log('bg port', 'message', message);

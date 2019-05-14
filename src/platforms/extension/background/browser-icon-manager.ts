@@ -11,54 +11,45 @@ const ICON_GREEN = {};
 let blinkInterval;
 export class BrowserIconManager {
     private currentIcon;
-    private state = {
-        tab: false,
-
-        currentWindowId: undefined,
-        popupsOpened: []
-    };
+    private currentConnections = {};
+    private focusCheckInterval;
 
     constructor() {
         this.stopBlink();
     }
 
-    public setState(state: {
-        currentWindowId?: number;
-        popupOpenedOnWindow?: number;
-        popupClosedOnWindow?: number;
-        tab?: boolean;
-    }) {
-        const popupsOpened = Array.from(
-            new Set([...this.state.popupsOpened, state.popupOpenedOnWindow])
-        ).filter(Boolean);
-
-        const index = popupsOpened.indexOf(state.popupClosedOnWindow);
-        if (index >= 0) {
-            popupsOpened.splice(index, 1);
-        }
-
-        delete state.popupOpenedOnWindow;
-        delete state.popupClosedOnWindow;
-        const newState = {
-            ...this.state,
-            ...state,
-            popupsOpened
-        };
-
-        if (JSON.stringify(newState) !== JSON.stringify(this.state)) {
-            this.state = newState;
-            this.updateIcon();
+    public openConnection(id) {
+        this.currentConnections[id] = true;
+        if (!this.focusCheckInterval && Object.keys(this.currentConnections).length > 0) {
+            this.focusCheckInterval = setInterval(() => this.blink(), 1500);
+            this.blink();
         }
     }
 
-    public updateIcon() {
-        if (!this.state.tab && this.state.popupsOpened.indexOf(this.state.currentWindowId) < 0) {
-            // default icon
+    public closeConnection(id) {
+        delete this.currentConnections[id];
+        if (this.focusCheckInterval && Object.keys(this.currentConnections).length === 0) {
+            clearInterval(this.focusCheckInterval);
+            this.focusCheckInterval = null;
             this.stopBlink();
-        } else {
-            // blink
-            this.startBlink();
         }
+    }
+
+    public blink() {
+        if (this.isExtensionInFocus()) {
+            this.startBlink();
+        } else {
+            this.stopBlink();
+        }
+    }
+
+    public isExtensionInFocus() {
+        return (
+            browser.extension
+                .getViews()
+                .map(window => window.document.hasFocus())
+                .filter(Boolean).length > 0
+        );
     }
 
     public startBlink() {
