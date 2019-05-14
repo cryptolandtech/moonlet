@@ -129,11 +129,14 @@ export class LedgerDeviceScreen extends Component<IProps, IState> {
     public selectedAccount(acc) {
         if (this.state.accountName) {
             this.setState({ accountNameError: false });
+            if (this.addressFetcher) {
+                this.addressFetcher.stop();
+            }
             this.props.onAccountSelected(
                 this.state.blockchain,
                 this.state.accountName,
                 acc.address,
-                { ...acc, path: acc.derivationPath }
+                { ...acc, path: acc.path }
             );
         } else {
             this.setState({ accountNameError: true });

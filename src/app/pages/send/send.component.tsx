@@ -4,10 +4,10 @@ import LayoutGrid, { LayoutGridCell } from 'preact-material-components/LayoutGri
 import { Button } from 'preact-material-components/Button';
 
 import './send.scss';
-import { GenericAccount } from 'moonlet-core/src/core/account';
+import { GenericAccount, AccountType } from 'moonlet-core/src/core/account';
 import TransactionFee from './components/transaction-fee/transaction-fee.container';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
-import { IBlockchainInfo } from '../../../utils/blockchain/blockchain-info';
+import { IBlockchainInfo, BLOCKCHAIN_INFO } from '../../../utils/blockchain/blockchain-info';
 import {
     convertUnit,
     getDefaultFeeOptions,
@@ -21,13 +21,14 @@ import { Translate } from '../../components/translate/translate.component';
 import Dialog from 'preact-material-components/Dialog';
 import { BigNumber } from 'bignumber.js';
 import { IWalletTransfer } from '../../data/wallet/state';
-import { getWalletPlugin } from '../../app-context';
+import { getWalletPlugin, getPlugins } from '../../app-context';
 import { AccountCard } from '../account/components/account-card/account-card.component';
 import Currency from '../../components/currency/currency.container';
 import { Loader } from '../../components/material-components/loader/loader.component';
 import { UDApiClient } from '../../utils/ud-api-client';
 import { IUserPreferences } from '../../data/user-preferences/state';
 import { Navigation } from '../../utils/navigation';
+import { capitalize } from '../../utils/string';
 
 interface IProps {
     blockchain: Blockchain;
@@ -58,11 +59,13 @@ interface IState {
         recipient: string;
     };
     errorDialogExtraMessage?: string;
+    hwDeviceConnected: boolean;
 }
 
 export class SendPage extends Component<IProps, IState> {
     public confirmationDialog;
     public errorDialog;
+    public progressDialog;
 
     constructor(props: IProps) {
         super(props);
@@ -73,6 +76,8 @@ export class SendPage extends Component<IProps, IState> {
             address: '',
             amount: undefined,
             feeOptions: getDefaultFeeOptions(props.blockchain),
+
+            hwDeviceConnected: false,
 
             fieldErrors: {
                 amount: '',
@@ -86,6 +91,7 @@ export class SendPage extends Component<IProps, IState> {
             this.props.transferInfo.inProgress === false &&
             prevProps.transferInfo.inProgress !== this.props.transferInfo.inProgress
         ) {
+            this.progressDialog.MDComponent.close();
             if (this.props.transferInfo.success) {
                 Navigation.goTo(
                     `/account/${this.props.account.node.blockchain}/${this.props.account.address}`,
@@ -311,6 +317,29 @@ export class SendPage extends Component<IProps, IState> {
                         </Dialog.FooterButton>
                     </Dialog.Footer>
                 </Dialog>
+
+                <Dialog ref={el => (this.progressDialog = el)}>
+                    <Dialog.Body className="center-text">
+                        <Loader width="40px" height="40px" />
+
+                        {this.props.account.type === AccountType.HARDWARE && (
+                            <div>
+                                {this.state.hwDeviceConnected ? (
+                                    <Translate
+                                        body1
+                                        text="SendPage.progressDialog.instructionsSign"
+                                    />
+                                ) : (
+                                    <Translate
+                                        body1
+                                        text="SendPage.progressDialog.instructionsConnect"
+                                        params={{ appName: capitalize(this.props.blockchain) }}
+                                    />
+                                )}
+                            </div>
+                        )}
+                    </Dialog.Body>
+                </Dialog>
             </div>
         );
     }
@@ -439,6 +468,26 @@ export class SendPage extends Component<IProps, IState> {
     }
 
     public async onConfirm() {
+        this.setState({ hwDeviceConnected: false });
+        this.progressDialog.MDComponent.show();
+        if (this.props.account.type === AccountType.HARDWARE) {
+            const ledgerAppName =
+                BLOCKCHAIN_INFO[this.props.blockchain].hardwareWallet.ledger.appName;
+            await getPlugins().ledgerHw.detectAppOpen(ledgerAppName);
+
+            const ledgerAccount = await getPlugins().ledgerHw.getAddress(ledgerAppName, {
+                index: this.props.account.accountIndex as any,
+                derivationIndex: this.props.account.derivationIndex as any,
+                path: this.props.account.derivationPath
+            });
+            if (ledgerAccount.address !== this.props.account.address) {
+                this.progressDialog.MDComponent.close();
+                this.showErrorDialog(translate('SendPage.errors.hwAccountError'));
+                return;
+            }
+            this.setState({ hwDeviceConnected: true });
+        }
+
         const amount = new BigNumber(this.state.amount);
         this.props.transfer(
             this.props.blockchain,

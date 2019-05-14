@@ -18,10 +18,10 @@ initErrorReporting();
 
 // Implementation
 const browserIconManager = new BrowserIconManager();
-
+const ledgerController = new LedgerHwController();
 const controllers = {
-    [BackgroundMessageController.WALLET_CONTROLLER]: new WalletController(),
-    [BackgroundMessageController.LEDGER_HW_CONTROLLER]: new LedgerHwController()
+    [BackgroundMessageController.WALLET_CONTROLLER]: new WalletController(ledgerController),
+    [BackgroundMessageController.LEDGER_HW_CONTROLLER]: ledgerController
     // [BackgroundMessageController.REMOTE_INTERFACE]: remoteInterface
 };
 

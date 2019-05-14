@@ -3,7 +3,8 @@ import {
     ILedgerHwPlugin,
     IAppInfoResponse,
     IAddressOptions,
-    IAddressResponse
+    IAddressResponse,
+    ITransactionOptions
 } from '../iledger-hw-plugin';
 import { Runtime } from 'webextension-polyfill-ts';
 import { BackgroundMessageController } from '../../../platforms/extension/types';
@@ -82,5 +83,13 @@ export class LedgerHwPlugin extends BgCommunicationPlugin implements ILedgerHwPl
             },
             isInProgress: () => fetching
         };
+    }
+
+    public signTransaction(
+        appName: string,
+        options: ITransactionOptions,
+        timeout?: number
+    ): Promise<any> {
+        return this.callAction('signTransaction', [appName, options, timeout]);
     }
 }

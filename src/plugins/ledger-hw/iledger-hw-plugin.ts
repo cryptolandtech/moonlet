@@ -8,6 +8,13 @@ export interface IAddressOptions {
     path?: string;
 }
 
+export interface ITransactionOptions {
+    index: number;
+    derivationIndex?: number;
+    path?: string;
+    txRaw: string;
+}
+
 export interface IAddressResponse {
     address: string;
     index: number;
@@ -25,6 +32,5 @@ export interface ILedgerHwPlugin {
     ): Promise<IAddressResponse>;
     fetchAddresses(appName: string, options: IAddressOptions, cb: (addr: IAddressResponse) => any);
 
-    // TODO: TBD
-    // signTransaction(): Promise<any>;
+    signTransaction(appName: string, options: ITransactionOptions, timeout?: number): Promise<any>;
 }

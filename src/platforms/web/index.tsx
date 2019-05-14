@@ -64,14 +64,16 @@ const store = getStore({
 
 store.subscribe(() => saveState(store.getState()));
 
+const ledgerPlugin = new LedgerHwPlugin();
 const plugins: IPlugins = {
-    wallet: new WalletPlugin(),
+    wallet: new WalletPlugin(ledgerPlugin),
     ledgerHw: new LedgerHwPlugin()
 };
 
 (async () => {
     await plugins.wallet.createWallet(
         'gadget clean certain tiger abandon prevent light pluck muscle obtain mobile agree',
+        // 'whisper put since april sadness orbit engage boy awesome ability like try',
         'asd'
     );
     plugins.wallet.switchNetwork(

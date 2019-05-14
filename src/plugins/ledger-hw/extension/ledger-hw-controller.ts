@@ -1,14 +1,18 @@
+import { ITransactionOptions } from './../iledger-hw-plugin';
 import { IResponseData, Response } from './../../../utils/response';
 import { Deferred } from '../../../utils/deferred';
 
 interface IRequest {
     deferred: Deferred;
+    timeoutMs: number;
     timeout: any;
     msg: any[];
     sent: boolean;
 }
 
 const BRIDGE_URL = 'https://moonlet-wallet.firebaseapp.com/ledger-bridge/';
+// const BRIDGE_URL = 'https://localhost:8081/?debug=1';
+const REQUEST_TIMEOUT = 30000;
 
 export class LedgerHwController {
     public bridgeReady: boolean = false;
@@ -30,7 +34,7 @@ export class LedgerHwController {
                     );
                     this.requests[id].timeout = setTimeout(
                         () => this.requests[id].deferred.reject('TIMEOUT'),
-                        10000
+                        this.requests[id].timeoutMs || REQUEST_TIMEOUT
                     );
                 }
             }
@@ -56,7 +60,7 @@ export class LedgerHwController {
         return this.request(app, 'getInfo', undefined, timeout);
     }
 
-    public signTransaction(sender, app, params, timeout?): Promise<any> {
+    public signTransaction(sender, app, params: ITransactionOptions, timeout?): Promise<any> {
         return this.request(app, 'signTransaction', params);
     }
 
@@ -79,7 +83,8 @@ export class LedgerHwController {
             msg: [msg, '*'],
             sent: this.bridgeReady,
             deferred,
-            timeout: null
+            timeout: null,
+            timeoutMs: timeout
         };
 
         if (this.bridgeReady) {
@@ -87,7 +92,10 @@ export class LedgerHwController {
                 this.requests[id].msg[0],
                 this.requests[id].msg[1]
             );
-            this.requests[id].timeout = setTimeout(() => deferred.reject('TIMEOUT'), 10000);
+            this.requests[id].timeout = setTimeout(
+                () => deferred.reject('TIMEOUT'),
+                timeout || REQUEST_TIMEOUT
+            );
         }
 
         return deferred.promise;

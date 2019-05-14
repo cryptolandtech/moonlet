@@ -7,4 +7,8 @@ export class LedgerHwPlugin extends extensionPluginToWeb(LedgerHwPluginExtension
         super(null);
         this.ctrl = new LedgerHwController();
     }
+
+    public getController() {
+        return this.ctrl;
+    }
 }

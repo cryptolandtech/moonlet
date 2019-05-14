@@ -1,3 +1,4 @@
+import { LedgerHwController } from './../ledger-hw/extension/ledger-hw-controller';
 import { BigNumber } from 'bignumber.js';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import Wallet from 'moonlet-core/src/core/wallet';
@@ -10,14 +11,17 @@ import { Response } from '../../utils/response';
 import { WalletErrorCodes } from './iwallet-plugin';
 import { NonceManager } from '../../utils/blockchain/nonce-manager';
 import { IGasFeeOptions } from '../../utils/blockchain/types';
-import { HWDevice } from 'moonlet-core/src/core/account';
+import { HWDevice, AccountType } from 'moonlet-core/src/core/account';
 import { GenericAccountUtils } from 'moonlet-core/src/core/account-utils';
+import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
 
 export abstract class BaseWalletController {
     protected wallet: Wallet;
     protected password: string;
+    protected ledgerController: LedgerHwController;
 
-    constructor() {
+    constructor(ledgerController: LedgerHwController) {
+        this.ledgerController = ledgerController;
         WalletEventEmitter.subscribe((type, data) => {
             this.saveWallet();
             const message: IExtensionMessage = {
@@ -302,7 +306,36 @@ export abstract class BaseWalletController {
                     (feeOptions as IGasFeeOptions).gasPrice,
                     (feeOptions as IGasFeeOptions).gasLimit
                 );
-                account.signTransaction(tx);
+                if (account.type === AccountType.HARDWARE) {
+                    switch (account.deviceType) {
+                        case HWDevice.LEDGER:
+                            const appName =
+                                BLOCKCHAIN_INFO[blockchain].hardwareWallet.ledger.appName;
+                            const signedTx = await this.ledgerController.signTransaction(
+                                sender,
+                                appName,
+                                {
+                                    index: account.accountIndex as any,
+                                    derivationIndex: account.derivationIndex as any,
+                                    path: account.derivationPath,
+                                    txRaw: tx.serialize()
+                                }
+                            );
+                            if (signedTx.error) {
+                                throw new Error(
+                                    'Something went wrong with transaction signing. Try again.'
+                                );
+                            }
+                            tx.setLedgerSignResult({
+                                r: '0x' + signedTx.data.r,
+                                s: '0x' + signedTx.data.s,
+                                v: '0x' + signedTx.data.v
+                            });
+                            break;
+                    }
+                } else {
+                    account.signTransaction(tx);
+                }
                 const response = await account.send(tx);
                 // update nonce
                 await NonceManager.getNext(account, true);

@@ -88,7 +88,9 @@ export const translation: ITranslations = {
                 recipientNameNotFound: 'Name not found.',
                 amount: 'Amount should be a positive number.',
                 invalidValue: 'Invalid value.',
-                insufficientFounds: 'Insufficient funds.'
+                insufficientFounds: 'Insufficient funds.',
+                hwAccountError:
+                    "The hardware wallet you inserted doesn't host the account you want to access."
             },
             confirmationDialog: {
                 title: 'Re-Confirm & Send',
@@ -98,6 +100,11 @@ export const translation: ITranslations = {
             errorDialog: {
                 generic:
                     'Sorry, there was an error posting your transaction to blockchain. Try again or come back later.'
+            },
+            progressDialog: {
+                instructionsConnect:
+                    'Connect your Ledger directly to your computer and open {{appName}} application.',
+                instructionsSign: 'Check your ledger device and approve transaction signing.'
             },
 
             TransactionFee: {

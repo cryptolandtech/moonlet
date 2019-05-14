@@ -89,12 +89,10 @@ export class WalletPlugin extends BgCommunicationPlugin implements IWalletPlugin
     }
 
     public async transfer(blockchain, fromAddress, toAddress, amount, feeOptions) {
-        return this.callAction('transfer', [
-            blockchain,
-            fromAddress,
-            toAddress,
-            amount,
-            feeOptions
-        ]);
+        return this.callAction(
+            'transfer',
+            [blockchain, fromAddress, toAddress, amount, feeOptions],
+            5 * 60 * 1000
+        );
     }
 }
