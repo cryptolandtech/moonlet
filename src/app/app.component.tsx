@@ -128,8 +128,10 @@ export default class App extends Component<IProps, IState> {
                     // wallet loaded but -> user will be redirected to desired page
                     // console.log('redirect', 1);
                     setTimeout(() => {
-                        route(this.redirectAfterWalletLoaded);
-                        this.redirectAfterWalletLoaded = undefined;
+                        if (this.redirectAfterWalletLoaded) {
+                            route(this.redirectAfterWalletLoaded);
+                            this.redirectAfterWalletLoaded = undefined;
+                        }
                     });
                 } else if (
                     ['landingPage', 'importWallet', 'create-wallet'].indexOf(
