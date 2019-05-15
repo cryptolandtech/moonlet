@@ -12,6 +12,14 @@ export class WalletPlugin extends BgCommunicationPlugin implements IWalletPlugin
         // this.port = browser.runtime.connect({ name: ConnectionPort.BACKGROUND } as any);
     }
 
+    public generateMnemonics(): Promise<string> {
+        return this.callAction('generateMnemonics');
+    }
+
+    public validateMnemonics(mnemonic: string): Promise<boolean> {
+        return this.callAction('validateMnemonics', [mnemonic]);
+    }
+
     public async createWallet(mnemonics, password) {
         return this.callAction('createWallet', [mnemonics, password]);
     }

@@ -5,7 +5,7 @@ import LayoutGrid from 'preact-material-components/LayoutGrid';
 import { Translate } from '../../../components/translate/translate.component';
 import { TextField } from 'preact-material-components/TextField';
 import Button from 'preact-material-components/Button';
-import Wallet from 'moonlet-core/src/core/wallet';
+import { getWalletPlugin } from '../../../app-context';
 
 interface IProps {
     onComplete?: (words: string[]) => any;
@@ -69,23 +69,22 @@ export class EnterMnemonic extends Component<IProps, IState> {
         });
     }
 
-    public validate() {
+    public async validate(): Promise<boolean> {
         try {
             if (this.state.words.filter(Boolean).length === 0) {
                 this.setState({ error: true });
                 return false;
             }
 
-            const wallet = new Wallet(this.state.words.filter(Boolean).join(' '));
-            return !!wallet;
+            return getWalletPlugin().validateMnemonics(this.state.words.filter(Boolean).join(' '));
         } catch {
             this.setState({ error: true });
             return false;
         }
     }
 
-    public onRestoreWalletClick() {
-        if (typeof this.props.onComplete === 'function' && this.validate()) {
+    public async onRestoreWalletClick() {
+        if (typeof this.props.onComplete === 'function' && (await this.validate())) {
             this.props.onComplete(this.state.words);
         }
     }

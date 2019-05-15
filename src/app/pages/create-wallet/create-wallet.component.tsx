@@ -6,10 +6,10 @@ import { CreateWalletStep1 } from './components/step1/step1.component';
 import { CreateWalletStep2 } from './components/step2/step2.component';
 import { CreatePassword } from '../../components/create-password/create-password.component';
 import { Platform } from '../../types';
-import Wallet from 'moonlet-core/src/core/wallet';
 
 import { getWalletPlugin } from '../../app-context';
 import { IWalletPlugin } from '../../../plugins/wallet/iwallet-plugin';
+import { Loader } from '../../components/material-components/loader/loader.component';
 
 interface IProps {
     platform: Platform;
@@ -23,14 +23,21 @@ interface IState {
 }
 
 export class CreateWalletPage extends Component<IProps, IState> {
-    public wallet: Wallet;
     constructor(props: IProps) {
         super(props);
-        this.wallet = new Wallet();
+
+        getWalletPlugin()
+            .generateMnemonics()
+            .then(mnemonics => {
+                this.setState({
+                    words: mnemonics.split(' '),
+                    step: 1
+                });
+            });
 
         this.state = {
-            words: this.wallet.mnemonics.split(' '),
-            step: 1
+            words: undefined,
+            step: undefined
         };
     }
 
@@ -71,12 +78,18 @@ export class CreateWalletPage extends Component<IProps, IState> {
                     content = null;
                 }
                 break;
+            default:
+                content = (
+                    <div class="center-text">
+                        <Loader width="40px" height="40px" />
+                    </div>
+                );
         }
 
         return <div class="create-wallet-page">{content}</div>;
     }
 
     public onWalletCreated(password: string) {
-        this.props.createWallet(getWalletPlugin(), this.wallet.mnemonics, password);
+        this.props.createWallet(getWalletPlugin(), this.state.words.join(' '), password);
     }
 }

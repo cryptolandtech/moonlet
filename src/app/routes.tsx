@@ -232,12 +232,11 @@ export const ROUTES: IRoute[] = [
     {
         name: 'settingsZilliqaAccountRecover',
         path: '/settings/zilliqa-account-recover',
-        // getComponent: () =>
-        //     import('./pages/settings/pages/currency/currency.container').then(
-        //         module => module.default
-        //         ),
-        component: require('./pages/settings/pages/zilliqa-account-recover/zilliqa-account-recover.container')
-            .default,
+        getComponent: () =>
+            import('./pages/settings/pages/zilliqa-account-recover/zilliqa-account-recover.container').then(
+                module => module.default
+            ),
+        // component: require('./pages/settings/pages/zilliqa-account-recover/zilliqa-account-recover.container').default,
         config: popupPageConfig('ZilliqaAccountRecoverPage.title')
     },
     {

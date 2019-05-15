@@ -38,6 +38,24 @@ export abstract class BaseWalletController {
     public abstract sendMessage(message);
     public abstract async saveWallet();
 
+    public async generateMnemonics() {
+        try {
+            const wallet = new Wallet();
+            return Response.resolve(wallet.mnemonics);
+        } catch (e) {
+            return Response.reject(WalletErrorCodes.GENERIC_ERROR, e.message);
+        }
+    }
+
+    public async validateMnemonics(sender, mnemonic) {
+        try {
+            const wallet = new Wallet(mnemonic);
+            return Response.resolve(!!wallet);
+        } catch {
+            return Response.resolve(false);
+        }
+    }
+
     public async createWallet(sender, mnemonics: string, password: string) {
         this.wallet = new Wallet(mnemonics);
         this.wallet.loadBlockchain(await this.loadBlockchain('zilliqa'));

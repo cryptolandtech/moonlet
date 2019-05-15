@@ -16,6 +16,9 @@ export interface IWalletPlugin {
     saveWallet();
     switchNetwork(config: { [blockchain: string]: number });
 
+    generateMnemonics(): Promise<string>;
+    validateMnemonics(mnemonic): Promise<boolean>;
+
     createAccount(blockchain, accountName?);
     importAccount(blockchain, privateKey, accountName?);
     importHWAccount(
