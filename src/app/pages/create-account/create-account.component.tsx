@@ -11,6 +11,7 @@ import { BLOCKCHAIN_INFO } from '../../../utils/blockchain/blockchain-info';
 import CreateAccountTabAdd from './tab-add/tab-add.container';
 import CreateAccountTabImport from './tab-import/tab-import.container';
 import CreateAccountTabConnect from './tab-connect/tab-connect.container';
+import { feature, FEATURE_HW_WALLET } from '../../utils/feature';
 
 interface IState {
     activeTabIndex: number;
@@ -29,15 +30,17 @@ export class CreateAccountPage extends Component<{}, IState> {
             titleKey: 'CreateAccountPage.sections.add.title',
             contentComponent: CreateAccountTabAdd
         },
-        {
-            titleKey: 'CreateAccountPage.sections.connect.title',
-            contentComponent: CreateAccountTabConnect
-        },
+        feature.isActive(FEATURE_HW_WALLET)
+            ? {
+                  titleKey: 'CreateAccountPage.sections.connect.title',
+                  contentComponent: CreateAccountTabConnect
+              }
+            : null,
         {
             titleKey: 'CreateAccountPage.sections.import.title',
             contentComponent: CreateAccountTabImport
         }
-    ];
+    ].filter(Boolean);
 
     constructor(props) {
         super(props);

@@ -8,11 +8,12 @@ import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { WalletPlugin } from '../../plugins/wallet/web';
 import { createWalletLoaded } from '../../app/data/wallet/actions';
 import { IUserPreferences } from '../../app/data/user-preferences/state';
-import { createUpdateConversionRates } from '../../app/data/currency/actions';
 import { getSwitchNetworkConfig } from '../../utils/blockchain/utils';
 import { WalletStatus } from '../../app/data/wallet/state';
 import { IPlugins } from '../../plugins/iplugins';
 import { LedgerHwPlugin } from '../../plugins/ledger-hw/web';
+import { AppRemoteConfigPlugin } from '../../plugins/app-remote-config/web';
+import { feature } from '../../app/utils/feature';
 
 const loadState = (): IUserPreferences => {
     const defaults = {
@@ -52,6 +53,11 @@ const store = getStore({
         },
         layout: {}
     },
+    app: {
+        version: '0.0.0',
+        env: 'production',
+        installId: 'local-web'
+    },
     wallet: {
         invalidPassword: false,
         status: WalletStatus.LOADING,
@@ -62,12 +68,16 @@ const store = getStore({
     userPreferences: loadState()
 });
 
-store.subscribe(() => saveState(store.getState()));
+store.subscribe(() => {
+    feature.updateCurrentDimensions(store.getState());
+    saveState(store.getState());
+});
 
 const ledgerPlugin = new LedgerHwPlugin();
 const plugins: IPlugins = {
     wallet: new WalletPlugin(ledgerPlugin),
-    ledgerHw: new LedgerHwPlugin()
+    ledgerHw: new LedgerHwPlugin(),
+    remoteConfig: new AppRemoteConfigPlugin()
 };
 
 (async () => {
@@ -107,9 +117,6 @@ const plugins: IPlugins = {
     //     testNet: loadState().testNet,
     //     networks: {}
     // }) as any);
-
-    store.dispatch(createUpdateConversionRates() as any);
-    setInterval(() => store.dispatch(createUpdateConversionRates() as any), 5 * 60 * 1000);
 })();
 
 export default props => (

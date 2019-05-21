@@ -14,7 +14,6 @@ import {
 
 import { browser } from 'webextension-polyfill-ts';
 import { createSetPreferences } from '../../app/data/user-preferences/actions';
-import { createUpdateConversionRates } from '../../app/data/currency/actions';
 
 import manifest from './manifest.json';
 import { WalletStatus } from '../../app/data/wallet/state';
@@ -23,16 +22,32 @@ import { DisclaimerPage } from '../../app/pages/settings/pages/disclaimer/discla
 import { ConnectionPort, IExtensionMessage, ExtensionMessageType } from './types';
 import { WalletEventType } from 'moonlet-core/src/core/wallet-event-emitter';
 import { TransactionStatus } from 'moonlet-core/src/core/transaction';
-import { isExtensionPopup, initErrorReporting } from '../../app/utils/platform-utils';
+import {
+    isExtensionPopup,
+    initErrorReporting,
+    setExtraDataOnErrorReporting
+} from '../../app/utils/platform-utils';
 import { WalletPlugin } from '../../plugins/wallet/extension';
 import { IPlugins } from '../../plugins/iplugins';
 import { LedgerHwPlugin } from '../../plugins/ledger-hw/extension';
+import { AppRemoteConfigPlugin } from '../../plugins/app-remote-config/extension';
+import { getEnvironment } from './utils';
+import { createUpdateApp } from '../../app/data/app/actions';
+import { feature } from '../../app/utils/feature';
+
+// define constants
+const USER_PREFERENCES_STORAGE_KEY = 'userPref';
+const INSTALL_ID_KEY = 'installId';
 
 // initialize Sentry
-initErrorReporting();
+(async () => {
+    const storage = await browser.storage.local.get();
+    const installId = storage[INSTALL_ID_KEY];
+    initErrorReporting(manifest.version, await getEnvironment());
+    setExtraDataOnErrorReporting(installId);
+})();
 
-const USER_PREFERENCES_STORAGE_KEY = 'userPref';
-
+// initialize store
 const store = getStore({
     pageConfig: {
         device: {
@@ -47,20 +62,32 @@ const store = getStore({
         invalidPassword: false,
         status: WalletStatus.LOADING
     },
-    extension: {
-        version: manifest.version
+    app: {
+        version: manifest.version,
+        env: 'production',
+        installId: '' // TODO install id logic
     },
     userPreferences: {} as any
 });
 
+// initialize app plugins
 const backgroundCommPort = browser.runtime.connect({ name: ConnectionPort.BACKGROUND } as any);
 const plugins: IPlugins = {
     wallet: new WalletPlugin(backgroundCommPort),
-    ledgerHw: new LedgerHwPlugin(backgroundCommPort)
+    ledgerHw: new LedgerHwPlugin(backgroundCommPort),
+    remoteConfig: new AppRemoteConfigPlugin(backgroundCommPort)
 };
 
 (async () => {
+    // read extension storage
     const storage = await browser.storage.local.get();
+
+    // update app config data
+    const env = await getEnvironment();
+    const installId = storage[INSTALL_ID_KEY];
+    store.dispatch(createUpdateApp(env, installId));
+
+    // get user preferences from storage
     let userPreferences: IUserPreferences = {
         preferredCurrency: 'USD',
         devMode: false,
@@ -73,6 +100,16 @@ const plugins: IPlugins = {
     }
     store.dispatch(createSetPreferences(userPreferences));
 
+    // save user preferences to storage on changes
+    store.subscribe(() => {
+        feature.updateCurrentDimensions(store.getState());
+
+        browser.storage.local.set({
+            [USER_PREFERENCES_STORAGE_KEY]: store.getState().userPreferences
+        });
+    });
+
+    // check if latest version of disclaimer was accepted
     if (userPreferences.disclaimerVersionAccepted !== DisclaimerPage.version) {
         // lock wallet if disclaimer changed or not accepted
         try {
@@ -81,20 +118,13 @@ const plugins: IPlugins = {
             /* */
         }
     }
+
+    // try to load wallet
     store.dispatch(createLoadWallet(plugins.wallet, {
         testNet: userPreferences.testNet,
         networks: userPreferences.networks
     }) as any);
-
-    store.dispatch(createUpdateConversionRates() as any);
-    setInterval(() => store.dispatch(createUpdateConversionRates() as any), 10 * 60 * 1000);
 })();
-
-store.subscribe(() => {
-    browser.storage.local.set({
-        [USER_PREFERENCES_STORAGE_KEY]: store.getState().userPreferences
-    });
-});
 
 export default props => (
     <Provider store={store}>
@@ -110,12 +140,14 @@ if (isExtensionPopup()) {
     );
 }
 
+// listen for messages frm bg script
 browser.runtime.onMessage.addListener((message: IExtensionMessage, sender) => {
     // accept messages only from moonlet extension
     if (sender.id !== browser.runtime.id) {
         return Promise.reject('INVALID_REQUEST');
     }
 
+    // TODO needs refactoring
     if (message.type === ExtensionMessageType.WALLET_EVENT) {
         store.dispatch(createWalletSync(plugins.wallet) as any);
 

@@ -14,25 +14,26 @@ import { appContext } from './app-context';
 import { WalletStatus } from './data/wallet/state';
 import { GenericAccount } from 'moonlet-core/src/core/account';
 import { Navigation } from './utils/navigation';
-import { IWalletPlugin } from '../plugins/wallet/iwallet-plugin';
+import { IPlugins } from '../plugins/iplugins';
+import { feature } from './utils/feature';
 
 interface IProps {
     history: CustomHistory;
     language: Language;
-    plugins: {
-        wallet: IWalletPlugin;
-    };
+    plugins: IPlugins;
 
     walletStatus: WalletStatus;
     accounts: GenericAccount[];
 
     onScreenSizeChange: { (screenSize: DeviceScreenSize) };
     onRouteChange: { (routeConfig: IRouteConfig) };
+    updateExchangeRates: () => any;
 }
 
 interface IState {
     screenSize: DeviceScreenSize;
     translationsLoaded: boolean;
+    featuresConfigFetched: boolean;
 }
 
 export default class App extends Component<IProps, IState> {
@@ -54,8 +55,27 @@ export default class App extends Component<IProps, IState> {
 
         this.state = {
             translationsLoaded: false,
-            screenSize: this.phoneMediaQuery.matches ? DeviceScreenSize.SMALL : DeviceScreenSize.BIG
+            screenSize: this.phoneMediaQuery.matches
+                ? DeviceScreenSize.SMALL
+                : DeviceScreenSize.BIG,
+            featuresConfigFetched: false
         };
+
+        // setup exchange rates updates
+        this.props.updateExchangeRates();
+        setInterval(() => this.props.updateExchangeRates(), 15 * 60 * 1000);
+
+        // get features config
+        props.plugins.remoteConfig.getFeaturesConfig().then(
+            featuresConfig => {
+                feature.setFeaturesConfig(featuresConfig);
+                this.setState({ featuresConfigFetched: true });
+            },
+            () => {
+                // fallback, features config failed
+                this.setState({ featuresConfigFetched: true });
+            }
+        );
     }
 
     public componentDidUpdate(prevProps: IProps) {
@@ -189,7 +209,7 @@ export default class App extends Component<IProps, IState> {
 
         return (
             <div className={className}>
-                {this.state.translationsLoaded && (
+                {this.state.translationsLoaded && this.state.featuresConfigFetched && (
                     <DefaultLayout>
                         <Router
                             history={props.history}

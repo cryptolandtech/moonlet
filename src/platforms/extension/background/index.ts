@@ -1,3 +1,4 @@
+import { AppRemoteConfigController } from './../../../plugins/app-remote-config/extension/app-remote-config-controller';
 import { LedgerHwController } from './../../../plugins/ledger-hw/extension/ledger-hw-controller';
 import { WalletController } from './../../../plugins/wallet/extension/wallet-controller';
 import {
@@ -11,17 +12,38 @@ import { browser, Runtime } from 'webextension-polyfill-ts';
 import { Response, IResponseData } from '../../../utils/response';
 
 import { BrowserIconManager } from './browser-icon-manager';
-import { getEnvironment, initErrorReporting } from '../../../app/utils/platform-utils';
+import {
+    initErrorReporting,
+    setExtraDataOnErrorReporting
+} from '../../../app/utils/platform-utils';
+import { getEnvironment } from '../utils';
+import * as uuid from 'uuid/v4';
+
+const INSTALL_ID_KEY = 'installId';
 
 // initialize Sentry
-initErrorReporting();
+(async () => {
+    const storage = await browser.storage.local.get();
+    const env = await getEnvironment();
+    let installId = storage[INSTALL_ID_KEY];
+    if (!installId) {
+        installId = uuid();
+        browser.storage.local.set({
+            [INSTALL_ID_KEY]: installId
+        });
+    }
+    initErrorReporting(await browser.runtime.getManifest().version, env);
+    setExtraDataOnErrorReporting(installId);
+})();
 
 // Implementation
+// initialize controllers
 const browserIconManager = new BrowserIconManager();
 const ledgerController = new LedgerHwController();
 const controllers = {
     [BackgroundMessageController.WALLET_CONTROLLER]: new WalletController(ledgerController),
-    [BackgroundMessageController.LEDGER_HW_CONTROLLER]: ledgerController
+    [BackgroundMessageController.LEDGER_HW_CONTROLLER]: ledgerController,
+    [BackgroundMessageController.REMOTE_CONFIG]: new AppRemoteConfigController()
     // [BackgroundMessageController.REMOTE_INTERFACE]: remoteInterface
 };
 
@@ -29,6 +51,7 @@ const generateResponse = (message: IBackgroundMessage, response: IResponseData) 
     return { ...message, type: BackgroundMessageType.RESPONSE, response };
 };
 
+// setup message listeners
 browser.runtime.onConnect.addListener((port: Runtime.Port) => {
     if (port.name === ConnectionPort.BACKGROUND) {
         const connectionId = Math.random()
@@ -75,6 +98,7 @@ browser.runtime.onConnect.addListener((port: Runtime.Port) => {
     }
 });
 
+// set dev badge for non production environments
 getEnvironment().then(env => {
     if (env === 'local') {
         browser.browserAction.setBadgeBackgroundColor({ color: 'orange' });

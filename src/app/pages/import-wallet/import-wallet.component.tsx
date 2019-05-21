@@ -8,6 +8,7 @@ import { getWalletPlugin } from '../../app-context';
 import { ChooseImportType, ImportType } from './choose-import-type/choose-import-type.component';
 import ImportWalletCloudRestore from './cloud-restore/cloud-restore.container';
 import { IWalletPlugin } from '../../../plugins/wallet/iwallet-plugin';
+import { feature, FEATURE_CLOUD_BACKUP } from '../../utils/feature';
 
 interface IProps {
     platform: Platform;
@@ -56,8 +57,9 @@ export class ImportWalletPage extends Component<IProps, IState> {
             case ImportType.GOOGLE_DRIVE:
                 return Screen.CLOUD_RESTORE;
             default:
-                // return Screen.ENTER_MNEMONIC;
-                return Screen.CHOOSE_IMPORT_TYPE;
+                return feature.isActive(FEATURE_CLOUD_BACKUP)
+                    ? Screen.CHOOSE_IMPORT_TYPE
+                    : Screen.ENTER_MNEMONIC;
         }
     }
 

@@ -1,3 +1,5 @@
+import { IState } from '../data';
+
 interface IFeatureDimensions {
     env?: string | string[];
     testnet?: boolean;
@@ -12,31 +14,37 @@ export interface IFeaturesConfig {
 }
 
 class Feature {
-    public currentDimensions;
+    public currentDimensions = {};
     public featuresConfig: IFeaturesConfig;
 
     public setFeaturesConfig(config: IFeaturesConfig) {
         this.featuresConfig = config;
     }
 
-    public setCurrentDimensions(dimensions: IFeatureDimensions, replace?: boolean) {
-        if (replace) {
-            this.currentDimensions = { ...dimensions };
-        } else {
-            Object.assign(this.currentDimensions, dimensions);
-        }
+    public updateCurrentDimensions(state: IState) {
+        this.currentDimensions = {
+            env: state.app.env,
+            testnet: state.userPreferences.testNet,
+            installId: state.app.installId
+        };
     }
 
     public isActive(featureName): boolean {
+        let isActive = false;
+
         if (this.featuresConfig) {
             const configs = this.featuresConfig[featureName];
-            if (Array.isArray(configs) && configs.length > 0) {
-                for (const config of configs) {
-                    return this.dimensionsMatch(config.dimensions) && config.active;
+            if (configs) {
+                if (Array.isArray(configs) && configs.length > 0) {
+                    for (const config of configs) {
+                        if (this.dimensionsMatch(config.dimensions)) {
+                            isActive = config.active;
+                        }
+                    }
                 }
             }
         }
-        return false;
+        return isActive;
     }
 
     private dimensionsMatch(dimensions: IFeatureDimensions): boolean {
@@ -64,13 +72,6 @@ class Feature {
 
 export const feature = new Feature();
 
-feature.setFeaturesConfig({
-    cloudBackup: [
-        {
-            dimensions: {
-                env: ['local', 'staging']
-            },
-            active: true
-        }
-    ]
-});
+export const FEATURE_CLOUD_BACKUP = 'cloudBackup';
+export const FEATURE_HW_WALLET = 'hwWallet';
+export const FEATURE_SEND_PAGE_NAME_RESOLUTION = 'sendPageNameResolution';

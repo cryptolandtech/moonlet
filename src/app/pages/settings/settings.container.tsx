@@ -8,7 +8,7 @@ import { getWalletPlugin } from '../../app-context';
 const mapStateToProps = (state: IState, ownProps) => {
     return {
         ownProps,
-        version: state.extension ? state.extension.version : '',
+        version: state.app ? state.app.version : '',
         userPreferences: state.userPreferences
     };
 };

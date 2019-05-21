@@ -5,13 +5,12 @@ import { reducers } from './reducers';
 import reduxThunk from 'redux-thunk';
 import { IWalletState } from './wallet/state';
 import { ICurrency } from './currency/state';
+import { IAppState } from './app/state';
 
 export interface IState {
     pageConfig: IPageConfig;
     wallet: IWalletState;
-    extension?: {
-        version: string;
-    };
+    app: IAppState;
     userPreferences: IUserPreferences;
     currency?: ICurrency;
 }
@@ -19,7 +18,7 @@ export interface IState {
 const defaultState: IState = {
     pageConfig: undefined,
     wallet: undefined,
-    extension: undefined,
+    app: undefined,
     userPreferences: {
         preferredCurrency: 'USD',
         devMode: false,

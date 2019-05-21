@@ -1,5 +1,4 @@
 // TODO remove browser import
-import { browser } from 'webextension-polyfill-ts';
 import * as Sentry from '@sentry/browser';
 
 export const getPlatform = () => {
@@ -15,45 +14,28 @@ export const isExtensionPopup = () => {
 };
 
 export const getExtensionUrl = (path: string, popup: boolean): string => {
-    const url = new URL(browser.extension.getURL('index.html'));
-    url.hash = '#' + path;
+    let url = '/index.html';
 
     if (popup) {
-        url.searchParams.append('popup', '1');
+        url += '?popup=1';
     }
 
-    return url.toString();
+    url += '#' + path;
+    return url;
 };
 
-export const getEnvironment = async (): Promise<'local' | 'staging' | 'production'> => {
-    const extensionInfo = await browser.management.getSelf();
-
-    if (extensionInfo.installType === 'development') {
-        const manifest = await browser.runtime.getManifest();
-        if (manifest.version === '0.0.0') {
-            return 'local';
-        } else {
-            return 'staging';
-        }
-    }
-
-    return 'production';
-};
-
-export const initErrorReporting = async () => {
-    if (!isExtension()) {
-        return;
-    }
-
-    const env = await getEnvironment();
-    const manifest = await browser.runtime.getManifest();
-
+export const initErrorReporting = (appVersion: string, env: string) => {
     Sentry.init({
         dsn: 'https://49939a7bba26413b800c774a171b3e2b@sentry.io/1441540',
         environment: env,
-        release: manifest.version,
+        release: appVersion,
         enabled: env !== 'local'
     });
 };
 
-// (window as any).Sentry = Sentry;
+export const setExtraDataOnErrorReporting = installId => {
+    Sentry.configureScope(scope => {
+        scope.setTag('platform', getPlatform());
+        scope.setTag('installId', installId);
+    });
+};

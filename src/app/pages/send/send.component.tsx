@@ -29,6 +29,7 @@ import { UDApiClient } from '../../utils/ud-api-client';
 import { IUserPreferences } from '../../data/user-preferences/state';
 import { Navigation } from '../../utils/navigation';
 import { capitalize } from '../../utils/string';
+import { feature, FEATURE_SEND_PAGE_NAME_RESOLUTION } from '../../utils/feature';
 
 interface IProps {
     blockchain: Blockchain;
@@ -122,7 +123,7 @@ export class SendPage extends Component<IProps, IState> {
                                 onBlur={() => {
                                     // todo enforce this check
                                     if (
-                                        this.props.userPreferences.testNet &&
+                                        feature.isActive(FEATURE_SEND_PAGE_NAME_RESOLUTION) &&
                                         this.state.recipient.indexOf('.') > 0
                                     ) {
                                         // domain, lookup for address
