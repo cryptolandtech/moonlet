@@ -108,3 +108,24 @@ getEnvironment().then(env => {
         browser.browserAction.setBadgeText({ text: 'DEV' });
     }
 });
+
+// thankyou pages hooks
+browser.runtime.onInstalled.addListener(async (details: Runtime.OnInstalledDetailsType) => {
+    if (details.reason === 'install') {
+        browser.tabs.create({
+            url: 'https://moonlet.xyz/thank-you/'
+        });
+    }
+
+    const version = browser.runtime.getManifest().version;
+    if (
+        details.reason === 'update' &&
+        details.previousVersion !== version &&
+        ['0.17.0'].indexOf(version) >= 0
+    ) {
+        browser.tabs.create({
+            url: 'https://moonlet.xyz/thank-you-update/'
+        });
+    }
+});
+browser.runtime.setUninstallURL('https://moonlet.xyz/thank-you-delete/');
