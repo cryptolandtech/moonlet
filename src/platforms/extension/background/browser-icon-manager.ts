@@ -66,16 +66,20 @@ export class BrowserIconManager {
     }
 
     public toggleIcon(icon?) {
+        let nextIcon;
         if (icon) {
-            this.currentIcon = icon;
+            nextIcon = icon;
         } else {
             if (this.currentIcon === ICON_DEFAULT) {
-                this.currentIcon = ICON_GREEN;
+                nextIcon = ICON_GREEN;
             } else {
-                this.currentIcon = ICON_DEFAULT;
+                nextIcon = ICON_DEFAULT;
             }
         }
 
-        browser.browserAction.setIcon({ path: this.currentIcon });
+        if (nextIcon !== this.currentIcon) {
+            this.currentIcon = nextIcon;
+            browser.browserAction.setIcon({ path: this.currentIcon });
+        }
     }
 }
