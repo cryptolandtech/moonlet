@@ -14,6 +14,7 @@ import { route } from 'preact-router';
 import { DeviceScreenSize } from '../../../../types';
 import Dialog from 'preact-material-components/Dialog';
 import { translate } from '../../../../utils/translate';
+import { BLOCKCHAIN_INFO } from '../../../../../utils/blockchain/blockchain-info';
 
 interface IProps {
     account: GenericAccount;
@@ -57,6 +58,12 @@ export class AddressCard extends Component<IProps> {
     public render() {
         const account = this.props.account;
         const address = account.address;
+        const pagesConfig = BLOCKCHAIN_INFO[account.node.blockchain].pagesConfig;
+        const multipleFormats =
+            pagesConfig &&
+            pagesConfig.accountPage &&
+            pagesConfig.accountPage.multipleAddressFormats;
+
         return (
             <Card className="address-card">
                 <div class="address-card-inner">
@@ -73,6 +80,16 @@ export class AddressCard extends Component<IProps> {
                                 more_vert
                             </Icon>
                             <Menu ref={m => (this.addressMenu = m)}>
+                                {multipleFormats && (
+                                    <List.LinkItem
+                                        href={`/reveal/addressFormat/${account.node.blockchain}/${
+                                            account.address
+                                        }`}
+                                    >
+                                        <Translate text="AccountPage.addressFormat" />
+                                        <List.ItemMeta>format_align_justify</List.ItemMeta>
+                                    </List.LinkItem>
+                                )}
                                 {account.type !== AccountType.HARDWARE && [
                                     <List.LinkItem
                                         href={`/reveal/privateKey/${account.node.blockchain}/${
@@ -156,6 +173,23 @@ export class AddressCard extends Component<IProps> {
                         {address}
                     </Typography>
                 </Copy>
+                {multipleFormats && (
+                    <Typography
+                        body2
+                        className="error-text"
+                        style="margin-top: 10px;font-size: 12px;"
+                    >
+                        This is a new address format.{' '}
+                        <a
+                            href={`/reveal/addressFormat/${account.node.blockchain}/${
+                                account.address
+                            }`}
+                            class="secondary-color"
+                        >
+                            Check address format >>
+                        </a>
+                    </Typography>
+                )}
             </Card>
         );
     }

@@ -6,7 +6,6 @@ import './account-card.scss';
 import Balance from '../../../../components/balance/balance.container';
 import { GenericAccount } from 'moonlet-core/src/core/account';
 import Typography from 'preact-material-components/Typography';
-import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { getAccountIcon } from '../../../../utils/account';
 
 interface IProps {
@@ -54,12 +53,6 @@ export class AccountCard extends Component<IProps> {
                         convert
                     />
                 </div>
-
-                {this.props.account.node.blockchain === Blockchain.ZILLIQA && (
-                    <Typography body2 className="center-text error-text">
-                        Don't send ZIL ERC-20 tokens to this address!
-                    </Typography>
-                )}
             </Card>
         );
     }

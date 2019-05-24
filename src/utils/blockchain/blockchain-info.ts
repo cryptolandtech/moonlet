@@ -33,7 +33,11 @@ export interface IBlockchainInfo {
         };
     };
     pagesConfig?: {
-        send: {
+        accountPage?: {
+            multipleAddressFormats: boolean;
+            displayFormats: string[];
+        };
+        send?: {
             advancedView?: {
                 enable: boolean;
                 component: 'gas-fee';
@@ -107,6 +111,12 @@ export const BLOCKCHAIN_INFO: {
                 }
             }
         },
-        nameResolver: 'ens'
+        nameResolver: 'ens',
+        pagesConfig: {
+            accountPage: {
+                multipleAddressFormats: true,
+                displayFormats: ['default', 'base16']
+            }
+        }
     }
 };

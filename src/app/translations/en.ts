@@ -231,9 +231,19 @@ export const translation: ITranslations = {
                 warning:
                     'Info: The address, which is used in transactions, is a shorter representative form of the public key.',
                 tips: ''
+            },
+            addressFormat: {
+                title: 'Address Format',
+                warning:
+                    'In order to prevent funds loss by mistake, Zilliqa changed their address format in order to distinguish from Ethereum one. Below you can find both formats that are obtained from the same private key.',
+                formats: {
+                    default: 'Standard format',
+                    base16: 'Legacy format'
+                }
             }
         },
         AccountPage: {
+            addressFormat: 'Address Format',
             revealPrivateKey: 'Reveal Private Key',
             revealPublicKey: 'Reveal Public Key',
             discardAddress: 'Discard Address',
@@ -336,6 +346,13 @@ export const translation: ITranslations = {
                 upload: 'Upload encrypted wallet.',
                 verify: 'Verify backup.',
                 done: 'Done'
+            }
+        },
+        AddressCard: {
+            formats: {
+                ZILLIQA: {
+                    base16: 'Legacy'
+                }
             }
         }
     },

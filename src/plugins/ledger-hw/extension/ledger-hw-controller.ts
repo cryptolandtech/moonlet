@@ -10,7 +10,7 @@ interface IRequest {
     sent: boolean;
 }
 
-const BRIDGE_URL = 'https://moonlet-wallet.firebaseapp.com/ledger-bridge/';
+const BRIDGE_URL = 'https://static.moonlet.xyz/ledger-bridge/';
 // const BRIDGE_URL = 'https://localhost:8081/?debug=1';
 const REQUEST_TIMEOUT = 30000;
 

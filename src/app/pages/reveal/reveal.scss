@@ -6,7 +6,7 @@
 
     .warning {
         font-size: 13px;
-        margin-top: 50px;
+        margin-bottom: 50px;
     }
 
     .password-input {
@@ -33,6 +33,18 @@
             word-wrap: break-word;
             cursor: pointer;
         }
+    }
+
+    .format-title {
+        margin-top: 35px;
+    }
+
+    .address {
+        word-break: break-all;
+        text-align: center;
+        padding: 8px;
+        cursor: pointer;
+        display: block;
     }
 
     .reveal-button {

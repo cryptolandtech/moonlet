@@ -9,7 +9,9 @@ import TextField from 'preact-material-components/TextField';
 import { getWalletPlugin } from '../../app-context';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Copy } from '../../components/copy/copy.component';
+import { BLOCKCHAIN_INFO } from '../../../utils/blockchain/blockchain-info';
 import { bind } from 'bind-decorator';
+import Typography from 'preact-material-components/Typography';
 
 interface IProps {
     account: any;
@@ -28,7 +30,7 @@ export class RevealPage extends Component<IProps, IState> {
         super(props);
 
         this.state = {
-            currentScreen: 'password',
+            currentScreen: props.type === 'addressFormat' ? 'info' : 'password',
             passwordInput: '',
             passwordInputError: ''
         };
@@ -92,6 +94,29 @@ export class RevealPage extends Component<IProps, IState> {
                     </Copy>
                 );
                 break;
+            case 'addressFormat':
+                const pagesConfig = BLOCKCHAIN_INFO[this.props.account.node.blockchain].pagesConfig;
+                const multipleFormats =
+                    pagesConfig &&
+                    pagesConfig.accountPage &&
+                    pagesConfig.accountPage.multipleAddressFormats;
+                return (
+                    multipleFormats &&
+                    pagesConfig.accountPage.displayFormats.map(format => (
+                        <div>
+                            <Translate
+                                body1
+                                text={`RevealPage.addressFormat.formats.${format}`}
+                                className="format-title"
+                            />
+                            <Copy text={this.props.account.addressFormats[format]}>
+                                <Typography headline6 class="address">
+                                    {this.props.account.addressFormats[format]}
+                                </Typography>
+                            </Copy>
+                        </div>
+                    ))
+                );
         }
     }
 
