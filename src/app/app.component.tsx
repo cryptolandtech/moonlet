@@ -154,7 +154,7 @@ export default class App extends Component<IProps, IState> {
                         }
                     });
                 } else if (
-                    ['landingPage', 'importWallet', 'create-wallet'].indexOf(
+                    ['landingPage', 'importWallet', 'createWallet'].indexOf(
                         currentRoute.attributes.name
                     ) >= 0
                 ) {
