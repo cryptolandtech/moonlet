@@ -15,6 +15,7 @@ import { DisclaimerPage } from '../settings/pages/disclaimer/disclaimer.componen
 import Dialog from 'preact-material-components/Dialog';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
 import { IWalletPlugin } from '../../../plugins/wallet/iwallet-plugin';
+import { getExtensionUrl, isExtensionPopup } from '../../utils/platform-utils';
 
 interface IProps {
     wallet: IWalletState;
@@ -120,9 +121,15 @@ export class LandingPage extends Component<IProps, IState> {
                                     raised
                                     className="create-wallet"
                                     onClick={() =>
-                                        this.checkDisclaimerAndExecute(() =>
-                                            route('/create-wallet')
-                                        )
+                                        this.checkDisclaimerAndExecute(() => {
+                                            if (isExtensionPopup()) {
+                                                window.open(
+                                                    getExtensionUrl('/create-wallet', false)
+                                                );
+                                            } else {
+                                                route('/create-wallet');
+                                            }
+                                        })
                                     }
                                 >
                                     <Translate text="LandingPage.createNewWallet" />
