@@ -10,6 +10,7 @@ import { IUserPreferences, INetworksOptions } from '../../data/user-preferences/
 import { IWalletPlugin } from '../../../plugins/wallet/iwallet-plugin';
 import { getWalletPlugin } from '../../app-context';
 import { isExtensionPopup, getExtensionUrl } from '../../utils/platform-utils';
+import { FEATURE_CLOUD_BACKUP, feature } from '../../utils/feature';
 
 interface IProps {
     level1: string;
@@ -58,14 +59,16 @@ export class SettingsPage extends Component<IProps> {
                             primaryText: <Translate text="SettingsPage.revealSecretPhrase" />,
                             href: '/reveal/secretPhrase'
                         },
-                        {
-                            primaryText: <Translate text="App.labels.backup" />,
-                            href: isExtensionPopup()
-                                ? getExtensionUrl('/settings/backup', false)
-                                : '/settings/backup',
-                            target: isExtensionPopup() ? '_blank' : '_self'
-                        }
-                    ]
+                        feature.isActive(FEATURE_CLOUD_BACKUP)
+                            ? {
+                                  primaryText: <Translate text="App.labels.backup" />,
+                                  href: isExtensionPopup()
+                                      ? getExtensionUrl('/settings/backup', false)
+                                      : '/settings/backup',
+                                  target: isExtensionPopup() ? '_blank' : '_self'
+                              }
+                            : null
+                    ].filter(Boolean)
                 }
             },
             {

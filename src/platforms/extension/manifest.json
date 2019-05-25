@@ -14,10 +14,6 @@
     "browser_action": {
         "default_popup": "index.html?popup=1"
     },
-    "oauth2": {
-        "client_id": "277593866196-0dfqq5cjvutaroi6t2mdemi05c4ndgj9.apps.googleusercontent.com",
-        "scopes": ["https://www.googleapis.com/auth/drive.appfolder"]
-    },
     "manifest_version": 2,
     "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4WQjRp55WmKuSVo0hsEjsinkKEf48uHVFKTkvbUhXUfTD0xRhnh/13PDQt7/cfQu+W3tntOBDOIgql6RQ9GZvcAu22YPFAljNg85YrZZaT7dhvnt4crGucXtUneSReaD+aAcSrY89TFoNK9aONV1aeCP4JcDJaH08LKDYBj436SGEU5ddabfc6qcb20C1TBU7iqma3LYU881tEafAUIZp52cHHJq4M+me/NPHXoRU+xpr1qU89B9xqzSKkaoaC9CNK9/xkfQaYRT4dWkX06f6ydPa1CMakvXSO4F+KuyOtxa3OdX+1961wZzLZxD0iFsiI5P7tY//bPLQXgd3ZuUWQIDAQAB"
 }
