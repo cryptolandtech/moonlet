@@ -174,19 +174,15 @@ export class AddressCard extends Component<IProps> {
                     </Typography>
                 </Copy>
                 {multipleFormats && (
-                    <Typography
-                        body2
-                        className="error-text"
-                        style="margin-top: 10px;font-size: 12px;"
-                    >
-                        This is a new address format.{' '}
+                    <Typography body2 style="margin-top: 10px;font-size: 11.5px;">
+                        This is the new address format.{' '}
                         <a
                             href={`/reveal/addressFormat/${account.node.blockchain}/${
                                 account.address
                             }`}
                             class="secondary-color"
                         >
-                            Check address format >>
+                            Check out the old format >>
                         </a>
                     </Typography>
                 )}

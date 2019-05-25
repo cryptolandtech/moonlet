@@ -233,12 +233,12 @@ export const translation: ITranslations = {
                 tips: ''
             },
             addressFormat: {
-                title: 'Address Format',
+                title: 'ZIL Address Format',
                 warning:
-                    'In order to prevent funds loss by mistake, Zilliqa changed their address format in order to distinguish from Ethereum one. Below you can find both formats that are obtained from the same private key.',
+                    'In order to prevent funds loss by mistake and distinguish itself from Ethereum address format, Zilliqa changed their address standard. Below you can find both formats:',
                 formats: {
-                    default: 'Standard format',
-                    base16: 'Legacy format'
+                    default: 'New format',
+                    base16: 'Old format'
                 }
             }
         },
