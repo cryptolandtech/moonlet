@@ -59,7 +59,7 @@
         "@ledgerhq/hw-app-eth": "^4.38.6",
         "@ledgerhq/hw-transport-u2f": "^4.38.6",
         "@ledgerhq/hw-transport-webusb": "^4.55.0",
-        "@sentry/browser": "^5.1.1",
+        "@sentry/browser": "^5.4.0",
         "babel-polyfill": "^6.26.0",
         "bignumber.js": "8.0.2",
         "bind-decorator": "^1.0.11",
