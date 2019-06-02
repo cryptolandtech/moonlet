@@ -67,10 +67,16 @@ export class BgCommunicationPlugin {
         return deferred.promise;
     }
 
+    protected sanitizeMessageForErrorReporting(message: IBackgroundMessage) {
+        return message;
+    }
+
     private getRequestTimeout(message, deferred: Deferred, timeout?: number) {
         return setTimeout(() => {
             this.requests.delete(message.id);
-            deferred.reject(Response.reject('REQUEST_TIMEOUT', message));
+            deferred.reject(
+                Response.reject('REQUEST_TIMEOUT', this.sanitizeMessageForErrorReporting(message))
+            );
         }, timeout || REQUEST_TIMEOUT);
     }
 }

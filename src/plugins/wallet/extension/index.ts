@@ -1,5 +1,8 @@
 import { BgCommunicationPlugin } from './../../core/extension/bg-communication-plugin';
-import { BackgroundMessageController } from '../../../platforms/extension/types';
+import {
+    BackgroundMessageController,
+    IBackgroundMessage
+} from '../../../platforms/extension/types';
 import { BigNumber } from 'bignumber.js';
 import { Runtime } from 'webextension-polyfill-ts';
 import { IWalletPlugin } from '../iwallet-plugin';
@@ -102,5 +105,27 @@ export class WalletPlugin extends BgCommunicationPlugin implements IWalletPlugin
             [blockchain, fromAddress, toAddress, amount, feeOptions],
             5 * 60 * 1000
         );
+    }
+
+    protected sanitizeMessageForErrorReporting(message: IBackgroundMessage) {
+        const msg = { ...message };
+
+        delete msg.id;
+
+        switch (msg.request.action) {
+            case 'validateMnemonics':
+                msg.request.params = ['*mnemonic*'];
+                break;
+            case 'createWallet':
+                msg.request.params = ['*mnemonic*', '*password*'];
+                break;
+            case 'loadEncryptedWallet':
+                msg.request.params = ['*encryptedWallet*', '*password*'];
+                break;
+            case 'unlockWallet':
+                msg.request.params = ['*password*'];
+                break;
+        }
+        return msg;
     }
 }
