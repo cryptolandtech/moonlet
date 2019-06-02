@@ -187,7 +187,7 @@ export class BackupPage extends Component<{}, IState> {
         }
     }
 
-    public goTo<K extends keyof IState>(nextScreen: Screen, nextState?: Pick<IState, K>) {
+    public goTo(nextScreen: Screen, nextState?) {
         let tasks = { ...this.state.tasks };
         if (nextScreen === Screen.CREATE_BACKUP) {
             tasks = {

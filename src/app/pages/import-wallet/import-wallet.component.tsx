@@ -63,7 +63,7 @@ export class ImportWalletPage extends Component<IProps, IState> {
         }
     }
 
-    public goTo<K extends keyof IState>(nextScreen: Screen, nextState?: Pick<IState, K>) {
+    public goTo(nextScreen: Screen, nextState?) {
         this.setState({
             ...nextState,
             previousScreen: this.state.screen,
