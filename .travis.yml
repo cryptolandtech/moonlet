@@ -25,7 +25,8 @@ deploy:
   skip_cleanup: true
   api_key:
     secure: zcUZLNgp51hBzCqh+daSNUWgDWtb28bo+umx7jiptMyEfUb2RB0Fo7AZoOBvIG36pkEamISdYndPMcwSC3mKiR2e6Ji9ObYwAP1894/5Ya9ulR+iGak2xSwDBvDeHOAIvOUqX89nXCliZiL5gTlzaLZbbUgcdTpKsZQAwLvyducKoaDmmZ+p8pMeqj9PdLlPuvaVMkzgLBxgQWoNeFKjbT92uGPBwvJ5xye0dxIK7dSzgOSKHQlekJ18SVpqtS2QC8010iSpuZ+KCS0lqA0ySPefCT1xvve94rCXRNcIkY+kGNAFQlZhzhUEXgwOG1PNCkqTY8yDOZtPO8pqzFz+tYgRqEX9RdsOg5QtvAj2JsgzhjAmKRAwOv87lAcSJW0wxqjB4TUCp3ziq5OU1JyDYZS8jVv7VW5NpzLboTpeuNaPNTOjGMH+w6SwwyAhPr4xNhBeK3xFdh1Ur/97gj4LcSVUUdhPRxYFnOwgBNZx+P0O2UNLTUGy+TWOpp0LVdMbdAiHpdTYVX5SeyftAfAgeoWNoqG/xIEeJw+XerxlvqaIQYNRHvTouGGQngO9/XnK5qIyzlVOE1i5Dqmbr9vfg+pXYhA3vuR9pzHNvjlbd3sBJmL8LpgFKO/WFjTbzkW1sdfdhuzM3SkVzDb3y2WQVpCM4ZOfktx2xcsADL3tpMk=
-  file: build/extension.zip
+  file: build/*.zip
+  file_glob: true
   on:
     repo: cryptolandtech/moonlet
     tags: true
