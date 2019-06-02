@@ -71,12 +71,14 @@ export class EnterMnemonic extends Component<IProps, IState> {
 
     public async validate(): Promise<boolean> {
         try {
-            if (this.state.words.filter(Boolean).length === 0) {
-                this.setState({ error: true });
-                return false;
-            }
+            const valid =
+                this.state.words.filter(Boolean).length > 0 &&
+                (await getWalletPlugin().validateMnemonics(
+                    this.state.words.filter(Boolean).join(' ')
+                ));
 
-            return getWalletPlugin().validateMnemonics(this.state.words.filter(Boolean).join(' '));
+            this.setState({ error: !valid });
+            return valid;
         } catch {
             this.setState({ error: true });
             return false;
