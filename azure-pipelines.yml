@@ -17,5 +17,5 @@ steps:
 
 - script: |
     npm install
-    npx run build:ext
+    npm run build:ext
   displayName: 'Build extension'
