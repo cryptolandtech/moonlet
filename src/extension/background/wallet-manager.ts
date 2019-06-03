@@ -215,7 +215,7 @@ export class WalletManager {
                 const nonce = await NonceManager.getNext(account);
                 const tx = account.buildTransferTransaction(
                     toAddress,
-                    new BigNumber(amount).toNumber(),
+                    new BigNumber(amount).toString(),
                     nonce,
                     (feeOptions as IGasFeeOptions).gasPrice,
                     (feeOptions as IGasFeeOptions).gasLimit
