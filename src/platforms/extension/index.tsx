@@ -25,7 +25,8 @@ import { TransactionStatus } from 'moonlet-core/src/core/transaction';
 import {
     isExtensionPopup,
     initErrorReporting,
-    setExtraDataOnErrorReporting
+    setExtraDataOnErrorReporting,
+    isConfirmationScreen
 } from '../../app/utils/platform-utils';
 import { WalletPlugin } from '../../plugins/wallet/extension';
 import { IPlugins } from '../../plugins/iplugins';
@@ -34,6 +35,9 @@ import { AppRemoteConfigPlugin } from '../../plugins/app-remote-config/extension
 import { getEnvironment } from './utils';
 import { createUpdateApp } from '../../app/data/app/actions';
 import { feature } from '../../app/utils/feature';
+import { DappAccessPlugin } from '../../plugins/dapp-access/extension';
+import { ConfirmationScreenPlugin } from '../../plugins/confirmation-screen/extension';
+import { createSetConfirmationScreenParams } from '../../app/data/page-config/actions';
 
 // define constants
 const USER_PREFERENCES_STORAGE_KEY = 'userPref';
@@ -56,7 +60,8 @@ const store = getStore({
                 : DeviceScreenSize.BIG,
             platform: Platform.EXTENSION
         },
-        layout: {}
+        layout: {},
+        confirmationScreen: undefined
     },
     wallet: {
         invalidPassword: false,
@@ -75,7 +80,9 @@ const backgroundCommPort = browser.runtime.connect({ name: ConnectionPort.BACKGR
 const plugins: IPlugins = {
     wallet: new WalletPlugin(backgroundCommPort),
     ledgerHw: new LedgerHwPlugin(backgroundCommPort),
-    remoteConfig: new AppRemoteConfigPlugin(backgroundCommPort)
+    remoteConfig: new AppRemoteConfigPlugin(backgroundCommPort),
+    dappAccess: new DappAccessPlugin(backgroundCommPort),
+    confirmationScreen: new ConfirmationScreenPlugin(backgroundCommPort)
 };
 
 (async () => {
@@ -132,12 +139,39 @@ export default props => (
     </Provider>
 );
 
+// customization based on page type
 if (isExtensionPopup()) {
     const body = document.getElementById('document-body');
     body.setAttribute(
         'style',
         'width: 360px; min-width:360px; max-width: 360px; height: 600px; min-height: 600px; max-height: 600px;'
     );
+}
+
+if (isConfirmationScreen()) {
+    (async () => {
+        let url;
+        try {
+            url = new URL(document.location.href);
+            const confirmationScreen = await plugins.confirmationScreen.getConfirmationScreenParams(
+                url.searchParams.get('id')
+            );
+            confirmationScreen.id = url.searchParams.get('id');
+            store.dispatch(createSetConfirmationScreenParams(confirmationScreen));
+        } catch (e) {
+            try {
+                if (url) {
+                    plugins.confirmationScreen.setConfirmationScreenResult(
+                        url.searchParams.get('id'),
+                        e
+                    );
+                }
+                window.close();
+            } catch {
+                window.close();
+            }
+        }
+    })();
 }
 
 // listen for messages frm bg script

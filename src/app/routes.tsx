@@ -343,14 +343,9 @@ export const ROUTES: IRoute[] = [
         config: {}
     },
     {
-        name: 'request-account-access',
-        path: '/request-account-access',
-        // getComponent: () =>
-        //     import('./pages/request-account-access/request-account-access.container').then(
-        //         module => module.default
-        //     ),
-        component: require('./pages/request-account-access/request-account-access.container')
-            .default,
+        name: 'confirmation-screen',
+        path: '/confirmation-screen',
+        component: require('./pages/confirmation-screen/confirmation-screen.container').default,
         config: {}
     },
     {

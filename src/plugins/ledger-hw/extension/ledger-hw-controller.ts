@@ -1,6 +1,7 @@
 import { ITransactionOptions } from './../iledger-hw-plugin';
 import { IResponseData, Response } from './../../../utils/response';
 import { Deferred } from '../../../utils/deferred';
+import * as uuid from 'uuid/v4';
 
 interface IRequest {
     deferred: Deferred;
@@ -65,9 +66,7 @@ export class LedgerHwController {
     }
 
     private request(app, action, params?, timeout?): Promise<IResponseData> {
-        const id = Math.random()
-            .toString()
-            .substr(2);
+        const id = uuid();
 
         const msg = {
             id,

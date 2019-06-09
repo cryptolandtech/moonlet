@@ -15,7 +15,11 @@ import { DisclaimerPage } from '../settings/pages/disclaimer/disclaimer.componen
 import Dialog from 'preact-material-components/Dialog';
 import LayoutGrid from 'preact-material-components/LayoutGrid';
 import { IWalletPlugin } from '../../../plugins/wallet/iwallet-plugin';
-import { getExtensionUrl, isExtensionPopup } from '../../utils/platform-utils';
+import {
+    getExtensionUrl,
+    isExtensionPopup,
+    isConfirmationScreen
+} from '../../utils/platform-utils';
 
 interface IProps {
     wallet: IWalletState;
@@ -113,45 +117,44 @@ export class LandingPage extends Component<IProps, IState> {
                                 </Card>
                             </LayoutGrid.Cell>
                         )}
-                        {this.props.wallet.status !== WalletStatus.LOADING && (
-                            <LayoutGrid.Cell cols={12} className="center">
-                                <Button
-                                    ripple
-                                    secondary
-                                    raised
-                                    className="create-wallet"
-                                    onClick={() =>
-                                        this.checkDisclaimerAndExecute(() => {
-                                            if (isExtensionPopup()) {
-                                                window.open(
-                                                    getExtensionUrl('/create-wallet', false)
-                                                );
-                                            } else {
-                                                route('/create-wallet');
-                                            }
-                                        })
-                                    }
-                                >
-                                    <Translate text="LandingPage.createNewWallet" />
-                                </Button>
-                            </LayoutGrid.Cell>
-                        )}
-                        {this.props.wallet.status !== WalletStatus.LOADING && (
-                            <LayoutGrid.Cell cols={12} className="center">
-                                <Button
-                                    ripple
-                                    raised
-                                    className="restore-wallet"
-                                    onClick={() =>
-                                        this.checkDisclaimerAndExecute(() =>
-                                            route('/import-wallet')
-                                        )
-                                    }
-                                >
-                                    <Translate text="LandingPage.restoreExistingWallet" />
-                                </Button>
-                            </LayoutGrid.Cell>
-                        )}
+                        {!isConfirmationScreen() &&
+                            this.props.wallet.status !== WalletStatus.LOADING && [
+                                <LayoutGrid.Cell cols={12} className="center">
+                                    <Button
+                                        ripple
+                                        secondary
+                                        raised
+                                        className="create-wallet"
+                                        onClick={() =>
+                                            this.checkDisclaimerAndExecute(() => {
+                                                if (isExtensionPopup()) {
+                                                    window.open(
+                                                        getExtensionUrl('/create-wallet', false)
+                                                    );
+                                                } else {
+                                                    route('/create-wallet');
+                                                }
+                                            })
+                                        }
+                                    >
+                                        <Translate text="LandingPage.createNewWallet" />
+                                    </Button>
+                                </LayoutGrid.Cell>,
+                                <LayoutGrid.Cell cols={12} className="center">
+                                    <Button
+                                        ripple
+                                        raised
+                                        className="restore-wallet"
+                                        onClick={() =>
+                                            this.checkDisclaimerAndExecute(() =>
+                                                route('/import-wallet')
+                                            )
+                                        }
+                                    >
+                                        <Translate text="LandingPage.restoreExistingWallet" />
+                                    </Button>
+                                </LayoutGrid.Cell>
+                            ]}
                     </LayoutGrid.Inner>
                 </LayoutGrid>
 

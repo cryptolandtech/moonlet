@@ -3,9 +3,19 @@
     "version": "0.0.0",
     "description": "Moonlet Wallet Extension",
     "permissions": ["storage", "identity", "https://api.moonlet.xyz/*"],
+    "optional_permissions": ["https://*/*"],
     "background": {
         "scripts": ["bundle.background.js"]
     },
+    "content_scripts": [
+        {
+            "matches": ["https://cryptolandtech.github.io/dapp-wallet-util/*"],
+            "js": ["bundle.cs.permission-manager.js"],
+            "run_at": "document_end",
+            "all_frames": true
+        }
+    ],
+    "web_accessible_resources": ["bundle.inject.dapp.js"],
     "icons": {
         "16": "assets/icon-16px.png",
         "48": "assets/icon-48px.png",

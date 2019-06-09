@@ -10,10 +10,12 @@ interface IProps {
 
 export class DefaultLayout extends Component<IProps> {
     public render(props: RenderableProps<IProps>) {
-        const topBarAdjustClass = (props.layout.topBar || {}).secondRow
-            ? 'top-bar-adjust-two-rows'
-            : 'top-bar-adjust-one-row';
-
+        let topBarAdjustClass = '';
+        if (props.layout.topBar) {
+            topBarAdjustClass = props.layout.topBar.secondRow
+                ? 'top-bar-adjust-two-rows'
+                : 'top-bar-adjust-one-row';
+        }
         return (
             <div
                 class={`default-layout mdc-typography ${

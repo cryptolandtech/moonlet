@@ -102,6 +102,7 @@ export const filterAccounts = (
     returnDisabled?: boolean
 ) => {
     const accounts = [];
+    wallet = wallet || {};
 
     if (wallet.accounts) {
         for (const blockchain in wallet.accounts) {

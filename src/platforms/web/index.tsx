@@ -51,7 +51,8 @@ const store = getStore({
                 : DeviceScreenSize.BIG,
             platform: Platform.WEB
         },
-        layout: {}
+        layout: {},
+        confirmationScreen: undefined
     },
     app: {
         version: '0.0.0',
@@ -77,7 +78,9 @@ const ledgerPlugin = new LedgerHwPlugin();
 const plugins: IPlugins = {
     wallet: new WalletPlugin(ledgerPlugin),
     ledgerHw: new LedgerHwPlugin(),
-    remoteConfig: new AppRemoteConfigPlugin()
+    remoteConfig: new AppRemoteConfigPlugin(),
+    dappAccess: undefined,
+    confirmationScreen: undefined
 };
 
 (async () => {

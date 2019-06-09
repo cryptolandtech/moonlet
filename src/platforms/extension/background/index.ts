@@ -1,3 +1,5 @@
+import { ConfirmationScreenController } from './../../../plugins/confirmation-screen/extension/confirmation-screen-controller';
+import { DappAccessController } from './../../../plugins/dapp-access/extension/dapp-access-controller';
 import { AppRemoteConfigController } from './../../../plugins/app-remote-config/extension/app-remote-config-controller';
 import { LedgerHwController } from './../../../plugins/ledger-hw/extension/ledger-hw-controller';
 import { WalletController } from './../../../plugins/wallet/extension/wallet-controller';
@@ -7,7 +9,7 @@ import {
     BackgroundMessageType,
     ConnectionPort
 } from '../types';
-import { browser, Runtime } from 'webextension-polyfill-ts';
+import { browser, Runtime, Tabs } from 'webextension-polyfill-ts';
 
 import { Response, IResponseData } from '../../../utils/response';
 
@@ -40,11 +42,15 @@ const INSTALL_ID_KEY = 'installId';
 // initialize controllers
 const browserIconManager = new BrowserIconManager();
 const ledgerController = new LedgerHwController();
+const walletController = new WalletController(ledgerController);
+const dappAccessController = new DappAccessController(walletController);
+const confirmationScreenController = new ConfirmationScreenController(dappAccessController);
 const controllers = {
-    [BackgroundMessageController.WALLET_CONTROLLER]: new WalletController(ledgerController),
+    [BackgroundMessageController.WALLET_CONTROLLER]: walletController,
     [BackgroundMessageController.LEDGER_HW_CONTROLLER]: ledgerController,
-    [BackgroundMessageController.REMOTE_CONFIG]: new AppRemoteConfigController()
-    // [BackgroundMessageController.REMOTE_INTERFACE]: remoteInterface
+    [BackgroundMessageController.REMOTE_CONFIG]: new AppRemoteConfigController(),
+    [BackgroundMessageController.DAPP_ACCESS]: dappAccessController,
+    [BackgroundMessageController.CONFIRMATION_SCREEN]: confirmationScreenController
 };
 
 const generateResponse = (message: IBackgroundMessage, response: IResponseData) => {
@@ -54,9 +60,7 @@ const generateResponse = (message: IBackgroundMessage, response: IResponseData) 
 // setup message listeners
 browser.runtime.onConnect.addListener((port: Runtime.Port) => {
     if (port.name === ConnectionPort.BACKGROUND) {
-        const connectionId = Math.random()
-            .toString()
-            .substr(2);
+        const connectionId = uuid();
         browserIconManager.openConnection(connectionId);
 
         let portDisconnected = false;
@@ -66,7 +70,7 @@ browser.runtime.onConnect.addListener((port: Runtime.Port) => {
         });
         // console.log('bg port connected');
         port.onMessage.addListener(async (message: IBackgroundMessage) => {
-            // console.log('bg port', 'message', message);
+            // console.log('bg port', {message, sender: port.sender});
             // TODO: extra check the message (sender.id)
             if (
                 message.id &&
@@ -129,3 +133,14 @@ browser.runtime.onInstalled.addListener(async (details: Runtime.OnInstalledDetai
     }
 });
 browser.runtime.setUninstallURL('https://moonlet.xyz/thank-you-delete/');
+
+// content script injection
+browser.tabs.onUpdated.addListener(
+    (tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType, tab: Tabs.Tab) => {
+        if (tab.url && changeInfo.status === 'loading') {
+            chrome.tabs.executeScript(tabId, {
+                file: 'bundle.cs.dapp.js'
+            });
+        }
+    }
+);
