@@ -1,3 +1,4 @@
+import { ConfirmationScreenType } from './../../../plugins/confirmation-screen/iconfirmation-screen-plugin';
 import { DeviceScreenSize, Platform } from '../../types';
 import { IRouteConfig } from './../../routes';
 import { IAction } from './../action';
@@ -51,8 +52,16 @@ export interface IDevice {
     screenSize: DeviceScreenSize;
 }
 
+export interface IConfirmationScreen {
+    id: string;
+    type: ConfirmationScreenType;
+    params: any;
+    sender: any;
+}
+
 export interface IPageConfig {
     device: IDevice;
     routeConfig?: IRouteConfig;
     layout?: ILayout;
+    confirmationScreen: IConfirmationScreen;
 }

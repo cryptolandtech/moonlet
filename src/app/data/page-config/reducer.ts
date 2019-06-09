@@ -1,7 +1,7 @@
 import { IAction } from '../action';
 import { getRouteConfig, IRouteConfig } from './../../routes';
 import { DeviceScreenSize, Platform } from './../../types';
-import { CHANGE_PAGE, CHANGE_SCREEN_SIZE } from './actions';
+import { CHANGE_PAGE, CHANGE_SCREEN_SIZE, SET_CONFIRMATION_SCREEN_PARAMS } from './actions';
 import { ILayout, IPageConfig } from './state';
 
 const getLayout = (
@@ -37,6 +37,11 @@ export default (state: IPageConfig, action: IAction): IPageConfig => {
                     screenSize: action.data.screenSize
                 },
                 layout: getLayout(state.routeConfig, state.device.platform, action.data.screenSize)
+            };
+        case SET_CONFIRMATION_SCREEN_PARAMS:
+            return {
+                ...state,
+                confirmationScreen: action.data
             };
     }
 

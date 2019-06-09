@@ -6,6 +6,7 @@ import {
 import { Runtime } from 'webextension-polyfill-ts';
 import { Deferred } from '../../../utils/deferred';
 import { Response } from '../../../utils/response';
+import * as uuid from 'uuid/v4';
 
 const REQUEST_TIMEOUT = 8000; // ms
 
@@ -16,6 +17,7 @@ export interface IRequestInfo {
 
 export class BgCommunicationPlugin {
     protected controller: BackgroundMessageController;
+    protected disableTimeout = false;
     private port: Runtime.Port;
     private requests: Map<string, IRequestInfo> = new Map();
 
@@ -47,9 +49,7 @@ export class BgCommunicationPlugin {
 
     public async callAction(action, params?, timeout?: number) {
         const message: IBackgroundMessage = {
-            id: Math.random()
-                .toString()
-                .substr(2),
+            id: uuid(),
             type: BackgroundMessageType.REQUEST,
             request: {
                 controller: this.controller,
@@ -72,10 +72,20 @@ export class BgCommunicationPlugin {
     }
 
     private getRequestTimeout(message, deferred: Deferred, timeout?: number) {
+        if (this.disableTimeout) {
+            return undefined;
+        }
+
         return setTimeout(() => {
             this.requests.delete(message.id);
             deferred.reject(
-                Response.reject('REQUEST_TIMEOUT', this.sanitizeMessageForErrorReporting(message))
+                Response.reject(
+                    'REQUEST_TIMEOUT',
+                    `Background Request timed out. (controller: ${this.controller}, action: ${
+                        ((message || {}).request || {}).action
+                    })`,
+                    this.sanitizeMessageForErrorReporting(message)
+                )
             );
         }, timeout || REQUEST_TIMEOUT);
     }

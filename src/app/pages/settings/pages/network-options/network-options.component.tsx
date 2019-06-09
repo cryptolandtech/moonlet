@@ -17,11 +17,6 @@ interface IProps {
     switchNetwork: (blockchain: Blockchain, networkId: number, mainNet: boolean) => any;
 }
 
-const NETWORKS = {
-    [Blockchain.ZILLIQA]: require('moonlet-core/src/blockchain/zilliqa/networks').default,
-    [Blockchain.ETHEREUM]: require('moonlet-core/src/blockchain/ethereum/networks').default
-};
-
 export class NetworkOptionsPage extends Component<IProps> {
     private switchDialogRef;
 
@@ -44,7 +39,8 @@ export class NetworkOptionsPage extends Component<IProps> {
             return this.props.userPreferences.networks[blockchain].mainNet;
         }
 
-        return NETWORKS[blockchain].filter(n => n.mainNet === !testNet)[0].network_id;
+        return BLOCKCHAIN_INFO[blockchain].networks.filter(n => n.mainNet === !testNet)[0]
+            .network_id;
     }
 
     public toggleTestNet(testNet) {
@@ -84,9 +80,9 @@ export class NetworkOptionsPage extends Component<IProps> {
                     />
                 </div>
                 <List two-line>
-                    {Object.keys(NETWORKS).map(blockchain => [
+                    {Object.keys(BLOCKCHAIN_INFO).map(blockchain => [
                         <ListItem primaryText={blockchain} noDivider />,
-                        NETWORKS[blockchain]
+                        BLOCKCHAIN_INFO[blockchain].networks
                             .filter(n => n.mainNet === !this.props.userPreferences.testNet)
                             .map(network => (
                                 <List.LinkItem

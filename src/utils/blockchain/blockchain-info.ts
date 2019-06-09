@@ -1,6 +1,7 @@
 import { IGasFeeDefaults } from './types';
 import { BigNumber } from 'bignumber.js';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
+import { Network } from 'moonlet-core/src/core/network';
 
 export enum BlockchainFeeType {
     GAS = 'GAS'
@@ -44,6 +45,7 @@ export interface IBlockchainInfo {
             };
         };
     };
+    networks: Network[];
 }
 
 export const BLOCKCHAIN_INFO: {
@@ -82,7 +84,8 @@ export const BLOCKCHAIN_INFO: {
                 appName: 'Eth',
                 derivationPaths: ['live', 'legacy']
             }
-        }
+        },
+        networks: require('moonlet-core/src/blockchain/ethereum/networks').default
     },
     [Blockchain.ZILLIQA]: {
         coin: 'ZIL',
@@ -117,6 +120,7 @@ export const BLOCKCHAIN_INFO: {
                 multipleAddressFormats: true,
                 displayFormats: ['default', 'base16']
             }
-        }
+        },
+        networks: require('moonlet-core/src/blockchain/zilliqa/networks').default
     }
 };

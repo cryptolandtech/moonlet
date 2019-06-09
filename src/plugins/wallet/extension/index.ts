@@ -15,6 +15,10 @@ export class WalletPlugin extends BgCommunicationPlugin implements IWalletPlugin
         // this.port = browser.runtime.connect({ name: ConnectionPort.BACKGROUND } as any);
     }
 
+    public rpcCall(blockchain: Blockchain, method: string, params: any[]): Promise<any> {
+        return this.callAction('rpcCall', [blockchain, method, params]);
+    }
+
     public generateMnemonics(): Promise<string> {
         return this.callAction('generateMnemonics');
     }

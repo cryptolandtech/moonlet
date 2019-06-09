@@ -13,6 +13,15 @@ export const isExtensionPopup = () => {
     return isExtension() && document.location.search.indexOf('popup=1') > 0;
 };
 
+export const isConfirmationScreen = () => {
+    try {
+        const url = new URL(document.location.href);
+        return url.searchParams.get('confirmationScreen');
+    } catch {
+        return false;
+    }
+};
+
 export const getExtensionUrl = (path: string, popup: boolean): string => {
     let url = '/index.html';
 

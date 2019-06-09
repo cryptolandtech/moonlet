@@ -1,0 +1,39 @@
+@import '../../../../styles/base';
+.account-access-page {
+    .select {
+        width: 100%;
+    }
+    .mdc-floating-label {
+        background: white;
+        z-index: 1;
+        padding: 0 5px;
+    }
+    .button {
+        width: 100%;
+        &.cancel {
+            @include mdc-button-container-fill-color(white);
+            @include mdc-button-ink-color($mdc-theme-primary);
+        }
+    }
+    .dapp-logo {
+        margin-bottom: 10px;
+    }
+    .description {
+        margin: 10px 0;
+    }
+    .security-description {
+        margin: 10px 0;
+    }
+    .current-network {
+        height: 35px;
+        line-height: 35px;
+        text-align: right;
+        padding: 0 16px;
+        font-size: 13px;
+        border-bottom: 1px solid #ccc;
+
+        &.testnet {
+            background: yellow;
+        }
+    }
+}

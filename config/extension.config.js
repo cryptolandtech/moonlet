@@ -41,21 +41,35 @@ export default function(config, env, helpers) {
         'background',
         'index'
     );
-    // config.entry['bundle.content-script'] = resolve(
-    //     process.cwd(),
-    //     'src',
-    //     'extension',
-    //     'content-script',
-    //     'index'
-    // );
-    // config.entry['bundle.web-inject'] = resolve(
-    //     process.cwd(),
-    //     'src',
-    //     'extension',
-    //     'content-script',
-    //     'inject',
-    //     'inject'
-    // );
+
+    config.entry['bundle.cs.permission-manager'] = resolve(
+        process.cwd(),
+        'src',
+        'platforms',
+        'extension',
+        'content-script',
+        'permission-manager'
+    );
+
+    config.entry['bundle.cs.dapp'] = resolve(
+        process.cwd(),
+        'src',
+        'platforms',
+        'extension',
+        'content-script',
+        'dapp-integration',
+        'index'
+    );
+
+    config.entry['bundle.inject.dapp'] = resolve(
+        process.cwd(),
+        'src',
+        'platforms',
+        'extension',
+        'content-script',
+        'dapp-integration',
+        'inject'
+    );
 
     // overwrite manifest.json
     config.plugins.unshift(
