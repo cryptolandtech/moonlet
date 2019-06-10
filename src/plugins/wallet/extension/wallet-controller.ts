@@ -77,14 +77,17 @@ export class WalletController extends BaseWalletController {
                         .getAccounts()
                         .filter(acc => acc.address === accountAddress.data)[0];
 
+                    // console.log(txParams);
                     const nonce = await NonceManager.getNext(account, false);
-                    const tx = account.buildTransferTransaction(
+                    const tx = account.buildTransaction(
                         txParams.toAddr,
                         txParams.amount.toString(),
                         nonce,
                         new BigNumber(txParams.gasPrice).toNumber(),
-                        new BigNumber(txParams.gasLimit).toNumber()
+                        new BigNumber(txParams.gasLimit).toNumber(),
+                        txParams
                     );
+                    // console.log(tx);
 
                     account.signTransaction(tx);
                     const result = await account.send(tx);
