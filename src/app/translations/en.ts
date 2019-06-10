@@ -50,10 +50,6 @@ export const translation: ITranslations = {
                 more: 'More'
             }
         },
-        DrawerMenu: {
-            title: 'Moonlet',
-            subtitle: 'Web wallet'
-        },
         LandingPage: {
             title: 'Moonlet',
             createNewWallet: 'Create new wallet',
@@ -353,6 +349,17 @@ export const translation: ITranslations = {
                 ZILLIQA: {
                     base16: 'Legacy'
                 }
+            }
+        },
+        ConfirmationScreen: {
+            AccountAccess: {
+                authRequest: 'Authorization request',
+                description: '{{dappTitle}} would like to connect to your wallet.',
+                securityDescription:
+                    'This site is requesting access to a {{blockchain}} account from your wallet. Always make sure you trust the sites you interact with.'
+            },
+            TransactionConfirmation: {
+                confirmTransaction: 'Confirm Transaction'
             }
         }
     },

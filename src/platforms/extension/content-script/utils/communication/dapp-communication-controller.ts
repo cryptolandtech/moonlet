@@ -30,6 +30,7 @@ export class DappCommunicationController extends BaseCommunicationController {
         }
 
         try {
+            // console.log('rpcCall', blockchain, method, params);
             const response = await this.walletPlugin.rpcCall(blockchain, method, params);
             return Response.resolve(response);
         } catch (e) {

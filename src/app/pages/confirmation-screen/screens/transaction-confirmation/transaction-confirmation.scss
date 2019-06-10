@@ -1,4 +1,4 @@
-@import '../../styles/base';
+@import '../../../../styles/base';
 
 .transaction-confirmation-page {
     .gas-prices {
@@ -23,6 +23,19 @@
         &.reject {
             @include mdc-button-container-fill-color(white);
             @include mdc-button-ink-color($mdc-theme-primary);
+        }
+    }
+
+    .current-network {
+        height: 35px;
+        line-height: 35px;
+        text-align: right;
+        padding: 0 16px;
+        font-size: 13px;
+        border-bottom: 1px solid #ccc;
+
+        &.testnet {
+            background: yellow;
         }
     }
 }

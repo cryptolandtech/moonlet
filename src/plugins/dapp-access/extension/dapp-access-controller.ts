@@ -1,5 +1,4 @@
 import { browser } from 'webextension-polyfill-ts';
-import { WalletController } from '../../wallet/extension/wallet-controller';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { Response, IResponseData } from '../../../utils/response';
 import { deserialize, serialize } from '../../../utils/object-utils';
@@ -14,7 +13,7 @@ const STORAGE_KEY = 'dappAccessConfig';
 export class DappAccessController {
     private accessMap: Map<string, IAccountAccess> = new Map();
 
-    constructor(walletController: WalletController) {
+    constructor() {
         // get data from storage
         this.loadDataFromStorage();
     }

@@ -18,11 +18,6 @@ interface IScreen {
     deferred: Deferred;
 }
 
-const screenTypeUrlProviderMap = {
-    [ConfirmationScreenType.ACCOUNT_ACCESS]: id =>
-        `/index.html?confirmationScreen=1&id=${id}#/confirmation-screen`
-};
-
 export class ConfirmationScreenController {
     private dappAccessController: DappAccessController;
     private screenMap: Map<string, IScreen> = new Map();
@@ -33,49 +28,46 @@ export class ConfirmationScreenController {
 
     public async openConfirmationScreen(sender, screenType: ConfirmationScreenType, params: any) {
         const id = uuid();
-        const screenUrlProvider = screenTypeUrlProviderMap[screenType];
 
-        if (typeof screenUrlProvider === 'function') {
-            // open window;
-            const window = await browser.windows.create({
-                url: screenUrlProvider(id),
-                type: 'popup',
-                width: 350,
-                height: 605
-            });
-            // console.log(id, 'window created', window.id);
+        // open window;
+        const window = await browser.windows.create({
+            url: `/index.html?confirmationScreen=1&id=${id}#/confirmation-screen`,
+            type: 'popup',
+            width: 350,
+            height: 605
+        });
+        // console.log(id, 'window created', window.id);
 
-            // handle window close
-            const onWindowClose = windowId => {
-                // console.log('window closed', windowId);
-                if (windowId === window.id) {
-                    // console.log(id, 'window closed');
-                    browser.windows.onRemoved.removeListener(onWindowClose);
-                    this.setConfirmationScreenResult(
-                        sender,
-                        id,
-                        Response.reject(
-                            ConfirmationScreenErrorCodes.ACCESS_REJECTED_BY_USER,
-                            `User closed confirmation window.`
-                        )
-                    );
-                }
-            };
-            browser.windows.onRemoved.addListener(onWindowClose);
+        // handle window close
+        const onWindowClose = windowId => {
+            // console.log('window closed', windowId);
+            if (windowId === window.id) {
+                // console.log(id, 'window closed');
+                browser.windows.onRemoved.removeListener(onWindowClose);
+                this.setConfirmationScreenResult(
+                    sender,
+                    id,
+                    Response.reject(
+                        ConfirmationScreenErrorCodes.ACCESS_REJECTED_BY_USER,
+                        `User closed confirmation window.`
+                    )
+                );
+            }
+        };
+        browser.windows.onRemoved.addListener(onWindowClose);
 
-            // save screen
-            const screen: IScreen = {
-                type: screenType,
-                params,
-                sender,
-                windowId: window.id,
-                openTimestamp: Date.now(),
-                deferred: new Deferred()
-            };
-            this.screenMap.set(id, screen);
+        // save screen
+        const screen: IScreen = {
+            type: screenType,
+            params,
+            sender,
+            windowId: window.id,
+            openTimestamp: Date.now(),
+            deferred: new Deferred()
+        };
+        this.screenMap.set(id, screen);
 
-            return screen.deferred.promise;
-        }
+        return screen.deferred.promise;
     }
 
     public async getConfirmationScreenParams(sender, id: string): Promise<IResponseData> {

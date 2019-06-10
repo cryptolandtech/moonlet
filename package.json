@@ -60,6 +60,8 @@
         "@ledgerhq/hw-transport-u2f": "^4.38.6",
         "@ledgerhq/hw-transport-webusb": "^4.55.0",
         "@sentry/browser": "^5.4.0",
+        "@zilliqa-js/crypto": "^0.6.3",
+        "@zilliqa-js/util": "^0.6.3",
         "babel-polyfill": "^6.26.0",
         "bignumber.js": "8.0.2",
         "bind-decorator": "^1.0.11",

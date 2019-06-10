@@ -1,4 +1,5 @@
-import { browser } from 'webextension-polyfill-ts';
+import { ConfirmationScreenType } from './../../confirmation-screen/iconfirmation-screen-plugin';
+import { browser, Runtime } from 'webextension-polyfill-ts';
 import aes from 'crypto-js/aes';
 import { Response, IResponseData } from '../../../utils/response';
 import { BaseWalletController } from '../base-wallet-controller';
@@ -6,6 +7,7 @@ import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import Wallet from 'moonlet-core/src/core/wallet';
 import { NonceManager } from '../../../utils/blockchain/nonce-manager';
 import BigNumber from 'bignumber.js';
+import { WalletErrorCodes } from '../iwallet-plugin';
 
 const WALLET_STORAGE_KEY = 'serializedWallet';
 
@@ -18,31 +20,89 @@ export class WalletController extends BaseWalletController {
     }
 
     public async rpcCall(
-        sender,
+        sender: Runtime.MessageSender,
         blockchain: Blockchain,
         method: string,
         params: any[]
     ): Promise<IResponseData> {
         switch (method) {
             case 'CreateTransaction':
-                const t = params[0];
-                const account = this.wallet
-                    .getBlockchain(blockchain)
-                    .getAccounts()
-                    .filter(acc => acc.address === t.pubKey)[0];
-                const nonce = await NonceManager.getNext(account, false);
-                const tx = account.buildTransferTransaction(
-                    t.toAddr,
-                    t.amount.toString(),
-                    nonce,
-                    new BigNumber(t.gasPrice).toNumber(),
-                    new BigNumber(t.gasLimit).toNumber()
-                );
+                try {
+                    const txParams = params[0];
 
-                account.signTransaction(tx);
-                await account.send(tx);
+                    const check = await this.checkWallet();
+                    if (check.error && check.code === WalletErrorCodes.WALLET_LOCKED) {
+                        const loginScreen = await this.confirmationScreenController.openConfirmationScreen(
+                            sender,
+                            ConfirmationScreenType.ACCOUNT_ACCESS,
+                            {
+                                blockchain
+                            }
+                        );
+                        if (loginScreen.error) {
+                            throw loginScreen;
+                        }
+                    } else if (check.error) {
+                        throw check;
+                    }
 
-                return Response.resolve(await account.send(tx));
+                    const accountAddress = await this.dappAccessController.getAccount(
+                        sender,
+                        sender.tab.url,
+                        blockchain,
+                        this.wallet.getCurrentNetwork(blockchain)
+                    );
+                    if (accountAddress.error) {
+                        throw accountAddress;
+                    }
+
+                    const confirmationResult = await this.confirmationScreenController.openConfirmationScreen(
+                        sender,
+                        ConfirmationScreenType.TRANSACTION_CONFIRMATION,
+                        {
+                            blockchain,
+                            fromAddress: accountAddress.data,
+                            toAddress: txParams.toAddr,
+                            amount: txParams.amount.toString(),
+                            gasPrice: txParams.gasPrice,
+                            gasLimit: txParams.gasLimit
+                        }
+                    );
+                    if (confirmationResult.error) {
+                        throw confirmationResult;
+                    }
+
+                    const account = this.wallet
+                        .getBlockchain(blockchain)
+                        .getAccounts()
+                        .filter(acc => acc.address === accountAddress.data)[0];
+
+                    const nonce = await NonceManager.getNext(account, false);
+                    const tx = account.buildTransferTransaction(
+                        txParams.toAddr,
+                        txParams.amount.toString(),
+                        nonce,
+                        new BigNumber(txParams.gasPrice).toNumber(),
+                        new BigNumber(txParams.gasLimit).toNumber()
+                    );
+
+                    account.signTransaction(tx);
+                    const result = await account.send(tx);
+                    // update nonce
+                    await NonceManager.getNext(account, true);
+                    await this.saveWallet();
+
+                    return Response.resolve({
+                        jsonrpc: '2.0',
+                        result: result.txn
+                    });
+                } catch (e) {
+                    return Response.reject(
+                        e.code || WalletErrorCodes.GENERIC_ERROR,
+                        e.message,
+                        e.data
+                    );
+                }
                 break;
             default:
                 try {

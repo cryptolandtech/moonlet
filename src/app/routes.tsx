@@ -332,17 +332,6 @@ export const ROUTES: IRoute[] = [
         config: popupPageConfig(() => translate(`CreateAccountPage.title`))
     },
     {
-        name: 'transaction-confirmation',
-        path: '/transaction-confirmation',
-        // getComponent: () =>
-        //     import('./pages/transaction-confirmation/transaction-confirmation.container').then(
-        //         module => module.default
-        //     ),
-        component: require('./pages/transaction-confirmation/transaction-confirmation.container')
-            .default,
-        config: {}
-    },
-    {
         name: 'confirmation-screen',
         path: '/confirmation-screen',
         component: require('./pages/confirmation-screen/confirmation-screen.container').default,
