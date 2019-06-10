@@ -1,3 +1,4 @@
+import { ConfirmationScreenController } from './../confirmation-screen/extension/confirmation-screen-controller';
 import { LedgerHwController } from './../ledger-hw/extension/ledger-hw-controller';
 import { BigNumber } from 'bignumber.js';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
@@ -14,14 +15,24 @@ import { IGasFeeOptions } from '../../utils/blockchain/types';
 import { HWDevice, AccountType } from 'moonlet-core/src/core/account';
 import { GenericAccountUtils } from 'moonlet-core/src/core/account-utils';
 import { BLOCKCHAIN_INFO } from '../../utils/blockchain/blockchain-info';
+import { DappAccessController } from '../dapp-access/extension/dapp-access-controller';
 
 export abstract class BaseWalletController {
     protected wallet: Wallet;
     protected password: string;
     protected ledgerController: LedgerHwController;
+    protected dappAccessController: DappAccessController;
+    protected confirmationScreenController: ConfirmationScreenController;
 
-    constructor(ledgerController: LedgerHwController) {
+    constructor(
+        ledgerController: LedgerHwController,
+        dappAccessController: DappAccessController,
+        confirmationScreenController: ConfirmationScreenController
+    ) {
         this.ledgerController = ledgerController;
+        this.dappAccessController = dappAccessController;
+        this.confirmationScreenController = confirmationScreenController;
+
         WalletEventEmitter.subscribe((type, data) => {
             this.saveWallet();
             const message: IExtensionMessage = {

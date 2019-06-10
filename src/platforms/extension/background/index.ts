@@ -42,9 +42,13 @@ const INSTALL_ID_KEY = 'installId';
 // initialize controllers
 const browserIconManager = new BrowserIconManager();
 const ledgerController = new LedgerHwController();
-const walletController = new WalletController(ledgerController);
-const dappAccessController = new DappAccessController(walletController);
+const dappAccessController = new DappAccessController();
 const confirmationScreenController = new ConfirmationScreenController(dappAccessController);
+const walletController = new WalletController(
+    ledgerController,
+    dappAccessController,
+    confirmationScreenController
+);
 const controllers = {
     [BackgroundMessageController.WALLET_CONTROLLER]: walletController,
     [BackgroundMessageController.LEDGER_HW_CONTROLLER]: ledgerController,

@@ -16,7 +16,11 @@ export class WalletPlugin extends BgCommunicationPlugin implements IWalletPlugin
     }
 
     public rpcCall(blockchain: Blockchain, method: string, params: any[]): Promise<any> {
-        return this.callAction('rpcCall', [blockchain, method, params]);
+        let timeout;
+        if (['CreateTransaction'].indexOf(method) >= 0) {
+            timeout = 0;
+        }
+        return this.callAction('rpcCall', [blockchain, method, params], timeout);
     }
 
     public generateMnemonics(): Promise<string> {

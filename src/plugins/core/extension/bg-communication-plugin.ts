@@ -72,7 +72,7 @@ export class BgCommunicationPlugin {
     }
 
     private getRequestTimeout(message, deferred: Deferred, timeout?: number) {
-        if (this.disableTimeout) {
+        if (this.disableTimeout || timeout === 0) {
             return undefined;
         }
 

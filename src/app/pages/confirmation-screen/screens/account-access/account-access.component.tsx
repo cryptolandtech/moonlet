@@ -12,6 +12,7 @@ import { capitalize } from '../../../../utils/string';
 import { getPlugins } from '../../../../app-context';
 import bind from 'bind-decorator';
 import { Response } from '../../../../../utils/response';
+import { translate } from '../../../../utils/translate';
 
 interface IProps {
     id: string;
@@ -83,7 +84,7 @@ export class AccountAccessPage extends Component<IProps, IState> {
                 <LayoutGrid>
                     <LayoutGrid.Inner>
                         <LayoutGrid.Cell cols={12} className="center-text">
-                            <Typography body1>Authorization request</Typography>
+                            <Translate body1 text="ConfirmationScreen.AccountAccess.authRequest" />
                         </LayoutGrid.Cell>
                         <LayoutGrid.Cell cols={12} className="center-text">
                             <div class="dapp-logo">
@@ -100,22 +101,26 @@ export class AccountAccessPage extends Component<IProps, IState> {
                             </div>
 
                             <div class="description">
-                                <Typography headline6>{`${
-                                    this.props.sender.tab.title
-                                } would like to connect to your wallet.`}</Typography>
+                                <Translate
+                                    headline6
+                                    text="ConfirmationScreen.AccountAccess.description"
+                                    params={{ dappTitle: this.props.sender.tab.title }}
+                                />
                             </div>
                             <div class="security-description">
-                                <Typography caption>
-                                    This site is requesting access to a{' '}
-                                    {capitalize(this.props.params.blockchain)} account from your
-                                    wallet. Always make sure you trust the sites you interact with
-                                </Typography>
+                                <Translate
+                                    caption
+                                    text="ConfirmationScreen.AccountAccess.securityDescription"
+                                    params={{
+                                        blockchain: capitalize(this.props.params.blockchain)
+                                    }}
+                                />
                             </div>
                         </LayoutGrid.Cell>
                         <LayoutGrid.Cell cols={12}>
                             <Select
                                 className="select blockchain"
-                                hintText="Blockchain"
+                                hintText={translate('App.label.blockchain')}
                                 outlined
                                 disabled
                             >
@@ -127,7 +132,7 @@ export class AccountAccessPage extends Component<IProps, IState> {
                         <LayoutGrid.Cell cols={12}>
                             <Select
                                 className="select account"
-                                hintText="Account"
+                                hintText={translate('App.labels.account')}
                                 outlined
                                 disabled={
                                     (this.accounts[this.props.params.blockchain] || []).length === 1
