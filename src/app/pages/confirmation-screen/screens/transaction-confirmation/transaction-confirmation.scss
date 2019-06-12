@@ -38,4 +38,39 @@
             background: yellow;
         }
     }
+
+    .details-link {
+        margin-left: 20px;
+        font-size: 14px;
+        line-height: 30px;
+        height: 30px;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .details-dialog {
+        .mdc-dialog__surface {
+            width: 100vw;
+            height: 100vh;
+        }
+        .mdc-dialog__body {
+            max-height: none;
+            flex: 1;
+        }
+    }
+
+    .details-box {
+        margin: 8px 0;
+        border: 0;
+        background: #f0f0f0;
+        height: 200px;
+
+        .mdc-floating-label {
+            background: #f0f0f0;
+        }
+
+        textarea {
+            border: 0;
+        }
+    }
 }
