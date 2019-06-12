@@ -14,6 +14,10 @@ import Typography from 'preact-material-components/Typography';
 import { Runtime } from 'webextension-polyfill-ts';
 import { Response } from '../../../../../utils/response';
 import { getPlugins } from '../../../../app-context';
+import Chips from 'preact-material-components/Chips';
+import { removeType } from '../../../../utils/remove-type';
+import Dialog from 'preact-material-components/Dialog';
+import TextField from 'preact-material-components/TextField';
 
 interface IProps {
     id: string;
@@ -24,6 +28,8 @@ interface IProps {
         amount: string;
         gasPrice: string;
         gasLimit: string;
+        data: string;
+        code: string;
     };
     sender: Runtime.MessageSender;
 
@@ -34,16 +40,53 @@ interface IProps {
     walletReady: boolean;
 }
 
+enum TransactionType {
+    TRANSFER = 'TRANSFER',
+    CONTRACT_DEPLOY = 'CONTRACT_DEPLOY',
+    CONTRACT_CALL = 'CONTRACT_CALL'
+}
+
 export class TransactionConfirmationPage extends Component<IProps> {
-    public confirmationDialog;
-    public errorDialog;
+    public detailsDialog;
+
     public url: URL = new URL(location.href);
+
+    public getParsedData() {
+        try {
+            const dataObj = JSON.parse(this.props.params.data);
+            return dataObj ? dataObj : undefined;
+        } catch {
+            return undefined;
+        }
+    }
+
+    public getTransactionDetails() {
+        const { toAddress, code } = this.props.params;
+        const data = this.getParsedData();
+
+        let type = TransactionType.TRANSFER;
+        if (
+            code &&
+            (toAddress === 'zil1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq9yf6pz' ||
+                toAddress === '0x0000000000000000000000000000000000000000')
+        ) {
+            type = TransactionType.CONTRACT_DEPLOY;
+        } else if (data && data._tag) {
+            type = TransactionType.CONTRACT_CALL;
+        }
+
+        return {
+            type,
+            data,
+            code
+        };
+    }
 
     public render() {
         if (!this.props.walletReady) {
             return '';
         }
-
+        const txInfo = this.getTransactionDetails();
         const blockchainInfo = BLOCKCHAIN_INFO[this.props.params.blockchain];
         const fee = calculateFee(this.props.params.blockchain, {
             gasPrice: new BigNumber(this.props.params.gasPrice).toNumber(),
@@ -56,6 +99,18 @@ export class TransactionConfirmationPage extends Component<IProps> {
             blockchainInfo.coin
         );
         const total = amount.plus(fee);
+
+        const textsMap = {
+            title: {
+                [TransactionType.CONTRACT_CALL]: 'confirmContractCall',
+                [TransactionType.CONTRACT_DEPLOY]: 'confirmContractDeploy',
+                [TransactionType.TRANSFER]: 'confirmTransaction'
+            },
+            action: {
+                [TransactionType.CONTRACT_DEPLOY]: 'deploy',
+                [TransactionType.TRANSFER]: 'transfer'
+            }
+        };
         return (
             <div class="transaction-confirmation-page">
                 <div class={`current-network ${this.props.testNet ? 'testnet' : ''}`}>
@@ -66,9 +121,36 @@ export class TransactionConfirmationPage extends Component<IProps> {
                         <LayoutGrid.Cell cols={12} className="center-text">
                             <Translate
                                 body1
-                                text="ConfirmationScreen.TransactionConfirmation.confirmTransaction"
+                                text={`ConfirmationScreen.TransactionConfirmation.${
+                                    textsMap.title[txInfo.type]
+                                }`}
                             />
                         </LayoutGrid.Cell>
+                        {(txInfo.data || txInfo.code) && (
+                            <LayoutGrid.Cell cols={12}>
+                                <Chips.Chip>
+                                    {removeType(
+                                        <Chips.Text>
+                                            {textsMap.action[txInfo.type] ? (
+                                                <Translate
+                                                    text={`ConfirmationScreen.TransactionConfirmation.${
+                                                        textsMap.action[txInfo.type]
+                                                    }`}
+                                                />
+                                            ) : (
+                                                txInfo.data._tag
+                                            )}
+                                        </Chips.Text>
+                                    )}
+                                </Chips.Chip>
+                                <a
+                                    class="details-link secondary-color"
+                                    onClick={() => this.detailsDialog.MDComponent.show()}
+                                >
+                                    Show details
+                                </a>
+                            </LayoutGrid.Cell>
+                        )}
                         <LayoutGrid.Cell cols={12}>
                             <TextareaAutoSize
                                 outlined
@@ -77,14 +159,16 @@ export class TransactionConfirmationPage extends Component<IProps> {
                                 value={this.props.params.fromAddress}
                             />
                         </LayoutGrid.Cell>
-                        <LayoutGrid.Cell cols={12}>
-                            <TextareaAutoSize
-                                outlined
-                                disabled
-                                label={translate('App.labels.recipient')}
-                                value={this.props.params.toAddress}
-                            />
-                        </LayoutGrid.Cell>
+                        {txInfo.type !== TransactionType.CONTRACT_DEPLOY && (
+                            <LayoutGrid.Cell cols={12}>
+                                <TextareaAutoSize
+                                    outlined
+                                    disabled
+                                    label={translate('App.labels.recipient')}
+                                    value={this.props.params.toAddress}
+                                />
+                            </LayoutGrid.Cell>
+                        )}
                         <LayoutGrid.Cell cols={12}>
                             <TextareaAutoSize
                                 outlined
@@ -141,6 +225,33 @@ export class TransactionConfirmationPage extends Component<IProps> {
                         </LayoutGrid.Cell>
                     </LayoutGrid.Inner>
                 </LayoutGrid>
+
+                <Dialog ref={ref => (this.detailsDialog = ref)} class="details-dialog">
+                    <Dialog.Header>Transaction Details</Dialog.Header>
+                    <Dialog.Body scrollable={true}>
+                        {txInfo.code && (
+                            <TextField
+                                class="details-box"
+                                readOnly
+                                textarea={true}
+                                label="Code"
+                                value={txInfo.code}
+                            />
+                        )}
+                        {txInfo.data && (
+                            <TextField
+                                class="details-box"
+                                readOnly
+                                textarea={true}
+                                label="Data"
+                                value={JSON.stringify(txInfo.data, null, 2)}
+                            />
+                        )}
+                    </Dialog.Body>
+                    <Dialog.Footer>
+                        <Dialog.FooterButton cancel={true}>Close</Dialog.FooterButton>
+                    </Dialog.Footer>
+                </Dialog>
             </div>
         );
     }

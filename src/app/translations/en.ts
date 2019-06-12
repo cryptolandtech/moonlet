@@ -359,7 +359,11 @@ export const translation: ITranslations = {
                     'This site is requesting access to a {{blockchain}} account from your wallet. Always make sure you trust the sites you interact with.'
             },
             TransactionConfirmation: {
-                confirmTransaction: 'Confirm Transaction'
+                confirmTransaction: 'Confirm Transaction',
+                confirmContractDeploy: 'Confirm Contract Deployment',
+                confirmContractCall: 'Confirm Contract Call',
+                deploy: 'Deploy',
+                transfer: 'Transfer'
             }
         }
     },

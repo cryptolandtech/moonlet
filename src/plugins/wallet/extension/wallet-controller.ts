@@ -65,7 +65,9 @@ export class WalletController extends BaseWalletController {
                             toAddress: txParams.toAddr,
                             amount: txParams.amount.toString(),
                             gasPrice: txParams.gasPrice,
-                            gasLimit: txParams.gasLimit
+                            gasLimit: txParams.gasLimit,
+                            data: txParams.data,
+                            code: txParams.code
                         }
                     );
                     if (confirmationResult.error) {
