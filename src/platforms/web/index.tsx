@@ -56,7 +56,7 @@ const store = getStore({
     },
     app: {
         version: '0.0.0',
-        env: 'production',
+        env: 'local',
         installId: 'local-web'
     },
     wallet: {

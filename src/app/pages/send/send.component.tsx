@@ -30,6 +30,11 @@ import { IUserPreferences } from '../../data/user-preferences/state';
 import { Navigation } from '../../utils/navigation';
 import { capitalize } from '../../utils/string';
 import { feature, FEATURE_SEND_PAGE_NAME_RESOLUTION } from '../../utils/feature';
+import Icon from 'preact-material-components/Icon';
+import { bind } from 'bind-decorator';
+import { RevealPage } from '../reveal/reveal.component';
+import { isBech32 } from '@zilliqa-js/util/dist/validation';
+import { toBech32Address } from '@zilliqa-js/crypto/dist/bech32';
 
 interface IProps {
     blockchain: Blockchain;
@@ -53,6 +58,7 @@ interface IState {
     recipientIsDomain: boolean;
     recipientResolveInProgress: boolean;
     address: string;
+    displayAddress: string;
     amount: string;
     feeOptions: FeeOptions;
     fieldErrors: {
@@ -67,6 +73,7 @@ export class SendPage extends Component<IProps, IState> {
     public confirmationDialog;
     public errorDialog;
     public progressDialog;
+    public addressInfoDialog;
 
     constructor(props: IProps) {
         super(props);
@@ -75,6 +82,7 @@ export class SendPage extends Component<IProps, IState> {
             recipientIsDomain: false,
             recipientResolveInProgress: false,
             address: '',
+            displayAddress: '',
             amount: undefined,
             feeOptions: getDefaultFeeOptions(props.blockchain),
 
@@ -118,56 +126,13 @@ export class SendPage extends Component<IProps, IState> {
                                 outlined
                                 label={translate('App.labels.recipient')}
                                 onChange={e =>
-                                    this.setState({ recipient: e.target.value, address: undefined })
+                                    this.setState({
+                                        recipient: e.target.value,
+                                        address: undefined,
+                                        displayAddress: undefined
+                                    })
                                 }
-                                onBlur={() => {
-                                    // todo enforce this check
-                                    if (
-                                        feature.isActive(FEATURE_SEND_PAGE_NAME_RESOLUTION) &&
-                                        this.state.recipient.indexOf('.') > 0
-                                    ) {
-                                        // domain, lookup for address
-                                        this.setState({
-                                            recipientIsDomain: true,
-                                            recipientResolveInProgress: true,
-                                            address: undefined
-                                        });
-
-                                        new UDApiClient(this.props.blockchainInfo.coin)
-                                            .resolve(this.state.recipient)
-                                            .then(
-                                                data => {
-                                                    if (data.address) {
-                                                        if (data.name === this.state.recipient) {
-                                                            this.setState({
-                                                                recipientResolveInProgress: false,
-                                                                address: data.address
-                                                            });
-                                                        }
-                                                    } else {
-                                                        this.setState({
-                                                            recipientResolveInProgress: false,
-                                                            address: undefined
-                                                        });
-                                                    }
-                                                    this.validate(true);
-                                                },
-                                                error => {
-                                                    this.setState({
-                                                        recipientResolveInProgress: false,
-                                                        address: undefined
-                                                    });
-                                                    this.validate(true);
-                                                }
-                                            );
-                                    } else {
-                                        this.setState({
-                                            recipientIsDomain: false,
-                                            address: this.state.recipient
-                                        });
-                                        this.validate(true);
-                                    }
-                                }}
+                                onBlur={this.onRecipientBlur}
                                 value={this.state.recipient}
                                 helperText={this.getRecipientHelperText()}
                             />
@@ -341,16 +306,120 @@ export class SendPage extends Component<IProps, IState> {
                         )}
                     </Dialog.Body>
                 </Dialog>
+
+                <Dialog
+                    ref={el => (this.addressInfoDialog = el)}
+                    class="address-info-dialog dialog-full-screen"
+                >
+                    <Dialog.Header>
+                        <Translate text="App.labels.info" />
+                    </Dialog.Header>
+                    <Dialog.Body scrollable={true}>
+                        <RevealPage
+                            type="addressFormat"
+                            account={{
+                                addressFormats: {
+                                    default: this.state.displayAddress,
+                                    base16: this.state.address
+                                },
+                                node: {
+                                    blockchain: this.props.blockchain
+                                }
+                            }}
+                        />
+                    </Dialog.Body>
+                    <Dialog.Footer>
+                        <Dialog.FooterButton cancel={true}>
+                            {translate('App.labels.close')}
+                        </Dialog.FooterButton>
+                    </Dialog.Footer>
+                </Dialog>
             </div>
         );
+    }
+
+    public getDisplayAddress(address) {
+        let displayAddress = address;
+
+        if (this.props.blockchain === Blockchain.ZILLIQA && !isBech32(address)) {
+            displayAddress = toBech32Address(address);
+        }
+
+        return displayAddress;
+    }
+
+    @bind
+    public onRecipientBlur() {
+        // todo enforce this check
+        if (
+            feature.isActive(FEATURE_SEND_PAGE_NAME_RESOLUTION) &&
+            this.state.recipient.indexOf('.') > 0
+        ) {
+            // domain, lookup for address
+            this.setState({
+                recipientIsDomain: true,
+                recipientResolveInProgress: true,
+                address: undefined,
+                displayAddress: undefined
+            });
+
+            new UDApiClient(this.props.blockchainInfo.coin).resolve(this.state.recipient).then(
+                data => {
+                    if (data.address) {
+                        if (data.name === this.state.recipient) {
+                            this.setState({
+                                recipientResolveInProgress: false,
+                                address: data.address,
+                                displayAddress: this.getDisplayAddress(data.address)
+                            });
+                        }
+                    } else {
+                        this.setState({
+                            recipientResolveInProgress: false,
+                            address: undefined,
+                            displayAddress: undefined
+                        });
+                    }
+                    this.validate(true);
+                },
+                error => {
+                    this.setState({
+                        recipientResolveInProgress: false,
+                        address: undefined,
+                        displayAddress: undefined
+                    });
+                    this.validate(true);
+                }
+            );
+        } else {
+            this.setState({
+                recipientIsDomain: false,
+                address: this.state.recipient,
+                displayAddress: this.state.recipient
+            });
+            this.validate(true);
+        }
     }
 
     public getRecipientHelperText() {
         if (this.state.fieldErrors.recipient) {
             return <span class="error-text">{this.state.fieldErrors.recipient}</span>;
         } else if (this.state.recipientIsDomain) {
-            return <span>{this.state.address}</span>;
+            return (
+                <span
+                    class="resolved-address"
+                    onClick={() => {
+                        if (this.state.displayAddress !== this.state.address) {
+                            this.addressInfoDialog.MDComponent.show();
+                        }
+                    }}
+                >
+                    {this.state.displayAddress}
+                    {this.state.displayAddress !== this.state.address && <Icon>info</Icon>}
+                </span>
+            );
         }
+
         return '';
     }
 

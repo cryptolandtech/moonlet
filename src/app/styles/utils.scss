@@ -27,3 +27,14 @@
 .pointer {
     cursor: pointer;
 }
+
+.dialog-full-screen {
+    .mdc-dialog__surface {
+        width: 100vw;
+        height: 100vh;
+    }
+    .mdc-dialog__body {
+        max-height: none;
+        flex: 1;
+    }
+}

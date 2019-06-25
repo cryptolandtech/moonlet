@@ -15,7 +15,7 @@ import Typography from 'preact-material-components/Typography';
 
 interface IProps {
     account: any;
-    words: string[];
+    words?: string[];
     type: string;
 }
 
