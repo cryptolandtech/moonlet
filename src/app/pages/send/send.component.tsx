@@ -248,7 +248,7 @@ export class SendPage extends Component<IProps, IState> {
                                     this.props.blockchainInfo.coin
                                 ),
                                 address: this.state.recipientIsDomain
-                                    ? `${this.state.recipient} (${this.state.address})`
+                                    ? `${this.state.recipient} (${this.state.displayAddress})`
                                     : this.state.recipient
                             }}
                         />

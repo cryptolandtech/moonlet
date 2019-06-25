@@ -8,6 +8,8 @@ import { BigNumber } from 'bignumber.js';
 import { BLOCKCHAIN_INFO, IBlockchainInfo } from '../../../utils/blockchain/blockchain-info';
 import { Blockchain } from 'moonlet-core/src/core/blockchain';
 import { convertUnit } from '../../../utils/blockchain/utils';
+import { isBech32 } from '@zilliqa-js/util/dist/validation';
+import { toBech32Address } from '@zilliqa-js/crypto/dist/bech32';
 
 interface ITransactionListItem {
     icon?: string;
@@ -74,16 +76,24 @@ export class TransactionDetailsPage extends Component<IProps> {
         });
 
         // from address
+        let fromAddr = tx.from;
+        if (this.props.blockchain === Blockchain.ZILLIQA && !isBech32(fromAddr)) {
+            fromAddr = toBech32Address(fromAddr);
+        }
         details.push({
             icon: 'person_outline',
-            primaryText: tx.from,
+            primaryText: fromAddr,
             secondaryText: translate('TransactionDetailsPage.from')
         });
 
         // to address
+        let toAddr = tx.to;
+        if (this.props.blockchain === Blockchain.ZILLIQA && !isBech32(toAddr)) {
+            toAddr = toBech32Address(toAddr);
+        }
         details.push({
             icon: 'person',
-            primaryText: tx.to,
+            primaryText: toAddr,
             secondaryText: translate('TransactionDetailsPage.recipient')
         });
 
