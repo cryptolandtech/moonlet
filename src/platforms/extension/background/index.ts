@@ -129,7 +129,7 @@ browser.runtime.onInstalled.addListener(async (details: Runtime.OnInstalledDetai
     if (
         details.reason === 'update' &&
         details.previousVersion !== version &&
-        ['0.28.0'].indexOf(version) >= 0
+        ['0.29.0'].indexOf(version) >= 0
     ) {
         browser.tabs.create({
             url: 'https://moonlet.xyz/thank-you-update/'
