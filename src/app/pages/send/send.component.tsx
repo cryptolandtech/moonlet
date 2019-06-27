@@ -26,6 +26,7 @@ import Card from 'preact-material-components/Card';
 import AddressCard from '../account/components/address-card/address-card.container';
 import { AccountCard } from '../account/components/account-card/account-card.component';
 import Currency from '../../components/currency/currency.container';
+import Namicorn from 'namicorn';
 
 interface IProps {
     blockchain: Blockchain;
@@ -88,6 +89,20 @@ export class SendPage extends Component<IProps, IState> {
         }
     }
 
+    public async checkAddr(e) {
+        const input = e.target.value;
+        const regex = /[.](zil|eth)$/m;
+        const extension = input.match(regex);
+        const namicorn = new Namicorn();
+        if (extension) {
+            const address = await namicorn.address(input, extension[1].toUpperCase());
+            if (address) {
+                return this.setState({ recipient: address });
+            }
+        }
+        return this.setState({ recipient: input });
+    }
+
     public render() {
         return (
             <div class="send-page">
@@ -101,7 +116,7 @@ export class SendPage extends Component<IProps, IState> {
                             <TextareaAutoSize
                                 outlined
                                 label={translate('App.labels.recipient')}
-                                onChange={e => this.setState({ recipient: e.target.value })}
+                                onChange={this.checkAddr.bind(this)}
                                 value={this.state.recipient}
                                 {...this.getValidationProps('recipient')}
                             />
