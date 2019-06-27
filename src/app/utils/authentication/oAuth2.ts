@@ -61,6 +61,7 @@ export abstract class OAuth2 implements IAuth {
     }
 
     protected getStorageKey() {
+        // TODO: this.constructor.name is not safe since class name is changed on minification
         return this.constructor.name + 'Token';
     }
 

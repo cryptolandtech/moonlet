@@ -1,7 +1,14 @@
 import { Response } from '../../../../../utils/response';
 
 export class BaseCommunicationController {
+    protected controllerName: string;
+
+    constructor(controllerName: string) {
+        this.controllerName = controllerName;
+    }
+
     public async _onMessage(event: MessageEvent) {
+        // console.log('BaseCommunicationController', '_onMessage', {event});
         // We only accept messages from ourselves
         if (event.source !== window) {
             return;
@@ -11,7 +18,7 @@ export class BaseCommunicationController {
             event.isTrusted &&
             event.data &&
             event.data.type === 'REQUEST' &&
-            event.data.controller === this.constructor.name &&
+            event.data.controller === this.controllerName &&
             event.data.method &&
             event.data.method !== 'listen' &&
             event.data.id &&
@@ -43,6 +50,7 @@ export class BaseCommunicationController {
     }
 
     public listen() {
+        // console.log('BaseCommunicationController', 'listen');
         window.addEventListener('message', this._onMessage.bind(this));
     }
 }

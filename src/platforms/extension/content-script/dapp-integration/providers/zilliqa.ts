@@ -28,12 +28,14 @@ export class ZilliqaProvider {
     }
 
     public getAccounts(forceConsentScreen: boolean = false): Promise<string[]> {
+        // console.log(this.constructor.name, 'getAccounts');
         return this.comm
             .request('DappCommunicationController', 'getDappAccounts', [
                 Blockchain.ZILLIQA,
                 forceConsentScreen
             ])
             .then(res => {
+                // console.log(this.constructor.name, 'getAccounts', res);
                 if (res.error) {
                     return Promise.reject(res.message);
                 }

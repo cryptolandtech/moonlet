@@ -10,6 +10,7 @@ export class Communication {
     }
 
     public request(controller, method, params): Promise<IResponseData> {
+        // console.log('Communication', 'request', {controller, method, params});
         const messageId = uuid();
         const deferred = new Deferred();
         this.requests.set(messageId, deferred);
@@ -27,6 +28,7 @@ export class Communication {
     }
 
     private onMessage(event: MessageEvent) {
+        // console.log('Communication', 'onMessage', {event});
         // We only accept messages from ourselves
         if (event.source !== window) {
             return;

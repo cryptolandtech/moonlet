@@ -14,7 +14,7 @@ export class DappCommunicationController extends BaseCommunicationController {
     private confirmationScreenPlugin: ConfirmationScreenPlugin;
 
     constructor(bgPort: Runtime.Port) {
-        super();
+        super('DappCommunicationController');
         this.walletPlugin = new WalletPlugin(bgPort);
         this.dappAccessPlugin = new DappAccessPlugin(bgPort);
         this.confirmationScreenPlugin = new ConfirmationScreenPlugin(bgPort);
@@ -39,6 +39,7 @@ export class DappCommunicationController extends BaseCommunicationController {
     }
 
     public async getDappAccounts(blockchain, forceConsentScreen: boolean = false) {
+        // console.log('DappCommunicationController', 'getDappAccounts', {blockchain, forceConsentScreen});
         blockchain = blockchain.toUpperCase();
         if (!blockchain) {
             return Response.reject('BLOCKCHAIN_MANDATORY', 'Blockchain parameter is mandatory.');
