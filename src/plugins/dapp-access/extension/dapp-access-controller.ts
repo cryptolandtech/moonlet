@@ -23,25 +23,32 @@ export class DappAccessController {
         try {
             const url = new URL(dappUrl);
             const dappDomain = url.host;
-            granted = await browser.permissions.request({
+            const permission = {
                 origins: [`https://${dappDomain}/*`]
-            });
+            };
 
-            if (granted) {
-                browser.tabs.query({}).then(tabs => {
-                    tabs.forEach(tab => {
-                        const tabDomain =
-                            tab.url && tab.url.indexOf('chrome://') !== 0
-                                ? new URL(tab.url).host
-                                : null;
-                        if (tab.id && tabDomain && tabDomain === dappDomain) {
-                            // console.log('injecting content script to ', tab.url);
-                            chrome.tabs.executeScript(tab.id, {
-                                file: 'bundle.cs.dapp.js'
-                            });
-                        }
+            if (await browser.permissions.contains(permission)) {
+                // permission already granted
+                granted = true;
+            } else {
+                // ask for permission
+                granted = await browser.permissions.request(permission);
+                if (granted) {
+                    browser.tabs.query({}).then(tabs => {
+                        tabs.forEach(tab => {
+                            const tabDomain =
+                                tab.url && tab.url.indexOf('chrome://') !== 0
+                                    ? new URL(tab.url).host
+                                    : null;
+                            if (tab.id && tabDomain && tabDomain === dappDomain) {
+                                // console.log('injecting content script to ', tab.url);
+                                chrome.tabs.executeScript(tab.id, {
+                                    file: 'bundle.cs.dapp.js'
+                                });
+                            }
+                        });
                     });
-                });
+                }
             }
         } catch {
             granted = false;

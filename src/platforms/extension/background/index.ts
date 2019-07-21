@@ -139,17 +139,13 @@ browser.runtime.onInstalled.addListener(async (details: Runtime.OnInstalledDetai
 browser.runtime.setUninstallURL('https://moonlet.xyz/thank-you-delete/');
 
 // content script injection
-// disable content script injection on production
-getEnvironment().then(env => {
-    if (env !== 'production') {
-        browser.tabs.onUpdated.addListener(
-            (tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType, tab: Tabs.Tab) => {
-                if (tab.url && changeInfo.status === 'loading') {
-                    chrome.tabs.executeScript(tabId, {
-                        file: 'bundle.cs.dapp.js'
-                    });
-                }
-            }
-        );
+browser.tabs.onUpdated.addListener(
+    (tabId: number, changeInfo: Tabs.OnUpdatedChangeInfoType, tab: Tabs.Tab) => {
+        if (tab.url && changeInfo.status === 'loading') {
+            // console.log('bg', 'injecting content script', changeInfo, tab);
+            chrome.tabs.executeScript(tabId, {
+                file: 'bundle.cs.dapp.js'
+            });
+        }
     }
-});
+);
