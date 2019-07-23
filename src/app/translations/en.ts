@@ -10,7 +10,9 @@ export const translation: ITranslations = {
                 accept: 'Accept',
                 address: 'Address',
                 authorize: 'Authorize',
+                code: 'Code',
                 connect: 'Connect',
+                data: 'Data',
                 dashboard: 'Dashboard',
                 decline: 'Decline',
                 discard: 'Discard',
@@ -49,7 +51,8 @@ export const translation: ITranslations = {
                 dismiss: 'Dismiss',
                 reportIssue: 'Report Issue',
                 backup: 'Backup',
-                more: 'More'
+                more: 'More',
+                sign: 'Sign'
             }
         },
         LandingPage: {
@@ -365,7 +368,12 @@ export const translation: ITranslations = {
                 confirmContractDeploy: 'Confirm Contract Deployment',
                 confirmContractCall: 'Confirm Contract Call',
                 deploy: 'Deploy',
-                transfer: 'Transfer'
+                transfer: 'Transfer',
+                transactionDetails: 'Transaction Details'
+            },
+            SignMessage: {
+                signMessage: 'Sign Message',
+                signWith: 'Sign with'
             }
         }
     },

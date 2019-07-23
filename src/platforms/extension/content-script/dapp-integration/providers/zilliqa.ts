@@ -17,8 +17,8 @@ export class ZilliqaProvider {
             } // console.log(fn, match)
         }
     };
-    public currentAccount;
-    public currentNetwork;
+    public currentAccount: { address: string; pubkey: string };
+    public currentNetwork: { chainId: number; name: string; url: string; mainNet: boolean };
 
     private comm: Communication;
 
@@ -42,13 +42,21 @@ export class ZilliqaProvider {
 
                 const account = res.data[0];
                 if (account) {
-                    this.currentAccount = account.address;
-                    this.currentNetwork =
-                        BLOCKCHAIN_INFO[Blockchain.ZILLIQA].networks[account.networkId].chainId;
+                    const { address, pubkey } = account;
+                    this.currentAccount = { address, pubkey };
+
+                    const { chainId, name, url, mainNet } = BLOCKCHAIN_INFO[
+                        Blockchain.ZILLIQA
+                    ].networks[account.networkId];
+                    this.currentNetwork = { chainId, name, url, mainNet };
                 }
 
-                return res.data.map(acc => acc.address);
+                return res.data.map(({ address, pubkey }) => ({ address, pubkey }));
             });
+    }
+
+    public signMessage(message: string) {
+        return this.send('SignMessage', message);
     }
 
     public async send(method, ...params) {

@@ -7,7 +7,8 @@ export enum ConfirmationScreenErrorCodes {
 
 export enum ConfirmationScreenType {
     ACCOUNT_ACCESS = 'ACCOUNT_ACCESS',
-    TRANSACTION_CONFIRMATION = 'TRANSACTION_CONFIRMATION'
+    TRANSACTION_CONFIRMATION = 'TRANSACTION_CONFIRMATION',
+    SIGN_MESSAGE = 'SIGN_MESSAGE'
 }
 
 export interface IConfirmationScreenPlugin {

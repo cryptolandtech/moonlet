@@ -3,6 +3,7 @@ import { IConfirmationScreen } from '../../data/page-config/state';
 import { ConfirmationScreenType } from '../../../plugins/confirmation-screen/iconfirmation-screen-plugin';
 import AccountAccessPage from './screens/account-access/account-access.container';
 import TransactionConfirmationPage from './screens/transaction-confirmation/transaction-confirmation.container';
+import SignMessagePage from './screens/sign-message/sign-message.container';
 
 interface IProps {
     confirmationScreen: IConfirmationScreen;
@@ -20,6 +21,8 @@ export class ConfirmationScreenPage extends Component<IProps> {
                     return <AccountAccessPage {...this.props.confirmationScreen} />;
                 case ConfirmationScreenType.TRANSACTION_CONFIRMATION:
                     return <TransactionConfirmationPage {...this.props.confirmationScreen} />;
+                case ConfirmationScreenType.SIGN_MESSAGE:
+                    return <SignMessagePage {...this.props.confirmationScreen} />;
             }
         }
 

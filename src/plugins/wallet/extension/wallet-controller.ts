@@ -25,37 +25,19 @@ export class WalletController extends BaseWalletController {
         method: string,
         params: any[]
     ): Promise<IResponseData> {
+        // console.log('WalletController', 'rpcCall', {sender, blockchain, method, params});
         switch (method) {
             case 'CreateTransaction':
                 try {
                     const txParams = params[0];
 
-                    const check = await this.checkWallet();
-                    if (check.error && check.code === WalletErrorCodes.WALLET_LOCKED) {
-                        const loginScreen = await this.confirmationScreenController.openConfirmationScreen(
-                            sender,
-                            ConfirmationScreenType.ACCOUNT_ACCESS,
-                            {
-                                blockchain
-                            }
-                        );
-                        if (loginScreen.error) {
-                            throw loginScreen;
-                        }
-                    } else if (check.error) {
-                        throw check;
-                    }
+                    // check that wallet is unlocked
+                    await this.rpcCheckWallet(sender, blockchain);
 
-                    const accountAddress = await this.dappAccessController.getAccount(
-                        sender,
-                        sender.tab.url,
-                        blockchain,
-                        this.wallet.getCurrentNetwork(blockchain)
-                    );
-                    if (accountAddress.error) {
-                        throw accountAddress;
-                    }
+                    // get dapp account
+                    const accountAddress = await this.rpcGetDappAccount(sender, blockchain);
 
+                    // open confirmation screen
                     const confirmationResult = await this.confirmationScreenController.openConfirmationScreen(
                         sender,
                         ConfirmationScreenType.TRANSACTION_CONFIRMATION,
@@ -74,6 +56,7 @@ export class WalletController extends BaseWalletController {
                         throw confirmationResult;
                     }
 
+                    // do the actual transaction
                     const account = this.wallet
                         .getBlockchain(blockchain)
                         .getAccounts()
@@ -100,6 +83,50 @@ export class WalletController extends BaseWalletController {
                     return Response.resolve({
                         jsonrpc: '2.0',
                         result: result.txn
+                    });
+                } catch (e) {
+                    return Response.reject(
+                        e.code || WalletErrorCodes.GENERIC_ERROR,
+                        e.message,
+                        e.data
+                    );
+                }
+                break;
+            case 'SignMessage':
+                try {
+                    const data = params[0];
+
+                    // check that wallet is unlocked
+                    await this.rpcCheckWallet(sender, blockchain);
+
+                    // get dapp account
+                    const accountAddress = await this.rpcGetDappAccount(sender, blockchain);
+
+                    // open confirmation screen
+                    const confirmationResult = await this.confirmationScreenController.openConfirmationScreen(
+                        sender,
+                        ConfirmationScreenType.SIGN_MESSAGE,
+                        {
+                            blockchain,
+                            fromAddress: accountAddress.data,
+                            data
+                        }
+                    );
+                    if (confirmationResult.error) {
+                        throw confirmationResult;
+                    }
+
+                    // do the actual transaction
+                    const account = this.wallet
+                        .getBlockchain(blockchain)
+                        .getAccounts()
+                        .filter(acc => acc.address === accountAddress.data)[0];
+
+                    const result = account.signMessage(data);
+
+                    return Response.resolve({
+                        jsonrpc: '2.0',
+                        result
                     });
                 } catch (e) {
                     return Response.reject(
@@ -143,6 +170,26 @@ export class WalletController extends BaseWalletController {
         return storage[WALLET_STORAGE_KEY] && storage[WALLET_STORAGE_KEY].json;
     }
 
+    private async rpcCheckWallet(sender: Runtime.MessageSender, blockchain: Blockchain) {
+        const check = await this.checkWallet();
+        if (check.error && check.code === WalletErrorCodes.WALLET_LOCKED) {
+            const loginScreen = await this.confirmationScreenController.openConfirmationScreen(
+                sender,
+                ConfirmationScreenType.ACCOUNT_ACCESS,
+                {
+                    blockchain
+                }
+            );
+            if (loginScreen.error) {
+                throw loginScreen;
+            }
+        } else if (check.error) {
+            throw check;
+        }
+
+        return check;
+    }
+
     private async getNodeForRpc(blockchain: Blockchain) {
         // TODO: ugly solutions, needs refactoring
         if (this.wallet) {
@@ -164,5 +211,22 @@ export class WalletController extends BaseWalletController {
         rpcDummyWallet.loadBlockchain(await this.loadBlockchain(blockchain.toLowerCase()));
         rpcDummyWallet.switchNetwork(blockchain, networkId);
         return rpcDummyWallet.getNode(blockchain);
+    }
+
+    private async rpcGetDappAccount(
+        sender: Runtime.MessageSender,
+        blockchain: Blockchain
+    ): Promise<IResponseData> {
+        const accountAddress = await this.dappAccessController.getAccount(
+            sender,
+            sender.tab.url,
+            blockchain,
+            this.wallet.getCurrentNetwork(blockchain)
+        );
+        if (accountAddress.error) {
+            throw accountAddress;
+        }
+
+        return accountAddress;
     }
 }

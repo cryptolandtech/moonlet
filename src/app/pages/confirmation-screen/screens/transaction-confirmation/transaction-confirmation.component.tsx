@@ -227,14 +227,16 @@ export class TransactionConfirmationPage extends Component<IProps> {
                 </LayoutGrid>
 
                 <Dialog ref={ref => (this.detailsDialog = ref)} class="details-dialog">
-                    <Dialog.Header>Transaction Details</Dialog.Header>
+                    <Dialog.Header>
+                        {translate('ConfirmationScreen.TransactionConfirmation.transactionDetails')}
+                    </Dialog.Header>
                     <Dialog.Body scrollable={true}>
                         {txInfo.code && (
                             <TextField
                                 class="details-box"
                                 readOnly
                                 textarea={true}
-                                label="Code"
+                                label={translate('App.labels.code')}
                                 value={txInfo.code}
                             />
                         )}
@@ -243,13 +245,15 @@ export class TransactionConfirmationPage extends Component<IProps> {
                                 class="details-box"
                                 readOnly
                                 textarea={true}
-                                label="Data"
+                                label={translate('App.labels.data')}
                                 value={JSON.stringify(txInfo.data, null, 2)}
                             />
                         )}
                     </Dialog.Body>
                     <Dialog.Footer>
-                        <Dialog.FooterButton cancel={true}>Close</Dialog.FooterButton>
+                        <Dialog.FooterButton cancel={true}>
+                            {translate('App.labels.close')}
+                        </Dialog.FooterButton>
                     </Dialog.Footer>
                 </Dialog>
             </div>

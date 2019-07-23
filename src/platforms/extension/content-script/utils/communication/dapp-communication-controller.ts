@@ -57,8 +57,12 @@ export class DappCommunicationController extends BaseCommunicationController {
             const wallet = await this.walletPlugin.getWallet();
             const dappUrl = document.location.href;
             const networkId = wallet.currentNetworks[blockchain] || 0;
-            const account = await this.dappAccessPlugin.getAccount(dappUrl, blockchain, networkId);
-            return Response.resolve([{ address: account, networkId }]);
+            const address = await this.dappAccessPlugin.getAccount(dappUrl, blockchain, networkId);
+            const account = wallet.accounts[blockchain].filter(
+                acc => acc.address === address && acc.node.network.network_id === networkId
+            )[0];
+
+            return Response.resolve([{ address, pubkey: account.publicKey, networkId }]);
         } catch (e) {
             switch (e.code) {
                 case 'FORCE_CONSENT':
@@ -66,11 +70,23 @@ export class DappCommunicationController extends BaseCommunicationController {
                 case WalletErrorCodes.WALLET_LOCKED:
                     // todo ask for permission and return result
                     try {
-                        const account = await this.confirmationScreenPlugin.openAccountAccessScreen(
+                        const selectedAccount = await this.confirmationScreenPlugin.openAccountAccessScreen(
                             blockchain,
                             forceConsentScreen
                         );
-                        return Response.resolve([account]);
+                        const wallet = await this.walletPlugin.getWallet();
+                        const account = wallet.accounts[blockchain].filter(
+                            acc =>
+                                acc.address === selectedAccount.address &&
+                                acc.node.network.network_id === selectedAccount.networkId
+                        )[0];
+                        return Response.resolve([
+                            {
+                                address: selectedAccount.address,
+                                pubkey: account.publicKey,
+                                networkId: selectedAccount.networkId
+                            }
+                        ]);
                     } catch (e) {
                         return Response.reject(e.code || 'GENERIC_ERROR', e.message, e.data);
                     }
