@@ -12,7 +12,10 @@ const injectScript = (file, nodeTagName) => {
     node.appendChild(script);
 };
 
-injectScript(browser.extension.getURL('/bundle.inject.dapp.js'), 'body');
+if (!(window as any).moonletContentScriptInjected) {
+    (window as any).moonletContentScriptInjected = true;
+    injectScript(browser.extension.getURL('/bundle.inject.dapp.js'), 'body');
 
-// start dapp communication controller
-new DappCommunicationController(bgPort).listen();
+    // start dapp communication controller
+    new DappCommunicationController(bgPort).listen();
+}
