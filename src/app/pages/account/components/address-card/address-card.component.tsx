@@ -98,16 +98,16 @@ export class AddressCard extends Component<IProps> {
                                     >
                                         <Translate text="AccountPage.revealPrivateKey" />
                                         <List.ItemMeta>vpn_key</List.ItemMeta>
-                                    </List.LinkItem>,
-                                    <List.LinkItem
-                                        href={`/reveal/publicKey/${account.node.blockchain}/${
-                                            account.address
-                                        }`}
-                                    >
-                                        <Translate text="AccountPage.revealPublicKey" />
-                                        <List.ItemMeta>remove_red_eye</List.ItemMeta>
                                     </List.LinkItem>
                                 ]}
+                                <List.LinkItem
+                                    href={`/reveal/publicKey/${account.node.blockchain}/${
+                                        account.address
+                                    }`}
+                                >
+                                    <Translate text="AccountPage.revealPublicKey" />
+                                    <List.ItemMeta>remove_red_eye</List.ItemMeta>
+                                </List.LinkItem>
                                 {this.getExplorerMenuItem()}
                                 <List.LinkItem
                                     onClick={() => {

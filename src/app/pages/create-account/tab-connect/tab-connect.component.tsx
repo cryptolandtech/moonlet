@@ -67,13 +67,14 @@ export class CreateAccountTabConnect extends Component<IProps, IState> {
                 return (
                     <LedgerDeviceScreen
                         accounts={this.props.accounts}
-                        onAccountSelected={(blockchain, accountName, address, options) => {
+                        onAccountSelected={(blockchain, accountName, address, pubKey, options) => {
                             getWalletPlugin().importHWAccount(
                                 HWDevice.LEDGER,
                                 blockchain,
                                 accountName,
                                 options.path,
                                 address,
+                                pubKey,
                                 options.index,
                                 options.derivationIndex
                             );

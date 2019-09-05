@@ -17,6 +17,7 @@ export interface ITransactionOptions {
 
 export interface IAddressResponse {
     address: string;
+    publicKey: string;
     index: number;
     derivationIndex: number;
     path: string;

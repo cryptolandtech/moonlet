@@ -77,6 +77,7 @@ export class WalletPlugin extends BgCommunicationPlugin implements IWalletPlugin
         accountName: string,
         derivationPath: string,
         address: string,
+        pubKey: string,
         accountIndex: string,
         derivationIndex: string
     ) {
@@ -86,6 +87,7 @@ export class WalletPlugin extends BgCommunicationPlugin implements IWalletPlugin
             accountName,
             derivationPath,
             address,
+            pubKey,
             accountIndex,
             derivationIndex
         ]);

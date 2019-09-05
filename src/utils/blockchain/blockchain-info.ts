@@ -121,6 +121,12 @@ export const BLOCKCHAIN_INFO: {
                 displayFormats: ['default', 'base16']
             }
         },
+        hardwareWallet: {
+            ledger: {
+                appName: 'Zil',
+                derivationPaths: []
+            }
+        },
         networks: require('moonlet-core/src/blockchain/zilliqa/networks').default
     }
 };

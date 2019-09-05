@@ -30,6 +30,7 @@ export interface IWalletPlugin {
         accountName,
         derivationPath,
         address,
+        pubKey,
         accountIndex,
         derivationIndex
     );

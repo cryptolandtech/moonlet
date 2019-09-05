@@ -26,6 +26,7 @@ interface IProps {
         blockchain: Blockchain,
         accountName: string,
         address: string,
+        pubKey: string,
         options: IAddressOptions
     ) => any;
 }
@@ -136,6 +137,7 @@ export class LedgerDeviceScreen extends Component<IProps, IState> {
                 this.state.blockchain,
                 this.state.accountName,
                 acc.address,
+                acc.pubKey,
                 { ...acc, path: acc.path }
             );
         } else {

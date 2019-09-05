@@ -225,6 +225,7 @@ export abstract class BaseWalletController {
         accountName: string,
         derivationPath: string,
         address: string,
+        pubKey: string,
         accountIndex: string,
         derivationIndex: string
     ) {
@@ -234,6 +235,7 @@ export abstract class BaseWalletController {
                 deviceType,
                 derivationPath,
                 address,
+                pubKey,
                 accountIndex + '',
                 derivationIndex + ''
             );
@@ -355,11 +357,7 @@ export abstract class BaseWalletController {
                                     'Something went wrong with transaction signing. Try again.'
                                 );
                             }
-                            tx.setLedgerSignResult({
-                                r: '0x' + signedTx.data.r,
-                                s: '0x' + signedTx.data.s,
-                                v: '0x' + signedTx.data.v
-                            });
+                            tx.setLedgerSignResult(signedTx.data);
                             break;
                     }
                 } else {

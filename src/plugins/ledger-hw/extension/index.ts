@@ -19,10 +19,7 @@ export class LedgerHwPlugin extends BgCommunicationPlugin implements ILedgerHwPl
     }
 
     public detectAppOpen(appName: string): Promise<boolean> {
-        return this.getAddress(appName, { index: 0 }, 5000).then(
-            () => true,
-            () => this.detectAppOpen(appName)
-        );
+        return this.getAppInfo(appName, 5000).then(() => true, () => this.detectAppOpen(appName));
     }
 
     public getAddress(
@@ -30,9 +27,11 @@ export class LedgerHwPlugin extends BgCommunicationPlugin implements ILedgerHwPl
         options: IAddressOptions,
         timeout?: number
     ): Promise<IAddressResponse> {
-        return this.callAction('getAddress', [appName, options, timeout]).then(data => {
-            return { ...data, ...options };
-        });
+        return this.callAction('getAddress', [appName, options, timeout], timeout || 30000).then(
+            data => {
+                return { ...data, ...options };
+            }
+        );
     }
 
     public fetchAddresses(
