@@ -9,7 +9,7 @@ interface ITest {
             key2?: string;
         };
         deeper2?: {
-            key: string;
+            key?: string;
         };
     };
 }
@@ -122,7 +122,7 @@ describe('utils/merge-deep', () => {
             key2: 'finalValue2'
         };
 
-        expect(mergeDeep({}, a, b, c, d)).toEqual({
+        expect(mergeDeep<any>({}, a, b, c, d)).toEqual({
             key: 'finalValue',
             key2: 'finalValue2'
         });
