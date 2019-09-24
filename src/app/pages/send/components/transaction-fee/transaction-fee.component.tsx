@@ -11,7 +11,6 @@ import {
 import { FeeOptions } from '../../../../../utils/blockchain/types';
 import {
     sliderValueToFeeOptions,
-    feeOptionsToSliderValue,
     calculateFee,
     getDefaultFeeOptions
 } from '../../../../../utils/blockchain/utils';
@@ -180,10 +179,10 @@ export class TransactionFee extends Component<IProps, IState> {
                         blockchainInfo={this.props.blockchainInfo}
                         feeOptions={this.state.feeOptions}
                         onChange={feeOptions => {
-                            this.setFeeSliderValue(
-                                feeOptionsToSliderValue(this.props.blockchain, feeOptions),
+                            this.setState({
                                 feeOptions
-                            );
+                            });
+                            this.onFeeOptionsChange();
                         }}
                     />
                 );
