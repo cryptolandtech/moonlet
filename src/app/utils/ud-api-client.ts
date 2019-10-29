@@ -8,7 +8,7 @@ export class UDApiClient {
 
     public async resolve(name: string): Promise<{ name: string; address: string }> {
         try {
-            const response = await fetch(this.endpoint + '/' + name);
+            const response = await fetch(this.endpoint + '/' + name.toLocaleLowerCase());
 
             if (response.ok) {
                 const data = await response.json();

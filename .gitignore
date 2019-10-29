@@ -8,4 +8,6 @@ preact.config.js
 coverage
 .vscode
 .scannerwork
+.history
+
 
