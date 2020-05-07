@@ -1,7 +1,7 @@
 {
     "private": true,
     "name": "moonlet",
-    "version": "0.37.0",
+    "version": "0.38.0",
     "license": "MIT",
     "scripts": {
         "start": "npm run dev:web",
@@ -23,7 +23,9 @@
     "eslintConfig": {
         "extends": "eslint-config-synacor"
     },
-    "eslintIgnore": ["build/*"],
+    "eslintIgnore": [
+        "build/*"
+    ],
     "devDependencies": {
         "@sentry/cli": "^1.41.2",
         "@types/chrome": "0.0.77",
@@ -91,7 +93,13 @@
         }
     },
     "lint-staged": {
-        "*.{ts,tsx,scss,json,js}": ["npm run prettier", "git add"],
-        "*.{ts,tsx}": ["npm run lint", "git add"]
+        "*.{ts,tsx,scss,json,js}": [
+            "npm run prettier",
+            "git add"
+        ],
+        "*.{ts,tsx}": [
+            "npm run lint",
+            "git add"
+        ]
     }
 }
