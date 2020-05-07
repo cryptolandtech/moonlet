@@ -1,7 +1,7 @@
 {
-    "name": "Moonlet Wallet",
+    "name": "Moonlet Wallet Legacy",
     "version": "0.0.0",
-    "description": "Moonlet Wallet Extension",
+    "description": "Moonlet Wallet Legacy Extension",
     "permissions": ["storage", "identity", "https://api.moonlet.xyz/*"],
     "optional_permissions": ["https://*/*"],
     "background": {
