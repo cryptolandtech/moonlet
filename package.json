@@ -67,7 +67,7 @@
         "babel-polyfill": "^6.26.0",
         "bignumber.js": "8.0.2",
         "bind-decorator": "^1.0.11",
-        "crypto-js": "3.1.9-1",
+        "crypto-js": "4.2.0",
         "dapp-wallet-util": "https://github.com/cryptolandtech/dapp-wallet-util.git",
         "history": "4.7.2",
         "moonlet-core": "git+https://github.com/cryptolandtech/moonlet-core.git",
